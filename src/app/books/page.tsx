@@ -1,8 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { formatPrice } from '@/lib/utils';
+import { bookService } from '@/lib/bookService';
+import { Book } from '@/lib/types';
 import Link from 'next/link';
 
 // Mock data for books
@@ -116,8 +118,15 @@ export default function BooksPage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('title');
+  const [books, setBooks] = useState<Book[]>([]);
 
-  const filteredBooks = mockBooks.filter(book => {
+  useEffect(() => {
+    // Load books on client side
+    const allBooks = bookService.getAllBooks();
+    setBooks(allBooks);
+  }, []);
+
+  const filteredBooks = books.filter(book => {
     const matchesCategory = selectedCategory === 'all' || book.category === selectedCategory;
     const matchesSearch = book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          book.author.toLowerCase().includes(searchTerm.toLowerCase());
@@ -130,8 +139,8 @@ export default function BooksPage() {
         return a.price - b.price;
       case 'rating':
         return b.rating - a.rating;
-      case 'year':
-        return b.year - a.year;
+      case 'publishedDate':
+        return new Date(b.publishedDate || '').getTime() - new Date(a.publishedDate || '').getTime();
       default:
         return a.title.localeCompare(b.title);
     }
@@ -242,7 +251,7 @@ export default function BooksPage() {
                     ))}
                   </div>
                   <span className="text-xs text-gray-500 ml-2">
-                    {book.rating} ({book.reviews})
+                    {book.rating}
                   </span>
                 </div>
 

@@ -4,18 +4,32 @@
 export interface AdminBook {
   id: string;
   title: string;
+  titleKu?: string;
+  titleEn?: string;
+  titleDe?: string;
   author: string;
+  authorKu?: string;
+  authorEn?: string;
+  authorDe?: string;
   publisher: string;
+  publisherKu?: string;
+  publisherEn?: string;
+  publisherDe?: string;
+  translator?: string;
   price: number;
   originalPrice?: number;
   description: string;
+  descriptionKu?: string;
+  descriptionEn?: string;
+  descriptionDe?: string;
   isbn?: string;
   pages?: number;
   language: string;
   category: string;
   tags: string[];
-  publishedDate?: string;
+  publishDate?: string;
   inStock: boolean;
+  inventoryCount: number;
   featured: boolean;
   bestseller: boolean;
   newRelease: boolean;
@@ -93,7 +107,9 @@ class AdminDataService {
       ...bookData,
       id: Date.now().toString(),
       rating: 0,
-      reviewCount: 0
+      reviewCount: 0,
+      inventoryCount: bookData.inventoryCount || 1,
+      inStock: (bookData.inventoryCount || 1) > 0
     };
 
     this.books.push(newBook);
@@ -191,6 +207,25 @@ class AdminDataService {
       author.name.toLowerCase().includes(lowerQuery) ||
       (author.latinName && author.latinName.toLowerCase().includes(lowerQuery))
     );
+  }
+
+  // Inventory Management
+  updateInventory(id: string, newCount: number): AdminBook | null {
+    const index = this.books.findIndex(book => book.id === id);
+    if (index === -1) return null;
+
+    this.books[index].inventoryCount = Math.max(0, newCount);
+    this.books[index].inStock = this.books[index].inventoryCount > 0;
+    this.saveToStorage();
+    
+    return this.books[index];
+  }
+
+  decreaseInventory(id: string, amount: number = 1): AdminBook | null {
+    const book = this.getBookById(id);
+    if (!book) return null;
+    
+    return this.updateInventory(id, book.inventoryCount - amount);
   }
 
   // Bulk Operations

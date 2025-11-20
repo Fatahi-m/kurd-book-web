@@ -1,5 +1,9 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import { books, categories } from '@/data/books';
 import { Book, Category } from '@/lib/types';
+import { adminDataService, AdminBook } from '@/lib/adminDataService';
 import BookCard from '@/components/ui/BookCard';
 import { notFound } from 'next/navigation';
 
@@ -10,13 +14,46 @@ interface CategoryPageProps {
 }
 
 export default function CategoryPage({ params }: CategoryPageProps) {
+  const [allBooks, setAllBooks] = useState<Book[]>([]);
   const category = categories.find(cat => cat.slug === params.slug);
+  
+  useEffect(() => {
+    // Combine static books with admin books
+    const adminBooks = adminDataService.getAllBooks();
+    const convertedAdminBooks: Book[] = adminBooks.map((adminBook: AdminBook) => ({
+      id: adminBook.id,
+      title: adminBook.title,
+      author: adminBook.author,
+      publisher: adminBook.publisher,
+      price: adminBook.price,
+      originalPrice: adminBook.originalPrice,
+      image: adminBook.imageUrl,
+      coverUrl: adminBook.imageUrl,
+      description: adminBook.description,
+      isbn: adminBook.isbn,
+      pages: adminBook.pages,
+      language: adminBook.language,
+      category: adminBook.category,
+      tags: adminBook.tags,
+      publishDate: adminBook.publishDate,
+      publishedDate: adminBook.publishDate,
+      inStock: adminBook.inStock,
+      inventoryCount: adminBook.inventoryCount,
+      featured: adminBook.featured,
+      bestseller: adminBook.bestseller,
+      newRelease: adminBook.newRelease,
+      rating: adminBook.rating,
+      reviewCount: adminBook.reviewCount
+    }));
+    
+    setAllBooks([...books, ...convertedAdminBooks]);
+  }, []);
   
   if (!category) {
     notFound();
   }
 
-  const categoryBooks = books.filter(book => book.category === category.id);
+  const categoryBooks = allBooks.filter(book => book.category === category.id);
 
   return (
     <main className="min-h-screen bg-gray-50 py-8">

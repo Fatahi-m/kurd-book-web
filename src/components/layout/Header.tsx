@@ -4,15 +4,18 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/contexts/CartContext';
+import { useWishlist } from '@/contexts/WishlistContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import LanguageSwitcher from '@/components/ui/LanguageSwitcher';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const router = useRouter();
   const { getCartItemCount } = useCart();
-  const { t, dir } = useLanguage();
+  const { getWishlistItemCount } = useWishlist();
+  const { t, dir, currentLanguage } = useLanguage();
   const { user, isAuthenticated, logout } = useAuth();
 
 
@@ -23,9 +26,13 @@ export default function Header() {
       <div className="bg-gray-50 border-b border-gray-200">
         <div className="container mx-auto px-4 py-2">
           <div className="flex justify-between items-center text-sm">
-            <div className="flex items-center space-x-4 rtl:space-x-reverse">
+            <div className="hidden sm:flex items-center space-x-4 rtl:space-x-reverse">
               <span className="text-gray-600">📞 +964 750 123 4567</span>
-              <span className="text-gray-600">✉️ info@kurdbook.com</span>
+              <span className="text-gray-600 hidden md:inline">✉️ info@kurdbook.com</span>
+            </div>
+            
+            <div className="sm:hidden text-xs text-gray-600">
+              {currentLanguage === 'ku' ? 'گەیاندنی خۆڕایی' : currentLanguage === 'en' ? 'Free Shipping' : 'Kostenloser Versand'} 🚚
             </div>
             
             {/* Language Switcher */}
@@ -35,29 +42,44 @@ export default function Header() {
       </div>
 
       {/* Main Header */}
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 py-3 md:py-4">
         <div className="flex items-center justify-between">
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="lg:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {isMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-            <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">ک</span>
+          <Link href="/" className="flex items-center space-x-2 md:space-x-3 rtl:space-x-reverse">
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-lg md:text-xl">ک</span>
             </div>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-800">{t('site.title')}</h1>
-              <p className="text-sm text-gray-600">{t('site.description')}</p>
+            <div className="hidden sm:block">
+              <h1 className="text-xl md:text-2xl font-bold text-gray-800">{t('site.title')}</h1>
+              <p className="text-xs md:text-sm text-gray-600 hidden md:block">{t('site.description')}</p>
             </div>
           </Link>
 
-          {/* Search Bar */}
-          <div className="flex-1 max-w-2xl mx-8">
+          {/* Desktop Search Bar */}
+          <div className="hidden lg:flex flex-1 max-w-2xl mx-8">
             <form onSubmit={(e) => {
               e.preventDefault();
               const formData = new FormData(e.target as HTMLFormElement);
               const query = formData.get('search') as string;
               if (query.trim()) {
                 router.push(`/search?q=${encodeURIComponent(query.trim())}`);
+                setIsMobileSearchOpen(false);
               }
-            }}>
+            }} className="w-full">
               <div className="relative">
                 <input
                   name="search"
@@ -78,19 +100,34 @@ export default function Header() {
           </div>
 
           {/* Right Side Icons */}
-          <div className="flex items-center space-x-4 rtl:space-x-reverse">
-            <button className="p-2 text-gray-600 hover:text-gray-800 relative">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          <div className="flex items-center space-x-2 md:space-x-4 rtl:space-x-reverse">
+            {/* Mobile Search Button */}
+            <button
+              onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
+              className="lg:hidden p-2 text-gray-600 hover:text-gray-800"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </button>
+
+            <Link href="/wishlist" className="p-2 text-gray-600 hover:text-gray-800 relative">
+              <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+              {getWishlistItemCount() > 0 && (
+                <span className="absolute -top-1 -right-1 rtl:-right-auto rtl:-left-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 md:h-5 md:w-5 flex items-center justify-center text-[10px] md:text-xs">
+                  {getWishlistItemCount()}
+                </span>
+              )}
+            </Link>
             
             <Link href="/cart" className="p-2 text-gray-600 hover:text-gray-800 relative">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.293 2.293c-.39.39-.586.876-.586 1.414V17a1 1 0 001 1h14M7 13v4a1 1 0 001 1h2m3-5a1 1 0 100 2 1 1 0 000-2z" />
               </svg>
               {getCartItemCount() > 0 && (
-                <span className="absolute -top-2 -right-2 rtl:-right-auto rtl:-left-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 rtl:-right-auto rtl:-left-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 md:h-5 md:w-5 flex items-center justify-center text-[10px] md:text-xs">
                   {getCartItemCount()}
                 </span>
               )}
@@ -98,13 +135,13 @@ export default function Header() {
 
             {isAuthenticated ? (
               <div className="relative group">
-                <button className="p-2 text-gray-600 hover:text-gray-800 flex items-center space-x-2 rtl:space-x-reverse">
-                  <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                    <span className="text-white text-sm font-medium">
+                <button className="p-2 text-gray-600 hover:text-gray-800 flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                  <div className="w-7 h-7 md:w-8 md:h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                    <span className="text-white text-xs md:text-sm font-medium">
                       {user?.firstName?.charAt(0)}{user?.lastName?.charAt(0)}
                     </span>
                   </div>
-                  <span className="hidden sm:inline text-sm">{user?.firstName}</span>
+                  <span className="hidden md:inline text-sm">{user?.firstName}</span>
                 </button>
                 
                 {/* User Dropdown */}
@@ -138,19 +175,53 @@ export default function Header() {
               </div>
             ) : (
               <Link href="/auth/login" className="p-2 text-gray-600 hover:text-gray-800">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
               </Link>
             )}
           </div>
         </div>
+
+        {/* Mobile Search Bar */}
+        {isMobileSearchOpen && (
+          <div className="lg:hidden mt-3 pb-3">
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              const formData = new FormData(e.target as HTMLFormElement);
+              const query = formData.get('search') as string;
+              if (query.trim()) {
+                router.push(`/search?q=${encodeURIComponent(query.trim())}`);
+                setIsMobileSearchOpen(false);
+              }
+            }}>
+              <div className="relative">
+                <input
+                  name="search"
+                  type="text"
+                  placeholder={t('search.placeholder')}
+                  className="w-full px-4 py-2 pr-10 rtl:pr-4 rtl:pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  autoFocus
+                />
+                <button 
+                  type="submit"
+                  className="absolute right-3 rtl:right-auto rtl:left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
       </div>
 
       {/* Navigation Menu */}
       <nav className="bg-blue-600 text-white">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between">
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center justify-between">
             <div className="flex items-center space-x-8 rtl:space-x-reverse">
               <Link href="/" className="py-4 px-2 hover:bg-blue-700 transition-colors">
                 {t('nav.home')}
@@ -188,10 +259,99 @@ export default function Header() {
             </div>
 
             <div className="flex items-center space-x-4 rtl:space-x-reverse">
-              <span className="text-sm">🚚 {t('currentLanguage') === 'ku' ? 'گەیاندنی خۆڕایی' : t('currentLanguage') === 'en' ? 'Free Shipping' : 'Kostenloser Versand'}</span>
+              <span className="text-sm">🚚 {currentLanguage === 'ku' ? 'گەیاندنی خۆڕایی' : currentLanguage === 'en' ? 'Free Shipping' : 'Kostenloser Versand'}</span>
+            </div>
+          </div>
+
+          {/* Mobile Navigation */}
+          <div className="lg:hidden">
+            <div className="flex items-center justify-center py-3">
+              <span className="text-sm font-medium">{t('nav.categories')}</span>
             </div>
           </div>
         </div>
+
+        {/* Mobile Menu Overlay */}
+        {isMenuOpen && (
+          <div className="lg:hidden fixed inset-0 z-50 bg-black bg-opacity-50" onClick={() => setIsMenuOpen(false)}>
+            <div className="fixed inset-y-0 left-0 rtl:right-0 rtl:left-auto w-80 bg-white shadow-xl" onClick={(e) => e.stopPropagation()}>
+              <div className="p-4">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center space-x-3 rtl:space-x-reverse">
+                    <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                      <span className="text-white font-bold text-lg">ک</span>
+                    </div>
+                    <div>
+                      <h2 className="text-lg font-bold text-gray-800">{t('site.title')}</h2>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setIsMenuOpen(false)}
+                    className="p-2 rounded-md text-gray-600 hover:text-gray-900"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+
+                <div className="space-y-1">
+                  <Link href="/" className="block px-4 py-3 text-gray-800 hover:bg-gray-100 rounded-lg transition-colors" onClick={() => setIsMenuOpen(false)}>
+                    🏠 {t('nav.home')}
+                  </Link>
+                  <Link href="/books" className="block px-4 py-3 text-gray-800 hover:bg-gray-100 rounded-lg transition-colors" onClick={() => setIsMenuOpen(false)}>
+                    📚 {t('nav.books')}
+                  </Link>
+                  <Link href="/authors" className="block px-4 py-3 text-gray-800 hover:bg-gray-100 rounded-lg transition-colors" onClick={() => setIsMenuOpen(false)}>
+                    ✍️ {t('nav.authors')}
+                  </Link>
+                  
+                  <div className="py-2">
+                    <h3 className="px-4 py-2 text-sm font-semibold text-gray-600 uppercase tracking-wider">{t('nav.categories')}</h3>
+                    <Link href="/category/literature" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors" onClick={() => setIsMenuOpen(false)}>
+                      📚 {t('categories.literature')}
+                    </Link>
+                    <Link href="/category/poetry" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors" onClick={() => setIsMenuOpen(false)}>
+                      ✍️ {t('categories.poetry')}
+                    </Link>
+                    <Link href="/category/history" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors" onClick={() => setIsMenuOpen(false)}>
+                      🏛️ {t('categories.history')}
+                    </Link>
+                    <Link href="/category/children" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors" onClick={() => setIsMenuOpen(false)}>
+                      🧸 {t('categories.children')}
+                    </Link>
+                    <Link href="/category/education" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors" onClick={() => setIsMenuOpen(false)}>
+                      🎓 {t('categories.education')}
+                    </Link>
+                    <Link href="/category/science" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors" onClick={() => setIsMenuOpen(false)}>
+                      🔬 {t('categories.science')}
+                    </Link>
+                  </div>
+
+                  <div className="border-t pt-4 mt-4">
+                    <Link href="/bestsellers" className="block px-4 py-3 text-gray-800 hover:bg-gray-100 rounded-lg transition-colors" onClick={() => setIsMenuOpen(false)}>
+                      🏆 {t('sections.bestSellers')}
+                    </Link>
+                    <Link href="/new-releases" className="block px-4 py-3 text-gray-800 hover:bg-gray-100 rounded-lg transition-colors" onClick={() => setIsMenuOpen(false)}>
+                      🆕 {t('sections.newReleases')}
+                    </Link>
+                  </div>
+
+                  {!isAuthenticated && (
+                    <div className="border-t pt-4 mt-4">
+                      <Link href="/auth/login" className="block px-4 py-3 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" onClick={() => setIsMenuOpen(false)}>
+                        🔐 {t('auth.login')}
+                      </Link>
+                      <Link href="/auth/register" className="block px-4 py-3 text-green-600 hover:bg-green-50 rounded-lg transition-colors" onClick={() => setIsMenuOpen(false)}>
+                        📝 {t('auth.register')}
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </nav>
     </header>
   );

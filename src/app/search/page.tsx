@@ -43,10 +43,10 @@ function SearchContent() {
     // Sort results
     switch (sortBy) {
       case 'newest':
-        filtered.sort((a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime());
+        filtered.sort((a, b) => new Date(b.publishedDate || '').getTime() - new Date(a.publishedDate || '').getTime());
         break;
       case 'oldest':
-        filtered.sort((a, b) => new Date(a.publishedDate).getTime() - new Date(b.publishedDate).getTime());
+        filtered.sort((a, b) => new Date(a.publishedDate || '').getTime() - new Date(b.publishedDate || '').getTime());
         break;
       case 'price-low':
         filtered.sort((a, b) => a.price - b.price);

@@ -1,0 +1,1786 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { books, authors } from '@/data/books';
+import { Book, Author } from '@/lib/types';
+import { formatPrice } from '@/lib/utils';
+import { adminDataService, AdminBook, AdminAuthor } from '@/lib/adminDataService';
+import { Plus, Edit, Edit2, Trash2, Users, BookOpen, TrendingUp, Eye, LogOut, Search, Upload } from 'lucide-react';
+
+export default function AdminPanelContent() {
+  const { t, currentLanguage } = useLanguage();
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [adminBooks, setAdminBooks] = useState<AdminBook[]>([]);
+  const [adminAuthors, setAdminAuthors] = useState<AdminAuthor[]>([]);
+  const [stats, setStats] = useState({
+    totalBooks: 0,
+    totalAuthors: 0,
+    totalReviews: 0,
+    averageRating: '0.0'
+  });
+
+  // Check authentication and load data
+  useEffect(() => {
+    const isAdminLoggedIn = localStorage.getItem('admin_logged_in');
+    if (isAdminLoggedIn !== 'true') {
+      router.push('/admin/login');
+    } else {
+      setIsAuthenticated(true);
+      loadAdminData();
+    }
+  }, [router]);
+
+  const loadAdminData = () => {
+    const booksData = adminDataService.getAllBooks();
+    const authorsData = adminDataService.getAllAuthors();
+    const statsData = adminDataService.getStats();
+    
+    setAdminBooks(booksData);
+    setAdminAuthors(authorsData);
+    setStats(statsData);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('admin_logged_in');
+    router.push('/admin/login');
+  };
+
+  // Show loading while checking authentication
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">
+            {currentLanguage === 'ku' ? 'چاوەڕوان بە...' : currentLanguage === 'en' ? 'Loading...' : 'Laden...'}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  const tabs = [
+    { id: 'dashboard', label: 'Dashboard', icon: TrendingUp },
+    { id: 'books', label: 'Books', icon: BookOpen },
+    { id: 'authors', label: 'Authors', icon: Users },
+  ];
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Admin Header */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center space-x-4 rtl:space-x-reverse">
+              <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">A</span>
+              </div>
+              <h1 className="text-xl font-bold text-gray-800">
+                {currentLanguage === 'ku' ? 'پانێڵی بەڕێوەبەر' : currentLanguage === 'en' ? 'Admin Panel' : 'Admin Panel'}
+              </h1>
+            </div>
+            <div className="flex items-center space-x-4 rtl:space-x-reverse">
+              <div className="text-sm text-gray-600">
+                {currentLanguage === 'ku' ? 'بەخێربێیت بەڕێوەبەر' : currentLanguage === 'en' ? 'Welcome Admin' : 'Willkommen Admin'}
+              </div>
+              <button
+                onClick={handleLogout}
+                className="flex items-center space-x-2 rtl:space-x-reverse text-red-600 hover:text-red-700 transition-colors"
+              >
+                <LogOut size={16} />
+                <span className="text-sm">
+                  {currentLanguage === 'ku' ? 'دەرچوون' : currentLanguage === 'en' ? 'Logout' : 'Abmelden'}
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex">
+          {/* Sidebar */}
+          <div className="w-64 bg-white rounded-lg shadow-md p-4 h-fit">
+            <nav className="space-y-2">
+              {tabs.map((tab) => {
+                const Icon = tab.icon;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`w-full flex items-center space-x-3 rtl:space-x-reverse px-4 py-3 rounded-lg text-left rtl:text-right transition-colors ${
+                      activeTab === tab.id
+                        ? 'bg-blue-100 text-blue-700 font-medium'
+                        : 'text-gray-600 hover:bg-gray-100'
+                    }`}
+                  >
+                    <Icon size={20} />
+                    <span>{tab.label}</span>
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
+
+          {/* Main Content */}
+          <div className="flex-1 ml-8 rtl:ml-0 rtl:mr-8">
+            {activeTab === 'dashboard' && <DashboardTab stats={stats} recentBooks={adminBooks.slice(0, 5)} />}
+            {activeTab === 'books' && <BooksTab books={adminBooks} onDataChange={loadAdminData} />}
+            {activeTab === 'authors' && <AuthorsTab authors={adminAuthors} onDataChange={loadAdminData} />}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Dashboard Tab Component
+function DashboardTab({ stats, recentBooks }: { stats: any; recentBooks: AdminBook[] }) {
+  const { currentLanguage } = useLanguage();
+  
+  const statCards = [
+    {
+      title: currentLanguage === 'ku' ? 'کتابەکان' : currentLanguage === 'en' ? 'Total Books' : 'Bücher Gesamt',
+      value: stats.totalBooks,
+      icon: BookOpen,
+      color: 'bg-blue-500'
+    },
+    {
+      title: currentLanguage === 'ku' ? 'نووسەران' : currentLanguage === 'en' ? 'Authors' : 'Autoren',
+      value: stats.totalAuthors, 
+      icon: Users,
+      color: 'bg-green-500'
+    },
+    {
+      title: currentLanguage === 'ku' ? 'نرخاندنەکان' : currentLanguage === 'en' ? 'Reviews' : 'Bewertungen',
+      value: stats.totalReviews,
+      icon: Eye,
+      color: 'bg-purple-500'
+    },
+    {
+      title: currentLanguage === 'ku' ? 'ڕێژەی نرخاندن' : currentLanguage === 'en' ? 'Avg Rating' : 'Durchschnitt',
+      value: stats.averageRating,
+      icon: TrendingUp,
+      color: 'bg-orange-500'
+    }
+  ];
+
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold text-gray-800">
+        {currentLanguage === 'ku' ? 'داشبۆرد' : currentLanguage === 'en' ? 'Dashboard' : 'Dashboard'}
+      </h2>
+      
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {statCards.map((stat, index) => {
+          const Icon = stat.icon;
+          return (
+            <div key={index} className="bg-white rounded-lg shadow-md p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-gray-600 mb-1">{stat.title}</p>
+                  <p className="text-2xl font-bold text-gray-800">{stat.value}</p>
+                </div>
+                <div className={`${stat.color} rounded-lg p-3`}>
+                  <Icon className="text-white" size={24} />
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Recent Activity */}
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">
+          {currentLanguage === 'ku' ? 'چالاکیە تازەکان' : currentLanguage === 'en' ? 'Recent Activity' : 'Neueste Aktivitäten'}
+        </h3>
+        <div className="space-y-3">
+          {recentBooks.length === 0 ? (
+            <p className="text-gray-500 text-center py-8">
+              {currentLanguage === 'ku' ? 'هیچ چالاکیەک نییە' : currentLanguage === 'en' ? 'No recent activity' : 'Keine aktuellen Aktivitäten'}
+            </p>
+          ) : (
+            recentBooks.map((book) => (
+              <div key={book.id} className="flex items-center space-x-4 rtl:space-x-reverse p-3 bg-gray-50 rounded-lg">
+                <div className="w-12 h-16 bg-gray-200 rounded flex items-center justify-center">
+                  <BookOpen size={16} className="text-gray-400" />
+                </div>
+                <div className="flex-1">
+                  <p className="font-medium text-gray-800">{book.title}</p>
+                  <p className="text-sm text-gray-600">{book.author}</p>
+                </div>
+                <div className="text-right rtl:text-left">
+                  <p className="font-bold text-blue-600">{formatPrice(book.price)}</p>
+                  <p className="text-sm text-gray-500">⭐ {book.rating}</p>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Books Tab Component - Enhanced version with CRUD operations
+function BooksTab({ books, onDataChange }: { books: AdminBook[]; onDataChange: () => void }) {
+  const { currentLanguage } = useLanguage();
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [editingBook, setEditingBook] = useState<AdminBook | null>(null);
+
+  const handleDeleteBook = (bookId: string) => {
+    if (confirm(currentLanguage === 'ku' ? 'دڵنیایت لە سڕینەوەی ئەم کتابە؟' : currentLanguage === 'en' ? 'Are you sure you want to delete this book?' : 'Sind Sie sicher, dass Sie dieses Buch löschen möchten?')) {
+      adminDataService.deleteBook(bookId);
+      onDataChange();
+    }
+  };
+
+  const handleInventoryChange = (bookId: string, newCount: number) => {
+    adminDataService.updateInventory(bookId, newCount);
+    onDataChange();
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-gray-800">
+          {currentLanguage === 'ku' ? 'بەڕێوەبردنی کتابەکان' : currentLanguage === 'en' ? 'Manage Books' : 'Bücher Verwalten'}
+        </h2>
+        <button
+          onClick={() => setShowAddForm(!showAddForm)}
+          className="flex items-center space-x-2 rtl:space-x-reverse bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          <Plus size={20} />
+          <span>
+            {currentLanguage === 'ku' ? 'کتابی نوێ' : currentLanguage === 'en' ? 'Add Book' : 'Buch Hinzufügen'}
+          </span>
+        </button>
+      </div>
+
+      {/* Add Book Form */}
+      {showAddForm && (
+        <AddBookForm 
+          onClose={() => setShowAddForm(false)}
+          onSave={() => {
+            setShowAddForm(false);
+            onDataChange();
+          }}
+        />
+      )}
+
+      {/* Edit Book Form */}
+      {editingBook && (
+        <EditBookForm 
+          book={editingBook}
+          onClose={() => setEditingBook(null)}
+          onSave={() => {
+            setEditingBook(null);
+            onDataChange();
+          }}
+        />
+      )}
+
+      {/* Books List */}
+      <div className="bg-white rounded-lg shadow-md p-6">
+        {books.length === 0 ? (
+          <div className="text-center py-8">
+            <BookOpen size={48} className="mx-auto text-gray-400 mb-4" />
+            <p className="text-gray-600">
+              {currentLanguage === 'ku' ? 'هیچ کتابێک نەدۆزرایەوە' : currentLanguage === 'en' ? 'No books found' : 'Keine Bücher gefunden'}
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {books.map((book) => (
+              <div key={book.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-3 rtl:space-x-reverse mb-2">
+                      {book.imageUrl && (
+                        <img src={book.imageUrl} alt={book.title} className="w-16 h-20 object-cover rounded" />
+                      )}
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-gray-800 text-lg">{book.title}</h3>
+                        <p className="text-gray-600 mb-1">{book.author}</p>
+                        <p className="text-sm text-blue-600">{book.category}</p>
+                        <div className="flex items-center space-x-4 rtl:space-x-reverse mt-2">
+                          <span className="font-bold text-green-600">{formatPrice(book.price)}</span>
+                          {book.originalPrice && book.originalPrice > book.price && (
+                            <span className="text-sm text-gray-500 line-through">{formatPrice(book.originalPrice)}</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Inventory Management */}
+                    <div className="flex items-center space-x-4 rtl:space-x-reverse mt-3">
+                      <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                        <label className="text-sm font-medium text-gray-700">
+                          {currentLanguage === 'ku' ? 'مەوجوود:' : currentLanguage === 'en' ? 'Stock:' : 'Lager:'}
+                        </label>
+                        <input
+                          type="number"
+                          min="0"
+                          value={book.inventoryCount}
+                          onChange={(e) => handleInventoryChange(book.id, parseInt(e.target.value) || 0)}
+                          className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
+                        />
+                      </div>
+                      
+                      <div className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        book.inventoryCount > 0 
+                          ? 'bg-green-100 text-green-800' 
+                          : 'bg-red-100 text-red-800'
+                      }`}>
+                        {book.inventoryCount > 0 
+                          ? (currentLanguage === 'ku' ? 'بەردەستە' : currentLanguage === 'en' ? 'In Stock' : 'Verfügbar')
+                          : (currentLanguage === 'ku' ? 'موجود نمی‌باشد' : currentLanguage === 'en' ? 'Out of Stock' : 'Nicht verfügbar')
+                        }
+                      </div>
+
+                      {/* Status badges */}
+                      <div className="flex space-x-2 rtl:space-x-reverse">
+                        {book.featured && <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">★ {currentLanguage === 'ku' ? 'تایبەت' : 'Featured'}</span>}
+                        {book.bestseller && <span className="px-2 py-1 bg-orange-100 text-orange-800 rounded-full text-xs">🔥 {currentLanguage === 'ku' ? 'باشترین' : 'Bestseller'}</span>}
+                        {book.newRelease && <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">🆕 {currentLanguage === 'ku' ? 'نوێ' : 'New'}</span>}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Action buttons */}
+                  <div className="flex flex-col space-y-2 ml-4 rtl:ml-0 rtl:mr-4">
+                    <button
+                      onClick={() => setEditingBook(book)}
+                      className="flex items-center space-x-1 rtl:space-x-reverse px-3 py-1 text-blue-600 border border-blue-300 rounded hover:bg-blue-50 transition-colors"
+                    >
+                      <Edit2 size={14} />
+                      <span className="text-sm">{currentLanguage === 'ku' ? 'دەستکاری' : currentLanguage === 'en' ? 'Edit' : 'Bearbeiten'}</span>
+                    </button>
+                    
+                    <button
+                      onClick={() => handleDeleteBook(book.id)}
+                      className="flex items-center space-x-1 rtl:space-x-reverse px-3 py-1 text-red-600 border border-red-300 rounded hover:bg-red-50 transition-colors"
+                    >
+                      <Trash2 size={14} />
+                      <span className="text-sm">{currentLanguage === 'ku' ? 'سڕینەوە' : currentLanguage === 'en' ? 'Delete' : 'Löschen'}</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// Authors Tab Component - Simple version
+function AuthorsTab({ authors, onDataChange }: { authors: AdminAuthor[]; onDataChange: () => void }) {
+  const { currentLanguage } = useLanguage();
+  const [showAddForm, setShowAddForm] = useState(false);
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-gray-800">
+          {currentLanguage === 'ku' ? 'بەڕێوەبردنی نووسەران' : currentLanguage === 'en' ? 'Manage Authors' : 'Autoren Verwalten'}
+        </h2>
+        <button
+          onClick={() => setShowAddForm(!showAddForm)}
+          className="flex items-center space-x-2 rtl:space-x-reverse bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+        >
+          <Plus size={20} />
+          <span>
+            {currentLanguage === 'ku' ? 'نووسەری نوێ' : currentLanguage === 'en' ? 'Add Author' : 'Autor Hinzufügen'}
+          </span>
+        </button>
+      </div>
+
+      {/* Add Author Form */}
+      {showAddForm && (
+        <AddAuthorForm 
+          onClose={() => setShowAddForm(false)}
+          onSave={() => {
+            setShowAddForm(false);
+            onDataChange();
+          }}
+        />
+      )}
+
+      {/* Authors List */}
+      <div className="bg-white rounded-lg shadow-md p-6">
+        {authors.length === 0 ? (
+          <div className="text-center py-8">
+            <Users size={48} className="mx-auto text-gray-400 mb-4" />
+            <p className="text-gray-600">
+              {currentLanguage === 'ku' ? 'هیچ نووسەرێک نەدۆزرایەوە' : currentLanguage === 'en' ? 'No authors found' : 'Keine Autoren gefunden'}
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {authors.map((author) => (
+              <div key={author.id} className="border border-gray-200 rounded-lg p-4">
+                <h3 className="font-semibold text-gray-800 mb-2">
+                  {currentLanguage === 'ku' ? author.name : (author.latinName || author.name)}
+                </h3>
+                {author.birthYear && (
+                  <p className="text-sm text-gray-600">
+                    {author.deathYear ? `${author.birthYear}-${author.deathYear}` : author.birthYear}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// Enhanced Add Book Form
+function AddBookForm({ onClose, onSave }: { onClose: () => void; onSave: () => void }) {
+  const { currentLanguage } = useLanguage();
+  const [currentStep, setCurrentStep] = useState(1);
+  const [formData, setFormData] = useState({
+    // Kurdish Version
+    titleKu: '',
+    authorKu: '',
+    publisherKu: '',
+    descriptionKu: '',
+    // English Version  
+    titleEn: '',
+    authorEn: '',
+    publisherEn: '',
+    descriptionEn: '',
+    // German Version
+    titleDe: '',
+    authorDe: '',
+    publisherDe: '',
+    descriptionDe: '',
+    // Common Fields
+    translator: '',
+    price: '',
+    originalPrice: '',
+    category: 'literature',
+    language: 'kurdish',
+    pages: '',
+    publishDate: '',
+    isbn: '',
+    tags: '',
+    imageUrl: '',
+    imageFile: null as File | null,
+    inventoryCount: '10',
+    inStock: true,
+    featured: false,
+    bestseller: false,
+    newRelease: false
+  });
+
+  const [dragActive, setDragActive] = useState(false);
+
+  const categories = [
+    { value: 'literature', label: currentLanguage === 'ku' ? 'ئەدەبیات' : currentLanguage === 'en' ? 'Literature' : 'Literatur' },
+    { value: 'poetry', label: currentLanguage === 'ku' ? 'شیعر' : currentLanguage === 'en' ? 'Poetry' : 'Poesie' },
+    { value: 'history', label: currentLanguage === 'ku' ? 'مێژوو' : currentLanguage === 'en' ? 'History' : 'Geschichte' },
+    { value: 'children', label: currentLanguage === 'ku' ? 'منداڵان' : currentLanguage === 'en' ? 'Children' : 'Kinder' },
+    { value: 'education', label: currentLanguage === 'ku' ? 'پەروەردە' : currentLanguage === 'en' ? 'Education' : 'Bildung' },
+    { value: 'science', label: currentLanguage === 'ku' ? 'زانست' : currentLanguage === 'en' ? 'Science' : 'Wissenschaft' },
+    { value: 'religion', label: currentLanguage === 'ku' ? 'ئایین' : currentLanguage === 'en' ? 'Religion' : 'Religion' },
+    { value: 'biography', label: currentLanguage === 'ku' ? 'ژیاننامە' : currentLanguage === 'en' ? 'Biography' : 'Biographie' },
+    { value: 'philosophy', label: currentLanguage === 'ku' ? 'فەلسەفە' : currentLanguage === 'en' ? 'Philosophy' : 'Philosophie' },
+    { value: 'politics', label: currentLanguage === 'ku' ? 'سیاسەت' : currentLanguage === 'en' ? 'Politics' : 'Politik' }
+  ];
+
+  const handleImageUpload = (file: File) => {
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setFormData({...formData, imageUrl: e.target?.result as string, imageFile: file});
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleImageUpload(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const bookData = {
+      title: formData.titleKu || formData.titleEn || formData.titleDe,
+      titleKu: formData.titleKu,
+      titleEn: formData.titleEn,
+      titleDe: formData.titleDe,
+      author: formData.authorKu || formData.authorEn || formData.authorDe,
+      authorKu: formData.authorKu,
+      authorEn: formData.authorEn,
+      authorDe: formData.authorDe,
+      publisher: formData.publisherKu || formData.publisherEn || formData.publisherDe,
+      publisherKu: formData.publisherKu,
+      publisherEn: formData.publisherEn,
+      publisherDe: formData.publisherDe,
+      description: formData.descriptionKu || formData.descriptionEn || formData.descriptionDe,
+      descriptionKu: formData.descriptionKu,
+      descriptionEn: formData.descriptionEn,
+      descriptionDe: formData.descriptionDe,
+      translator: formData.translator,
+      price: parseFloat(formData.price),
+      originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : undefined,
+      category: formData.category,
+      language: formData.language,
+      pages: formData.pages ? parseInt(formData.pages) : undefined,
+      publishDate: formData.publishDate,
+      isbn: formData.isbn,
+      tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
+      imageUrl: formData.imageUrl,
+      inventoryCount: parseInt(formData.inventoryCount) || 1,
+      inStock: parseInt(formData.inventoryCount) > 0,
+      featured: formData.featured,
+      bestseller: formData.bestseller,
+      newRelease: formData.newRelease
+    };
+
+    try {
+      adminDataService.addBook(bookData);
+      alert(currentLanguage === 'ku' ? 'کتاب زیادکرا!' : currentLanguage === 'en' ? 'Book added!' : 'Buch hinzugefügt!');
+      onSave();
+    } catch (error) {
+      alert(currentLanguage === 'ku' ? 'هەڵەیەک ڕوویدا!' : currentLanguage === 'en' ? 'An error occurred!' : 'Ein Fehler ist aufgetreten!');
+    }
+  };
+
+  return (
+    <div className="bg-white rounded-lg shadow-lg p-6 max-w-4xl mx-auto">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-xl font-bold text-gray-800">
+          {currentLanguage === 'ku' ? 'کتابی نوێ زیاد بکە' : currentLanguage === 'en' ? 'Add New Book' : 'Neues Buch Hinzufügen'}
+        </h3>
+        
+        {/* Step Indicator */}
+        <div className="flex items-center space-x-2 rtl:space-x-reverse">
+          {[1, 2, 3, 4].map((step) => (
+            <div key={step} className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+              currentStep === step ? 'bg-blue-600 text-white' : 
+              currentStep > step ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-600'
+            }`}>
+              {currentStep > step ? '✓' : step}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <form onSubmit={handleSubmit}>
+        {/* Step 1: Basic Info */}
+        {currentStep === 1 && (
+          <div className="space-y-6">
+            <h4 className="text-lg font-semibold text-gray-700 border-b pb-2">
+              {currentLanguage === 'ku' ? 'زانیاریە سەرەکیەکان' : currentLanguage === 'en' ? 'Basic Information' : 'Grundinformationen'}
+            </h4>
+            
+            {/* Image Upload */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-1">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  {currentLanguage === 'ku' ? 'وێنەی کتاب' : currentLanguage === 'en' ? 'Book Cover' : 'Buchcover'}
+                </label>
+                <div
+                  className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
+                    dragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400'
+                  }`}
+                  onDragEnter={handleDrag}
+                  onDragLeave={handleDrag}
+                  onDragOver={handleDrag}
+                  onDrop={handleDrop}
+                >
+                  {formData.imageUrl ? (
+                    <div className="relative">
+                      <img src={formData.imageUrl} alt="Preview" className="w-full h-48 object-cover rounded-lg" />
+                      <button
+                        type="button"
+                        onClick={() => setFormData({...formData, imageUrl: '', imageFile: null})}
+                        className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ) : (
+                    <div>
+                      <Upload className="mx-auto h-12 w-12 text-gray-400 mb-2" />
+                      <p className="text-sm text-gray-600">
+                        {currentLanguage === 'ku' ? 'وێنە بکێشە یان کلیک بکە' : currentLanguage === 'en' ? 'Drag image here or click' : 'Bild hierher ziehen oder klicken'}
+                      </p>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => e.target.files?.[0] && handleImageUpload(e.target.files[0])}
+                        className="hidden"
+                        id="image-upload"
+                      />
+                      <label htmlFor="image-upload" className="cursor-pointer inline-block mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        {currentLanguage === 'ku' ? 'هەڵبژاردن' : currentLanguage === 'en' ? 'Select' : 'Auswählen'}
+                      </label>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="lg:col-span-2 space-y-4">
+                {/* Category */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    {currentLanguage === 'ku' ? 'پۆل' : currentLanguage === 'en' ? 'Category' : 'Kategorie'}
+                  </label>
+                  <select
+                    value={formData.category}
+                    onChange={(e) => setFormData({...formData, category: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                  >
+                    {categories.map((cat) => (
+                      <option key={cat.value} value={cat.value}>{cat.label}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Price & Original Price */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      {currentLanguage === 'ku' ? 'نرخ (یۆرۆ)' : currentLanguage === 'en' ? 'Price (EUR)' : 'Preis (EUR)'}
+                    </label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      value={formData.price}
+                      onChange={(e) => setFormData({...formData, price: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      {currentLanguage === 'ku' ? 'نرخی سەرەتایی' : currentLanguage === 'en' ? 'Original Price' : 'Ursprünglicher Preis'}
+                    </label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      value={formData.originalPrice}
+                      onChange={(e) => setFormData({...formData, originalPrice: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                </div>
+
+                {/* Pages & ISBN */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      {currentLanguage === 'ku' ? 'ژمارەی لاپەڕەکان' : currentLanguage === 'en' ? 'Pages' : 'Seiten'}
+                    </label>
+                    <input
+                      type="number"
+                      value={formData.pages}
+                      onChange={(e) => setFormData({...formData, pages: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">ISBN</label>
+                    <input
+                      type="text"
+                      value={formData.isbn}
+                      onChange={(e) => setFormData({...formData, isbn: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                </div>
+
+                {/* Publish Date & Tags */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      {currentLanguage === 'ku' ? 'بەرواری چاپ' : currentLanguage === 'en' ? 'Publish Date' : 'Veröffentlichungsdatum'}
+                    </label>
+                    <input
+                      type="date"
+                      value={formData.publishDate}
+                      onChange={(e) => setFormData({...formData, publishDate: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      {currentLanguage === 'ku' ? 'تاگەکان (بە کۆما جیابکەرەوە)' : currentLanguage === 'en' ? 'Tags (comma separated)' : 'Tags (kommagetrennt)'}
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.tags}
+                      onChange={(e) => setFormData({...formData, tags: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="شیعر, کلاسیک, نەوروز"
+                    />
+                  </div>
+                </div>
+
+                {/* Inventory Count */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    {currentLanguage === 'ku' ? 'ژمارەی مەوجوود' : currentLanguage === 'en' ? 'Inventory Count' : 'Lagerbestand'}
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={formData.inventoryCount}
+                    onChange={(e) => setFormData({...formData, inventoryCount: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                  />
+                </div>
+
+                {/* Status Checkboxes */}
+                <div className="flex flex-wrap gap-6 mt-4">
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={formData.featured}
+                      onChange={(e) => setFormData({...formData, featured: e.target.checked})}
+                      className="mr-2 rtl:mr-0 rtl:ml-2"
+                    />
+                    <span className="text-sm">{currentLanguage === 'ku' ? 'تایبەت' : currentLanguage === 'en' ? 'Featured' : 'Empfohlen'}</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={formData.bestseller}
+                      onChange={(e) => setFormData({...formData, bestseller: e.target.checked})}
+                      className="mr-2 rtl:mr-0 rtl:ml-2"
+                    />
+                    <span className="text-sm">{currentLanguage === 'ku' ? 'باشترین فرۆش' : currentLanguage === 'en' ? 'Bestseller' : 'Bestseller'}</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={formData.newRelease}
+                      onChange={(e) => setFormData({...formData, newRelease: e.target.checked})}
+                      className="mr-2 rtl:mr-0 rtl:ml-2"
+                    />
+                    <span className="text-sm">{currentLanguage === 'ku' ? 'نوێ' : currentLanguage === 'en' ? 'New Release' : 'Neu'}</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={formData.inStock}
+                      onChange={(e) => setFormData({...formData, inStock: e.target.checked})}
+                      className="mr-2 rtl:mr-0 rtl:ml-2"
+                    />
+                    <span className="text-sm">{currentLanguage === 'ku' ? 'بەردەستە' : currentLanguage === 'en' ? 'In Stock' : 'Verfügbar'}</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Step 2: Kurdish Version */}
+        {currentStep === 2 && (
+          <div className="space-y-6">
+            <h4 className="text-lg font-semibold text-gray-700 border-b pb-2 flex items-center">
+              <span className="mr-3 text-2xl">🇮🇶</span>
+              {currentLanguage === 'ku' ? 'وەشانی کوردی' : currentLanguage === 'en' ? 'Kurdish Version' : 'Kurdische Version'}
+            </h4>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {currentLanguage === 'ku' ? 'ناونیشان (کوردی)' : currentLanguage === 'en' ? 'Title (Kurdish)' : 'Titel (Kurdisch)'}
+                </label>
+                <input
+                  type="text"
+                  value={formData.titleKu}
+                  onChange={(e) => setFormData({...formData, titleKu: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {currentLanguage === 'ku' ? 'نووسەر (کوردی)' : currentLanguage === 'en' ? 'Author (Kurdish)' : 'Autor (Kurdisch)'}
+                </label>
+                <input
+                  type="text"
+                  value={formData.authorKu}
+                  onChange={(e) => setFormData({...formData, authorKu: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {currentLanguage === 'ku' ? 'چاپخانە (کوردی)' : currentLanguage === 'en' ? 'Publisher (Kurdish)' : 'Verlag (Kurdisch)'}
+                </label>
+                <input
+                  type="text"
+                  value={formData.publisherKu}
+                  onChange={(e) => setFormData({...formData, publisherKu: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {currentLanguage === 'ku' ? 'وەرگێڕ (ئەگەر هەبێت)' : currentLanguage === 'en' ? 'Translator (if applicable)' : 'Übersetzer (falls zutreffend)'}
+                </label>
+                <input
+                  type="text"
+                  value={formData.translator}
+                  onChange={(e) => setFormData({...formData, translator: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                {currentLanguage === 'ku' ? 'وەسف (کوردی)' : currentLanguage === 'en' ? 'Description (Kurdish)' : 'Beschreibung (Kurdisch)'}
+              </label>
+              <textarea
+                rows={4}
+                value={formData.descriptionKu}
+                onChange={(e) => setFormData({...formData, descriptionKu: e.target.value})}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Step 3: English Version */}
+        {currentStep === 3 && (
+          <div className="space-y-6">
+            <h4 className="text-lg font-semibold text-gray-700 border-b pb-2 flex items-center">
+              <span className="mr-3 text-2xl">🇺🇸</span>
+              {currentLanguage === 'ku' ? 'وەشانی ئینگلیزی' : currentLanguage === 'en' ? 'English Version' : 'Englische Version'}
+            </h4>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Title (English)</label>
+                <input
+                  type="text"
+                  value={formData.titleEn}
+                  onChange={(e) => setFormData({...formData, titleEn: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Author (English)</label>
+                <input
+                  type="text"
+                  value={formData.authorEn}
+                  onChange={(e) => setFormData({...formData, authorEn: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Publisher (English)</label>
+                <input
+                  type="text"
+                  value={formData.publisherEn}
+                  onChange={(e) => setFormData({...formData, publisherEn: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Description (English)</label>
+              <textarea
+                rows={4}
+                value={formData.descriptionEn}
+                onChange={(e) => setFormData({...formData, descriptionEn: e.target.value})}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Step 4: German Version */}
+        {currentStep === 4 && (
+          <div className="space-y-6">
+            <h4 className="text-lg font-semibold text-gray-700 border-b pb-2 flex items-center">
+              <span className="mr-3 text-2xl">🇩🇪</span>
+              {currentLanguage === 'ku' ? 'وەشانی ئاڵمانی' : currentLanguage === 'en' ? 'German Version' : 'Deutsche Version'}
+            </h4>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Titel (Deutsch)</label>
+                <input
+                  type="text"
+                  value={formData.titleDe}
+                  onChange={(e) => setFormData({...formData, titleDe: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Autor (Deutsch)</label>
+                <input
+                  type="text"
+                  value={formData.authorDe}
+                  onChange={(e) => setFormData({...formData, authorDe: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Verlag (Deutsch)</label>
+                <input
+                  type="text"
+                  value={formData.publisherDe}
+                  onChange={(e) => setFormData({...formData, publisherDe: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Beschreibung (Deutsch)</label>
+              <textarea
+                rows={4}
+                value={formData.descriptionDe}
+                onChange={(e) => setFormData({...formData, descriptionDe: e.target.value})}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Navigation Buttons */}
+        <div className="flex justify-between mt-8 pt-6 border-t">
+          <div className="flex space-x-4 rtl:space-x-reverse">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-6 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              {currentLanguage === 'ku' ? 'پاشگەزبوونەوە' : currentLanguage === 'en' ? 'Cancel' : 'Abbrechen'}
+            </button>
+            
+            {currentStep > 1 && (
+              <button
+                type="button"
+                onClick={() => setCurrentStep(currentStep - 1)}
+                className="px-6 py-2 text-blue-600 border border-blue-300 rounded-lg hover:bg-blue-50 transition-colors"
+              >
+                {currentLanguage === 'ku' ? 'گەڕانەوە' : currentLanguage === 'en' ? 'Previous' : 'Zurück'}
+              </button>
+            )}
+          </div>
+
+          <div>
+            {currentStep < 4 ? (
+              <button
+                type="button"
+                onClick={() => setCurrentStep(currentStep + 1)}
+                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                {currentLanguage === 'ku' ? 'دواتر' : currentLanguage === 'en' ? 'Next' : 'Weiter'}
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+              >
+                {currentLanguage === 'ku' ? 'زیادکردنی کتاب' : currentLanguage === 'en' ? 'Add Book' : 'Buch Hinzufügen'}
+              </button>
+            )}
+          </div>
+        </div>
+      </form>
+    </div>
+  );
+}
+
+// Edit Book Form Component
+function EditBookForm({ book, onClose, onSave }: { book: AdminBook; onClose: () => void; onSave: () => void }) {
+  const { currentLanguage } = useLanguage();
+  const [currentStep, setCurrentStep] = useState(1);
+  const [formData, setFormData] = useState({
+    // Kurdish Version
+    titleKu: book.titleKu || '',
+    authorKu: book.authorKu || '',
+    publisherKu: book.publisherKu || '',
+    descriptionKu: book.descriptionKu || '',
+    // English Version  
+    titleEn: book.titleEn || '',
+    authorEn: book.authorEn || '',
+    publisherEn: book.publisherEn || '',
+    descriptionEn: book.descriptionEn || '',
+    // German Version
+    titleDe: book.titleDe || '',
+    authorDe: book.authorDe || '',
+    publisherDe: book.publisherDe || '',
+    descriptionDe: book.descriptionDe || '',
+    // Common Fields
+    translator: book.translator || '',
+    price: book.price.toString(),
+    originalPrice: book.originalPrice?.toString() || '',
+    category: book.category,
+    language: book.language,
+    pages: book.pages?.toString() || '',
+    publishDate: book.publishDate || '',
+    isbn: book.isbn || '',
+    tags: book.tags.join(', '),
+    imageUrl: book.imageUrl || '',
+    imageFile: null as File | null,
+    inventoryCount: book.inventoryCount?.toString() || '0',
+    inStock: book.inStock,
+    featured: book.featured,
+    bestseller: book.bestseller,
+    newRelease: book.newRelease
+  });
+
+  const [dragActive, setDragActive] = useState(false);
+
+  const handleImageUpload = (file: File) => {
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setFormData({...formData, imageUrl: e.target?.result as string, imageFile: file});
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleImageUpload(e.dataTransfer.files[0]);
+    }
+  };
+
+  const categories = [
+    { value: 'literature', label: currentLanguage === 'ku' ? 'ئەدەبیات' : currentLanguage === 'en' ? 'Literature' : 'Literatur' },
+    { value: 'poetry', label: currentLanguage === 'ku' ? 'شیعر' : currentLanguage === 'en' ? 'Poetry' : 'Poesie' },
+    { value: 'history', label: currentLanguage === 'ku' ? 'مێژوو' : currentLanguage === 'en' ? 'History' : 'Geschichte' },
+    { value: 'children', label: currentLanguage === 'ku' ? 'منداڵان' : currentLanguage === 'en' ? 'Children' : 'Kinder' },
+    { value: 'education', label: currentLanguage === 'ku' ? 'پەروەردە' : currentLanguage === 'en' ? 'Education' : 'Bildung' },
+    { value: 'science', label: currentLanguage === 'ku' ? 'زانست' : currentLanguage === 'en' ? 'Science' : 'Wissenschaft' },
+    { value: 'religion', label: currentLanguage === 'ku' ? 'ئایین' : currentLanguage === 'en' ? 'Religion' : 'Religion' },
+    { value: 'biography', label: currentLanguage === 'ku' ? 'ژیاننامە' : currentLanguage === 'en' ? 'Biography' : 'Biographie' },
+    { value: 'philosophy', label: currentLanguage === 'ku' ? 'فەلسەفە' : currentLanguage === 'en' ? 'Philosophy' : 'Philosophie' },
+    { value: 'politics', label: currentLanguage === 'ku' ? 'سیاسەت' : currentLanguage === 'en' ? 'Politics' : 'Politik' }
+  ];
+
+  const handleImageUpload = (file: File) => {
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setFormData({...formData, imageUrl: e.target?.result as string, imageFile: file});
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleImageUpload(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const bookData = {
+      title: formData.titleKu || formData.titleEn || formData.titleDe,
+      titleKu: formData.titleKu,
+      titleEn: formData.titleEn,
+      titleDe: formData.titleDe,
+      author: formData.authorKu || formData.authorEn || formData.authorDe,
+      authorKu: formData.authorKu,
+      authorEn: formData.authorEn,
+      authorDe: formData.authorDe,
+      publisher: formData.publisherKu || formData.publisherEn || formData.publisherDe,
+      publisherKu: formData.publisherKu,
+      publisherEn: formData.publisherEn,
+      publisherDe: formData.publisherDe,
+      description: formData.descriptionKu || formData.descriptionEn || formData.descriptionDe,
+      descriptionKu: formData.descriptionKu,
+      descriptionEn: formData.descriptionEn,
+      descriptionDe: formData.descriptionDe,
+      translator: formData.translator,
+      price: parseFloat(formData.price),
+      originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : undefined,
+      category: formData.category,
+      language: formData.language,
+      pages: formData.pages ? parseInt(formData.pages) : undefined,
+      publishDate: formData.publishDate,
+      isbn: formData.isbn,
+      tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
+      imageUrl: formData.imageUrl,
+      inventoryCount: parseInt(formData.inventoryCount) || 0,
+      inStock: parseInt(formData.inventoryCount) > 0,
+      featured: formData.featured,
+      bestseller: formData.bestseller,
+      newRelease: formData.newRelease
+    };
+
+    try {
+      adminDataService.updateBook(book.id, bookData);
+      alert(currentLanguage === 'ku' ? 'کتاب نوێکرایەوە!' : currentLanguage === 'en' ? 'Book updated!' : 'Buch aktualisiert!');
+      onSave();
+    } catch (error) {
+      alert(currentLanguage === 'ku' ? 'هەڵەیەک ڕوویدا!' : currentLanguage === 'en' ? 'An error occurred!' : 'Ein Fehler ist aufgetreten!');
+    }
+  };
+
+  return (
+    <div className="bg-white rounded-lg shadow-lg p-6 max-w-4xl mx-auto">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-xl font-bold text-gray-800">
+          {currentLanguage === 'ku' ? 'دەستکاریکردنی کتاب' : currentLanguage === 'en' ? 'Edit Book' : 'Buch Bearbeiten'}
+        </h3>
+        
+        {/* Step Indicator */}
+        <div className="flex items-center space-x-2 rtl:space-x-reverse">
+          {[1, 2, 3, 4].map((step) => (
+            <div key={step} className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+              currentStep === step ? 'bg-blue-600 text-white' : 
+              currentStep > step ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-600'
+            }`}>
+              {currentStep > step ? '✓' : step}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <form onSubmit={handleSubmit}>
+        {/* Step 1: Basic Info */}
+        {currentStep === 1 && (
+          <div className="space-y-6">
+            <h4 className="text-lg font-semibold text-gray-700 border-b pb-2">
+              {currentLanguage === 'ku' ? 'زانیاریە سەرەکیەکان' : currentLanguage === 'en' ? 'Basic Information' : 'Grundinformationen'}
+            </h4>
+            
+            {/* Image Upload */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-1">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  {currentLanguage === 'ku' ? 'وێنەی کتاب' : currentLanguage === 'en' ? 'Book Cover' : 'Buchcover'}
+                </label>
+                <div
+                  className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
+                    dragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400'
+                  }`}
+                  onDragEnter={handleDrag}
+                  onDragLeave={handleDrag}
+                  onDragOver={handleDrag}
+                  onDrop={handleDrop}
+                >
+                  {formData.imageUrl ? (
+                    <div className="relative">
+                      <img src={formData.imageUrl} alt="Preview" className="w-full h-48 object-cover rounded-lg" />
+                      <button
+                        type="button"
+                        onClick={() => setFormData({...formData, imageUrl: '', imageFile: null})}
+                        className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ) : (
+                    <div>
+                      <Upload className="mx-auto h-12 w-12 text-gray-400 mb-2" />
+                      <p className="text-sm text-gray-600">
+                        {currentLanguage === 'ku' ? 'وێنە بکێشە یان کلیک بکە' : currentLanguage === 'en' ? 'Drag image here or click' : 'Bild hierher ziehen oder klicken'}
+                      </p>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => e.target.files?.[0] && handleImageUpload(e.target.files[0])}
+                        className="hidden"
+                        id="edit-image-upload"
+                      />
+                      <label htmlFor="edit-image-upload" className="cursor-pointer inline-block mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        {currentLanguage === 'ku' ? 'هەڵبژاردن' : currentLanguage === 'en' ? 'Select' : 'Auswählen'}
+                      </label>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="lg:col-span-2 space-y-4">
+                {/* Category */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    {currentLanguage === 'ku' ? 'پۆل' : currentLanguage === 'en' ? 'Category' : 'Kategorie'}
+                  </label>
+                  <select
+                    value={formData.category}
+                    onChange={(e) => setFormData({...formData, category: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                  >
+                    {categories.map((cat) => (
+                      <option key={cat.value} value={cat.value}>{cat.label}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Price & Original Price */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      {currentLanguage === 'ku' ? 'نرخ (یۆرۆ)' : currentLanguage === 'en' ? 'Price (EUR)' : 'Preis (EUR)'}
+                    </label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      value={formData.price}
+                      onChange={(e) => setFormData({...formData, price: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      {currentLanguage === 'ku' ? 'نرخی سەرەتایی' : currentLanguage === 'en' ? 'Original Price' : 'Ursprünglicher Preis'}
+                    </label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      value={formData.originalPrice}
+                      onChange={(e) => setFormData({...formData, originalPrice: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                </div>
+
+                {/* Inventory Count */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    {currentLanguage === 'ku' ? 'ژمارەی مەوجوود' : currentLanguage === 'en' ? 'Inventory Count' : 'Lagerbestand'}
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={formData.inventoryCount}
+                    onChange={(e) => setFormData({...formData, inventoryCount: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                  />
+                </div>
+
+                {/* Pages & ISBN */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      {currentLanguage === 'ku' ? 'ژمارەی لاپەڕەکان' : currentLanguage === 'en' ? 'Pages' : 'Seiten'}
+                    </label>
+                    <input
+                      type="number"
+                      value={formData.pages}
+                      onChange={(e) => setFormData({...formData, pages: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">ISBN</label>
+                    <input
+                      type="text"
+                      value={formData.isbn}
+                      onChange={(e) => setFormData({...formData, isbn: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                </div>
+
+                {/* Publish Date & Tags */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      {currentLanguage === 'ku' ? 'بەرواری چاپ' : currentLanguage === 'en' ? 'Publish Date' : 'Veröffentlichungsdatum'}
+                    </label>
+                    <input
+                      type="date"
+                      value={formData.publishDate}
+                      onChange={(e) => setFormData({...formData, publishDate: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      {currentLanguage === 'ku' ? 'تاگەکان (بە کۆما جیابکەرەوە)' : currentLanguage === 'en' ? 'Tags (comma separated)' : 'Tags (kommagetrennt)'}
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.tags}
+                      onChange={(e) => setFormData({...formData, tags: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="شیعر, کلاسیک, نەوروز"
+                    />
+                  </div>
+                </div>
+
+                {/* Status Checkboxes */}
+                <div className="flex flex-wrap gap-6 mt-4">
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={formData.featured}
+                      onChange={(e) => setFormData({...formData, featured: e.target.checked})}
+                      className="mr-2 rtl:mr-0 rtl:ml-2"
+                    />
+                    <span className="text-sm">{currentLanguage === 'ku' ? 'تایبەت' : currentLanguage === 'en' ? 'Featured' : 'Empfohlen'}</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={formData.bestseller}
+                      onChange={(e) => setFormData({...formData, bestseller: e.target.checked})}
+                      className="mr-2 rtl:mr-0 rtl:ml-2"
+                    />
+                    <span className="text-sm">{currentLanguage === 'ku' ? 'باشترین فرۆش' : currentLanguage === 'en' ? 'Bestseller' : 'Bestseller'}</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={formData.newRelease}
+                      onChange={(e) => setFormData({...formData, newRelease: e.target.checked})}
+                      className="mr-2 rtl:mr-0 rtl:ml-2"
+                    />
+                    <span className="text-sm">{currentLanguage === 'ku' ? 'نوێ' : currentLanguage === 'en' ? 'New Release' : 'Neu'}</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={formData.inStock}
+                      onChange={(e) => setFormData({...formData, inStock: e.target.checked})}
+                      className="mr-2 rtl:mr-0 rtl:ml-2"
+                    />
+                    <span className="text-sm">{currentLanguage === 'ku' ? 'بەردەستە' : currentLanguage === 'en' ? 'In Stock' : 'Verfügbar'}</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Step 2: Kurdish Version */}
+        {currentStep === 2 && (
+          <div className="space-y-6">
+            <h4 className="text-lg font-semibold text-gray-700 border-b pb-2 flex items-center">
+              <span className="mr-3 text-2xl">🇮🇶</span>
+              {currentLanguage === 'ku' ? 'وەشانی کوردی' : currentLanguage === 'en' ? 'Kurdish Version' : 'Kurdische Version'}
+            </h4>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {currentLanguage === 'ku' ? 'ناونیشان (کوردی)' : currentLanguage === 'en' ? 'Title (Kurdish)' : 'Titel (Kurdisch)'}
+                </label>
+                <input
+                  type="text"
+                  value={formData.titleKu}
+                  onChange={(e) => setFormData({...formData, titleKu: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {currentLanguage === 'ku' ? 'نووسەر (کوردی)' : currentLanguage === 'en' ? 'Author (Kurdish)' : 'Autor (Kurdisch)'}
+                </label>
+                <input
+                  type="text"
+                  value={formData.authorKu}
+                  onChange={(e) => setFormData({...formData, authorKu: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {currentLanguage === 'ku' ? 'چاپخانە (کوردی)' : currentLanguage === 'en' ? 'Publisher (Kurdish)' : 'Verlag (Kurdisch)'}
+                </label>
+                <input
+                  type="text"
+                  value={formData.publisherKu}
+                  onChange={(e) => setFormData({...formData, publisherKu: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {currentLanguage === 'ku' ? 'وەرگێڕ (ئەگەر هەبێت)' : currentLanguage === 'en' ? 'Translator (if applicable)' : 'Übersetzer (falls zutreffend)'}
+                </label>
+                <input
+                  type="text"
+                  value={formData.translator}
+                  onChange={(e) => setFormData({...formData, translator: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {currentLanguage === 'ku' ? 'پێناسە (کوردی)' : currentLanguage === 'en' ? 'Description (Kurdish)' : 'Beschreibung (Kurdisch)'}
+                </label>
+                <textarea
+                  rows={4}
+                  value={formData.descriptionKu}
+                  onChange={(e) => setFormData({...formData, descriptionKu: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Step 3: English Version */}
+        {currentStep === 3 && (
+          <div className="space-y-6">
+            <h4 className="text-lg font-semibold text-gray-700 border-b pb-2 flex items-center">
+              <span className="mr-3 text-2xl">🇬🇧</span>
+              {currentLanguage === 'ku' ? 'وەشانی ئینگلیزی' : currentLanguage === 'en' ? 'English Version' : 'Englische Version'}
+            </h4>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {currentLanguage === 'ku' ? 'ناونیشان (ئینگلیزی)' : currentLanguage === 'en' ? 'Title (English)' : 'Titel (Englisch)'}
+                </label>
+                <input
+                  type="text"
+                  value={formData.titleEn}
+                  onChange={(e) => setFormData({...formData, titleEn: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {currentLanguage === 'ku' ? 'نووسەر (ئینگلیزی)' : currentLanguage === 'en' ? 'Author (English)' : 'Autor (Englisch)'}
+                </label>
+                <input
+                  type="text"
+                  value={formData.authorEn}
+                  onChange={(e) => setFormData({...formData, authorEn: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {currentLanguage === 'ku' ? 'چاپخانە (ئینگلیزی)' : currentLanguage === 'en' ? 'Publisher (English)' : 'Verlag (Englisch)'}
+                </label>
+                <input
+                  type="text"
+                  value={formData.publisherEn}
+                  onChange={(e) => setFormData({...formData, publisherEn: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {currentLanguage === 'ku' ? 'پێناسە (ئینگلیزی)' : currentLanguage === 'en' ? 'Description (English)' : 'Beschreibung (Englisch)'}
+                </label>
+                <textarea
+                  rows={4}
+                  value={formData.descriptionEn}
+                  onChange={(e) => setFormData({...formData, descriptionEn: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Step 4: German Version */}
+        {currentStep === 4 && (
+          <div className="space-y-6">
+            <h4 className="text-lg font-semibold text-gray-700 border-b pb-2 flex items-center">
+              <span className="mr-3 text-2xl">🇩🇪</span>
+              {currentLanguage === 'ku' ? 'وەشانی ئەڵمانی' : currentLanguage === 'en' ? 'German Version' : 'Deutsche Version'}
+            </h4>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {currentLanguage === 'ku' ? 'ناونیشان (ئەڵمانی)' : currentLanguage === 'en' ? 'Title (German)' : 'Titel (Deutsch)'}
+                </label>
+                <input
+                  type="text"
+                  value={formData.titleDe}
+                  onChange={(e) => setFormData({...formData, titleDe: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {currentLanguage === 'ku' ? 'نووسەر (ئەڵمانی)' : currentLanguage === 'en' ? 'Author (German)' : 'Autor (Deutsch)'}
+                </label>
+                <input
+                  type="text"
+                  value={formData.authorDe}
+                  onChange={(e) => setFormData({...formData, authorDe: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {currentLanguage === 'ku' ? 'چاپخانە (ئەڵمانی)' : currentLanguage === 'en' ? 'Publisher (German)' : 'Verlag (Deutsch)'}
+                </label>
+                <input
+                  type="text"
+                  value={formData.publisherDe}
+                  onChange={(e) => setFormData({...formData, publisherDe: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {currentLanguage === 'ku' ? 'پێناسە (ئەڵمانی)' : currentLanguage === 'en' ? 'Description (German)' : 'Beschreibung (Deutsch)'}
+                </label>
+                <textarea
+                  rows={4}
+                  value={formData.descriptionDe}
+                  onChange={(e) => setFormData({...formData, descriptionDe: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {/* Navigation Buttons */}
+        <div className="flex justify-between mt-8 pt-6 border-t">
+          <div className="flex space-x-4 rtl:space-x-reverse">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-6 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              {currentLanguage === 'ku' ? 'پاشگەزبوونەوە' : currentLanguage === 'en' ? 'Cancel' : 'Abbrechen'}
+            </button>
+            
+            {currentStep > 1 && (
+              <button
+                type="button"
+                onClick={() => setCurrentStep(currentStep - 1)}
+                className="px-6 py-2 text-blue-600 border border-blue-300 rounded-lg hover:bg-blue-50 transition-colors"
+              >
+                {currentLanguage === 'ku' ? 'گەڕانەوە' : currentLanguage === 'en' ? 'Previous' : 'Zurück'}
+              </button>
+            )}
+          </div>
+
+          <div>
+            {currentStep < 4 ? (
+              <button
+                type="button"
+                onClick={() => setCurrentStep(currentStep + 1)}
+                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                {currentLanguage === 'ku' ? 'دواتر' : currentLanguage === 'en' ? 'Next' : 'Weiter'}
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+              >
+                {currentLanguage === 'ku' ? 'نوێکردنەوەی کتاب' : currentLanguage === 'en' ? 'Update Book' : 'Buch Aktualisieren'}
+              </button>
+            )}
+          </div>
+        </div>
+      </form>
+    </div>
+  );
+}
+
+// Simple Add Author Form
+function AddAuthorForm({ onClose, onSave }: { onClose: () => void; onSave: () => void }) {
+  const { currentLanguage } = useLanguage();
+  const [formData, setFormData] = useState({
+    name: '',
+    latinName: '',
+    birthYear: '',
+    deathYear: '',
+    nationality: '',
+    biographyKu: ''
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const authorData = {
+      name: formData.name,
+      latinName: formData.latinName,
+      birthYear: formData.birthYear ? parseInt(formData.birthYear) : undefined,
+      deathYear: formData.deathYear ? parseInt(formData.deathYear) : undefined,
+      nationality: formData.nationality,
+      biographyKu: formData.biographyKu
+    };
+
+    try {
+      adminDataService.addAuthor(authorData);
+      alert(currentLanguage === 'ku' ? 'نووسەر زیادکرا!' : currentLanguage === 'en' ? 'Author added!' : 'Autor hinzugefügt!');
+      onSave();
+    } catch (error) {
+      alert(currentLanguage === 'ku' ? 'هەڵەیەک ڕوویدا!' : currentLanguage === 'en' ? 'An error occurred!' : 'Ein Fehler ist aufgetreten!');
+    }
+  };
+
+  return (
+    <div className="bg-white rounded-lg shadow-md p-6">
+      <h3 className="text-lg font-semibold text-gray-800 mb-4">
+        {currentLanguage === 'ku' ? 'نووسەری نوێ زیاد بکە' : currentLanguage === 'en' ? 'Add New Author' : 'Neuen Autor Hinzufügen'}
+      </h3>
+      
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            {currentLanguage === 'ku' ? 'ناو (کوردی)' : currentLanguage === 'en' ? 'Name (Kurdish)' : 'Name (Kurdisch)'}
+          </label>
+          <input
+            type="text"
+            value={formData.name}
+            onChange={(e) => setFormData({...formData, name: e.target.value})}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            required
+          />
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            {currentLanguage === 'ku' ? 'ناو (لاتینی)' : currentLanguage === 'en' ? 'Name (Latin)' : 'Name (Lateinisch)'}
+          </label>
+          <input
+            type="text"
+            value={formData.latinName}
+            onChange={(e) => setFormData({...formData, latinName: e.target.value})}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            {currentLanguage === 'ku' ? 'ساڵی لەدایکبوون' : currentLanguage === 'en' ? 'Birth Year' : 'Geburtsjahr'}
+          </label>
+          <input
+            type="number"
+            value={formData.birthYear}
+            onChange={(e) => setFormData({...formData, birthYear: e.target.value})}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            {currentLanguage === 'ku' ? 'ساڵی مردن (ئاپشناڵ)' : currentLanguage === 'en' ? 'Death Year (Optional)' : 'Todesjahr (Optional)'}
+          </label>
+          <input
+            type="number"
+            value={formData.deathYear}
+            onChange={(e) => setFormData({...formData, deathYear: e.target.value})}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        </div>
+        
+        <div className="md:col-span-2">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            {currentLanguage === 'ku' ? 'بیۆگرافی (کوردی)' : currentLanguage === 'en' ? 'Biography (Kurdish)' : 'Biografie (Kurdisch)'}
+          </label>
+          <textarea
+            rows={3}
+            value={formData.biographyKu}
+            onChange={(e) => setFormData({...formData, biographyKu: e.target.value})}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        </div>
+        
+        <div className="md:col-span-2 flex justify-end space-x-4 rtl:space-x-reverse">
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50"
+          >
+            {currentLanguage === 'ku' ? 'پاشگەزبوونەوە' : currentLanguage === 'en' ? 'Cancel' : 'Abbrechen'}
+          </button>
+          <button
+            type="submit"
+            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+          >
+            {currentLanguage === 'ku' ? 'زیادکردن' : currentLanguage === 'en' ? 'Add Author' : 'Autor Hinzufügen'}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}

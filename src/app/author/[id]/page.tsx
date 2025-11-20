@@ -226,7 +226,7 @@ export default function AuthorDetailPage({ params }: AuthorDetailPageProps) {
           
           <div className="space-y-4">
             {authorBooks
-              .sort((a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime())
+              .sort((a, b) => new Date(b.publishedDate || '').getTime() - new Date(a.publishedDate || '').getTime())
               .map((book: Book) => (
                 <Link
                   key={book.id}
@@ -238,7 +238,7 @@ export default function AuthorDetailPage({ params }: AuthorDetailPageProps) {
                     <div className="flex items-center justify-between">
                       <h3 className="font-semibold text-gray-800">{book.title}</h3>
                       <span className="text-sm text-gray-500">
-                        {new Date(book.publishedDate).getFullYear()}
+                        {book.publishedDate ? new Date(book.publishedDate).getFullYear() : 'N/A'}
                       </span>
                     </div>
                     <p className="text-sm text-gray-600 mt-1">

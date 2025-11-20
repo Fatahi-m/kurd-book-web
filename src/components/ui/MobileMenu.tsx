@@ -1,0 +1,199 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { useCart } from '@/contexts/CartContext';
+import { useWishlist } from '@/contexts/WishlistContext';
+import { X, Home, BookOpen, Heart, ShoppingCart, User, Search, Globe, ChevronRight } from 'lucide-react';
+
+interface MobileMenuProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
+  const { t, currentLanguage, changeLanguage } = useLanguage();
+  const { itemCount } = useCart();
+  const { itemCount: wishlistCount } = useWishlist();
+  const [showLanguageMenu, setShowLanguageMenu] = useState(false);
+
+  // Close menu on escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, onClose]);
+
+  const handleLanguageChange = (lang: 'ku' | 'en' | 'de') => {
+    changeLanguage(lang);
+    setShowLanguageMenu(false);
+    onClose();
+  };
+
+  const menuItems = [
+    {
+      href: '/',
+      icon: Home,
+      label: t('nav.home'),
+      badge: null
+    },
+    {
+      href: '/books',
+      icon: BookOpen,
+      label: t('nav.books'),
+      badge: null
+    },
+    {
+      href: '/categories',
+      icon: BookOpen,
+      label: t('nav.categories'),
+      badge: null
+    },
+    {
+      href: '/authors',
+      icon: User,
+      label: t('nav.authors'),
+      badge: null
+    },
+    {
+      href: '/wishlist',
+      icon: Heart,
+      label: t('nav.wishlist'),
+      badge: wishlistCount > 0 ? wishlistCount : null
+    },
+    {
+      href: '/cart',
+      icon: ShoppingCart,
+      label: t('nav.cart'),
+      badge: itemCount > 0 ? itemCount : null
+    }
+  ];
+
+  const languages = [
+    { code: 'ku', name: 'کوردی', flag: '🇰🇺' },
+    { code: 'en', name: 'English', flag: '🇺🇸' },
+    { code: 'de', name: 'Deutsch', flag: '🇩🇪' }
+  ];
+
+  if (!isOpen) return null;
+
+  return (
+    <>
+      {/* Backdrop */}
+      <div 
+        className="fixed inset-0 bg-black bg-opacity-50 z-50 md:hidden"
+        onClick={onClose}
+      />
+      
+      {/* Menu Panel */}
+      <div className={`fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out md:hidden ${
+        isOpen ? 'translate-x-0' : 'translate-x-full'
+      } ${currentLanguage === 'ku' ? 'rtl:right-0 rtl:left-auto' : 'ltr:left-0 ltr:right-auto'}`}>
+        
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-blue-600 text-white">
+          <h2 className="text-lg font-semibold">
+            {t('nav.menu')}
+          </h2>
+          <button
+            onClick={onClose}
+            className="p-2 rounded-full hover:bg-blue-700 transition-colors"
+            aria-label="Close menu"
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        {/* Menu Items */}
+        <div className="py-4">
+          <nav className="space-y-1">
+            {menuItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={onClose}
+                className="flex items-center justify-between px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors"
+              >
+                <div className="flex items-center space-x-3 rtl:space-x-reverse">
+                  <item.icon size={20} className="text-gray-500" />
+                  <span className="font-medium">{item.label}</span>
+                </div>
+                {item.badge && (
+                  <span className="bg-red-500 text-white text-xs rounded-full px-2 py-1 min-w-[20px] text-center">
+                    {item.badge}
+                  </span>
+                )}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Language Selector */}
+          <div className="mt-6 px-4">
+            <div className="border-t border-gray-200 pt-4">
+              <button
+                onClick={() => setShowLanguageMenu(!showLanguageMenu)}
+                className="flex items-center justify-between w-full px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <div className="flex items-center space-x-3 rtl:space-x-reverse">
+                  <Globe size={20} className="text-gray-500" />
+                  <span className="font-medium">{t('nav.language')}</span>
+                </div>
+                <ChevronRight 
+                  size={16} 
+                  className={`transform transition-transform ${showLanguageMenu ? 'rotate-90' : ''} ${
+                    currentLanguage === 'ku' ? 'rtl:rotate-180' : ''
+                  }`} 
+                />
+              </button>
+              
+              {showLanguageMenu && (
+                <div className="mt-2 ml-8 rtl:ml-0 rtl:mr-8 space-y-1">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => handleLanguageChange(lang.code as 'ku' | 'en' | 'de')}
+                      className={`flex items-center space-x-3 rtl:space-x-reverse w-full px-4 py-2 text-sm rounded-lg transition-colors ${
+                        currentLanguage === lang.code
+                          ? 'bg-blue-100 text-blue-700'
+                          : 'text-gray-600 hover:bg-gray-100'
+                      }`}
+                    >
+                      <span className="text-lg">{lang.flag}</span>
+                      <span>{lang.name}</span>
+                      {currentLanguage === lang.code && (
+                        <span className="text-blue-600 text-xs">✓</span>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div className="mt-8 px-4 text-center text-sm text-gray-500">
+            <div className="border-t border-gray-200 pt-4">
+              <p>{t('app.name')}</p>
+              <p className="mt-1 text-xs">v1.0.0</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
