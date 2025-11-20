@@ -11,7 +11,7 @@ export default function Footer() {
       <div className="container mx-auto px-4 py-8 md:py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {/* Company Info */}
-          <div>
+          <div className="lg:col-span-1">
             <div className="flex items-center space-x-3 rtl:space-x-reverse mb-4">
               <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">ک</span>
@@ -21,7 +21,7 @@ export default function Footer() {
                 <p className="text-sm text-gray-400">{t('site.description')}</p>
               </div>
             </div>
-            <p className="text-gray-300 mb-4">
+            <p className="text-gray-300 mb-4 text-sm">
               {t('footer.aboutDescription')}
             </p>
             <div className="flex space-x-4 rtl:space-x-reverse">
@@ -37,7 +37,7 @@ export default function Footer() {
               </a>
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.748.096.119.108.223.080.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.717-1.378l-.734 2.778c-.265 1.019-.982 2.302-1.460 3.079C9.090 23.651 10.537 24 12.017 24c6.624 0 11.99-5.367 11.99-11.987C24.007 5.367 18.641.001 12.017.001z"/>
+                  <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.748.096.119.108.223.080.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.717-1.378l-.734 2.778c-.265 1.019-.982 2.302-1.460 3.079C9.090 23.651 10.537 24 12.017 24c6.624 0 11.90-5.367 11.99-11.987C24.007 5.367 18.641.001 12.017.001z"/>
                 </svg>
               </a>
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
@@ -48,10 +48,10 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Quick Links & Categories - Combined for mobile */}
+          {/* Quick Links - Mobile First Column */}
           <div className="sm:col-span-1">
             <h4 className="text-lg font-semibold mb-4">{t('footer.quickLinks')}</h4>
-            <ul className="space-y-2">
+            <ul className="space-y-2 text-sm">
               <li><Link href="/about" className="text-gray-300 hover:text-white transition-colors">{t('nav.about')}</Link></li>
               <li><Link href="/contact" className="text-gray-300 hover:text-white transition-colors">{t('footer.contact')}</Link></li>
               <li><Link href="/shipping" className="text-gray-300 hover:text-white transition-colors">
@@ -69,10 +69,10 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Categories */}
-          <div className="sm:col-span-1">
+          {/* Categories - Mobile Second Column */}
+          <div className="sm:col-span-1 lg:col-span-1">
             <h4 className="text-lg font-semibold mb-4">{t('nav.categories')}</h4>
-            <ul className="space-y-2">
+            <ul className="space-y-2 text-sm">
               <li><Link href="/category/literature" className="text-gray-300 hover:text-white transition-colors">{t('categories.literature')}</Link></li>
               <li><Link href="/category/poetry" className="text-gray-300 hover:text-white transition-colors">{t('categories.poetry')}</Link></li>
               <li><Link href="/category/history" className="text-gray-300 hover:text-white transition-colors">{t('categories.history')}</Link></li>
