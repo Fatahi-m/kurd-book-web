@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -8,7 +8,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 // import FavoritesTab from '@/components/profile/FavoritesTab';
 // import SettingsTab from '@/components/profile/SettingsTab';
 
-export default function ProfilePage() {
+function ProfileContent() {
   const { user, isAuthenticated, isLoading, logout, updateProfile } = useAuth();
   const { t } = useLanguage();
   const router = useRouter();
@@ -380,5 +380,18 @@ export default function ProfilePage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ProfilePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+        <p className="text-gray-600">Loading profile...</p>
+      </div>
+    </div>}>
+      <ProfileContent />
+    </Suspense>
   );
 }
