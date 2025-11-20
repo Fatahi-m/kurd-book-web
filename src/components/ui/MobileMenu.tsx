@@ -104,9 +104,11 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       />
       
       {/* Menu Panel */}
-      <div className={`fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out md:hidden ${
-        isOpen ? 'translate-x-0' : 'translate-x-full'
-      } ${currentLanguage === 'ku' ? 'rtl:right-0 rtl:left-auto' : 'ltr:left-0 ltr:right-auto'}`}>
+      <div className={`fixed top-0 h-full w-80 max-w-[85vw] bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out md:hidden ${
+        currentLanguage === 'ku' 
+          ? `right-0 ${isOpen ? 'translate-x-0' : 'translate-x-full'}` 
+          : `left-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`
+      }`}>
         
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-blue-600 text-white">

@@ -272,8 +272,8 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Mobile Menu Overlay */}
-        {isMenuOpen && (
+        {/* Mobile Menu Overlay - Remove this as MobileMenu component handles it */}
+        {/*isMenuOpen && (
           <div className="lg:hidden fixed inset-0 z-50 bg-black bg-opacity-50" onClick={() => setIsMenuOpen(false)}>
             <div className="fixed inset-y-0 left-0 rtl:right-0 rtl:left-auto w-80 bg-white shadow-xl" onClick={(e) => e.stopPropagation()}>
               <div className="p-4">
@@ -352,7 +352,7 @@ export default function Header() {
               </div>
             </div>
           </div>
-        )}
+        )*/}
       </nav>
       
       {/* Mobile Menu */}

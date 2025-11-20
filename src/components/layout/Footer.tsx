@@ -8,8 +8,8 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 text-white">
       {/* Main Footer */}
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="container mx-auto px-4 py-8 md:py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {/* Company Info */}
           <div>
             <div className="flex items-center space-x-3 rtl:space-x-reverse mb-4">
@@ -48,8 +48,8 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
+          {/* Quick Links & Categories - Combined for mobile */}
+          <div className="sm:col-span-1">
             <h4 className="text-lg font-semibold mb-4">{t('footer.quickLinks')}</h4>
             <ul className="space-y-2">
               <li><Link href="/about" className="text-gray-300 hover:text-white transition-colors">{t('nav.about')}</Link></li>
@@ -70,7 +70,7 @@ export default function Footer() {
           </div>
 
           {/* Categories */}
-          <div>
+          <div className="sm:col-span-1">
             <h4 className="text-lg font-semibold mb-4">{t('nav.categories')}</h4>
             <ul className="space-y-2">
               <li><Link href="/category/literature" className="text-gray-300 hover:text-white transition-colors">{t('categories.literature')}</Link></li>
@@ -83,18 +83,18 @@ export default function Footer() {
           </div>
 
           {/* Newsletter */}
-          <div>
+          <div className="sm:col-span-2 lg:col-span-1">
             <h4 className="text-lg font-semibold mb-4">{t('footer.newsletter')}</h4>
-            <p className="text-gray-300 mb-4">
+            <p className="text-gray-300 mb-4 text-sm">
               {t('footer.newsletterDescription')}
             </p>
-            <div className="flex">
+            <div className="flex flex-col sm:flex-row gap-2">
               <input
                 type="email"
                 placeholder={t('footer.emailPlaceholder')}
-                className="flex-1 px-4 py-2 rounded-r-md rtl:rounded-r-none rtl:rounded-l-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 px-3 py-2 rounded-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
               />
-              <button className="px-4 py-2 bg-blue-600 text-white rounded-l-md rtl:rounded-l-none rtl:rounded-r-md hover:bg-blue-700 transition-colors">
+              <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm whitespace-nowrap">
                 {t('footer.subscribe')}
               </button>
             </div>
