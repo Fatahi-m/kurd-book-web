@@ -55,22 +55,28 @@ class AdminDataService {
   }
 
   private loadInitialData() {
-    // Load from localStorage or use default data
-    const savedBooks = localStorage.getItem('admin_books');
-    const savedAuthors = localStorage.getItem('admin_authors');
+    // Check if we're in the browser environment
+    if (typeof window !== 'undefined') {
+      // Load from localStorage or use default data
+      const savedBooks = localStorage.getItem('admin_books');
+      const savedAuthors = localStorage.getItem('admin_authors');
 
-    if (savedBooks) {
-      this.books = JSON.parse(savedBooks);
-    }
+      if (savedBooks) {
+        this.books = JSON.parse(savedBooks);
+      }
 
-    if (savedAuthors) {
-      this.authors = JSON.parse(savedAuthors);
+      if (savedAuthors) {
+        this.authors = JSON.parse(savedAuthors);
+      }
     }
   }
 
   private saveToStorage() {
-    localStorage.setItem('admin_books', JSON.stringify(this.books));
-    localStorage.setItem('admin_authors', JSON.stringify(this.authors));
+    // Check if we're in the browser environment
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('admin_books', JSON.stringify(this.books));
+      localStorage.setItem('admin_authors', JSON.stringify(this.authors));
+    }
   }
 
   // Book Management
@@ -200,8 +206,10 @@ class AdminDataService {
   clearAllData(): void {
     this.books = [];
     this.authors = [];
-    localStorage.removeItem('admin_books');
-    localStorage.removeItem('admin_authors');
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('admin_books');
+      localStorage.removeItem('admin_authors');
+    }
   }
 }
 

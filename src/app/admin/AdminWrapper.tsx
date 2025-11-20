@@ -1,6 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // Dynamic import to avoid SSR issues with localStorage
 const AdminPanelContent = dynamic(() => import('./AdminPanelContent'), {
