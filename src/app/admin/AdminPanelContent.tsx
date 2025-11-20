@@ -117,9 +117,10 @@ export default function AdminPanelContent() {
               {currentLanguage === 'ku' ? 'هیچ کتابێک نەدۆزرایەوە' : 'No books found'}
             </p>
           </div>
-          ) : (
+        ) : (
+          <>
+            {/* Mobile Cards View */}
             <div className="block md:hidden">
-              {/* Mobile Cards View */}
               <div className="space-y-4">
                 {books.map((book) => (
                   <div key={book.id} className="bg-gray-50 rounded-lg p-4">
@@ -172,87 +173,89 @@ export default function AdminPanelContent() {
                 ))}
               </div>
             </div>
-          ) && (
-          <div className="hidden md:block overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    {currentLanguage === 'ku' ? 'کتاب' : 'Book'}
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    {currentLanguage === 'ku' ? 'نووسەر' : 'Author'}
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    {currentLanguage === 'ku' ? 'نرخ' : 'Price'}
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    {currentLanguage === 'ku' ? 'موجودی' : 'Stock'}
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    {currentLanguage === 'ku' ? 'کردار' : 'Actions'}
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {books.map((book) => (
-                  <tr key={book.id}>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-12 w-8">
-                          {book.imageUrl ? (
-                            <img className="h-12 w-8 object-cover rounded" src={book.imageUrl} alt={book.title} />
-                          ) : (
-                            <div className="h-12 w-8 bg-gray-200 rounded flex items-center justify-center">
-                              <BookOpen size={16} className="text-gray-400" />
-                            </div>
-                          )}
-                        </div>
-                        <div className="ml-4 rtl:ml-0 rtl:mr-4">
-                          <div className="text-sm font-medium text-gray-900">{book.title}</div>
-                          <div className="text-sm text-gray-500">{book.category}</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {book.author}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {formatPrice(book.price)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                        (book.inventoryCount || 0) > 0 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-red-100 text-red-800'
-                      }`}>
-                        {(book.inventoryCount || 0) > 0 
-                          ? `${book.inventoryCount} ${currentLanguage === 'ku' ? 'دەدان' : 'in stock'}`
-                          : currentLanguage === 'ku' ? 'موجود نییە' : 'Out of stock'
-                        }
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex space-x-2 rtl:space-x-reverse">
-                        <button
-                          onClick={() => handleEditBook(book)}
-                          className="text-indigo-600 hover:text-indigo-900"
-                        >
-                          <Edit size={16} />
-                        </button>
-                        <button
-                          onClick={() => handleDeleteBook(book.id)}
-                          className="text-red-600 hover:text-red-900"
-                        >
-                          <Trash2 size={16} />
-                        </button>
-                      </div>
-                    </td>
+            
+            {/* Desktop Table View */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      {currentLanguage === 'ku' ? 'کتاب' : 'Book'}
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      {currentLanguage === 'ku' ? 'نووسەر' : 'Author'}
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      {currentLanguage === 'ku' ? 'نرخ' : 'Price'}
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      {currentLanguage === 'ku' ? 'موجودی' : 'Stock'}
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      {currentLanguage === 'ku' ? 'کردار' : 'Actions'}
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {books.map((book) => (
+                    <tr key={book.id}>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          <div className="flex-shrink-0 h-12 w-8">
+                            {book.imageUrl ? (
+                              <img className="h-12 w-8 object-cover rounded" src={book.imageUrl} alt={book.title} />
+                            ) : (
+                              <div className="h-12 w-8 bg-gray-200 rounded flex items-center justify-center">
+                                <BookOpen size={16} className="text-gray-400" />
+                              </div>
+                            )}
+                          </div>
+                          <div className="ml-4 rtl:ml-0 rtl:mr-4">
+                            <div className="text-sm font-medium text-gray-900">{book.title}</div>
+                            <div className="text-sm text-gray-500">{book.category}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {book.author}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {formatPrice(book.price)}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                          (book.inventoryCount || 0) > 0 
+                            ? 'bg-green-100 text-green-800' 
+                            : 'bg-red-100 text-red-800'
+                        }`}>
+                          {(book.inventoryCount || 0) > 0 
+                            ? `${book.inventoryCount} ${currentLanguage === 'ku' ? 'دەدان' : 'in stock'}`
+                            : currentLanguage === 'ku' ? 'موجود نییە' : 'Out of stock'
+                          }
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <div className="flex space-x-2 rtl:space-x-reverse">
+                          <button
+                            onClick={() => handleEditBook(book)}
+                            className="text-indigo-600 hover:text-indigo-900"
+                          >
+                            <Edit size={16} />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteBook(book.id)}
+                            className="text-red-600 hover:text-red-900"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
     </div>
