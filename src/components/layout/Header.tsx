@@ -120,6 +120,13 @@ export default function Header() {
                       {t('auth.favorites')}
                     </Link>
                     <hr className="my-1" />
+                    <Link href="/admin/login" className="block px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 flex items-center space-x-2 rtl:space-x-reverse">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span>{t('admin.panel')}</span>
+                    </Link>
+                    <hr className="my-1" />
                     <button 
                       onClick={() => logout()}
                       className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
