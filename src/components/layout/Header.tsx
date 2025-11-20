@@ -8,6 +8,7 @@ import { useWishlist } from '@/contexts/WishlistContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import LanguageSwitcher from '@/components/ui/LanguageSwitcher';
+import MobileMenu from '@/components/ui/MobileMenu';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -353,6 +354,9 @@ export default function Header() {
           </div>
         )}
       </nav>
+      
+      {/* Mobile Menu */}
+      <MobileMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
     </header>
   );
 }

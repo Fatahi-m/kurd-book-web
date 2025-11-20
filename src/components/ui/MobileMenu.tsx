@@ -13,9 +13,9 @@ interface MobileMenuProps {
 }
 
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
-  const { t, currentLanguage, changeLanguage } = useLanguage();
-  const { itemCount } = useCart();
-  const { itemCount: wishlistCount } = useWishlist();
+  const { t, currentLanguage, setLanguage } = useLanguage();
+  const { getCartItemCount } = useCart();
+  const { getWishlistItemCount } = useWishlist();
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
 
   // Close menu on escape key
@@ -40,10 +40,13 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   }, [isOpen, onClose]);
 
   const handleLanguageChange = (lang: 'ku' | 'en' | 'de') => {
-    changeLanguage(lang);
+    setLanguage(lang);
     setShowLanguageMenu(false);
     onClose();
   };
+
+  const itemCount = getCartItemCount();
+  const wishlistCount = getWishlistItemCount();
 
   const menuItems = [
     {
