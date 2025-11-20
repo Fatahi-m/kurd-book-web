@@ -1,0 +1,53 @@
+{
+  "site": {
+    "title": "Kurdische Bibliothek",
+    "description": "Der beste Online-Shop für kurdische Bücher",
+    "welcome": "Willkommen in der Kurdischen Bibliothek"
+  },
+  "navigation": {
+    "home": "Startseite",
+    "categories": "Kategorien",
+    "books": "Bücher",
+    "authors": "Autoren", 
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "cart": "Warenkorb",
+    "search": "Suchen"
+  },
+  "categories": {
+    "literature": "Literatur",
+    "poetry": "Poesie",
+    "history": "Geschichte",
+    "children": "Kinder",
+    "education": "Bildung",
+    "religion": "Religion",
+    "politics": "Politik",
+    "science": "Wissenschaft",
+    "biography": "Biografie",
+    "culture": "Kultur"
+  },
+  "homepage": {
+    "featured": "Empfohlene Bücher",
+    "bestsellers": "Bestseller",
+    "newReleases": "Neuerscheinungen",
+    "specialOffers": "Sonderangebote",
+    "viewAll": "Alle anzeigen"
+  },
+  "book": {
+    "price": "Preis",
+    "author": "Autor",
+    "publisher": "Verlag",
+    "pages": "Seiten",
+    "language": "Sprache",
+    "addToCart": "In den Warenkorb",
+    "buyNow": "Jetzt kaufen",
+    "description": "Beschreibung"
+  },
+  "footer": {
+    "aboutUs": "Über uns",
+    "contactInfo": "Kontaktinformationen",
+    "followUs": "Folgen Sie uns",
+    "newsletter": "Newsletter",
+    "subscribe": "Abonnieren"
+  }
+}

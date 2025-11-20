@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Language-specific font configuration */
+body.font-vazir {
+  font-family: 'Vazirmatn', 'Vazir', 'Tahoma', 'Arial', sans-serif;
+}
+
+body.font-english {
+  font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* RTL/LTR direction support */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="ltr"] {
+  text-align: left;
+}
+
+/* Custom component styles */
+.kurdish-text {
+  font-family: 'Vazirmatn', 'Vazir', 'Tahoma', 'Arial', sans-serif;
+  direction: rtl;
+  text-align: right;
+}
+
+.latin-text {
+  font-family: 'Inter', 'Roboto', sans-serif;
+  direction: ltr;
+  text-align: left;
+}
+
+/* Smooth transitions for language switching */
+* {
+  transition-property: font-family, direction, text-align;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+}
+
+/* Utility classes */
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* Dropdown animations */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideDown {
+  animation: slideDown 0.2s ease-out;
+}

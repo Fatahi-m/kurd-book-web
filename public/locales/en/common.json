@@ -1,0 +1,53 @@
+{
+  "site": {
+    "title": "Kurdish Library",
+    "description": "The best online store for Kurdish books", 
+    "welcome": "Welcome to Kurdish Library"
+  },
+  "navigation": {
+    "home": "Home",
+    "categories": "Categories",
+    "books": "Books", 
+    "authors": "Authors",
+    "about": "About",
+    "contact": "Contact",
+    "cart": "Cart",
+    "search": "Search"
+  },
+  "categories": {
+    "literature": "Literature",
+    "poetry": "Poetry",
+    "history": "History",
+    "children": "Children",
+    "education": "Education",
+    "religion": "Religion",
+    "politics": "Politics",
+    "science": "Science",
+    "biography": "Biography",
+    "culture": "Culture"
+  },
+  "homepage": {
+    "featured": "Featured Books",
+    "bestsellers": "Best Sellers",
+    "newReleases": "New Releases", 
+    "specialOffers": "Special Offers",
+    "viewAll": "View All"
+  },
+  "book": {
+    "price": "Price",
+    "author": "Author",
+    "publisher": "Publisher",
+    "pages": "Pages",
+    "language": "Language",
+    "addToCart": "Add to Cart",
+    "buyNow": "Buy Now",
+    "description": "Description"
+  },
+  "footer": {
+    "aboutUs": "About Us",
+    "contactInfo": "Contact Information",
+    "followUs": "Follow Us",
+    "newsletter": "Newsletter",
+    "subscribe": "Subscribe"
+  }
+}

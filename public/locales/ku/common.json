@@ -1,0 +1,53 @@
+{
+  "site": {
+    "title": "کتابخانەی کوردی",
+    "description": "باشترین فرۆشگای ئۆنلاین بۆ کتابەکانی کوردی",
+    "welcome": "بەخێربێیت بۆ کتابخانەی کوردی"
+  },
+  "navigation": {
+    "home": "سەرەتا",
+    "categories": "پۆلەکان",
+    "books": "کتابەکان",
+    "authors": "نووسەران",
+    "about": "دەربارە",
+    "contact": "پەیوەندی",
+    "cart": "سەبەتە",
+    "search": "گەڕان"
+  },
+  "categories": {
+    "literature": "ئەدەبیات",
+    "poetry": "شیعر",
+    "history": "مێژوو",
+    "children": "منداڵان",
+    "education": "پەروەردە",
+    "religion": "ئایین",
+    "politics": "سیاسەت",
+    "science": "زانست",
+    "biography": "بیۆگرافی",
+    "culture": "کلتوور"
+  },
+  "homepage": {
+    "featured": "کتابە تایبەتەکان",
+    "bestsellers": "باشترین فرۆشراوەکان", 
+    "newReleases": "کتابە نوێکان",
+    "specialOffers": "پێشکەشە تایبەتەکان",
+    "viewAll": "بینینی هەموو"
+  },
+  "book": {
+    "price": "نرخ",
+    "author": "نووسەر",
+    "publisher": "بڵاوکراوە",
+    "pages": "لاپەڕە",
+    "language": "زمان",
+    "addToCart": "زیادکردن بۆ سەبەتە",
+    "buyNow": "ئێستا بیکڕە",
+    "description": "وەسف"
+  },
+  "footer": {
+    "aboutUs": "دەربارەی ئێمە",
+    "contactInfo": "زانیاری پەیوەندی",
+    "followUs": "شوێنمان بکەوە",
+    "newsletter": "نامەی هەواڵ",
+    "subscribe": "بەشداربوون"
+  }
+}

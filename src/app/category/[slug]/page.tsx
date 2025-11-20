@@ -1,0 +1,71 @@
+import { books, categories } from '@/data/books';
+import { Book, Category } from '@/lib/types';
+import BookCard from '@/components/ui/BookCard';
+import { notFound } from 'next/navigation';
+
+interface CategoryPageProps {
+  params: {
+    slug: string;
+  };
+}
+
+export default function CategoryPage({ params }: CategoryPageProps) {
+  const category = categories.find(cat => cat.slug === params.slug);
+  
+  if (!category) {
+    notFound();
+  }
+
+  const categoryBooks = books.filter(book => book.category === category.id);
+
+  return (
+    <main className="min-h-screen bg-gray-50 py-8">
+      <div className="container mx-auto px-4">
+        {/* Category Header */}
+        <div className="bg-white rounded-lg shadow-md p-8 mb-8">
+          <div className="flex items-center space-x-4 rtl:space-x-reverse mb-4">
+            <div className="text-4xl">{category.icon}</div>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-800">{category.name.ku}</h1>
+              <p className="text-gray-600">{category.description?.ku}</p>
+            </div>
+          </div>
+          
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-gray-500">
+              {categoryBooks.length} کتاب لە پۆلی {category.name.ku}
+            </p>
+            
+            {/* Sort Options */}
+            <select className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="newest">نوێترین</option>
+              <option value="oldest">کۆنترین</option>
+              <option value="price-low">نرخ: نزمەوە بەرز</option>
+              <option value="price-high">نرخ: بەرزەوە نزم</option>
+              <option value="rating">هەڵسەنگاندن</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Books Grid */}
+        {categoryBooks.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            {categoryBooks.map((book: Book) => (
+              <BookCard key={book.id} book={book} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-16">
+            <div className="text-6xl mb-4">📚</div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-2">
+              هیچ کتابێک نەدۆزرایەوە
+            </h2>
+            <p className="text-gray-600">
+              ئێستا لەم پۆلەدا کتاب نییە، زوو کتابەکان زیاد دەکرێن.
+            </p>
+          </div>
+        )}
+      </div>
+    </main>
+  );
+}
