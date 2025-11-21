@@ -21,7 +21,7 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <div className="relative">
+    <div className="relative dropdown-container">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
@@ -43,12 +43,12 @@ export default function LanguageSwitcher() {
           />
           
           {/* Dropdown */}
-          <div className="absolute top-full mt-1 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-20 py-1">
+          <div className="absolute top-full mt-1 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-20 py-1 right-0 rtl:right-auto rtl:left-0">
             {languages.map((lang) => (
               <button
                 key={lang.code}
                 onClick={() => handleLanguageChange(lang.code)}
-                className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex items-center gap-3 transition-colors ${
+                className={`w-full text-left rtl:text-right px-4 py-2 text-sm hover:bg-gray-100 flex items-center gap-3 rtl:flex-row-reverse transition-colors ${
                   currentLanguage === lang.code 
                     ? 'bg-blue-50 text-blue-700 font-medium' 
                     : 'text-gray-700'
@@ -57,7 +57,7 @@ export default function LanguageSwitcher() {
                 <span className="text-lg">{lang.flag}</span>
                 <span>{lang.name}</span>
                 {currentLanguage === lang.code && (
-                  <span className="ml-auto text-blue-600">✓</span>
+                  <span className="ml-auto rtl:ml-0 rtl:mr-auto text-blue-600">✓</span>
                 )}
               </button>
             ))}

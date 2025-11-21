@@ -1,19 +1,19 @@
 /* Mobile-specific optimizations */
 
-/* Prevent horizontal scroll on all devices */
-* {
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
+/* Prevent horizontal scroll only on specific containers */
 body {
   overflow-x: hidden;
 }
 
-/* Container width fixes */
+/* Container width fixes - but allow dropdowns */
 .container {
   max-width: 100vw;
+}
+
+/* Specific elements that should not scroll horizontally */
+.main-content, .page-container, .hero-section {
   overflow-x: hidden;
+  max-width: 100%;
 }
 
 /* Touch-friendly buttons */

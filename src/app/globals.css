@@ -2,14 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Prevent horizontal scrolling */
-html, body {
+/* Prevent horizontal scrolling only on main containers */
+html {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+body {
   overflow-x: hidden;
   max-width: 100vw;
 }
 
 * {
   box-sizing: border-box;
+}
+
+/* Allow dropdowns to overflow properly */
+.dropdown-container {
+  overflow: visible !important;
+}
+
+/* Main content containers should not scroll horizontally */
+.container, .max-w-7xl, .max-w-6xl, .max-w-4xl, .max-w-2xl {
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 /* Language-specific font configuration */

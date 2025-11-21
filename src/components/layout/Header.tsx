@@ -135,7 +135,7 @@ export default function Header() {
             </Link>
 
             {isAuthenticated ? (
-              <div className="relative group">
+              <div className="relative group dropdown-container">
                 <button className="p-2 text-gray-600 hover:text-gray-800 flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                   <div className="w-7 h-7 md:w-8 md:h-8 bg-blue-600 rounded-full flex items-center justify-center">
                     <span className="text-white text-xs md:text-sm font-medium">
@@ -220,21 +220,21 @@ export default function Header() {
 
       {/* Navigation Menu */}
       <nav className="bg-blue-600 text-white">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 dropdown-container">
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center justify-between">
             <div className="flex items-center space-x-8 rtl:space-x-reverse">
               <Link href="/" className="py-4 px-2 hover:bg-blue-700 transition-colors">
                 {t('nav.home')}
               </Link>
-              <div className="relative group">
+              <div className="relative group dropdown-container">
                 <button className="py-4 px-2 hover:bg-blue-700 transition-colors flex items-center space-x-1 rtl:space-x-reverse">
                   <span>{t('nav.categories')}</span>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
-                <div className="absolute top-full left-0 rtl:left-auto rtl:right-0 w-64 bg-white text-gray-800 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <div className="absolute top-full left-0 rtl:left-auto rtl:right-0 w-64 bg-white text-gray-800 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 rounded-md border border-gray-200">
                   <div className="py-2">
                     <Link href="/category/literature" className="block px-4 py-2 hover:bg-gray-50">📚 {t('categories.literature')}</Link>
                     <Link href="/category/poetry" className="block px-4 py-2 hover:bg-gray-50">✍️ {t('categories.poetry')}</Link>
