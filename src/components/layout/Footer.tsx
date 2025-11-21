@@ -9,9 +9,9 @@ export default function Footer() {
     <footer className="bg-gray-900 text-white">
       {/* Main Footer */}
       <div className="container mx-auto px-4 py-8 md:py-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-          {/* Company Info */}
-          <div className="lg:col-span-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          {/* Company Info - Full width on mobile, spans 2 cols on desktop */}
+          <div className="md:col-span-2 lg:col-span-1 order-1 lg:order-1">
             <div className="flex items-center space-x-3 rtl:space-x-reverse mb-4">
               <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">ک</span>
@@ -24,7 +24,7 @@ export default function Footer() {
             <p className="text-gray-300 mb-4 text-sm">
               {t('footer.aboutDescription')}
             </p>
-            <div className="flex space-x-4 rtl:space-x-reverse">
+            <div className="flex space-x-4 rtl:space-x-reverse justify-center md:justify-start">
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
@@ -48,53 +48,56 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Quick Links - Mobile First Column */}
-          <div className="sm:col-span-1">
-            <h4 className="text-lg font-semibold mb-4">{t('footer.quickLinks')}</h4>
-            <ul className="space-y-2 text-sm">
-              <li><Link href="/about" className="text-gray-300 hover:text-white transition-colors">{t('nav.about')}</Link></li>
-              <li><Link href="/contact" className="text-gray-300 hover:text-white transition-colors">{t('footer.contact')}</Link></li>
-              <li><Link href="/shipping" className="text-gray-300 hover:text-white transition-colors">
-                {t('footer.shipping')}
-              </Link></li>
-              <li><Link href="/returns" className="text-gray-300 hover:text-white transition-colors">
-                {t('footer.returns')}
-              </Link></li>
-              <li><Link href="/faq" className="text-gray-300 hover:text-white transition-colors">
-                {t('footer.faq')}
-              </Link></li>
-              <li><Link href="/help" className="text-gray-300 hover:text-white transition-colors">
-                {t('footer.help')}
-              </Link></li>
-            </ul>
+          {/* Quick Links & Categories - Side by side on mobile */}
+          <div className="grid grid-cols-2 gap-6 md:contents order-2 lg:order-2">
+            {/* Quick Links */}
+            <div>
+              <h4 className="text-base md:text-lg font-semibold mb-3 md:mb-4">{t('footer.quickLinks')}</h4>
+              <ul className="space-y-1 md:space-y-2 text-xs md:text-sm">
+                <li><Link href="/about" className="text-gray-300 hover:text-white transition-colors">{t('nav.about')}</Link></li>
+                <li><Link href="/contact" className="text-gray-300 hover:text-white transition-colors">{t('footer.contact')}</Link></li>
+                <li><Link href="/shipping" className="text-gray-300 hover:text-white transition-colors">
+                  {t('footer.shipping')}
+                </Link></li>
+                <li><Link href="/returns" className="text-gray-300 hover:text-white transition-colors">
+                  {t('footer.returns')}
+                </Link></li>
+                <li><Link href="/faq" className="text-gray-300 hover:text-white transition-colors">
+                  {t('footer.faq')}
+                </Link></li>
+                <li><Link href="/help" className="text-gray-300 hover:text-white transition-colors">
+                  {t('footer.help')}
+                </Link></li>
+              </ul>
+            </div>
+
+            {/* Categories */}
+            <div>
+              <h4 className="text-base md:text-lg font-semibold mb-3 md:mb-4">{t('nav.categories')}</h4>
+              <ul className="space-y-1 md:space-y-2 text-xs md:text-sm">
+                <li><Link href="/category/literature" className="text-gray-300 hover:text-white transition-colors">{t('categories.literature')}</Link></li>
+                <li><Link href="/category/poetry" className="text-gray-300 hover:text-white transition-colors">{t('categories.poetry')}</Link></li>
+                <li><Link href="/category/history" className="text-gray-300 hover:text-white transition-colors">{t('categories.history')}</Link></li>
+                <li><Link href="/category/children" className="text-gray-300 hover:text-white transition-colors">{t('categories.children')}</Link></li>
+                <li><Link href="/category/education" className="text-gray-300 hover:text-white transition-colors">{t('categories.education')}</Link></li>
+                <li><Link href="/category/science" className="text-gray-300 hover:text-white transition-colors">{t('categories.science')}</Link></li>
+              </ul>
+            </div>
           </div>
 
-          {/* Categories - Mobile Second Column */}
-          <div className="sm:col-span-1 lg:col-span-1">
-            <h4 className="text-lg font-semibold mb-4">{t('nav.categories')}</h4>
-            <ul className="space-y-2 text-sm">
-              <li><Link href="/category/literature" className="text-gray-300 hover:text-white transition-colors">{t('categories.literature')}</Link></li>
-              <li><Link href="/category/poetry" className="text-gray-300 hover:text-white transition-colors">{t('categories.poetry')}</Link></li>
-              <li><Link href="/category/history" className="text-gray-300 hover:text-white transition-colors">{t('categories.history')}</Link></li>
-              <li><Link href="/category/children" className="text-gray-300 hover:text-white transition-colors">{t('categories.children')}</Link></li>
-              <li><Link href="/category/education" className="text-gray-300 hover:text-white transition-colors">{t('categories.education')}</Link></li>
-              <li><Link href="/category/science" className="text-gray-300 hover:text-white transition-colors">{t('categories.science')}</Link></li>
-            </ul>
-          </div>
-
-          {/* Newsletter */}
-          <div className="sm:col-span-2 lg:col-span-1">
-            <h4 className="text-lg font-semibold mb-4">{t('footer.newsletter')}</h4>
-            <p className="text-gray-300 mb-4 text-sm">
+          {/* Newsletter - Full width on mobile */}
+          <div className="md:col-span-2 lg:col-span-1 order-3 lg:order-3">
+            <h4 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-center md:text-left">{t('footer.newsletter')}</h4>
+            <p className="text-gray-300 mb-3 md:mb-4 text-xs md:text-sm text-center md:text-left">
               {t('footer.newsletterDescription')}
             </p>
-            <div className="flex flex-col sm:flex-row gap-2">
+            <div className="flex flex-col gap-2">
               <input
                 type="email"
                 placeholder={t('footer.emailPlaceholder')}
-                className="flex-1 px-3 py-2 rounded-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                className="w-full px-3 py-2 rounded-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
               />
-              <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm whitespace-nowrap">
+              <button className="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm">
                 {t('footer.subscribe')}
               </button>
             </div>

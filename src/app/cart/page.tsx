@@ -34,11 +34,11 @@ export default function CartPage() {
   return (
     <main className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">{t('cart.title')}</h1>
+        <div className="flex items-center justify-between mb-6 md:mb-8">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">{t('cart.title')}</h1>
           <button
             onClick={clearCart}
-            className="text-red-600 hover:text-red-800 text-sm"
+            className="text-red-600 hover:text-red-800 text-xs sm:text-sm"
           >
             {t('cart.clearCart')}
           </button>
@@ -50,30 +50,30 @@ export default function CartPage() {
             {cart.items.map((item) => (
               <div
                 key={item.book.id}
-                className="bg-white rounded-lg shadow-md p-6 flex space-x-4 rtl:space-x-reverse"
+                className="bg-white rounded-lg shadow-md p-4 sm:p-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 rtl:space-x-reverse"
               >
                 {/* Book Image */}
-                <div className="w-20 h-28 bg-gray-200 rounded flex items-center justify-center flex-shrink-0">
-                  <div className="text-2xl text-gray-400">📚</div>
+                <div className="w-16 h-20 sm:w-20 sm:h-28 bg-gray-200 rounded flex items-center justify-center flex-shrink-0 mx-auto sm:mx-0">
+                  <div className="text-xl sm:text-2xl text-gray-400">📚</div>
                 </div>
 
                 {/* Book Details */}
-                <div className="flex-1 min-w-0">
+                <div className="flex-1 min-w-0 text-center sm:text-right rtl:text-right">
                   <Link href={`/book/${item.book.id}`}>
-                    <h3 className="text-lg font-semibold text-gray-800 hover:text-blue-600 mb-1">
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-800 hover:text-blue-600 mb-1">
                       {item.book.title}
                     </h3>
                   </Link>
-                  <p className="text-sm text-gray-600 mb-2">{item.book.author}</p>
-                  <p className="text-sm text-gray-500 mb-3">{item.book.publisher}</p>
+                  <p className="text-xs sm:text-sm text-gray-600 mb-1 sm:mb-2">{item.book.author}</p>
+                  <p className="text-xs sm:text-sm text-gray-500 mb-2 sm:mb-3">{item.book.publisher}</p>
                   
                   {/* Price */}
-                  <div className="flex items-center space-x-2 rtl:space-x-reverse mb-4">
-                    <span className="text-lg font-bold text-blue-600">
+                  <div className="flex items-center justify-center sm:justify-start space-x-2 rtl:space-x-reverse mb-3 sm:mb-4">
+                    <span className="text-base sm:text-lg font-bold text-blue-600">
                       {formatPrice(item.book.price)}
                     </span>
                     {item.book.originalPrice && (
-                      <span className="text-sm text-gray-500 line-through">
+                      <span className="text-xs sm:text-sm text-gray-500 line-through">
                         {formatPrice(item.book.originalPrice)}
                       </span>
                     )}

@@ -47,7 +47,7 @@ export default function WishlistPage() {
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-6 md:mb-8 text-center">
               {currentLanguage === 'ku' ? 'علاقەمەندییەکانت' : currentLanguage === 'en' ? 'Your Wishlist' : 'Deine Wunschliste'}
             </h1>
             
@@ -82,10 +82,10 @@ export default function WishlistPage() {
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
-          <div className="flex items-center justify-between mb-8">
-            <h1 className="text-3xl font-bold text-gray-800">
+          <div className="flex items-center justify-between mb-6 md:mb-8">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">
               {currentLanguage === 'ku' ? 'علاقەمەندییەکانت' : currentLanguage === 'en' ? 'Your Wishlist' : 'Deine Wunschliste'}
-              <span className="text-lg font-normal text-gray-600 mr-2 rtl:mr-0 rtl:ml-2">
+              <span className="text-sm sm:text-base md:text-lg font-normal text-gray-600 mr-2 rtl:mr-0 rtl:ml-2">
                 ({items.length} {currentLanguage === 'ku' ? 'کتاب' : currentLanguage === 'en' ? 'items' : 'Artikel'})
               </span>
             </h1>
