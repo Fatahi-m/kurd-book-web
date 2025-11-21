@@ -106,9 +106,9 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       {/* Menu Panel */}
       <div className={`fixed top-0 h-full w-80 max-w-[85vw] bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out md:hidden ${
         currentLanguage === 'ku' 
-          ? `right-0 ${isOpen ? 'translate-x-0' : 'translate-x-full'}` 
-          : `left-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`
-      }`}>
+          ? `right-0 ${isOpen ? 'translate-x-0' : 'translate-x-full'} text-right` 
+          : `left-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'} text-left`
+      }`} dir={currentLanguage === 'ku' ? 'rtl' : 'ltr'}>
         
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-blue-600 text-white">
@@ -134,7 +134,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 onClick={onClose}
                 className="flex items-center justify-between px-4 py-2.5 text-gray-700 hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-b-0"
               >
-                <div className="flex items-center space-x-3 rtl:space-x-reverse">
+                <div className={`flex items-center space-x-3 ${currentLanguage === 'ku' ? 'space-x-reverse' : ''}`}>
                   <item.icon size={18} className="text-gray-500" />
                   <span className="text-sm font-medium">{item.label}</span>
                 </div>
@@ -154,9 +154,9 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 onClick={() => setShowLanguageMenu(!showLanguageMenu)}
                 className="flex items-center justify-between w-full px-4 py-2.5 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
               >
-                <div className="flex items-center space-x-3 rtl:space-x-reverse">
+                <div className={`flex items-center space-x-3 ${currentLanguage === 'ku' ? 'space-x-reverse' : ''}`}>
                   <Globe size={18} className="text-gray-500" />
-                  <div className="flex flex-col items-start">
+                  <div className={`flex flex-col ${currentLanguage === 'ku' ? 'items-end' : 'items-start'}`}>
                     <span className="text-sm font-medium">{t('nav.language')}</span>
                     <span className="text-xs text-gray-500">
                       {languages.find(lang => lang.code === currentLanguage)?.name}
@@ -184,7 +184,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                             : 'text-gray-700 hover:bg-white hover:shadow-sm'
                         }`}
                       >
-                        <div className="flex items-center space-x-3 rtl:space-x-reverse">
+                        <div className={`flex items-center space-x-3 ${currentLanguage === 'ku' ? 'space-x-reverse' : ''}`}>
                           <span className="text-lg">{lang.flag}</span>
                           <span className="font-medium">{lang.name}</span>
                         </div>
