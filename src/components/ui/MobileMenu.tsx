@@ -103,15 +103,13 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         onClick={onClose}
       />
       
-      {/* Menu Panel */}
-      <div className={`fixed top-0 h-full w-80 max-w-[85vw] bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out md:hidden ${
-        currentLanguage === 'ku' 
-          ? `right-0 ${isOpen ? 'translate-x-0' : 'translate-x-full'} text-right` 
-          : `left-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'} text-left`
-      }`} dir={currentLanguage === 'ku' ? 'rtl' : 'ltr'}>
+      {/* Menu Panel - Always opens from right side (where hamburger button is) */}
+      <div className={`fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out md:hidden ${
+        isOpen ? 'translate-x-0' : 'translate-x-full'
+      } ${currentLanguage === 'ku' ? 'text-right' : 'text-left'}`} dir={currentLanguage === 'ku' ? 'rtl' : 'ltr'}>
         
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-blue-600 text-white">
+        <div className="flex items-center justify-between p-4 sm:p-5 border-b border-gray-200 bg-blue-600 text-white">
           <h2 className="text-lg font-semibold">
             {t('nav.menu')}
           </h2>
@@ -125,14 +123,14 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         </div>
 
         {/* Menu Items */}
-        <div className="py-2">
+        <div className="py-3">
           <nav className="space-y-0">
             {menuItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={onClose}
-                className="flex items-center justify-between px-4 py-2.5 text-gray-700 hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-b-0"
+                className="flex items-center justify-between px-5 py-3 text-gray-700 hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-b-0"
               >
                 <div className={`flex items-center space-x-3 ${currentLanguage === 'ku' ? 'space-x-reverse' : ''}`}>
                   <item.icon size={18} className="text-gray-500" />
@@ -148,7 +146,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           </nav>
 
           {/* Language Selector */}
-          <div className="mt-3 px-4">
+          <div className="mt-3 px-5">
             <div className="border-t border-gray-200 pt-3">
               <button
                 onClick={() => setShowLanguageMenu(!showLanguageMenu)}
@@ -200,7 +198,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           </div>
 
           {/* Footer */}
-          <div className="mt-4 px-4 text-center text-xs text-gray-500">
+          <div className="mt-4 px-5 text-center text-xs text-gray-500">
             <div className="border-t border-gray-200 pt-3">
               <p className="text-xs">{t('app.name')}</p>
               <p className="mt-1 text-xs opacity-70">v1.0.0</p>

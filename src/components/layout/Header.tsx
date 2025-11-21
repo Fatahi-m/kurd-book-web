@@ -26,7 +26,7 @@ export default function Header() {
     <header className="bg-white shadow-md border-b border-gray-200">
       {/* Top Bar - Logo and Language Switcher for Mobile */}
       <div className="bg-gray-50 border-b border-gray-200">
-        <div className="container mx-auto px-4 py-2">
+        <div className="container mx-auto px-4 sm:px-6 md:px-8 py-2">
           <div className="flex justify-between items-center text-sm">
             {/* Desktop Contact Info */}
             <div className="hidden sm:flex items-center space-x-4 rtl:space-x-reverse">
@@ -53,7 +53,7 @@ export default function Header() {
       </div>
 
       {/* Main Header */}
-      <div className="container mx-auto px-4 py-3 md:py-4">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 py-3 md:py-4">
         <div className="flex items-center justify-between">
           {/* Mobile: Menu Button and Free Shipping */}
           <div className="lg:hidden flex items-center space-x-3 rtl:space-x-reverse">
@@ -162,7 +162,7 @@ export default function Header() {
                 
                 {/* User Dropdown */}
                 <div className={`absolute mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 ${
-                  isRTL ? 'left-4 -translate-x-2' : 'right-4 translate-x-2'
+                  isRTL ? 'left-0' : 'right-0'
                 }`}>
                   <div className="py-1">
                     <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
@@ -237,7 +237,7 @@ export default function Header() {
 
       {/* Navigation Menu */}
       <nav className="bg-blue-600 text-white">
-        <div className="container mx-auto px-4 dropdown-container">
+        <div className="container mx-auto px-4 sm:px-6 md:px-8 dropdown-container">
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center justify-between">
             <div className="flex items-center space-x-8 rtl:space-x-reverse">
