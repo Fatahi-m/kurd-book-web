@@ -16,8 +16,9 @@ export default function Header() {
   const router = useRouter();
   const { getCartItemCount } = useCart();
   const { getWishlistItemCount } = useWishlist();
-  const { t, dir, currentLanguage } = useLanguage();
+  const { t, dir, currentLanguage, language } = useLanguage();
   const { user, isAuthenticated, logout } = useAuth();
+  const isRTL = language === 'ku';
 
 
 
@@ -160,7 +161,7 @@ export default function Header() {
                 </button>
                 
                 {/* User Dropdown */}
-                <div className="absolute right-0 rtl:right-auto rtl:left-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <div className={`absolute mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 ${isRTL ? 'left-0' : 'right-0'}`}>
                   <div className="py-1">
                     <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
                       {t('auth.profile')}
