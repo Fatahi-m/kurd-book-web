@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Footer() {
-  const { t, language } = useLanguage();
-  const isRTL = language === 'ku';
+  const { t, currentLanguage } = useLanguage();
+  const isRTL = currentLanguage === 'ku';
   return (
     <footer className={`bg-gray-900 text-white ${isRTL ? 'rtl' : 'ltr'}`}>
       {/* Main Footer */}

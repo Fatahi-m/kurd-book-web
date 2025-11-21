@@ -16,9 +16,9 @@ export default function Header() {
   const router = useRouter();
   const { getCartItemCount } = useCart();
   const { getWishlistItemCount } = useWishlist();
-  const { t, dir, currentLanguage, language } = useLanguage();
+  const { t, dir, currentLanguage } = useLanguage();
   const { user, isAuthenticated, logout } = useAuth();
-  const isRTL = language === 'ku';
+  const isRTL = currentLanguage === 'ku';
 
 
 
