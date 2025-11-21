@@ -161,10 +161,9 @@ export default function Header() {
                 </button>
                 
                 {/* User Dropdown */}
-                <div className={`absolute mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 ${isRTL ? 'left-0 mr-4' : 'right-0 ml-4'}`} style={{
-                  right: isRTL ? 'auto' : '8px',
-                  left: isRTL ? '8px' : 'auto'
-                }}>
+                <div className={`absolute mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 ${
+                  isRTL ? 'left-4 -translate-x-2' : 'right-4 translate-x-2'
+                }`}>
                   <div className="py-1">
                     <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
                       {t('auth.profile')}
