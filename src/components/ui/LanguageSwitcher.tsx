@@ -43,7 +43,7 @@ export default function LanguageSwitcher() {
           />
           
           {/* Dropdown */}
-          <div className="absolute top-full mt-1 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-20 py-1 right-0 rtl:right-auto rtl:left-0">
+          <div className="absolute top-full mt-1 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-20 py-1 right-0 rtl:right-auto rtl:left-0 overflow-visible">
             {languages.map((lang) => (
               <button
                 key={lang.code}

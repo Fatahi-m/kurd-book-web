@@ -257,7 +257,13 @@ const translations = {
     'authors.noAuthorsMessage': 'تکایە پەیوەندی جیاواز بەکار بهێنە',
     'authors.book': 'کتاب',
     'authors.books': 'کتاب',
-    'authors.moreBooks': 'کتابی تر'
+    'authors.moreBooks': 'کتابی تر',
+    'status.bestseller': 'باشترین فرۆشراو',
+    'status.featured': 'تایبەت',
+    'status.newRelease': 'نوێ',
+    'status.sale': 'داشکاندن',
+    'status.limited': 'سنووردار',
+    'categories.all': 'هەموو پۆلەکان'
   },
   en: {
     'site.title': 'Kurdish Library',
@@ -501,7 +507,13 @@ const translations = {
     'authors.noAuthorsMessage': 'Try using different search terms',
     'authors.book': 'book',
     'authors.books': 'books',
-    'authors.moreBooks': 'more books'
+    'authors.moreBooks': 'more books',
+    'status.bestseller': 'Bestseller',
+    'status.featured': 'Featured',
+    'status.newRelease': 'New Release',
+    'status.sale': 'Sale',
+    'status.limited': 'Limited',
+    'categories.all': 'All Categories'
   },
   de: {
     'site.title': 'Kurdische Bibliothek',
@@ -745,7 +757,13 @@ const translations = {
     'authors.noAuthorsMessage': 'Versuchen Sie andere Suchbegriffe',
     'authors.book': 'Buch',
     'authors.books': 'Bücher',
-    'authors.moreBooks': 'weitere Bücher'
+    'authors.moreBooks': 'weitere Bücher',
+    'status.bestseller': 'Bestseller',
+    'status.featured': 'Empfohlen',
+    'status.newRelease': 'Neuerscheinung',
+    'status.sale': 'Angebot',
+    'status.limited': 'Begrenzt',
+    'categories.all': 'Alle Kategorien'
   }
 };
 
