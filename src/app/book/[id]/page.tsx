@@ -82,7 +82,7 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
 
   return (
     <main className="min-h-screen bg-gray-50 py-4 md:py-8">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 max-w-5xl">
         {/* Breadcrumb */}
         <nav className="text-xs md:text-sm text-gray-600 mb-4 md:mb-6 px-2">
           <span>{t('nav.home')}</span>
@@ -92,41 +92,41 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
           <span className="text-gray-900 truncate">{book.title}</span>
         </nav>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 bg-white rounded-lg shadow-lg p-4 md:p-8 mb-4 md:mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white rounded-lg shadow-lg p-6 mb-8">
           {/* Book Image */}
-          <div className="space-y-2 md:space-y-4">
-            <div className="aspect-[3/4] bg-gray-200 rounded-lg flex items-center justify-center relative overflow-hidden mx-auto max-w-sm lg:max-w-none">
+          <div className="md:col-span-1">
+            <div className="aspect-[3/4] bg-gray-200 rounded-lg flex items-center justify-center relative overflow-hidden mx-auto max-w-[280px] shadow-sm">
               {book.coverUrl || book.image ? (
                 <Image
                   src={book.coverUrl || book.image || '/images/default-book-cover.jpg'}
                   alt={book.title}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  sizes="(max-width: 768px) 100vw, 33vw"
                 />
               ) : (
-                <div className="text-8xl text-gray-400">📚</div>
+                <div className="text-6xl text-gray-400">📚</div>
               )}
               
               {/* Badges */}
-              <div className="absolute top-2 right-2 md:top-4 md:right-4 rtl:right-auto rtl:left-2 md:rtl:left-4 flex flex-col space-y-1 md:space-y-2">
+              <div className="absolute top-2 right-2 rtl:right-auto rtl:left-2 flex flex-col space-y-1">
                 {book.newRelease && (
-                  <span className="bg-green-500 text-white text-[10px] md:text-xs px-2 md:px-3 py-0.5 md:py-1 rounded-full">
+                  <span className="bg-green-500 text-white text-[10px] px-2 py-0.5 rounded-full">
                     نوێ
                   </span>
                 )}
                 {book.bestseller && (
-                  <span className="bg-orange-500 text-white text-[10px] md:text-xs px-2 md:px-3 py-0.5 md:py-1 rounded-full">
+                  <span className="bg-orange-500 text-white text-[10px] px-2 py-0.5 rounded-full">
                     باشترین
                   </span>
                 )}
                 {book.featured && (
-                  <span className="bg-blue-500 text-white text-[10px] md:text-xs px-2 md:px-3 py-0.5 md:py-1 rounded-full">
+                  <span className="bg-blue-500 text-white text-[10px] px-2 py-0.5 rounded-full">
                     تایبەت
                   </span>
                 )}
                 {discountPercentage > 0 && (
-                  <span className="bg-red-500 text-white text-[10px] md:text-xs px-2 md:px-3 py-0.5 md:py-1 rounded-full">
+                  <span className="bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full">
                     -{discountPercentage}%
                   </span>
                 )}
@@ -135,22 +135,22 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
           </div>
 
           {/* Book Details */}
-          <div className="space-y-4 md:space-y-6">
+          <div className="md:col-span-2 space-y-4">
             <div>
-              <h1 className="text-xl md:text-3xl font-bold text-gray-900 mb-2 leading-tight">
+              <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 leading-tight">
                 {currentLanguage === 'ku' && book.titleKu ? book.titleKu : 
                  currentLanguage === 'en' && book.titleEn ? book.titleEn :
                  currentLanguage === 'de' && book.titleDe ? book.titleDe :
                  book.title}
               </h1>
-              <p className="text-base md:text-xl text-blue-600 mb-1">
+              <p className="text-base text-blue-600 mb-1">
                 {currentLanguage === 'ku' ? 'نووسەر' : currentLanguage === 'en' ? 'by' : 'von'}: {' '}
                 {currentLanguage === 'ku' && book.authorKu ? book.authorKu : 
                  currentLanguage === 'en' && book.authorEn ? book.authorEn :
                  currentLanguage === 'de' && book.authorDe ? book.authorDe :
                  book.author}
               </p>
-              <p className="text-sm md:text-base text-gray-600">
+              <p className="text-sm text-gray-600">
                 {currentLanguage === 'ku' ? 'چاپخانە' : currentLanguage === 'en' ? 'Publisher' : 'Verlag'}: {' '}
                 {currentLanguage === 'ku' && book.publisherKu ? book.publisherKu : 
                  currentLanguage === 'en' && book.publisherEn ? book.publisherEn :
@@ -165,7 +165,7 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
                 {[...Array(5)].map((_, i) => (
                   <svg
                     key={i}
-                    className={`w-5 h-5 ${
+                    className={`w-4 h-4 ${
                       i < Math.floor(book.rating) ? 'text-yellow-400' : 'text-gray-300'
                     }`}
                     fill="currentColor"
@@ -175,19 +175,19 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
                   </svg>
                 ))}
               </div>
-              <span className="text-gray-600">
+              <span className="text-sm text-gray-600">
                 {book.rating} ({book.reviewCount} {t('book.reviews')})
               </span>
             </div>
 
             {/* Price */}
-            <div className="border-t border-b border-gray-200 py-3 md:py-4">
-              <div className="flex items-center space-x-2 md:space-x-4 rtl:space-x-reverse mb-3 md:mb-4">
-                <span className="text-2xl md:text-3xl font-bold text-blue-600">
+            <div className="border-t border-b border-gray-200 py-3">
+              <div className="flex items-center space-x-3 rtl:space-x-reverse mb-3">
+                <span className="text-2xl font-bold text-blue-600">
                   {formatPrice(book.price)}
                 </span>
                 {book.originalPrice && (
-                  <span className="text-lg md:text-xl text-gray-500 line-through">
+                  <span className="text-lg text-gray-500 line-through">
                     {formatPrice(book.originalPrice)}
                   </span>
                 )}
@@ -196,13 +196,13 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
               {/* Stock Status */}
               <div className="flex items-center mb-4">
                 {book.inStock ? (
-                  <span className="text-green-600 flex items-center">
-                    <div className="w-3 h-3 bg-green-500 rounded-full mr-2 rtl:mr-0 rtl:ml-2"></div>
+                  <span className="text-sm text-green-600 flex items-center">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2 rtl:mr-0 rtl:ml-2"></div>
                     {t('status.available')}
                   </span>
                 ) : (
-                  <span className="text-red-600 flex items-center">
-                    <div className="w-3 h-3 bg-red-500 rounded-full mr-2 rtl:mr-0 rtl:ml-2"></div>
+                  <span className="text-sm text-red-600 flex items-center">
+                    <div className="w-2 h-2 bg-red-500 rounded-full mr-2 rtl:mr-0 rtl:ml-2"></div>
                     {t('status.unavailable')}
                   </span>
                 )}
@@ -210,30 +210,30 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
             </div>
 
             {/* Quantity and Add to Cart */}
-            <div className="space-y-4">
+            <div className="space-y-3 max-w-md">
               <div className="flex items-center space-x-4 rtl:space-x-reverse">
-                <label className="text-gray-700">{t('book.quantity')}</label>
-                <div className="flex items-center border border-gray-300 rounded-md">
+                <label className="text-sm text-gray-700">{t('book.quantity')}</label>
+                <div className="flex items-center border border-gray-300 rounded-md h-9">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="px-3 py-2 hover:bg-gray-100"
+                    className="px-3 hover:bg-gray-100 h-full"
                   >
                     -
                   </button>
-                  <span className="px-4 py-2 border-x border-gray-300">{quantity}</span>
+                  <span className="px-3 border-x border-gray-300 text-sm">{quantity}</span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="px-3 py-2 hover:bg-gray-100"
+                    className="px-3 hover:bg-gray-100 h-full"
                   >
                     +
                   </button>
                 </div>
               </div>
 
-              <div className="flex space-x-2 md:space-x-4 rtl:space-x-reverse">
+              <div className="flex space-x-2 rtl:space-x-reverse">
                 <button
                   onClick={handleAddToCart}
-                  className={`flex-1 py-2.5 md:py-3 px-3 md:px-4 rounded-lg font-semibold transition-colors text-sm md:text-base ${
+                  className={`flex-1 py-2 px-4 rounded-lg font-semibold transition-colors text-sm ${
                     book.inStock
                       ? 'bg-blue-600 text-white hover:bg-blue-700'
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
@@ -247,7 +247,7 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
                 </button>
                 <button 
                   onClick={handleWishlistToggle}
-                  className={`px-3 md:px-4 py-2.5 md:py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors ${
+                  className={`px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors ${
                     isInWishlist(book.id) ? 'text-red-500 border-red-300 bg-red-50' : ''
                   }`}
                 >
@@ -263,7 +263,7 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
                     window.location.href = '/cart';
                   }
                 }}
-                className={`w-full py-2.5 md:py-3 px-3 md:px-4 rounded-lg font-semibold transition-colors text-sm md:text-base ${
+                className={`w-full py-2 px-4 rounded-lg font-semibold transition-colors text-sm ${
                   book.inStock
                     ? 'bg-green-600 text-white hover:bg-green-700'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
@@ -275,7 +275,7 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
             </div>
 
             {/* Book Info */}
-            <div className="grid grid-cols-2 gap-4 text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
+            <div className="grid grid-cols-2 gap-3 text-xs md:text-sm text-gray-600 bg-gray-50 p-3 rounded-lg mt-4">
               <div>
                 <span className="font-semibold">ISBN:</span> {book.isbn || 'نادیار'}
               </div>

@@ -94,6 +94,28 @@ const translations = {
     'auth.haveAccount': 'پێشتر خۆت تۆمار کردووە؟',
     'auth.signIn': 'چوونە ژوورەوە',
     'auth.signUp': 'خۆت تۆمار بکە',
+    'auth.rememberMe': 'لەبیرم بکه',
+    'auth.quickTest': 'تاقیکردنی خێرا',
+    'auth.forTesting': 'بۆ تاقیکردنەوە:',
+    'auth.emailLabel': 'ئیمەیل:',
+    'auth.passwordLabel': 'پاسۆرد:',
+    'auth.error.invalidCredentials': 'ئیمەیل یان پاسۆرد هەڵەیە',
+    'auth.error.emailUsed': 'ئەم ئیمەیلە پێشتر بەکارهاتووە',
+    'auth.createAccount': 'هەژمارێکی نوێ دروست بکە',
+    'auth.orLogin': 'یان بچۆ ژوورەوە',
+    'auth.firstName': 'ناوی یەکەم',
+    'auth.lastName': 'ناوی دووەم',
+    'auth.phone': 'ژمارەی تەلەفۆن',
+    'auth.optional': '(ئیختیاری)',
+    'auth.chooseStrongPassword': 'پاسۆردێکی بەهێز هەڵبژێرە',
+    'auth.minChars': 'لانیکەم ٦ پیت دەبێت',
+    'auth.creatingAccount': 'هەژمار دروست بکە',
+    'auth.termsAgreement': 'هەژمار دروستکردن واتە ڕازیبوونە بە',
+    'auth.terms': 'مەرجەکان',
+    'auth.privacyPolicy': 'سیاسەتی تایبەتێتی',
+    'auth.and': 'و',
+    'book.inCart': 'سەبەت',
+    'book.notInCart': 'نییە',
     'profile.dashboard': 'دەشبۆرد',
     'profile.orders': 'داواکاریەکان',
     'profile.wishlist': 'لیستی ویستەکان',
@@ -120,6 +142,7 @@ const translations = {
     'common.error': 'هەڵەیەک ڕوویدا',
     'common.success': 'سەرکەوتوو بوو',
     'buttons.viewAll': 'بینینی هەموو',
+    'buttons.viewAllShort': 'هەمووی',
     'buttons.readMore': 'زیاتر بخوێنەرەوە',
     'buttons.addToCart': 'زیادکردن بۆ سەبەتە',
     'buttons.buyNow': 'ئێستا بیکڕە',
@@ -344,6 +367,28 @@ const translations = {
     'auth.haveAccount': 'Already have an account?',
     'auth.signIn': 'Sign In',
     'auth.signUp': 'Sign Up',
+    'auth.rememberMe': 'Remember me',
+    'auth.quickTest': 'Quick Test',
+    'auth.forTesting': 'For testing:',
+    'auth.emailLabel': 'Email:',
+    'auth.passwordLabel': 'Password:',
+    'auth.error.invalidCredentials': 'Invalid email or password',
+    'auth.error.emailUsed': 'This email is already in use',
+    'auth.createAccount': 'Create a new account',
+    'auth.orLogin': 'or Login',
+    'auth.firstName': 'First Name',
+    'auth.lastName': 'Last Name',
+    'auth.phone': 'Phone Number',
+    'auth.optional': '(Optional)',
+    'auth.chooseStrongPassword': 'Choose a strong password',
+    'auth.minChars': 'Must be at least 6 characters',
+    'auth.creatingAccount': 'Create Account',
+    'auth.termsAgreement': 'Creating an account means agreeing to',
+    'auth.terms': 'Terms',
+    'auth.privacyPolicy': 'Privacy Policy',
+    'auth.and': 'and',
+    'book.inCart': 'In Cart',
+    'book.notInCart': 'Not in Cart',
     'profile.dashboard': 'Dashboard',
     'profile.orders': 'Orders',
     'profile.wishlist': 'Wishlist',
@@ -370,6 +415,7 @@ const translations = {
     'common.error': 'An error occurred',
     'common.success': 'Success',
     'buttons.viewAll': 'View All',
+    'buttons.viewAllShort': 'All',
     'buttons.readMore': 'Read More',
     'buttons.addToCart': 'Add to Cart',
     'buttons.buyNow': 'Buy Now',
@@ -594,6 +640,28 @@ const translations = {
     'auth.haveAccount': 'Haben Sie bereits ein Konto?',
     'auth.signIn': 'Anmelden',
     'auth.signUp': 'Registrieren',
+    'auth.rememberMe': 'Angemeldet bleiben',
+    'auth.quickTest': 'Schnelltest',
+    'auth.forTesting': 'Zum Testen:',
+    'auth.emailLabel': 'E-Mail:',
+    'auth.passwordLabel': 'Passwort:',
+    'auth.error.invalidCredentials': 'Ungültige E-Mail oder Passwort',
+    'auth.error.emailUsed': 'Diese E-Mail wird bereits verwendet',
+    'auth.createAccount': 'Neues Konto erstellen',
+    'auth.orLogin': 'oder Anmelden',
+    'auth.firstName': 'Vorname',
+    'auth.lastName': 'Nachname',
+    'auth.phone': 'Telefonnummer',
+    'auth.optional': '(Optional)',
+    'auth.chooseStrongPassword': 'Wählen Sie ein starkes Passwort',
+    'auth.minChars': 'Muss mindestens 6 Zeichen lang sein',
+    'auth.creatingAccount': 'Konto erstellen',
+    'auth.termsAgreement': 'Das Erstellen eines Kontos bedeutet die Zustimmung zu',
+    'auth.terms': 'Bedingungen',
+    'auth.privacyPolicy': 'Datenschutzrichtlinie',
+    'auth.and': 'und',
+    'book.inCart': 'Im Warenkorb',
+    'book.notInCart': 'Nicht im Warenkorb',
     'profile.dashboard': 'Dashboard',
     'profile.orders': 'Bestellungen',
     'profile.wishlist': 'Wunschliste',
@@ -620,6 +688,7 @@ const translations = {
     'common.error': 'Ein Fehler ist aufgetreten',
     'common.success': 'Erfolgreich',
     'buttons.viewAll': 'Alle anzeigen',
+    'buttons.viewAllShort': 'Alle',
     'buttons.readMore': 'Mehr lesen',
     'buttons.addToCart': 'In den Warenkorb',
     'buttons.buyNow': 'Jetzt kaufen',
@@ -767,7 +836,7 @@ const translations = {
   }
 };
 
-export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
   const [currentLanguage, setCurrentLanguage] = useState<Language>('ku');
 
   // Load language from localStorage on component mount
@@ -778,13 +847,21 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   }, []);
 
+  // Update html dir and lang attributes when language changes
+  useEffect(() => {
+    const dir = currentLanguage === 'ku' ? 'rtl' : 'ltr';
+    document.documentElement.dir = dir;
+    document.documentElement.lang = currentLanguage;
+  }, [currentLanguage]);
+
   const setLanguage = (lang: Language) => {
     setCurrentLanguage(lang);
     localStorage.setItem('language', lang);
   };
 
   const t = (key: string): string => {
-    return (translations[currentLanguage] as any)[key] || key;
+    const langData = (translations as any)[currentLanguage];
+    return langData[key] || key;
   };
 
   const dir = currentLanguage === 'ku' ? 'rtl' : 'ltr';

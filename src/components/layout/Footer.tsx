@@ -1,132 +1,212 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useLanguage } from '@/contexts/LanguageContext';
+import Link from "next/link";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Footer() {
   const { t, currentLanguage } = useLanguage();
-  const isRTL = currentLanguage === 'ku';
+  const isRTL = currentLanguage === "ku";
   return (
-    <footer className={`bg-gray-900 text-white ${isRTL ? 'rtl' : 'ltr'}`}>
-      {/* Main Footer */}
-      <div className="container mx-auto px-4 py-8 md:py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
-          {/* Company Info - Full width on mobile, spans 2 cols on desktop */}
-          <div className="md:col-span-2 lg:col-span-1 order-1 lg:order-1 pb-6 md:pb-0 border-b md:border-b-0 md:border-r border-gray-700 md:pr-8">
-            <div className={`flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''} mb-6`}>
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-xl">ک</span>
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">{t('site.title')}</h3>
-                <p className="text-sm text-gray-300 font-medium">{t('site.description')}</p>
-              </div>
-            </div>
-            <p className="text-gray-300 mb-6 text-sm leading-relaxed">
-              {t('footer.aboutDescription')}
-            </p>
-            <div className={`flex space-x-4 ${isRTL ? 'space-x-reverse justify-center md:justify-end' : 'justify-center md:justify-start'}`}>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
-                </svg>
-              </a>
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition-all duration-300 hover:scale-110 p-2 rounded-lg hover:bg-gray-800">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
-                </svg>
-              </a>
-              <a href="#" className="text-gray-400 hover:text-pink-400 transition-all duration-300 hover:scale-110 p-2 rounded-lg hover:bg-gray-800">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.748.096.119.108.223.080.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.717-1.378l-.734 2.778c-.265 1.019-.982 2.302-1.460 3.079C9.090 23.651 10.537 24 12.017 24c6.624 0 11.90-5.367 11.99-11.987C24.007 5.367 18.641.001 12.017.001z"/>
-                </svg>
-              </a>
-              <a href="#" className="text-gray-400 hover:text-purple-400 transition-all duration-300 hover:scale-110 p-2 rounded-lg hover:bg-gray-800">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12.04 2c2.308 0 2.584.012 3.492.052.844.038 1.304.177 1.609.295.404.157.69.346.996.652.306.306.495.592.652.996.118.305.257.765.295 1.609.04.908.052 1.184.052 3.492s-.012 2.584-.052 3.492c-.038.844-.177 1.304-.295 1.609-.157.404-.346.69-.652.996-.306.306-.592.495-.996.652-.305.118-.765.257-1.609.295-.908.04-1.184.052-3.492.052s-2.584-.012-3.492-.052c-.844-.038-1.304-.177-1.609-.295-.404-.157-.69-.346-.996-.652-.306-.306-.495-.592-.652-.996-.118-.305-.257-.765-.295-1.609-.04-.908-.052-1.184-.052-3.492s.012-2.584.052-3.492c.038-.844.177-1.304.295-1.609.157-.404.346-.69.652-.996.306-.306.592-.495.996-.652.305-.118.765-.257 1.609-.295.908-.04 1.184-.052 3.492-.052M12.04 0C9.718 0 9.424.012 8.506.052 7.59.092 6.99.244 6.464.463c-.548.226-.984.527-1.404.948-.42.42-.722.856-.948 1.404-.219.526-.371 1.126-.411 2.042C3.661 6.775 3.649 7.069 3.649 9.391s.012 2.616.052 3.534c.04.916.192 1.516.411 2.042.226.548.527.984.948 1.404.42.42.856.722 1.404.948.526.219 1.126.371 2.042.411.918.04 1.212.052 3.534.052s2.616-.012 3.534-.052c.916-.04 1.516-.192 2.042-.411.548-.226.984-.527 1.404-.948.42-.42.722-.856.948-1.404.219-.526.371-1.126.411-2.042.04-.918.052-1.212.052-3.534s-.012-2.616-.052-3.534c-.04-.916-.192-1.516-.411-2.042-.226-.548-.527-.984-.948-1.404-.42-.42-.856-.722-1.404-.948-.526-.219-1.126-.371-2.042-.411C14.656.012 14.362 0 12.04 0zm0 5.867a6.133 6.133 0 100 12.266 6.133 6.133 0 000-12.266zM12.04 16c-2.206 0-3.994-1.788-3.994-3.994s1.788-3.994 3.994-3.994 3.994 1.788 3.994 3.994S14.246 16 12.04 16zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-                </svg>
-              </a>
-            </div>
+    <footer className={`bg-[#13172B] text-gray-300 pt-0 pb-0 ${isRTL ? "rtl" : "ltr"}`}>
+      <div className="max-w-7xl mx-auto px-4">
+        {/* Contact Row */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 border-b border-gray-700 py-6">
+          <div className="flex items-center gap-4 text-sm">
+            <span className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path d="M16 2v6a2 2 0 002 2h6" />
+                <rect width="20" height="14" x="2" y="8" rx="2" />
+                <path d="M2 8l10 6 10-6" />
+              </svg>
+              {t("footer.email")}
+            </span>
+            <span className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path d="M22 16.92V19a2 2 0 01-2 2A18 18 0 013 5a2 2 0 012-2h2.09a2 2 0 012 1.72c.13.81.36 1.6.7 2.34a2 2 0 01-.45 2.11l-.27.27a16 16 0 006.29 6.29l.27-.27a2 2 0 012.11-.45c.74.34 1.53.57 2.34.7A2 2 0 0122 16.92z" />
+              </svg>
+              {t("footer.phone")}
+            </span>
+            <span className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path d="M17.657 16.657L13.414 12.414a8 8 0 111.414-1.414l4.243 4.243a1 1 0 01-1.414 1.414z" />
+              </svg>
+              {t("footer.address")}
+            </span>
           </div>
-
-          {/* Quick Links & Categories - Side by side on mobile */}
-          <div className="grid grid-cols-2 gap-6 md:contents order-2 lg:order-2">
-            {/* Quick Links */}
-            <div className="pb-6 md:pb-0 border-b md:border-b-0 md:border-r border-gray-700 md:pr-4">
-              <h4 className="text-base md:text-lg font-bold mb-4 text-blue-400 border-b border-blue-600 pb-2">{t('footer.quickLinks')}</h4>
-              <ul className="space-y-2 text-xs md:text-sm">
-                <li><Link href="/about" className="text-gray-300 hover:text-blue-400 transition-all duration-200 hover:translate-x-1">{t('nav.about')}</Link></li>
-                <li><Link href="/contact" className="text-gray-300 hover:text-blue-400 transition-all duration-200 hover:translate-x-1">{t('footer.contact')}</Link></li>
-                <li><Link href="/shipping" className="text-gray-300 hover:text-blue-400 transition-all duration-200 hover:translate-x-1">
-                  {t('footer.shipping')}
-                </Link></li>
-                <li><Link href="/returns" className="text-gray-300 hover:text-blue-400 transition-all duration-200 hover:translate-x-1">
-                  {t('footer.returns')}
-                </Link></li>
-                <li><Link href="/faq" className="text-gray-300 hover:text-blue-400 transition-all duration-200 hover:translate-x-1">
-                  {t('footer.faq')}
-                </Link></li>
-                <li><Link href="/help" className="text-gray-300 hover:text-blue-400 transition-all duration-200 hover:translate-x-1">
-                  {t('footer.help')}
-                </Link></li>
-              </ul>
-            </div>
-
-            {/* Categories */}
-            <div className="pb-6 md:pb-0">
-              <h4 className="text-base md:text-lg font-bold mb-4 text-blue-400 border-b border-blue-600 pb-2">{t('nav.categories')}</h4>
-              <ul className="space-y-2 text-xs md:text-sm">
-                <li><Link href="/category/literature" className="text-gray-300 hover:text-blue-400 transition-all duration-200 hover:translate-x-1">{t('categories.literature')}</Link></li>
-                <li><Link href="/category/poetry" className="text-gray-300 hover:text-blue-400 transition-all duration-200 hover:translate-x-1">{t('categories.poetry')}</Link></li>
-                <li><Link href="/category/history" className="text-gray-300 hover:text-blue-400 transition-all duration-200 hover:translate-x-1">{t('categories.history')}</Link></li>
-                <li><Link href="/category/children" className="text-gray-300 hover:text-blue-400 transition-all duration-200 hover:translate-x-1">{t('categories.children')}</Link></li>
-                <li><Link href="/category/education" className="text-gray-300 hover:text-blue-400 transition-all duration-200 hover:translate-x-1">{t('categories.education')}</Link></li>
-                <li><Link href="/category/science" className="text-gray-300 hover:text-blue-400 transition-all duration-200 hover:translate-x-1">{t('categories.science')}</Link></li>
-              </ul>
-            </div>
+          <div className="flex gap-4 items-center">
+            <img src="/images/logo.png" alt="KurdBook Logo" className="w-10 h-10 rounded-full bg-white p-1 shadow" />
           </div>
-
-          {/* Newsletter - Full width on mobile */}
-          <div className="md:col-span-2 lg:col-span-1 order-3 lg:order-3 pt-6 md:pt-0 border-t md:border-t-0 border-gray-700">
-            <h4 className={`text-base md:text-lg font-bold mb-4 text-blue-400 border-b border-blue-600 pb-2 ${isRTL ? 'text-center md:text-right' : 'text-center md:text-left'}`}>{t('footer.newsletter')}</h4>
-            <p className={`text-gray-300 mb-4 text-xs md:text-sm leading-relaxed ${isRTL ? 'text-center md:text-right' : 'text-center md:text-left'}`}>
-              {t('footer.newsletterDescription')}
-            </p>
-            <div className="flex flex-col gap-3">
-              <input
-                type="email"
-                placeholder={t('footer.emailPlaceholder')}
-                className={`w-full px-4 py-3 rounded-lg bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm transition-all duration-200 ${isRTL ? 'text-right' : 'text-left'}`}
-              />
-              <button className="w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 text-sm font-semibold shadow-lg hover:shadow-xl transform hover:scale-105">
-                {t('footer.subscribe')}
-              </button>
+        </div>
+        {/* Main Columns */}
+        <div className="hidden md:flex w-full items-stretch border-b border-gray-700 pb-8">
+          {/* About */}
+          <div className="flex-1 flex flex-col min-h-[180px] px-4 border-r border-gray-700">
+            <div className="flex items-center gap-2 mb-3">
+              <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 16v-4M12 8h.01" />
+              </svg>
+              <h4 className="text-base font-bold text-white">{t("footer.aboutTitle")}</h4>
+            </div>
+            <p className="text-sm text-gray-400 mb-3">{t("footer.aboutText")}</p>
+            <ul className="space-y-2 text-sm mt-auto">
+              <li><Link href="/about" className="hover:text-blue-400 transition">{t("nav.about")}</Link></li>
+              <li><Link href="/contact" className="hover:text-blue-400 transition">{t("footer.contact")}</Link></li>
+            </ul>
+          </div>
+          {/* Quick Links */}
+          <div className="flex-1 flex flex-col min-h-[180px] px-4 border-r border-gray-700">
+            <div className="flex items-center gap-2 mb-3">
+              <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <rect width="20" height="14" x="2" y="5" rx="2" />
+                <path d="M2 7h20" />
+              </svg>
+              <h4 className="text-base font-bold text-white">{t("footer.quickLinks")}</h4>
+            </div>
+            <ul className="space-y-2 text-sm mt-auto">
+              <li><Link href="/shipping" className="hover:text-blue-400 transition">{t("footer.shipping")}</Link></li>
+              <li><Link href="/returns" className="hover:text-blue-400 transition">{t("footer.returns")}</Link></li>
+              <li><Link href="/faq" className="hover:text-blue-400 transition">{t("footer.faq")}</Link></li>
+              <li><Link href="/help" className="hover:text-blue-400 transition">{t("footer.help")}</Link></li>
+            </ul>
+          </div>
+          {/* Categories */}
+          <div className="flex-1 flex flex-col min-h-[180px] px-4 border-r border-gray-700">
+            <div className="flex items-center gap-2 mb-3">
+              <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+              </svg>
+              <h4 className="text-base font-bold text-white">{t("nav.categories")}</h4>
+            </div>
+            <ul className="space-y-2 text-sm mt-auto">
+              <li><Link href="/category/literature" className="hover:text-blue-400 transition">{t("categories.literature")}</Link></li>
+              <li><Link href="/category/poetry" className="hover:text-blue-400 transition">{t("categories.poetry")}</Link></li>
+              <li><Link href="/category/history" className="hover:text-blue-400 transition">{t("categories.history")}</Link></li>
+              <li><Link href="/category/children" className="hover:text-blue-400 transition">{t("categories.children")}</Link></li>
+              <li><Link href="/category/education" className="hover:text-blue-400 transition">{t("categories.education")}</Link></li>
+              <li><Link href="/category/science" className="hover:text-blue-400 transition">{t("categories.science")}</Link></li>
+            </ul>
+          </div>
+          {/* Newsletter */}
+          <div className="flex-1 flex flex-col min-h-[180px] px-4">
+            <div className="flex items-center gap-2 mb-3">
+              <svg className="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <rect width="20" height="14" x="2" y="5" rx="2" />
+                <path d="M2 7h20" />
+              </svg>
+              <h4 className="text-base font-bold text-white">{t("footer.newsletter")}</h4>
+            </div>
+            <div className="bg-[#181C34] rounded-xl p-3 flex-1 flex flex-col justify-between shadow-inner">
+              <p className="mb-3 text-sm text-gray-400">{t("footer.newsletterDescription")}</p>
+              <form className="flex flex-col gap-2 mt-auto">
+                <input className="rounded-md px-3 py-2 bg-gray-800 border border-gray-600 focus:ring-2 focus:ring-blue-500 text-white" placeholder={t("footer.emailPlaceholder")}/>
+                <button className="bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold py-2 rounded-md hover:from-blue-600 hover:to-purple-700 transition">{t("footer.subscribe")}</button>
+              </form>
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Bottom Footer */}
-      <div className="border-t border-gray-800">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-gray-400 text-sm mb-4 md:mb-0">
-              © 2024 {t('footer.copyright')}
+        {/* Mobile Columns */}
+        <div className="md:hidden grid grid-cols-1 gap-8 border-b border-gray-700 pb-8 pt-6">
+          {/* About */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 16v-4M12 8h.01" />
+              </svg>
+              <h4 className="text-base font-bold text-white">{t("footer.aboutTitle")}</h4>
             </div>
-            <div className="flex space-x-6 rtl:space-x-reverse text-sm">
-              <Link href="/privacy" className="text-gray-400 hover:text-white transition-colors">
-                {t('footer.privacy')}
-              </Link>
-              <Link href="/terms" className="text-gray-400 hover:text-white transition-colors">
-                {t('footer.terms')}
-              </Link>
-              <Link href="/cookies" className="text-gray-400 hover:text-white transition-colors">
-                {t('footer.cookies')}
-              </Link>
+            <p className="text-sm text-gray-400 mb-3">{t("footer.aboutText")}</p>
+            <ul className="space-y-2 text-sm mt-auto">
+              <li><Link href="/about" className="hover:text-blue-400 transition">{t("nav.about")}</Link></li>
+              <li><Link href="/contact" className="hover:text-blue-400 transition">{t("footer.contact")}</Link></li>
+            </ul>
+          </div>
+          {/* Quick Links */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <rect width="20" height="14" x="2" y="5" rx="2" />
+                <path d="M2 7h20" />
+              </svg>
+              <h4 className="text-base font-bold text-white">{t("footer.quickLinks")}</h4>
             </div>
+            <ul className="space-y-2 text-sm mt-auto">
+              <li><Link href="/shipping" className="hover:text-blue-400 transition">{t("footer.shipping")}</Link></li>
+              <li><Link href="/returns" className="hover:text-blue-400 transition">{t("footer.returns")}</Link></li>
+              <li><Link href="/faq" className="hover:text-blue-400 transition">{t("footer.faq")}</Link></li>
+              <li><Link href="/help" className="hover:text-blue-400 transition">{t("footer.help")}</Link></li>
+            </ul>
+          </div>
+          {/* Categories */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+              </svg>
+              <h4 className="text-base font-bold text-white">{t("nav.categories")}</h4>
+            </div>
+            <ul className="space-y-2 text-sm mt-auto">
+              <li><Link href="/category/literature" className="hover:text-blue-400 transition">{t("categories.literature")}</Link></li>
+              <li><Link href="/category/poetry" className="hover:text-blue-400 transition">{t("categories.poetry")}</Link></li>
+              <li><Link href="/category/history" className="hover:text-blue-400 transition">{t("categories.history")}</Link></li>
+              <li><Link href="/category/children" className="hover:text-blue-400 transition">{t("categories.children")}</Link></li>
+              <li><Link href="/category/education" className="hover:text-blue-400 transition">{t("categories.education")}</Link></li>
+              <li><Link href="/category/science" className="hover:text-blue-400 transition">{t("categories.science")}</Link></li>
+            </ul>
+          </div>
+          {/* Newsletter */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <svg className="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <rect width="20" height="14" x="2" y="5" rx="2" />
+                <path d="M2 7h20" />
+              </svg>
+              <h4 className="text-base font-bold text-white">{t("footer.newsletter")}</h4>
+            </div>
+            <div className="bg-[#181C34] rounded-xl p-3 flex-1 flex flex-col justify-between shadow-inner">
+              <p className="mb-3 text-sm text-gray-400">{t("footer.newsletterDescription")}</p>
+              <form className="flex flex-col gap-2 mt-auto">
+                <input className="rounded-md px-3 py-2 bg-gray-800 border border-gray-600 focus:ring-2 focus:ring-blue-500 text-white" placeholder={t("footer.emailPlaceholder")}/>
+                <button className="bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold py-2 rounded-md hover:from-blue-600 hover:to-purple-700 transition">{t("footer.subscribe")}</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        {/* Social Media Row */}
+        <div className="flex justify-center items-center gap-8 py-6 border-b border-gray-700 mt-0">
+          <a href="#" className="group transition" aria-label="Twitter">
+            <svg className="w-8 h-8 text-gray-400 group-hover:text-blue-400 group-hover:scale-110 transition-all duration-200" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+            </svg>
+          </a>
+          <a href="#" className="group transition" aria-label="Facebook">
+            <svg className="w-8 h-8 text-gray-400 group-hover:text-blue-500 group-hover:scale-110 transition-all duration-200" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M22.675 0h-21.35C.595 0 0 .592 0 1.326v21.348C0 23.408.595 24 1.326 24h11.495v-9.294H9.691v-3.622h3.13V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.797.143v3.24l-1.918.001c-1.504 0-1.797.715-1.797 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116C23.406 24 24 23.408 24 22.674V1.326C24 .592 23.406 0 22.675 0"/>
+            </svg>
+          </a>
+          <a href="#" className="group transition" aria-label="Pinterest">
+            <svg className="w-8 h-8 text-gray-400 group-hover:text-pink-500 group-hover:scale-110 transition-all duration-200" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12.004 0C5.373 0 0 5.373 0 12.004c0 5.084 3.163 9.418 7.633 11.174-.106-.949-.2-2.404.041-3.44.22-.937 1.408-5.957 1.408-5.957s-.36-.72-.36-1.781c0-1.663.968-2.911 2.17-2.911 1.025 0 1.519.769 1.519 1.688 0 1.029-.654 2.567-.993 3.992-.285 1.193.601 2.165 1.777 2.165 2.13 0 3.77-2.245 3.77-5.487 0-2.861-2.064-4.869-5.012-4.869-3.413 0-5.413 2.562-5.413 5.199 0 1.033.395 2.143.89 2.748.097.119.109.223.081.345-.09.375-.294 1.199-.335 1.363-.054.225-.173.271-.403.165-1.497-.69-2.436-2.878-2.436-4.646 0-3.776 2.75-7.252 7.926-7.252 4.162 0 7.398 2.967 7.398 6.923 0 4.135-2.609 7.462-6.238 7.462-1.215 0-2.359-.629-2.719-1.378l-.735 2.778c-.266 1.019-.983 2.302-1.461 3.079C9.094 23.651 10.543 24 12.025 24c6.627 0 12-5.373 12-11.996C24 5.373 18.627 0 12.004 0"/>
+            </svg>
+          </a>
+          <a href="#" className="group transition" aria-label="Instagram">
+            <svg className="w-8 h-8 text-gray-400 group-hover:text-purple-500 group-hover:scale-110 transition-all duration-200" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.974.974 1.246 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.974.974-2.242 1.246-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308-.974-.974-1.246-2.242-1.308-3.608C2.175 15.647 2.163 15.267 2.163 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608.974-.974 2.242-1.246 3.608-1.308C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.332.013 7.052.072 5.771.131 4.659.414 3.678 1.395c-.98.98-1.263 2.092-1.322 3.373C2.013 5.668 2 6.077 2 12c0 5.923.013 6.332.072 7.613.059 1.281.342 2.393 1.322 3.373.981.981 2.093 1.264 3.374 1.323C8.332 23.987 8.741 24 12 24s3.668-.013 4.948-.072c1.281-.059 2.393-.342 3.374-1.323.98-.98 1.263-2.092 1.322-3.373.059-1.281.072-1.69.072-7.613 0-5.923-.013-6.332-.072-7.613-.059-1.281-.342-2.393-1.322-3.373-.981-.981-2.093-1.264-3.374-1.323C15.668.013 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+            </svg>
+          </a>
+        </div>
+        <div className="flex flex-col md:flex-row justify-center items-center mt-6 text-xs text-gray-500 gap-2 pb-6">
+          <img src="/images/logo.png" alt="KurdBook Logo" className="w-8 h-8 rounded-full bg-white p-1 shadow mx-2" />
+          <span>© 2025 {t("footer.copyright")}</span>
+          <div className="flex gap-4 mx-2">
+            <Link href="/privacy" className="hover:text-white transition">{t("footer.privacy")}</Link>
+            <Link href="/terms" className="hover:text-white transition">{t("footer.terms")}</Link>
+            <Link href="/cookies" className="hover:text-white transition">{t("footer.cookies")}</Link>
           </div>
         </div>
       </div>
     </footer>
   );
 }
+// ...تمام کدهای اضافی حذف شد...

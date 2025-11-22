@@ -26,10 +26,10 @@ export default function LoginPage() {
       if (success) {
         router.push('/profile');
       } else {
-        setError('ئیمەیل یان پاسۆرد هەڵەیە');
+        setError(t('auth.error.invalidCredentials'));
       }
     } catch (err) {
-      setError('هەڵەیەک ڕوویدا');
+      setError(t('common.error'));
     } finally {
       setIsLoading(false);
     }
@@ -110,7 +110,7 @@ export default function LoginPage() {
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                 />
                 <label htmlFor="remember-me" className="mr-2 rtl:mr-0 rtl:ml-2 block text-sm text-gray-900">
-                  Remember me
+                  {t('auth.rememberMe')}
                 </label>
               </div>
 
@@ -138,15 +138,15 @@ export default function LoginPage() {
                 <div className="w-full border-t border-gray-300" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">تاقیکردنی خێرا</span>
+                <span className="px-2 bg-white text-gray-500">{t('auth.quickTest')}</span>
               </div>
             </div>
 
             <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <p className="text-sm text-blue-800 mb-2">بۆ تاقیکردنەوە:</p>
+              <p className="text-sm text-blue-800 mb-2">{t('auth.forTesting')}</p>
               <p className="text-xs text-blue-600">
-                <strong>ئیمەیل:</strong> admin@kurdbook.com<br />
-                <strong>پاسۆرد:</strong> admin123
+                <strong>{t('auth.emailLabel')}</strong> admin@kurdbook.com<br />
+                <strong>{t('auth.passwordLabel')}</strong> admin123
               </p>
             </div>
           </div>

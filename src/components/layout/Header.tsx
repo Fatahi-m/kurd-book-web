@@ -20,46 +20,47 @@ export default function Header() {
   const { user, isAuthenticated, logout } = useAuth();
   const isRTL = currentLanguage === 'ku';
 
-
-
   return (
-    <header className="bg-white shadow-md border-b border-gray-200">
-      {/* Top Bar - Logo and Language Switcher for Mobile */}
-      <div className="bg-gray-50 border-b border-gray-200">
-        <div className="container mx-auto px-4 py-2">
-          <div className="flex justify-between items-center text-sm">
-            {/* Desktop Contact Info */}
-            <div className="hidden sm:flex items-center space-x-4 rtl:space-x-reverse">
-              <span className="text-gray-600">📞 +964 750 123 4567</span>
-              <span className="text-gray-600 hidden md:inline">✉️ info@kurdbook.com</span>
+    <header className="relative bg-white shadow-md border-b border-gray-200">
+      {/* Info Bar */}
+      <div className="w-full bg-gradient-to-r from-blue-600 to-purple-500 text-white text-xs md:text-sm py-2 px-4 flex justify-center items-center font-medium">
+        <span>🎉 ارسال رایگان برای سفارش‌های بالای ۵۰۰ هزار تومان | تخفیف ویژه پاییزه تا ۳۰٪</span>
+      </div>
+      <div className="relative z-10">
+        {/* Top Bar - Logo and Language Switcher for Mobile */}
+        <div className="bg-gray-50 border-b border-gray-200">
+          <div className="container mx-auto px-4 md:px-6 lg:px-8 py-2">
+            <div className="flex justify-between items-center text-sm">
+              {/* Desktop Contact Info */}
+              <div className="hidden sm:flex items-center space-x-4 rtl:space-x-reverse">
+                <span className="text-gray-600">📞 +964 750 123 4567</span>
+                <span className="text-gray-600 hidden md:inline">✉️ info@kurdbook.com</span>
+              </div>
+              {/* Mobile Logo and Site Name */}
+              <div className="sm:hidden flex items-center space-x-2 rtl:space-x-reverse">
+                <Link href="/" className="flex items-center space-x-2 rtl:space-x-reverse">
+                  <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">ک</span>
+                  </div>
+                  <div>
+                    <h1 className="text-sm font-bold text-gray-800">{t('site.title')}</h1>
+                  </div>
+                </Link>
+              </div>
+              {/* Language Switcher */}
+              <LanguageSwitcher />
             </div>
-            
-            {/* Mobile Logo and Site Name */}
-            <div className="sm:hidden flex items-center space-x-2 rtl:space-x-reverse">
-              <Link href="/" className="flex items-center space-x-2 rtl:space-x-reverse">
-                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">ک</span>
-                </div>
-                <div>
-                  <h1 className="text-sm font-bold text-gray-800">{t('site.title')}</h1>
-                </div>
-              </Link>
-            </div>
-            
-            {/* Language Switcher */}
-            <LanguageSwitcher />
           </div>
         </div>
-      </div>
 
-      {/* Main Header */}
-      <div className="container mx-auto px-4 py-3 md:py-4">
-        <div className="flex items-center justify-between">
+        {/* Main Header */}
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 py-3 md:py-4">
+          <div className="flex items-center justify-between">
           {/* Mobile: Menu Button and Free Shipping */}
           <div className="lg:hidden flex items-center space-x-3 rtl:space-x-reverse">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+              className="p-2 rounded-md text-blue-600 hover:bg-blue-50 hover:text-blue-700 transition"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {isMenuOpen ? (
@@ -69,7 +70,7 @@ export default function Header() {
                 )}
               </svg>
             </button>
-            <span className="text-xs text-gray-600">
+            <span className="text-xs text-blue-600 font-semibold">
               {currentLanguage === 'ku' ? 'گەیاندنی خۆڕایی' : currentLanguage === 'en' ? 'Free Shipping' : 'Kostenloser Versand'} 🚚
             </span>
           </div>
@@ -127,23 +128,23 @@ export default function Header() {
               </svg>
             </button>
 
-            <Link href="/wishlist" className="p-2 text-gray-600 hover:text-gray-800 relative">
+            <Link href="/wishlist" className="p-2 text-blue-600 hover:bg-blue-50 hover:text-blue-700 rounded transition relative">
               <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
               {getWishlistItemCount() > 0 && (
-                <span className="absolute -top-1 -right-1 rtl:-right-auto rtl:-left-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 md:h-5 md:w-5 flex items-center justify-center text-[10px] md:text-xs">
+                <span className="absolute -top-2 -right-2 rtl:-right-auto rtl:-left-2 bg-gradient-to-r from-pink-500 to-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold shadow-md border-2 border-white">
                   {getWishlistItemCount()}
                 </span>
               )}
             </Link>
             
-            <Link href="/cart" className="p-2 text-gray-600 hover:text-gray-800 relative">
+            <Link href="/cart" className="p-2 text-blue-600 hover:bg-blue-50 hover:text-blue-700 rounded transition relative">
               <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.293 2.293c-.39.39-.586.876-.586 1.414V17a1 1 0 001 1h14M7 13v4a1 1 0 001 1h2m3-5a1 1 0 100 2 1 1 0 000-2z" />
               </svg>
               {getCartItemCount() > 0 && (
-                <span className="absolute -top-1 -right-1 rtl:-right-auto rtl:-left-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 md:h-5 md:w-5 flex items-center justify-center text-[10px] md:text-xs">
+                <span className="absolute -top-2 -right-2 rtl:-right-auto rtl:-left-2 bg-gradient-to-r from-green-500 to-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold shadow-md border-2 border-white">
                   {getCartItemCount()}
                 </span>
               )}
@@ -162,7 +163,7 @@ export default function Header() {
                 
                 {/* User Dropdown */}
                 <div className={`absolute mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 ${
-                  isRTL ? 'left-4 -translate-x-2' : 'right-4 translate-x-2'
+                  isRTL ? 'left-0' : 'right-0'
                 }`}>
                   <div className="py-1">
                     <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
@@ -192,7 +193,7 @@ export default function Header() {
                 </div>
               </div>
             ) : (
-              <Link href="/auth/login" className="p-2 text-gray-600 hover:text-gray-800">
+              <Link href="/auth/login" className="p-2 text-blue-600 hover:bg-blue-50 hover:text-blue-700 rounded transition">
                 <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
@@ -233,19 +234,20 @@ export default function Header() {
             </form>
           </div>
         )}
+        </div>
       </div>
 
       {/* Navigation Menu */}
       <nav className="bg-blue-600 text-white">
-        <div className="container mx-auto px-4 dropdown-container">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 dropdown-container">
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center justify-between">
             <div className="flex items-center space-x-8 rtl:space-x-reverse">
-              <Link href="/" className="py-4 px-2 hover:bg-blue-700 transition-colors">
+              <Link href="/" className="py-4 px-2 font-semibold hover:bg-gradient-to-r hover:from-blue-700 hover:to-purple-600 hover:text-white rounded transition">
                 {t('nav.home')}
               </Link>
               <div className="relative group dropdown-container">
-                <button className="py-4 px-2 hover:bg-blue-700 transition-colors flex items-center space-x-1 rtl:space-x-reverse">
+                <button className="py-4 px-2 font-semibold hover:bg-gradient-to-r hover:from-blue-700 hover:to-purple-600 hover:text-white rounded transition flex items-center space-x-1 rtl:space-x-reverse">
                   <span>{t('nav.categories')}</span>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -253,25 +255,25 @@ export default function Header() {
                 </button>
                 <div className="absolute top-full left-0 rtl:left-auto rtl:right-0 w-64 bg-white text-gray-800 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 rounded-md border border-gray-200">
                   <div className="py-2">
-                    <Link href="/category/literature" className="block px-4 py-2 hover:bg-gray-50">📚 {t('categories.literature')}</Link>
-                    <Link href="/category/poetry" className="block px-4 py-2 hover:bg-gray-50">✍️ {t('categories.poetry')}</Link>
-                    <Link href="/category/history" className="block px-4 py-2 hover:bg-gray-50">🏛️ {t('categories.history')}</Link>
-                    <Link href="/category/children" className="block px-4 py-2 hover:bg-gray-50">🧸 {t('categories.children')}</Link>
-                    <Link href="/category/education" className="block px-4 py-2 hover:bg-gray-50">🎓 {t('categories.education')}</Link>
-                    <Link href="/category/science" className="block px-4 py-2 hover:bg-gray-50">🔬 {t('categories.science')}</Link>
+                    <Link href="/category/literature" className="block px-4 py-2 hover:bg-blue-50">📚 {t('categories.literature')}</Link>
+                    <Link href="/category/poetry" className="block px-4 py-2 hover:bg-blue-50">✍️ {t('categories.poetry')}</Link>
+                    <Link href="/category/history" className="block px-4 py-2 hover:bg-blue-50">🏛️ {t('categories.history')}</Link>
+                    <Link href="/category/children" className="block px-4 py-2 hover:bg-blue-50">🧸 {t('categories.children')}</Link>
+                    <Link href="/category/education" className="block px-4 py-2 hover:bg-blue-50">🎓 {t('categories.education')}</Link>
+                    <Link href="/category/science" className="block px-4 py-2 hover:bg-blue-50">🔬 {t('categories.science')}</Link>
                   </div>
                 </div>
               </div>
-              <Link href="/books" className="py-4 px-2 hover:bg-blue-700 transition-colors">
+              <Link href="/books" className="py-4 px-2 font-semibold hover:bg-gradient-to-r hover:from-blue-700 hover:to-purple-600 hover:text-white rounded transition">
                 {t('nav.books')}
               </Link>
-              <Link href="/authors" className="py-4 px-2 hover:bg-blue-700 transition-colors">
+              <Link href="/authors" className="py-4 px-2 font-semibold hover:bg-gradient-to-r hover:from-blue-700 hover:to-purple-600 hover:text-white rounded transition">
                 {t('nav.authors')}
               </Link>
-              <Link href="/bestsellers" className="py-4 px-2 hover:bg-blue-700 transition-colors">
+              <Link href="/bestsellers" className="py-4 px-2 font-semibold hover:bg-gradient-to-r hover:from-blue-700 hover:to-purple-600 hover:text-white rounded transition">
                 {t('sections.bestSellers')}
               </Link>
-              <Link href="/new-releases" className="py-4 px-2 hover:bg-blue-700 transition-colors">
+              <Link href="/new-releases" className="py-4 px-2 font-semibold hover:bg-gradient-to-r hover:from-blue-700 hover:to-purple-600 hover:text-white rounded transition">
                 {t('sections.newReleases')}
               </Link>
             </div>

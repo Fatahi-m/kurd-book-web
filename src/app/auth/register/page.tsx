@@ -35,12 +35,12 @@ export default function RegisterPage() {
 
     // Validation
     if (formData.password !== formData.confirmPassword) {
-      setError('پاسۆردەکان یەکسان نین');
+      setError(t('auth.error.passwordsNotMatch'));
       return;
     }
 
     if (formData.password.length < 6) {
-      setError('پاسۆرد دەبێت لانیکەم ٦ پیت بێت');
+      setError(t('auth.error.passwordTooShort'));
       return;
     }
 
@@ -58,10 +58,10 @@ export default function RegisterPage() {
       if (success) {
         router.push('/profile');
       } else {
-        setError('ئەم ئیمەیلە پێشتر بەکارهاتووە');
+        setError(t('auth.error.emailUsed'));
       }
     } catch (err) {
-      setError('هەڵەیەک ڕوویدا');
+      setError(t('common.error'));
     } finally {
       setIsLoading(false);
     }
@@ -76,12 +76,12 @@ export default function RegisterPage() {
           </div>
         </div>
         <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
-          هەژمارێکی نوێ دروست بکە
+          {t('auth.createAccount')}
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          یان{' '}
+          {t('auth.orLogin')}{' '}
           <Link href="/auth/login" className="font-medium text-blue-600 hover:text-blue-500">
-            بچۆ ژوورەوە
+            {t('auth.signIn')}
           </Link>
         </p>
       </div>
@@ -98,7 +98,7 @@ export default function RegisterPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
-                  ناوی یەکەم
+                  {t('auth.firstName')}
                 </label>
                 <div className="mt-1">
                   <input
@@ -109,14 +109,14 @@ export default function RegisterPage() {
                     value={formData.firstName}
                     onChange={handleChange}
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    placeholder="ناوی یەکەم"
+                    placeholder={t('auth.firstName')}
                   />
                 </div>
               </div>
 
               <div>
                 <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
-                  ناوی دووەم
+                  {t('auth.lastName')}
                 </label>
                 <div className="mt-1">
                   <input
@@ -127,7 +127,7 @@ export default function RegisterPage() {
                     value={formData.lastName}
                     onChange={handleChange}
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    placeholder="ناوی دووەم"
+                    placeholder={t('auth.lastName')}
                   />
                 </div>
               </div>
@@ -135,7 +135,7 @@ export default function RegisterPage() {
 
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                ئیمەیل
+                {t('auth.email')}
               </label>
               <div className="mt-1">
                 <input
@@ -147,14 +147,14 @@ export default function RegisterPage() {
                   value={formData.email}
                   onChange={handleChange}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  placeholder="ئیمەیلی خۆت داخڵ بکە"
+                  placeholder={t('auth.email')}
                 />
               </div>
             </div>
 
             <div>
               <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-                ژمارەی تەلەفۆن <span className="text-gray-400">(ئیختیاری)</span>
+                {t('auth.phone')} <span className="text-gray-400">{t('auth.optional')}</span>
               </label>
               <div className="mt-1">
                 <input
@@ -171,7 +171,7 @@ export default function RegisterPage() {
 
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                پاسۆرد
+                {t('auth.password')}
               </label>
               <div className="mt-1">
                 <input
@@ -183,17 +183,17 @@ export default function RegisterPage() {
                   value={formData.password}
                   onChange={handleChange}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  placeholder="پاسۆردێکی بەهێز هەڵبژێرە"
+                  placeholder={t('auth.chooseStrongPassword')}
                 />
               </div>
               <p className="mt-1 text-xs text-gray-500">
-                لانیکەم ٦ پیت دەبێت
+                {t('auth.minChars')}
               </p>
             </div>
 
             <div>
               <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
-                پاسۆرد دووبارە بکەرەوە
+                {t('auth.confirmPassword')}
               </label>
               <div className="mt-1">
                 <input
@@ -205,7 +205,7 @@ export default function RegisterPage() {
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  placeholder="پاسۆرد دووبارە بکەرەوە"
+                  placeholder={t('auth.confirmPassword')}
                 />
               </div>
             </div>
@@ -216,7 +216,7 @@ export default function RegisterPage() {
                 disabled={isLoading}
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isLoading ? 'چاوەڕێ بکە...' : 'هەژمار دروست بکە'}
+                {isLoading ? t('common.pleaseWait') : t('auth.creatingAccount')}
               </button>
             </div>
           </form>
@@ -224,13 +224,13 @@ export default function RegisterPage() {
           <div className="mt-6">
             <div className="text-center">
               <p className="text-xs text-gray-500">
-                هەژمار دروستکردن واتە ڕازیبوونە بە{' '}
+                {t('auth.termsAgreement')}{' '}
                 <Link href="/terms" className="text-blue-600 hover:text-blue-500">
-                  مەرجەکان
+                  {t('auth.terms')}
                 </Link>{' '}
-                و{' '}
+                {t('auth.and')}{' '}
                 <Link href="/privacy" className="text-blue-600 hover:text-blue-500">
-                  سیاسەتی تایبەتێتی
+                  {t('auth.privacyPolicy')}
                 </Link>
               </p>
             </div>

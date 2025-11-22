@@ -23,9 +23,9 @@ body {
 }
 
 /* Main content containers should not scroll horizontally */
-.container, .max-w-7xl, .max-w-6xl, .max-w-4xl, .max-w-2xl {
+/* .container, .max-w-7xl, .max-w-6xl, .max-w-4xl, .max-w-2xl {
   max-width: 100%;
-}
+} */
 
 /* Prevent horizontal scroll on main layout only */
 .main-layout {
