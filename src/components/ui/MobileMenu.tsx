@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
-import { X, Home, BookOpen, Heart, ShoppingCart, User, Search, Globe, ChevronRight } from 'lucide-react';
+import { X, Home, BookOpen, Heart, ShoppingCart, User, Search, Globe, ChevronRight, Info } from 'lucide-react';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -56,6 +56,12 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       badge: null
     },
     {
+      href: '/about',
+      icon: Info,
+      label: t('nav.about'),
+      badge: null
+    },
+    {
       href: '/books',
       icon: BookOpen,
       label: t('nav.books'),
@@ -99,12 +105,12 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     <>
       {/* Backdrop */}
       <div 
-        className="fixed inset-0 bg-black bg-opacity-50 z-50 md:hidden"
+        className="fixed inset-0 bg-black bg-opacity-50 z-[60] md:hidden"
         onClick={onClose}
       />
       
       {/* Menu Panel */}
-      <div className={`fixed top-0 h-full w-80 max-w-[85vw] bg-white dark:bg-gray-900 shadow-xl z-50 transform transition-transform duration-300 ease-in-out md:hidden right-0 ${
+      <div className={`fixed top-0 h-full w-80 max-w-[85vw] bg-white dark:bg-gray-900 shadow-xl z-[60] transform transition-transform duration-300 ease-in-out md:hidden right-0 ${
         isOpen ? 'translate-x-0' : 'translate-x-full'
       } ${
         currentLanguage === 'ku' ? 'text-right' : 'text-left'

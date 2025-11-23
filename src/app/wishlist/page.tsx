@@ -1,221 +1,183 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { Heart, ShoppingCart, Trash2, BookOpen, ArrowRight } from 'lucide-react';
 import { useWishlist } from '@/contexts/WishlistContext';
 import { useCart } from '@/contexts/CartContext';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { Book } from '@/lib/types';
 import { formatPrice } from '@/lib/utils';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Trash2, ShoppingCart } from 'lucide-react';
 
 export default function WishlistPage() {
-  const { items, removeFromWishlist, clearWishlist } = useWishlist();
+  const { items: wishlistItems, removeFromWishlist } = useWishlist();
   const { addToCart } = useCart();
-  const { currentLanguage, t } = useLanguage();
+  const { t, currentLanguage } = useLanguage();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading delay for better UX
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleAddToCart = (item: any) => {
-    const bookData = {
+    // Convert WishlistItem to Book type for cart
+    // Note: In a real app, we might need to fetch full book details
+    // or ensure WishlistItem has all necessary fields
+    const book: Book = {
       id: item.id,
       title: item.title,
       author: item.author,
       price: item.price,
       originalPrice: item.originalPrice,
-      image: item.imageUrl,
-      coverUrl: item.imageUrl,
-      inStock: item.inStock,
-      rating: 0,
-      reviewCount: 0,
-      publisher: '',
-      description: '',
-      pages: 0,
-      language: 'kurdish',
-      category: '',
+      coverUrl: item.imageUrl, // Mapping imageUrl to coverUrl
+      description: '', // Missing in WishlistItem
+      language: 'kurdish', // Default or missing
+      category: 'general', // Default or missing
       tags: [],
-      isbn: '',
-      publishDate: '',
+      inStock: item.inStock,
       featured: false,
       bestseller: false,
       newRelease: false,
-      inventoryCount: 1
+      rating: 0,
+      reviewCount: 0,
+      publisher: ''
     };
-    
-    addToCart(bookData, 1);
+    addToCart(book, 1);
   };
 
-  if (items.length === 0) {
+  if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 transition-colors duration-300">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-6 md:mb-8 text-center">
-              {currentLanguage === 'ku' ? 'علاقەمەندییەکانت' : currentLanguage === 'en' ? 'Your Wishlist' : 'Deine Wunschliste'}
-            </h1>
-            
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 text-center transition-colors duration-300">
-              <div className="mb-6">
-                <svg className="w-24 h-24 text-gray-300 dark:text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-                <h2 className="text-2xl font-semibold text-gray-600 dark:text-gray-300 mb-2">
-                  {currentLanguage === 'ku' ? 'علاقەمەندییەکانت بەتاڵە' : currentLanguage === 'en' ? 'Your wishlist is empty' : 'Deine Wunschliste ist leer'}
-                </h2>
-                <p className="text-gray-500 dark:text-gray-400 mb-6">
-                  {currentLanguage === 'ku' ? 'کتابەکانی دڵخوازت زیاد بکە بۆ دواتر' : currentLanguage === 'en' ? 'Add your favorite books to save them for later' : 'Füge deine Lieblingsbücher hinzu, um sie für später zu speichern'}
-                </p>
-              </div>
-              
-              <Link 
-                href="/books"
-                className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                {currentLanguage === 'ku' ? 'گەڕان بۆ کتابەکان' : currentLanguage === 'en' ? 'Browse Books' : 'Bücher durchsuchen'}
-              </Link>
-            </div>
-          </div>
-        </div>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-24 pb-12 flex justify-center items-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 transition-colors duration-300">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-8 pb-12 transition-colors duration-300">
       <div className="container mx-auto px-4">
-        <div className="max-w-6xl mx-auto">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-6 md:mb-8">
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">
-              {currentLanguage === 'ku' ? 'علاقەمەندییەکانت' : currentLanguage === 'en' ? 'Your Wishlist' : 'Deine Wunschliste'}
-              <span className="text-sm sm:text-base md:text-lg font-normal text-gray-600 dark:text-gray-400 mr-2 rtl:mr-0 rtl:ml-2">
-                ({items.length} {currentLanguage === 'ku' ? 'کتاب' : currentLanguage === 'en' ? 'items' : 'Artikel'})
-              </span>
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
+              <Heart className="w-8 h-8 text-red-500 fill-current" />
+              {currentLanguage === 'ku' ? 'لیستی دڵخواز' : currentLanguage === 'en' ? 'My Wishlist' : 'Meine Wunschliste'}
             </h1>
-            
-            {items.length > 0 && (
-              <button
-                onClick={() => {
-                  if (confirm(currentLanguage === 'ku' ? 'دەتەوێت هەموو علاقەمەندییەکان بسڕیتەوە؟' : currentLanguage === 'en' ? 'Are you sure you want to clear your wishlist?' : 'Möchtest du deine Wunschliste leeren?')) {
-                    clearWishlist();
-                  }
-                }}
-                className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 font-medium"
-              >
-                {currentLanguage === 'ku' ? 'سڕینەوەی هەموو' : currentLanguage === 'en' ? 'Clear All' : 'Alle löschen'}
-              </button>
-            )}
+            <p className="mt-2 text-gray-600 dark:text-gray-400">
+              {wishlistItems.length} {currentLanguage === 'ku' ? 'کتێب' : currentLanguage === 'en' ? 'items' : 'Artikel'}
+            </p>
           </div>
+          
+          {wishlistItems.length > 0 && (
+            <Link 
+              href="/books" 
+              className="hidden md:flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors"
+            >
+              {currentLanguage === 'ku' ? 'زیاتر بگەڕێ' : currentLanguage === 'en' ? 'Continue Shopping' : 'Weiter einkaufen'}
+              <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+            </Link>
+          )}
+        </div>
 
-          {/* Wishlist Items */}
-          <div className="space-y-4">
-            {items.map((item) => (
-              <div key={item.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
-                <div className="flex items-start space-x-4 rtl:space-x-reverse">
-                  {/* Book Image */}
-                  <Link href={`/book/${item.id}`} className="flex-shrink-0">
-                    <div className="w-20 h-28 bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden">
-                      {item.imageUrl ? (
-                        <Image
-                          src={item.imageUrl}
-                          alt={item.title}
-                          width={80}
-                          height={112}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-gray-400 dark:text-gray-500">
-                          📚
-                        </div>
-                      )}
-                    </div>
-                  </Link>
-
-                  {/* Book Details */}
-                  <div className="flex-1 min-w-0">
-                    <Link href={`/book/${item.id}`}>
-                      <h3 className="text-lg font-semibold text-gray-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors truncate">
-                        {item.title}
-                      </h3>
-                    </Link>
-                    
-                    <Link href={`/author/${item.author}`}>
-                      <p className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-2">
-                        {item.author}
-                      </p>
-                    </Link>
-
-                    {/* Price */}
-                    <div className="flex items-center space-x-2 rtl:space-x-reverse mb-3">
-                      <span className="text-xl font-bold text-blue-600 dark:text-blue-400">
-                        {formatPrice(item.price)}
-                      </span>
-                      {item.originalPrice && (
-                        <span className="text-sm text-gray-500 dark:text-gray-500 line-through">
-                          {formatPrice(item.originalPrice)}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Stock Status */}
-                    <div className="flex items-center mb-4">
-                      {item.inStock ? (
-                        <span className="text-sm text-green-600 dark:text-green-400 flex items-center">
-                          <div className="w-2 h-2 bg-green-500 rounded-full mr-2 rtl:mr-0 rtl:ml-2"></div>
-                          {currentLanguage === 'ku' ? 'بەردەستە' : currentLanguage === 'en' ? 'In Stock' : 'Auf Lager'}
-                        </span>
-                      ) : (
-                        <span className="text-sm text-red-600 dark:text-red-400 flex items-center">
-                          <div className="w-2 h-2 bg-red-500 rounded-full mr-2 rtl:mr-0 rtl:ml-2"></div>
-                          {currentLanguage === 'ku' ? 'موجود نییە' : currentLanguage === 'en' ? 'Out of Stock' : 'Nicht verfügbar'}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Added Date */}
-                    <p className="text-xs text-gray-400 dark:text-gray-500">
-                      {currentLanguage === 'ku' ? 'زیادکراوە لە' : currentLanguage === 'en' ? 'Added on' : 'Hinzugefügt am'}: {' '}
-                      {new Date(item.addedAt).toLocaleDateString(
-                        currentLanguage === 'ku' ? 'ku-IQ' : currentLanguage === 'en' ? 'en-US' : 'de-DE'
-                      )}
-                    </p>
-                  </div>
-
-                  {/* Actions */}
-                  <div className="flex flex-col space-y-2">
+        {wishlistItems.length === 0 ? (
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-12 text-center max-w-2xl mx-auto transition-all duration-300">
+            <div className="w-24 h-24 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Heart className="w-12 h-12 text-red-300 dark:text-red-700" />
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+              {currentLanguage === 'ku' ? 'لیستی دڵخوازت بەتاڵە' : currentLanguage === 'en' ? 'Your wishlist is empty' : 'Ihre Wunschliste ist leer'}
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
+              {currentLanguage === 'ku' 
+                ? 'هیچ کتێبێکت زیاد نەکردووە بۆ لیستی دڵخواز. کتێبەکان بگەڕێ و ئەوانەی بەدڵتە زیادیان بکە.' 
+                : currentLanguage === 'en' 
+                  ? 'You haven\'t added any books to your wishlist yet. Browse our collection and save your favorites.' 
+                  : 'Sie haben noch keine Bücher zu Ihrer Wunschliste hinzugefügt. Stöbern Sie in unserer Sammlung und speichern Sie Ihre Favoriten.'}
+            </p>
+            <Link 
+              href="/books" 
+              className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-xl hover:bg-blue-700 transition-all hover:shadow-lg hover:shadow-blue-200 dark:hover:shadow-none transform hover:-translate-y-1"
+            >
+              <BookOpen className="w-5 h-5" />
+              {currentLanguage === 'ku' ? 'گەڕان بۆ کتێب' : currentLanguage === 'en' ? 'Browse Books' : 'Bücher durchsuchen'}
+            </Link>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {wishlistItems.map((item) => (
+              <div key={item.id} className="bg-white dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 group border border-gray-100 dark:border-gray-700">
+                <div className="relative aspect-[2/3] overflow-hidden">
+                  <img 
+                    src={item.imageUrl || '/images/placeholder-book.jpg'} 
+                    alt={item.title} 
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
                     <button
                       onClick={() => handleAddToCart(item)}
-                      disabled={!item.inStock}
-                      className={`flex items-center px-4 py-2 rounded-lg font-medium transition-colors ${
-                        item.inStock
-                          ? 'bg-blue-600 text-white hover:bg-blue-700'
-                          : 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
-                      }`}
+                      className="p-3 bg-white text-blue-600 rounded-full hover:bg-blue-50 transition-colors transform hover:scale-110 shadow-lg"
+                      title={currentLanguage === 'ku' ? 'زیادکردن بۆ سەبەتە' : 'Add to Cart'}
                     >
-                      <ShoppingCart size={16} className="mr-2 rtl:mr-0 rtl:ml-2" />
-                      {currentLanguage === 'ku' ? 'بۆ سەبەت' : currentLanguage === 'en' ? 'Add to Cart' : 'In Warenkorb'}
+                      <ShoppingCart className="w-5 h-5" />
                     </button>
-                    
                     <button
                       onClick={() => removeFromWishlist(item.id)}
-                      className="flex items-center px-4 py-2 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                      className="p-3 bg-white text-red-500 rounded-full hover:bg-red-50 transition-colors transform hover:scale-110 shadow-lg"
+                      title={currentLanguage === 'ku' ? 'ل لابردن' : 'Remove'}
                     >
-                      <Trash2 size={16} className="mr-2 rtl:mr-0 rtl:ml-2" />
-                      {currentLanguage === 'ku' ? 'سڕینەوە' : currentLanguage === 'en' ? 'Remove' : 'Entfernen'}
+                      <Trash2 className="w-5 h-5" />
+                    </button>
+                  </div>
+                  {item.originalPrice && item.originalPrice > item.price && (
+                    <div className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-lg shadow-md">
+                      SALE
+                    </div>
+                  )}
+                </div>
+                
+                <div className="p-5">
+                  <Link href={`/book/${item.id}`}>
+                    <h3 className="font-bold text-gray-900 dark:text-white mb-1 line-clamp-1 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                      {item.title}
+                    </h3>
+                  </Link>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
+                    {item.author}
+                  </p>
+                  
+                  <div className="flex items-center justify-between mt-4">
+                    <div className="flex flex-col">
+                      {item.originalPrice && item.originalPrice > item.price ? (
+                        <>
+                          <span className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                            {formatPrice(item.price)}
+                          </span>
+                          <span className="text-sm text-gray-400 line-through">
+                            {formatPrice(item.originalPrice)}
+                          </span>
+                        </>
+                      ) : (
+                        <span className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                          {formatPrice(item.price)}
+                        </span>
+                      )}
+                    </div>
+                    
+                    <button
+                      onClick={() => handleAddToCart(item)}
+                      className="md:hidden p-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg"
+                    >
+                      <ShoppingCart className="w-5 h-5" />
                     </button>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-
-          {/* Continue Shopping */}
-          <div className="mt-8 text-center">
-            <Link 
-              href="/books"
-              className="inline-flex items-center px-6 py-3 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
-            >
-              {currentLanguage === 'ku' ? 'بەردەوامبوون لە گەڕان' : currentLanguage === 'en' ? 'Continue Shopping' : 'Weiter einkaufen'}
-            </Link>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );

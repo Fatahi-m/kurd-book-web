@@ -145,3 +145,21 @@ export interface Author {
   awards?: string[];
   books: string[]; // Book IDs
 }
+
+// Translator types
+export interface Translator {
+  id: string;
+  name: string;
+  latinName?: string;
+  bio?: {
+    ku: string;
+    en: string;
+    de: string;
+  };
+  image?: string;
+  birthYear?: number;
+  deathYear?: number;
+  nationality?: string;
+  languages?: string[];
+  books: string[]; // Book IDs
+}

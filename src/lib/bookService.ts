@@ -100,6 +100,7 @@ class BookService {
     return this.getAllBooks().filter(book => 
       book.title.toLowerCase().includes(lowerQuery) ||
       book.author.toLowerCase().includes(lowerQuery) ||
+      (book.translator && book.translator.toLowerCase().includes(lowerQuery)) ||
       book.category.toLowerCase().includes(lowerQuery) ||
       book.tags.some(tag => tag.toLowerCase().includes(lowerQuery))
     );

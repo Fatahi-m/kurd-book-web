@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/contexts/CartContext';
@@ -10,10 +10,18 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import LanguageSwitcher from '@/components/ui/LanguageSwitcher';
 import MobileMenu from '@/components/ui/MobileMenu';
+import { bookService } from '@/lib/bookService';
+import { Book } from '@/lib/types';
+import { formatPrice } from '@/lib/utils';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<Book[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
+
   const router = useRouter();
   const { getCartItemCount } = useCart();
   const { getWishlistItemCount } = useWishlist();
@@ -21,6 +29,40 @@ export default function Header() {
   const { user, isAuthenticated, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const isRTL = currentLanguage === 'ku';
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setIsSearching(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    if (query.trim().length > 1) {
+      const results = bookService.searchBooks(query);
+      setSearchResults(results.slice(0, 5));
+      setIsSearching(true);
+    } else {
+      setSearchResults([]);
+      setIsSearching(false);
+    }
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setIsMobileSearchOpen(false);
+      setIsSearching(false);
+    }
+  };
 
   return (
     <header className="relative bg-white dark:bg-gray-900 shadow-md border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
@@ -106,22 +148,18 @@ export default function Header() {
           </Link>
 
           {/* Desktop Search Bar */}
-          <div className="hidden lg:flex flex-1 max-w-2xl mx-8">
-            <form onSubmit={(e) => {
-              e.preventDefault();
-              const formData = new FormData(e.target as HTMLFormElement);
-              const query = formData.get('search') as string;
-              if (query.trim()) {
-                router.push(`/search?q=${encodeURIComponent(query.trim())}`);
-                setIsMobileSearchOpen(false);
-              }
-            }} className="w-full">
+          <div className="hidden lg:flex flex-1 max-w-2xl mx-8" ref={searchRef}>
+            <form onSubmit={handleSearchSubmit} className="w-full relative">
               <div className="relative">
                 <input
                   name="search"
                   type="text"
+                  value={searchQuery}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  onFocus={() => searchQuery.trim().length > 1 && setIsSearching(true)}
                   placeholder={t('search.placeholder')}
                   className="w-full px-4 py-3 pr-12 rtl:pr-4 rtl:pl-12 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors"
+                  autoComplete="off"
                 />
                 <button 
                   type="submit"
@@ -132,6 +170,44 @@ export default function Header() {
                   </svg>
                 </button>
               </div>
+
+              {/* Live Search Results */}
+              {isSearching && searchResults.length > 0 && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 z-50 overflow-hidden">
+                  <ul>
+                    {searchResults.map((book) => (
+                      <li key={book.id}>
+                        <Link 
+                          href={`/book/${book.id}`}
+                          onClick={() => setIsSearching(false)}
+                          className="flex items-center gap-4 p-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700 last:border-0"
+                        >
+                          <div className="w-12 h-16 bg-gray-100 dark:bg-gray-700 rounded flex-shrink-0 overflow-hidden">
+                            {book.coverUrl || book.image ? (
+                              <img src={book.coverUrl || book.image} alt={book.title} className="w-full h-full object-cover" />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center text-xl">📚</div>
+                            )}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-semibold text-sm text-gray-900 dark:text-white truncate">{book.title}</h4>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{book.author}</p>
+                            <p className="text-xs font-bold text-blue-600 dark:text-blue-400 mt-1">{formatPrice(book.price)}</p>
+                          </div>
+                        </Link>
+                      </li>
+                    ))}
+                    <li>
+                      <button
+                        onClick={handleSearchSubmit}
+                        className="w-full text-center py-3 text-sm font-medium text-blue-600 dark:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                      >
+                        {currentLanguage === 'ku' ? 'بینینی هەموو ئەنجامەکان' : currentLanguage === 'en' ? 'View all results' : 'Alle Ergebnisse anzeigen'}
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              )}
             </form>
           </div>
 
@@ -264,6 +340,9 @@ export default function Header() {
             <div className="flex items-center space-x-8 rtl:space-x-reverse">
               <Link href="/" className="py-4 px-2 font-semibold hover:bg-blue-700 dark:hover:bg-blue-900 rounded transition">
                 {t('nav.home')}
+              </Link>
+              <Link href="/about" className="py-4 px-2 font-semibold hover:bg-blue-700 dark:hover:bg-blue-900 rounded transition">
+                {t('nav.about')}
               </Link>
               <div className="relative group dropdown-container">
                 <button className="py-4 px-2 font-semibold hover:bg-blue-700 dark:hover:bg-blue-900 rounded transition flex items-center space-x-1 rtl:space-x-reverse">

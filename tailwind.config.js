@@ -9,8 +9,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        vazir: ['Vazirmatn', 'Vazir', 'Tahoma', 'Arial', 'sans-serif'],
-        kurdish: ['Vazirmatn', 'Vazir', 'Tahoma', 'Arial', 'sans-serif'],
+        vazir: ['var(--font-noto-sans-arabic)', 'Tahoma', 'Arial', 'sans-serif'],
+        kurdish: ['var(--font-noto-sans-arabic)', 'Tahoma', 'Arial', 'sans-serif'],
         english: ['Inter', 'Roboto', 'sans-serif'],
         german: ['Inter', 'Roboto', 'sans-serif'],
       },

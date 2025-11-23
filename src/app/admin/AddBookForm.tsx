@@ -49,6 +49,7 @@ export default function AddBookForm({ onClose, onSave }: AddBookFormProps) {
   });
 
   const [dragActive, setDragActive] = useState(false);
+  const translators = adminDataService.getAllTranslators();
 
   const categories = [
     { id: 'literature', labelKu: 'ئەدەبیات', labelEn: 'Literature', labelDe: 'Literatur' },
@@ -419,10 +420,16 @@ export default function AddBookForm({ onClose, onSave }: AddBookFormProps) {
                 </label>
                 <input
                   type="text"
+                  list="translators-list"
                   value={formData.translator}
                   onChange={(e) => setFormData({...formData, translator: e.target.value})}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 />
+                <datalist id="translators-list">
+                  {translators.map(t => (
+                    <option key={t.id} value={t.name} />
+                  ))}
+                </datalist>
               </div>
               
               <div className="md:col-span-2">

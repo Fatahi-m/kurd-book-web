@@ -1,9 +1,10 @@
 'use client';
 
-import { authors, books } from '@/data/books';
+import { authors } from '@/data/books';
+import { bookService } from '@/lib/bookService';
 import { Author, Book } from '@/lib/types';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { formatPrice } from '@/lib/utils';
 
@@ -11,6 +12,11 @@ export default function AuthorsPage() {
   const { t, currentLanguage } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('name');
+  const [books, setBooks] = useState<Book[]>([]);
+
+  useEffect(() => {
+    setBooks(bookService.getAllBooks());
+  }, []);
   
   const filteredAuthors = authors
     .filter(author => 

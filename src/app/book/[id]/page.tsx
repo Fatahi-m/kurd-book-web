@@ -2,6 +2,7 @@
 
 import { Book } from '@/lib/types';
 import { bookService } from '@/lib/bookService';
+import { translators } from '@/data/books';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -38,6 +39,8 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
   const [reviewTitle, setReviewTitle] = useState('');
   const [reviewComment, setReviewComment] = useState('');
   
+  const translatorObj = book?.translator ? translators.find(t => t.name === book.translator || t.latinName === book.translator) : undefined;
+
   useEffect(() => {
     const foundBook = bookService.getBookById(params.id);
     if (!foundBook) {
@@ -332,7 +335,14 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
               </div>
               {book.translator && (
                 <div className="col-span-2">
-                  <span className="font-semibold text-gray-700 dark:text-gray-200">{currentLanguage === 'ku' ? 'وەرگێڕ' : currentLanguage === 'en' ? 'Translator' : 'Übersetzer'}:</span> {book.translator}
+                  <span className="font-semibold text-gray-700 dark:text-gray-200">{currentLanguage === 'ku' ? 'وەرگێڕ' : currentLanguage === 'en' ? 'Translator' : 'Übersetzer'}:</span>{' '}
+                  {translatorObj ? (
+                    <Link href={`/translator/${translatorObj.id}`} className="text-blue-600 hover:underline">
+                      {book.translator}
+                    </Link>
+                  ) : (
+                    book.translator
+                  )}
                 </div>
               )}
               {(book.inventoryCount !== undefined) && (
@@ -586,7 +596,15 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
                     {book.translator && (
                       <div className="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-2">
                         <span className="text-gray-600 dark:text-gray-400">{currentLanguage === 'ku' ? 'وەرگێڕ' : currentLanguage === 'en' ? 'Translator' : 'Übersetzer'}:</span>
-                        <span className="text-gray-900 dark:text-gray-200">{book.translator}</span>
+                        <span className="text-gray-900 dark:text-gray-200">
+                          {translatorObj ? (
+                            <Link href={`/translator/${translatorObj.id}`} className="text-blue-600 hover:underline">
+                              {book.translator}
+                            </Link>
+                          ) : (
+                            book.translator
+                          )}
+                        </span>
                       </div>
                     )}
                       <div className="flex justify-between border-b border-gray-100 dark:border-gray-700 pb-2">
@@ -708,11 +726,22 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
                 </div>
               </div>
 
-              {/* Ad Space */}
-              <div className="bg-white dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg h-[250px] flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 p-4 transition-colors duration-300">
-                <span className="text-4xl mb-2">📢</span>
-                <span className="text-center font-medium">شوێنی ریکلام</span>
-                <span className="text-xs text-center mt-2">(Ad Space)</span>
+              {/* Newsletter */}
+              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border border-blue-100 dark:border-blue-900/30 transition-colors duration-300">
+                <h3 className="font-bold text-blue-800 dark:text-blue-200 mb-2">
+                  {currentLanguage === 'ku' ? 'ئاگاداری نوێترینەکان بە' : currentLanguage === 'de' ? 'Bleiben Sie auf dem Laufenden' : 'Stay Updated'}
+                </h3>
+                <p className="text-xs text-blue-600 dark:text-blue-300 mb-4">
+                  {currentLanguage === 'ku' ? 'تۆمار بکە بۆ وەرگرتنی هەواڵی نوێترین کتێبەکان' : currentLanguage === 'de' ? 'Melden Sie sich an, um Neuigkeiten über die neuesten Bücher zu erhalten' : 'Subscribe to get news about the latest books'}
+                </p>
+                <input 
+                  type="email" 
+                  placeholder={currentLanguage === 'ku' ? 'ئیمەیڵەکەت بنووسە' : currentLanguage === 'de' ? 'Ihre E-Mail' : 'Your email'}
+                  className="w-full px-3 py-2 rounded-lg border border-blue-200 dark:border-blue-800 text-sm mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                />
+                <button className="w-full bg-blue-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
+                  {currentLanguage === 'ku' ? 'تۆمارکردن' : currentLanguage === 'de' ? 'Abonnieren' : 'Subscribe'}
+                </button>
               </div>
             </div>
           </aside>

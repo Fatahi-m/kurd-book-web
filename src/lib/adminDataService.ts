@@ -1,20 +1,25 @@
-import { books as websiteBooks, authors as websiteAuthors } from '@/data/books';
+import { books as websiteBooks, authors as websiteAuthors, translators as websiteTranslators } from '@/data/books';
 
 // Admin Data Management Service
 // در یک پروژه واقعی، این عملیات‌ها با backend انجام می‌شود
 
 export interface AdminOrder {
   id: string;
+  userId?: string; // Link to user profile
   customerName: string;
   customerEmail: string;
   date: string;
   status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
   total: number;
+  paymentMethod?: string;
+  shippingAddress?: string;
   items: {
     bookId: string;
     title: string;
     quantity: number;
     price: number;
+    image?: string;
+    author?: string;
   }[];
 }
 
@@ -63,10 +68,20 @@ export interface AdminAuthor {
   imageUrl?: string;
 }
 
+export interface AdminTranslator {
+  id: string;
+  name: string;
+  latinName?: string;
+  nationality?: string;
+  imageUrl?: string;
+  languages?: string[];
+}
+
 class AdminDataService {
   private static instance: AdminDataService;
   private books: AdminBook[] = [];
   private authors: AdminAuthor[] = [];
+  private translators: AdminTranslator[] = [];
   private orders: AdminOrder[] = [];
 
   private constructor() {
@@ -88,6 +103,7 @@ class AdminDataService {
       // Using v3 keys to force refresh data with website books
       const savedBooks = localStorage.getItem('admin_books_v3');
       const savedAuthors = localStorage.getItem('admin_authors_v3');
+      const savedTranslators = localStorage.getItem('admin_translators_v3');
       const savedOrders = localStorage.getItem('admin_orders_v3');
 
       if (savedBooks) {
@@ -119,7 +135,8 @@ class AdminDataService {
           imageUrl: book.image,
           pages: book.pages,
           isbn: book.isbn,
-          publishDate: book.publishedDate
+          publishDate: book.publishedDate,
+          translator: book.translator
         }));
         this.saveToStorage();
       }
@@ -134,6 +151,21 @@ class AdminDataService {
           latinName: author.latinName,
           nationality: author.nationality,
           imageUrl: author.image
+        }));
+        this.saveToStorage();
+      }
+
+      if (savedTranslators) {
+        this.translators = JSON.parse(savedTranslators);
+      } else {
+        // Load translators from website data
+        this.translators = websiteTranslators.map(translator => ({
+          id: translator.id,
+          name: translator.name,
+          latinName: translator.latinName,
+          nationality: translator.nationality,
+          imageUrl: translator.image,
+          languages: translator.languages
         }));
         this.saveToStorage();
       }
@@ -177,6 +209,7 @@ class AdminDataService {
     if (typeof window !== 'undefined') {
       localStorage.setItem('admin_books_v3', JSON.stringify(this.books));
       localStorage.setItem('admin_authors_v3', JSON.stringify(this.authors));
+      localStorage.setItem('admin_translators_v3', JSON.stringify(this.translators));
       localStorage.setItem('admin_orders_v3', JSON.stringify(this.orders));
     }
   }
@@ -255,6 +288,39 @@ class AdminDataService {
     return true;
   }
 
+  // Translator Management
+  getAllTranslators(): AdminTranslator[] {
+    return [...this.translators];
+  }
+
+  addTranslator(translator: Omit<AdminTranslator, 'id'>): AdminTranslator {
+    const newTranslator = {
+      ...translator,
+      id: Date.now().toString()
+    };
+    this.translators.push(newTranslator);
+    this.saveToStorage();
+    return newTranslator;
+  }
+
+  updateTranslator(id: string, updatedTranslator: Partial<AdminTranslator>): AdminTranslator | null {
+    const index = this.translators.findIndex(translator => translator.id === id);
+    if (index === -1) return null;
+
+    this.translators[index] = { ...this.translators[index], ...updatedTranslator };
+    this.saveToStorage();
+    return this.translators[index];
+  }
+
+  deleteTranslator(id: string): boolean {
+    const index = this.translators.findIndex(translator => translator.id === id);
+    if (index === -1) return false;
+
+    this.translators.splice(index, 1);
+    this.saveToStorage();
+    return true;
+  }
+
   // Order Management
   getAllOrders(): AdminOrder[] {
     return [...this.orders].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -282,6 +348,31 @@ class AdminDataService {
     return true;
   }
 
+  // Create a new order
+  createOrder(orderData: Omit<AdminOrder, 'id' | 'date' | 'status'>): AdminOrder {
+    const newOrder: AdminOrder = {
+      ...orderData,
+      id: 'ORD-' + Math.floor(Math.random() * 1000000),
+      date: new Date().toISOString(),
+      status: 'pending'
+    };
+    
+    this.orders.unshift(newOrder); // Add to beginning of list
+    this.saveToStorage();
+    
+    // Update inventory
+    newOrder.items.forEach(item => {
+      this.decreaseInventory(item.bookId, item.quantity);
+    });
+    
+    return newOrder;
+  }
+
+  // Get orders by user ID
+  getOrdersByUserId(userId: string): AdminOrder[] {
+    return this.orders.filter(order => order.userId === userId);
+  }
+
   // Statistics
   getStats() {
     const totalRevenue = this.orders
@@ -295,6 +386,7 @@ class AdminDataService {
     return {
       totalBooks: this.books.length,
       totalAuthors: this.authors.length,
+      totalTranslators: this.translators.length,
       totalReviews: this.books.reduce((sum, book) => sum + book.reviewCount, 0),
       averageRating: this.books.length > 0 
         ? (this.books.reduce((sum, book) => sum + book.rating, 0) / this.books.length).toFixed(1)
@@ -312,6 +404,7 @@ class AdminDataService {
     return this.books.filter(book => 
       book.title.toLowerCase().includes(lowerQuery) ||
       book.author.toLowerCase().includes(lowerQuery) ||
+      (book.translator && book.translator.toLowerCase().includes(lowerQuery)) ||
       book.category.toLowerCase().includes(lowerQuery)
     );
   }
@@ -321,6 +414,14 @@ class AdminDataService {
     return this.authors.filter(author => 
       author.name.toLowerCase().includes(lowerQuery) ||
       (author.latinName && author.latinName.toLowerCase().includes(lowerQuery))
+    );
+  }
+
+  searchTranslators(query: string): AdminTranslator[] {
+    const lowerQuery = query.toLowerCase();
+    return this.translators.filter(translator => 
+      translator.name.toLowerCase().includes(lowerQuery) ||
+      (translator.latinName && translator.latinName.toLowerCase().includes(lowerQuery))
     );
   }
 
@@ -356,10 +457,12 @@ class AdminDataService {
   clearAllData(): void {
     this.books = [];
     this.authors = [];
+    this.translators = [];
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('admin_books_v2');
-      localStorage.removeItem('admin_authors_v2');
-      localStorage.removeItem('admin_orders_v2');
+      localStorage.removeItem('admin_books_v3');
+      localStorage.removeItem('admin_authors_v3');
+      localStorage.removeItem('admin_translators_v3');
+      localStorage.removeItem('admin_orders_v3');
     }
   }
 }

@@ -108,3 +108,12 @@ body.font-english {
 .animate-slideDown {
   animation: slideDown 0.2s ease-out;
 }
+
+/* Safe area utilities for mobile */
+.pb-safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.pt-safe-area-top {
+  padding-top: env(safe-area-inset-top);
+}

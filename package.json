@@ -25,6 +25,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-i18next": "^16.3.4",
+    "recharts": "^3.5.0",
     "typescript": "^5.9.3",
     "vazirmatn": "^33.0.3"
   },

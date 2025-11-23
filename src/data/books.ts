@@ -129,6 +129,50 @@ export const books: Book[] = [
     newRelease: false,
     rating: 4.4,
     reviewCount: 91
+  },
+  {
+    id: '7',
+    title: 'مێژووی تەواوی جیهان',
+    author: 'جان کلۆد بارۆ و غیوم بیغۆ',
+    translator: 'هۆگر ڕەحمان قادر',
+    publisher: 'ناوەندی غەزەلنووس',
+    price: 18.00,
+    image: '/images/books/book-7.jpg',
+    description: 'کتێبێک سەبارەت بە مێژووی جیهان لە سەرەتاوە تا ئێستا',
+    isbn: '978-964-000-001-1',
+    pages: 500,
+    language: 'kurdish',
+    category: 'history',
+    tags: ['مێژوو', 'جیهان'],
+    publishedDate: '2020-01-01',
+    inStock: true,
+    featured: false,
+    bestseller: false,
+    newRelease: true,
+    rating: 4.5,
+    reviewCount: 10
+  },
+  {
+    id: '8',
+    title: 'مەسخ',
+    author: 'فرانتس کافکا',
+    translator: 'ئازاد هاشم',
+    publisher: 'ناوەندی ئەندێشە',
+    price: 10.00,
+    image: '/images/books/book-8.jpg',
+    description: 'ڕۆمانی بەناوبانگی کافکا',
+    isbn: '978-964-000-002-2',
+    pages: 120,
+    language: 'kurdish',
+    category: 'literature',
+    tags: ['ڕۆمان', 'کلاسیک'],
+    publishedDate: '2019-01-01',
+    inStock: true,
+    featured: true,
+    bestseller: true,
+    newRelease: false,
+    rating: 4.8,
+    reviewCount: 45
   }
 ];
 
@@ -386,5 +430,71 @@ export const authors: Author[] = [
     genre: ['فەلسەفە', 'لێکۆڵینەوە'],
     awards: ['خەڵاتی باشترین کتابی فەلسەفی'],
     books: ['6']
+  }
+];
+
+// Translators data
+export const translators: import('@/lib/types').Translator[] = [
+  {
+    id: '1',
+    name: 'هەژار موکریانی',
+    latinName: 'Hejar Mukriyani',
+    bio: {
+      ku: 'هەژار موکریانی (١٩٢١-١٩٩١) شاعیر، نووسەر و وەرگێڕی گەورەی کوردە. وەرگێڕانی قورئانی پیرۆز و شەرەفنامە و چوارینەکانی خەیام لە گرنگترین کارەکانی ئەون.',
+      en: 'Hejar Mukriyani (1921-1991) was a great Kurdish poet, writer, and translator. His translations of the Holy Quran, Sharafnama, and Khayyam\'s Quartets are among his most important works.',
+      de: 'Hejar Mukriyani (1921-1991) war ein großer kurdischer Dichter, Schriftsteller und Übersetzer. Seine Übersetzungen des Heiligen Koran, Sharafnama und Khayyams Quartette gehören zu seinen wichtigsten Werken.'
+    },
+    image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=150&h=150&fit=crop&crop=face',
+    birthYear: 1921,
+    deathYear: 1991,
+    nationality: 'کورد',
+    languages: ['کوردی', 'عەرەبی', 'فارسی'],
+    books: ['1', '5']
+  },
+  {
+    id: '2',
+    name: 'محەمەد قازی',
+    latinName: 'Mohammad Qazi',
+    bio: {
+      ku: 'محەمەد قازی (١٩١٣-١٩٩٨) یەکێک لە بەناوبانگترین وەرگێڕەکانی ئێران و کوردستان بوو. ئەو بە "باوکی وەرگێڕانی ئێران" ناسراوە و دەیان شاکاری ئەدەبی جیهانی وەرگێڕاوەتە سەر زمانی فارسی و کوردی.',
+      en: 'Mohammad Qazi (1913-1998) was one of the most famous translators in Iran and Kurdistan. Known as the "Father of Translation in Iran", he translated dozens of world literary masterpieces into Persian and Kurdish.',
+      de: 'Mohammad Qazi (1913-1998) war einer der berühmtesten Übersetzer im Iran und in Kurdistan. Bekannt als "Vater der Übersetzung im Iran", übersetzte er Dutzende von Meisterwerken der Weltliteratur ins Persische und Kurdische.'
+    },
+    image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop&crop=face',
+    birthYear: 1913,
+    deathYear: 1998,
+    nationality: 'کورد',
+    languages: ['کوردی', 'فارسی', 'فەڕەنسی'],
+    books: ['2', '3']
+  },
+  {
+    id: '3',
+    name: 'هۆگر ڕەحمان قادر',
+    latinName: 'Hogir Rahman Qadir',
+    bio: {
+      ku: 'هۆگر ڕەحمان قادر وەرگێڕێکی بەتوانای کوردە کە چەندین کتێبی گرنگی مێژوویی و فکری وەرگێڕاوە.',
+      en: 'Hogir Rahman Qadir is a capable Kurdish translator who has translated several important historical and intellectual books.',
+      de: 'Hogir Rahman Qadir ist ein fähiger kurdischer Übersetzer, der mehrere wichtige historische und intellektuelle Bücher übersetzt hat.'
+    },
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
+    birthYear: 1980,
+    nationality: 'کورد',
+    languages: ['کوردی', 'فەڕەنسی', 'ئینگلیزی'],
+    books: ['7']
+  },
+  {
+    id: '4',
+    name: 'ئازاد هاشم',
+    latinName: 'Azad Hashim',
+    bio: {
+      ku: 'ئازاد هاشم وەرگێڕ و نووسەرێکی کوردە، ناسراوە بە وەرگێڕانی بەرهەمە ئەدەبییە جیهانییەکان.',
+      en: 'Azad Hashim is a Kurdish translator and writer, known for translating world literary works.',
+      de: 'Azad Hashim ist ein kurdischer Übersetzer und Schriftsteller, bekannt für die Übersetzung von Werken der Weltliteratur.'
+    },
+    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
+    birthYear: 1975,
+    nationality: 'کورد',
+    languages: ['کوردی', 'ئەڵمانی', 'ئینگلیزی'],
+    books: ['8']
   }
 ];

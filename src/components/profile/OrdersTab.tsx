@@ -1,247 +1,220 @@
 'use client';
 
-import React from 'react';
-import { Order } from '@/lib/types';
+import React, { useEffect, useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { formatPrice } from '@/lib/utils';
-
-// Mock orders data
-const mockOrders: Order[] = [
-  {
-    id: 'ORD-001',
-    userId: '1',
-    items: [
-      {
-        book: {
-          id: '1',
-          title: 'میم و زین',
-          author: 'ئەحمەد موختار جاف',
-          publisher: 'دەزگای چاپ و بڵاوکردنەوەی کوردستان',
-          price: 25000,
-          image: '/images/books/meem-w-zeen.jpg',
-          description: 'رۆمانێکی کوردی کلاسیک',
-          isbn: '978-964-123-456-1',
-          pages: 320,
-          language: 'kurdish',
-          category: 'ئەدەبیات',
-          tags: ['رۆمان', 'کلاسیک'],
-          publishedDate: '2020-01-15',
-          inStock: true,
-          featured: true,
-          bestseller: true,
-          newRelease: false,
-          rating: 4.8,
-          reviewCount: 125
-        },
-        quantity: 1
-      },
-      {
-        book: {
-          id: '2',
-          title: 'شیعرەکانی پیرەمێرد',
-          author: 'پیرەمێرد',
-          publisher: 'چاپخانەی کوردستان',
-          price: 18000,
-          image: '/images/books/piramaerd-poems.jpg',
-          description: 'کۆمەڵە شیعرەکانی پیرەمێرد',
-          isbn: '978-964-123-456-2',
-          pages: 240,
-          language: 'kurdish',
-          category: 'شیعر',
-          tags: ['شیعر', 'کلاسیک'],
-          publishedDate: '2019-05-20',
-          inStock: true,
-          featured: false,
-          bestseller: true,
-          newRelease: false,
-          rating: 4.6,
-          reviewCount: 89
-        },
-        quantity: 2
-      }
-    ],
-    totalAmount: 61000,
-    status: 'delivered',
-    shippingAddress: {
-      firstName: 'کاروان',
-      lastName: 'احمد',
-      street: 'شەقامی سەلاحەدین',
-      city: 'هەولێر',
-      state: 'کوردستان',
-      zipCode: '44001',
-      country: 'عێراق',
-      phone: '+964 750 123 4567'
-    },
-    paymentMethod: 'cash',
-    createdAt: new Date('2024-10-15'),
-    updatedAt: new Date('2024-10-22'),
-    deliveredAt: new Date('2024-10-22')
-  },
-  {
-    id: 'ORD-002',
-    userId: '1',
-    items: [
-      {
-        book: {
-          id: '3',
-          title: 'مێژووی کورد',
-          author: 'محەمەد ئەمین زەکی',
-          publisher: 'دەزگای چاپ و بڵاوکردنەوەی کوردستان',
-          price: 35000,
-          image: '/images/books/history-of-kurds.jpg',
-          description: 'مێژووی گەلی کورد',
-          isbn: '978-964-123-456-3',
-          pages: 480,
-          language: 'kurdish',
-          category: 'مێژوو',
-          tags: ['مێژوو', 'کورد'],
-          publishedDate: '2021-03-10',
-          inStock: true,
-          featured: true,
-          bestseller: false,
-          newRelease: false,
-          rating: 4.9,
-          reviewCount: 156
-        },
-        quantity: 1
-      }
-    ],
-    totalAmount: 35000,
-    status: 'processing',
-    shippingAddress: {
-      firstName: 'کاروان',
-      lastName: 'احمد',
-      street: 'شەقامی سەلاحەدین',
-      city: 'هەولێر',
-      state: 'کوردستان',
-      zipCode: '44001',
-      country: 'عێراق',
-      phone: '+964 750 123 4567'
-    },
-    paymentMethod: 'bank_transfer',
-    createdAt: new Date('2024-11-10'),
-    updatedAt: new Date('2024-11-15')
-  }
-];
+import { adminDataService, AdminOrder } from '@/lib/adminDataService';
+import { Package, Truck, CheckCircle, XCircle, Clock, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface OrdersTabProps {
   userId: string;
 }
 
 export default function OrdersTab({ userId }: OrdersTabProps) {
-  const { t } = useLanguage();
+  const { t, currentLanguage } = useLanguage();
+  const [orders, setOrders] = useState<AdminOrder[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
+
+  useEffect(() => {
+    const userOrders = adminDataService.getOrdersByUserId(userId);
+    setOrders(userOrders);
+    setLoading(false);
+  }, [userId]);
   
-  const getStatusColor = (status: Order['status']) => {
+  const toggleOrder = (orderId: string) => {
+    setExpandedOrder(expandedOrder === orderId ? null : orderId);
+  };
+
+  const getStatusColor = (status: AdminOrder['status']) => {
     switch (status) {
       case 'pending':
-        return 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300';
+        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300 border-yellow-200 dark:border-yellow-800';
       case 'processing':
-        return 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300';
+        return 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 border-blue-200 dark:border-blue-800';
       case 'shipped':
-        return 'bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300';
+        return 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300 border-purple-200 dark:border-purple-800';
       case 'delivered':
-        return 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300';
+        return 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 border-green-200 dark:border-green-800';
       case 'cancelled':
-        return 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300';
+        return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300 border-red-200 dark:border-red-800';
       default:
-        return 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300';
+        return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-600';
     }
   };
 
-  const getStatusText = (status: Order['status']) => {
+  const getStatusIcon = (status: AdminOrder['status']) => {
     switch (status) {
-      case 'pending':
-        return 'چاوەڕێی پەسەندکردن';
-      case 'processing':
-        return 'لە ڕێگادایە';
-      case 'shipped':
-        return 'نێردراوە';
-      case 'delivered':
-        return 'گەیشتووە';
-      case 'cancelled':
-        return 'هەڵوەشێنراوە';
-      default:
-        return status;
+      case 'pending': return <Clock className="w-4 h-4" />;
+      case 'processing': return <Package className="w-4 h-4" />;
+      case 'shipped': return <Truck className="w-4 h-4" />;
+      case 'delivered': return <CheckCircle className="w-4 h-4" />;
+      case 'cancelled': return <XCircle className="w-4 h-4" />;
+      default: return <Package className="w-4 h-4" />;
     }
   };
 
-  const userOrders = mockOrders.filter(order => order.userId === userId);
+  const getStatusText = (status: AdminOrder['status']) => {
+    if (currentLanguage === 'ku') {
+      switch (status) {
+        case 'pending': return 'چاوەڕێی پەسەندکردن';
+        case 'processing': return 'لە ڕێگادایە';
+        case 'shipped': return 'نێردراوە';
+        case 'delivered': return 'گەیشتووە';
+        case 'cancelled': return 'هەڵوەشێنراوە';
+        default: return status;
+      }
+    } else if (currentLanguage === 'en') {
+      return status.charAt(0).toUpperCase() + status.slice(1);
+    } else {
+      // German translations
+      switch (status) {
+        case 'pending': return 'Ausstehend';
+        case 'processing': return 'In Bearbeitung';
+        case 'shipped': return 'Versandt';
+        case 'delivered': return 'Geliefert';
+        case 'cancelled': return 'Storniert';
+        default: return status;
+      }
+    }
+  };
 
-  if (userOrders.length === 0) {
+  if (loading) {
     return (
-      <div className="text-center py-12">
-        <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
-          <span className="text-gray-400 dark:text-gray-500 text-2xl">📦</span>
+      <div className="flex justify-center py-12">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  if (orders.length === 0) {
+    return (
+      <div className="text-center py-16 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
+        <div className="w-20 h-20 bg-blue-50 dark:bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
+          <Package className="w-10 h-10 text-blue-400 dark:text-blue-500" />
         </div>
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">هیچ داواکارییەک نییە</h3>
-        <p className="text-gray-500 dark:text-gray-400">تۆ تا ئێستا هیچ داواکارییەکت ئەنجام نەداوە.</p>
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+          {currentLanguage === 'ku' ? 'هیچ داواکارییەک نییە' : currentLanguage === 'en' ? 'No orders yet' : 'Keine Bestellungen'}
+        </h3>
+        <p className="text-gray-500 dark:text-gray-400 max-w-md mx-auto">
+          {currentLanguage === 'ku' 
+            ? 'تۆ تا ئێستا هیچ داواکارییەکت ئەنجام نەداوە. دەست بکە بە کڕین!' 
+            : currentLanguage === 'en' 
+              ? 'You haven\'t placed any orders yet. Start shopping now!' 
+              : 'Sie haben noch keine Bestellungen aufgegeben. Jetzt einkaufen!'}
+        </p>
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">داواکارییەکان</h2>
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
+        <Package className="w-6 h-6 text-blue-600" />
+        {currentLanguage === 'ku' ? 'داواکارییەکان' : currentLanguage === 'en' ? 'My Orders' : 'Meine Bestellungen'}
+      </h2>
       
       <div className="space-y-4">
-        {userOrders.map((order) => (
-          <div key={order.id} className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden transition-colors duration-300">
-            <div className="bg-gray-50 dark:bg-gray-700/50 px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex flex-wrap items-center justify-between gap-4">
-              <div className="flex flex-wrap gap-6">
+        {orders.map((order) => (
+          <div key={order.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 hover:shadow-md">
+            <div 
+              className="p-5 cursor-pointer flex flex-wrap items-center justify-between gap-4"
+              onClick={() => toggleOrder(order.id)}
+            >
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
                 <div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 uppercase">ژمارەی داواکاری</p>
-                  <p className="font-medium text-gray-900 dark:text-white">#{order.id}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 uppercase font-semibold tracking-wider mb-1">
+                    {currentLanguage === 'ku' ? 'ژمارەی داواکاری' : currentLanguage === 'en' ? 'Order ID' : 'Bestell-Nr.'}
+                  </p>
+                  <p className="font-bold text-gray-900 dark:text-white font-mono">#{order.id.substring(0, 8)}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 uppercase">بەروار</p>
-                  <p className="font-medium text-gray-900 dark:text-white">{order.createdAt.toLocaleDateString('ku-Arab-IQ', {
+                  <p className="text-xs text-gray-500 dark:text-gray-400 uppercase font-semibold tracking-wider mb-1">
+                    {currentLanguage === 'ku' ? 'بەروار' : currentLanguage === 'en' ? 'Date' : 'Datum'}
+                  </p>
+                  <p className="font-medium text-gray-900 dark:text-white">
+                    {new Date(order.date).toLocaleDateString(currentLanguage === 'ku' ? 'ku-IQ' : currentLanguage === 'de' ? 'de-DE' : 'en-US', {
                       year: 'numeric',
-                      month: 'long',
+                      month: 'short',
                       day: 'numeric'
-                    })}</p>
+                    })}
+                  </p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 uppercase">کۆی گشتی</p>
-                  <p className="font-medium text-gray-900 dark:text-white">{formatPrice(order.totalAmount)}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 uppercase font-semibold tracking-wider mb-1">
+                    {currentLanguage === 'ku' ? 'کۆی گشتی' : currentLanguage === 'en' ? 'Total' : 'Gesamt'}
+                  </p>
+                  <p className="font-bold text-blue-600 dark:text-blue-400">{formatPrice(order.total)}</p>
                 </div>
               </div>
               
-              <div className="flex items-center gap-3">
-                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
+              <div className="flex items-center gap-4 ml-auto sm:ml-0">
+                <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border ${getStatusColor(order.status)}`}>
+                  {getStatusIcon(order.status)}
                   {getStatusText(order.status)}
                 </span>
-                <button className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm font-medium">
-                  وردەکاری
-                </button>
+                {expandedOrder === order.id ? (
+                  <ChevronUp className="w-5 h-5 text-gray-400" />
+                ) : (
+                  <ChevronDown className="w-5 h-5 text-gray-400" />
+                )}
               </div>
             </div>
             
-            <div className="p-6 bg-white dark:bg-gray-800">
-              <div className="space-y-4">
-                {order.items.map((item, index) => (
-                  <div key={index} className="flex items-center gap-4">
-                    <div className="relative w-16 h-24 flex-shrink-0 bg-gray-100 dark:bg-gray-700 rounded overflow-hidden">
-                      <div className="w-full h-full bg-gradient-to-br from-blue-400 to-blue-600 rounded flex items-center justify-center">
-                        <span className="text-white text-xs font-bold">
-                          {item.book.title.charAt(0)}
-                        </span>
+            {expandedOrder === order.id && (
+              <div className="border-t border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 p-5 animate-fade-in">
+                <div className="space-y-4">
+                  {order.items.map((item, index) => (
+                    <div key={index} className="flex items-center gap-4 bg-white dark:bg-gray-800 p-3 rounded-lg border border-gray-100 dark:border-gray-700">
+                      <div className="relative w-16 h-20 flex-shrink-0 bg-gray-100 dark:bg-gray-700 rounded-md overflow-hidden shadow-sm">
+                        {item.image ? (
+                          <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                            <span className="text-white text-xs font-bold">
+                              {item.title.charAt(0)}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-sm font-bold text-gray-900 dark:text-white truncate mb-1">
+                          {item.title}
+                        </h4>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">{item.author}</p>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
+                            <span className="font-medium">{formatPrice(item.price)}</span>
+                            <span className="mx-2 text-gray-300">×</span>
+                            <span>{item.quantity}</span>
+                          </div>
+                          <span className="font-bold text-gray-900 dark:text-white">
+                            {formatPrice(item.price * item.quantity)}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-sm font-medium text-gray-900 dark:text-white truncate">
-                        {item.book.title}
-                      </h4>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">{item.book.author}</p>
-                      <div className="mt-1 flex items-center text-sm text-gray-500 dark:text-gray-400">
-                        <span>{formatPrice(item.book.price * item.quantity)}</span>
-                        <span className="mx-2">•</span>
-                        <span>{item.quantity} دانە</span>
-                      </div>
+                  ))}
+                </div>
+                
+                <div className="mt-6 flex justify-end pt-4 border-t border-gray-200 dark:border-gray-700">
+                  <div className="text-right space-y-1">
+                    <div className="flex justify-between gap-8 text-sm text-gray-500 dark:text-gray-400">
+                      <span>{currentLanguage === 'ku' ? 'کۆی کاڵاکان' : 'Subtotal'}</span>
+                      <span>{formatPrice(order.total)}</span>
+                    </div>
+                    <div className="flex justify-between gap-8 text-sm text-gray-500 dark:text-gray-400">
+                      <span>{currentLanguage === 'ku' ? 'گەیاندن' : 'Shipping'}</span>
+                      <span className="text-green-600 dark:text-green-400">{currentLanguage === 'ku' ? 'بێ بەرامبەر' : 'Free'}</span>
+                    </div>
+                    <div className="flex justify-between gap-8 text-lg font-bold text-gray-900 dark:text-white pt-2 border-t border-gray-200 dark:border-gray-700 mt-2">
+                      <span>{currentLanguage === 'ku' ? 'کۆی گشتی' : 'Total'}</span>
+                      <span className="text-blue-600 dark:text-blue-400">{formatPrice(order.total)}</span>
                     </div>
                   </div>
-                ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         ))}
       </div>

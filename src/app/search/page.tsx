@@ -14,7 +14,7 @@ function SearchContent() {
   const [filteredBooks, setFilteredBooks] = useState<Book[]>(books);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedAuthor, setSelectedAuthor] = useState('all');
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 100000 });
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 200 });
   const [minRating, setMinRating] = useState(0);
   const [inStockOnly, setInStockOnly] = useState(false);
   const [sortBy, setSortBy] = useState('newest');
@@ -259,7 +259,7 @@ function SearchContent() {
                     <input
                       type="number"
                       value={priceRange.max}
-                      onChange={(e) => setPriceRange({...priceRange, max: parseInt(e.target.value) || 100000})}
+                      onChange={(e) => setPriceRange({...priceRange, max: parseInt(e.target.value) || 200})}
                       className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       min="0"
                     />

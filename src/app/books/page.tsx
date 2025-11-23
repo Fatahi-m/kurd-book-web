@@ -19,8 +19,9 @@ const categories = [
 ];
 
 export default function BooksPage() {
-	const { t } = useLanguage();
+	const { t, currentLanguage } = useLanguage();
 	const [selectedCategory, setSelectedCategory] = useState('all');
+	const [selectedLanguage, setSelectedLanguage] = useState('all');
 	const [searchTerm, setSearchTerm] = useState('');
 	const [sortBy, setSortBy] = useState('title');
 	const [books, setBooks] = useState<Book[]>([]);
@@ -33,10 +34,15 @@ export default function BooksPage() {
 
 	const filteredBooks = books.filter(book => {
 		const matchesCategory = selectedCategory === 'all' || book.category === selectedCategory;
+		const matchesLanguage = selectedLanguage === 'all' || book.language === selectedLanguage;
+		
+		const searchLower = searchTerm.toLowerCase();
 		const matchesSearch =
-			book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-			book.author.toLowerCase().includes(searchTerm.toLowerCase());
-		return matchesCategory && matchesSearch;
+			book.title.toLowerCase().includes(searchLower) ||
+			book.author.toLowerCase().includes(searchLower) ||
+			(book.translator && book.translator.toLowerCase().includes(searchLower));
+			
+		return matchesCategory && matchesLanguage && matchesSearch;
 	});
 
 	const sortedBooks = [...filteredBooks].sort((a, b) => {
@@ -79,11 +85,20 @@ export default function BooksPage() {
                 </div>
               </div>
 
-              {/* Ad Space */}
-              <div className="bg-white dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg h-[300px] flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 p-4 transition-colors duration-300">
-                <span className="text-4xl mb-2">📢</span>
-                <span className="text-center font-medium">شوێنی ریکلام</span>
-                <span className="text-xs text-center mt-2">(Ad Space)</span>
+              {/* Reading Club Promo */}
+              <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-xl p-6 text-white shadow-lg text-center">
+                <div className="text-4xl mb-3">🎯</div>
+                <h3 className="text-lg font-bold mb-2">{currentLanguage === 'ku' ? 'تەحەددی خوێندنەوە' : currentLanguage === 'de' ? 'Lese-Challenge' : 'Reading Challenge'}</h3>
+                <p className="text-sm mb-4 opacity-90">
+                  {currentLanguage === 'ku' 
+                    ? 'تەواوکردنی ١٢ کتێب لە ساڵێکدا. بەشداری بکە و خەڵات وەربگرە!' 
+                    : currentLanguage === 'de'
+                    ? 'Lies 12 Bücher in einem Jahr. Mach mit und gewinne Preise!'
+                    : 'Read 12 books in a year. Join now and win prizes!'}
+                </p>
+                <button className="bg-white text-indigo-600 px-4 py-2 rounded-lg font-semibold hover:bg-indigo-50 transition-colors text-sm w-full">
+                  {currentLanguage === 'ku' ? 'بەشداری کردن' : currentLanguage === 'de' ? 'Jetzt beitreten' : 'Join Now'}
+                </button>
               </div>
             </div>
           </div>					{/* Main Content */}
@@ -96,7 +111,21 @@ export default function BooksPage() {
 
 						{/* Filters */}
 						<div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8 transition-colors duration-300">
-							<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+								{/* Search */}
+								<div className="md:col-span-2 lg:col-span-3">
+									<label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+										{t('books.search')}
+									</label>
+									<input
+										type="text"
+										value={searchTerm}
+										onChange={(e) => setSearchTerm(e.target.value)}
+										placeholder={currentLanguage === 'ku' ? 'گەڕان بەپێی ناونیشان، نووسەر، یان وەرگێڕ...' : 'Search by title, author, or translator...'}
+										className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+									/>
+								</div>
+
 								{/* Category Filter */}
 								<div>
 									<label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -115,18 +144,23 @@ export default function BooksPage() {
 									</select>
 								</div>
 
-								{/* Search */}
+								{/* Language Filter */}
 								<div>
 									<label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-										{t('books.search')}
+										{currentLanguage === 'ku' ? 'زمان' : currentLanguage === 'en' ? 'Language' : 'Sprache'}
 									</label>
-									<input
-										type="text"
-										value={searchTerm}
-										onChange={(e) => setSearchTerm(e.target.value)}
-										placeholder={t('books.searchPlaceholder')}
-										className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
-									/>
+									<select
+										value={selectedLanguage}
+										onChange={(e) => setSelectedLanguage(e.target.value)}
+										className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+									>
+										<option value="all">{currentLanguage === 'ku' ? 'هەموو' : currentLanguage === 'en' ? 'All' : 'Alle'}</option>
+										<option value="kurdish">کوردی</option>
+										<option value="english">English</option>
+										<option value="arabic">عربی</option>
+										<option value="persian">فارسی</option>
+										<option value="german">Deutsch</option>
+									</select>
 								</div>
 
 								{/* Sort */}
@@ -156,7 +190,7 @@ export default function BooksPage() {
 						</div>
 
 						{/* Books Grid */}
-						<div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+						<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
 							{sortedBooks.map((book) => (
 								<BookCard key={book.id} book={book} />
 							))}

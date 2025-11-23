@@ -1,12 +1,14 @@
 'use client';
 
-import { authors, books } from '@/data/books';
+import { authors } from '@/data/books';
+import { bookService } from '@/lib/bookService';
 import { Author, Book } from '@/lib/types';
 import { notFound } from 'next/navigation';
 import BookCard from '@/components/ui/BookCard';
 import Link from 'next/link';
 import { formatPrice } from '@/lib/utils';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useState, useEffect } from 'react';
 
 interface AuthorDetailPageProps {
   params: {
@@ -16,7 +18,12 @@ interface AuthorDetailPageProps {
 
 export default function AuthorDetailPage({ params }: AuthorDetailPageProps) {
   const { t, currentLanguage } = useLanguage();
+  const [books, setBooks] = useState<Book[]>([]);
   const author = authors.find(a => a.id === params.id);
+  
+  useEffect(() => {
+    setBooks(bookService.getAllBooks());
+  }, []);
   
   if (!author) {
     notFound();
@@ -352,11 +359,22 @@ export default function AuthorDetailPage({ params }: AuthorDetailPageProps) {
                 </div>
               </div>
 
-              {/* Ad Space */}
-              <div className="bg-white dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg h-[250px] flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 p-4 transition-colors duration-300">
-                <span className="text-4xl mb-2">📢</span>
-                <span className="text-center font-medium">شوێنی ریکلام</span>
-                <span className="text-xs text-center mt-2">(Ad Space)</span>
+              {/* Newsletter */}
+              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border border-blue-100 dark:border-blue-900/30 transition-colors duration-300">
+                <h3 className="font-bold text-blue-800 dark:text-blue-200 mb-2">
+                  {currentLanguage === 'ku' ? 'ئاگاداری نوێترینەکان بە' : currentLanguage === 'de' ? 'Bleiben Sie auf dem Laufenden' : 'Stay Updated'}
+                </h3>
+                <p className="text-xs text-blue-600 dark:text-blue-300 mb-4">
+                  {currentLanguage === 'ku' ? 'تۆمار بکە بۆ وەرگرتنی هەواڵی نوێترین کتێبەکان' : currentLanguage === 'de' ? 'Melden Sie sich an, um Neuigkeiten über die neuesten Bücher zu erhalten' : 'Subscribe to get news about the latest books'}
+                </p>
+                <input 
+                  type="email" 
+                  placeholder={currentLanguage === 'ku' ? 'ئیمەیڵەکەت بنووسە' : currentLanguage === 'de' ? 'Ihre E-Mail' : 'Your email'}
+                  className="w-full px-3 py-2 rounded-lg border border-blue-200 dark:border-blue-800 text-sm mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                />
+                <button className="w-full bg-blue-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
+                  {currentLanguage === 'ku' ? 'تۆمارکردن' : currentLanguage === 'de' ? 'Abonnieren' : 'Subscribe'}
+                </button>
               </div>
             </div>
           </aside>
@@ -377,16 +395,16 @@ export default function AuthorDetailPage({ params }: AuthorDetailPageProps) {
             </Link>
           </div>
 
-          {/* Ad Spaces */}
+          {/* Quick Links */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-white dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg h-[120px] flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 p-2 transition-colors duration-300">
-              <span className="text-2xl mb-1">📢</span>
-              <span className="text-center font-medium text-xs">شوێنی ریکلام</span>
-            </div>
-            <div className="bg-white dark:bg-gray-800 border-2 border-dashed border-blue-300 dark:border-blue-700 rounded-lg h-[120px] flex flex-col items-center justify-center text-blue-400 dark:text-blue-300 p-2 transition-colors duration-300">
-              <span className="text-2xl mb-1">🎁</span>
-              <span className="text-center font-medium text-xs">پێشکەشکراو</span>
-            </div>
+            <Link href="/contact" className="bg-white dark:bg-gray-800 rounded-lg h-[120px] flex flex-col items-center justify-center text-gray-600 dark:text-gray-300 p-2 shadow-sm hover:shadow-md transition-all duration-300">
+              <span className="text-2xl mb-2">📞</span>
+              <span className="text-center font-medium text-xs">{currentLanguage === 'ku' ? 'پەیوەندی' : 'Contact'}</span>
+            </Link>
+            <Link href="/bestsellers" className="bg-blue-50 dark:bg-blue-900/20 rounded-lg h-[120px] flex flex-col items-center justify-center text-blue-600 dark:text-blue-300 p-2 shadow-sm hover:shadow-md transition-all duration-300">
+              <span className="text-2xl mb-2">🏆</span>
+              <span className="text-center font-medium text-xs">{currentLanguage === 'ku' ? 'باشترینەکان' : 'Bestsellers'}</span>
+            </Link>
           </div>
         </div>
       </div>

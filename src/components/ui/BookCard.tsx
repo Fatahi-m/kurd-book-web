@@ -52,22 +52,22 @@ export default function BookCard({ book, showDiscount = true }: BookCardProps) {
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -5 }}
       transition={{ duration: 0.3 }}
-      className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group w-full border border-gray-100 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-500"
+      className="bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group w-full border border-gray-100 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-500 flex flex-col h-full"
     >
-      <Link href={`/book/${book.id}`}>
+      <Link href={`/book/${book.id}`} className="block relative flex-shrink-0">
         <div className="relative">
           {/* Book Image */}
-          <div className="aspect-[3/4] bg-gradient-to-br from-blue-100 to-orange-100 dark:from-gray-700 dark:to-gray-600 relative overflow-hidden flex items-center justify-center">
+          <div className="aspect-[2/3] bg-gradient-to-br from-blue-50 to-orange-50 dark:from-gray-700 dark:to-gray-600 relative overflow-hidden flex items-center justify-center">
             {book.coverUrl || book.image ? (
               <Image
                 src={book.coverUrl || book.image || '/images/default-book-cover.jpg'}
                 alt={book.title}
                 fill
-                className="object-cover group-hover:scale-110 transition-transform duration-300 rounded-xl"
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
                 sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1200px) 25vw, 20vw"
               />
             ) : (
-              <div className="text-5xl md:text-7xl text-blue-300 dark:text-gray-500">📚</div>
+              <div className="text-4xl md:text-5xl text-blue-200 dark:text-gray-600">📚</div>
             )}
           </div>
 
@@ -121,85 +121,72 @@ export default function BookCard({ book, showDiscount = true }: BookCardProps) {
       </Link>
 
       {/* Book Details */}
-      <div className="p-4">
-        <Link href={`/book/${book.id}`}>
-          <h3 className="text-base md:text-lg font-bold text-gray-800 dark:text-white mb-1 md:mb-2 line-clamp-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors leading-tight">
-            {book.title}
-          </h3>
-        </Link>
-        <Link href={`/author/${book.author}`}>
-          <p className="text-xs md:text-sm text-gray-600 dark:text-gray-300 mb-1 md:mb-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors line-clamp-1">
-            {book.author}
-          </p>
-        </Link>
-        <p className="text-xs text-gray-400 dark:text-gray-500 mb-2 md:mb-3 line-clamp-1">
-          {book.publisher}
-        </p>
-        {/* Rating */}
-        <div className="flex items-center mb-2 md:mb-3">
-          <div className="flex items-center">
-            {[...Array(5)].map((_, i) => (
-              <svg
-                key={i}
-                className={`w-4 h-4 ${i < Math.floor(rating) ? 'text-yellow-400' : 'text-gray-200 dark:text-gray-600'}`}
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
+      <div className="p-3 flex flex-col flex-grow">
+        <div className="flex-grow">
+          <Link href={`/book/${book.id}`}>
+            <h3 className="text-sm md:text-base font-bold text-gray-800 dark:text-white mb-1 line-clamp-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors leading-tight min-h-[2.5em]">
+              {book.title}
+            </h3>
+          </Link>
+          <Link href={`/author/${book.author}`}>
+            <p className="text-xs text-gray-600 dark:text-gray-400 mb-1 hover:text-blue-600 dark:hover:text-blue-400 transition-colors line-clamp-1">
+              {book.author}
+            </p>
+          </Link>
+          
+          {/* Rating */}
+          <div className="flex items-center mb-2">
+            <div className="flex items-center">
+              <svg className="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
               </svg>
-            ))}
-          </div>
-          <span className="text-xs md:text-sm text-gray-500 dark:text-gray-400 mr-2 rtl:mr-0 rtl:ml-2">
-            {rating} <span className="hidden sm:inline">({reviewCount})</span>
-          </span>
-        </div>
-        {/* Price & Stock */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 space-y-1 sm:space-y-0">
-          <div className="flex items-center space-x-2 rtl:space-x-reverse">
-            <span className="text-lg md:text-xl font-extrabold text-blue-600 dark:text-blue-400">
-              {formatPrice(book.price)}
-            </span>
-            {book.originalPrice && (
-              <span className="text-xs md:text-sm text-gray-400 dark:text-gray-500 line-through">
-                {formatPrice(book.originalPrice)}
+              <span className="text-xs text-gray-500 dark:text-gray-400 ml-1 rtl:ml-0 rtl:mr-1 font-medium">
+                {rating}
               </span>
-            )}
+            </div>
           </div>
-          <div className="flex items-center">
+        </div>
+
+        {/* Price & Stock */}
+        <div className="mt-auto pt-2 border-t border-gray-100 dark:border-gray-700">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-1.5">
+              <span className="text-base font-bold text-blue-600 dark:text-blue-400">
+                {formatPrice(book.price)}
+              </span>
+              {book.originalPrice && (
+                <span className="text-[10px] text-gray-400 line-through decoration-red-400">
+                  {formatPrice(book.originalPrice)}
+                </span>
+              )}
+            </div>
             {book.inStock ? (
-              <span className="text-xs text-green-600 dark:text-green-400 flex items-center font-semibold">
-                <span className="w-2 h-2 bg-green-500 rounded-full mr-1 rtl:mr-0 rtl:ml-1"></span>
-                {book.inventoryCount !== undefined ? (
-                  <span className="hidden sm:inline">{`${book.inventoryCount} ${t('status.inStock')}`}</span>
-                ) : (
-                  <span className="hidden sm:inline">{t('status.inStock')}</span>
-                )}
-                <span className="sm:hidden">✓</span>
+              <span className="text-[10px] text-green-600 dark:text-green-400 font-medium bg-green-50 dark:bg-green-900/20 px-1.5 py-0.5 rounded">
+                {t('status.inStock')}
               </span>
             ) : (
-              <span className="text-xs text-red-600 dark:text-red-400 flex items-center font-semibold">
-                <span className="w-2 h-2 bg-red-500 rounded-full mr-1 rtl:mr-0 rtl:ml-1"></span>
-                <span className="hidden sm:inline">{t('status.outOfStock')}</span>
-                <span className="sm:hidden">✗</span>
+              <span className="text-[10px] text-red-600 dark:text-red-400 font-medium bg-red-50 dark:bg-red-900/20 px-1.5 py-0.5 rounded">
+                {t('status.outOfStock')}
               </span>
             )}
           </div>
+
+          {/* Add to Cart Button */}
+          <button 
+            onClick={() => book.inStock && addToCart(book, 1)}
+            className={`w-full py-2 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm
+              ${book.inStock
+                ? 'bg-blue-600 text-white hover:bg-blue-700 active:scale-95'
+                : 'bg-gray-100 dark:bg-gray-700 text-gray-400 cursor-not-allowed'}
+            `}
+            disabled={!book.inStock}
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.293 2.293c-.39.39-.586.876-.586 1.414V17a1 1 0 001 1h14M7 13v4a1 1 0 001 1h2m3-5a1 1 0 100 2 1 1 0 000-2z" />
+            </svg>
+            <span>{book.inStock ? t('buttons.addToCart') : t('status.outOfStock')}</span>
+          </button>
         </div>
-        {/* Add to Cart Button */}
-        <button 
-          onClick={() => book.inStock && addToCart(book, 1)}
-          className={`w-full py-2.5 px-4 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 shadow-md mt-1
-            ${book.inStock
-              ? 'bg-gradient-to-r from-blue-500 to-orange-400 text-white hover:from-blue-600 hover:to-orange-500 active:scale-95'
-              : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'}
-          `}
-          disabled={!book.inStock}
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.293 2.293c-.39.39-.586.876-.586 1.414V17a1 1 0 001 1h14M7 13v4a1 1 0 001 1h2m3-5a1 1 0 100 2 1 1 0 000-2z" />
-          </svg>
-          <span>{book.inStock ? t('buttons.addToCart') : t('status.outOfStock')}</span>
-        </button>
       </div>
     </motion.div>
   );
