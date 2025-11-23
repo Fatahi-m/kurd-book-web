@@ -2,6 +2,8 @@
 
 import { useState, useEffect, Suspense, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+import { User, Package, Heart, Settings, LogOut } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import OrdersTab from '@/components/profile/OrdersTab';
@@ -158,12 +160,12 @@ function ProfileContent() {
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 sticky top-24 transition-colors duration-300">
               <div className="flex flex-col items-center text-center mb-6">
                 <div className="w-24 h-24 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center text-blue-600 dark:text-blue-300 text-3xl font-bold mb-4">
-                  {user.name.charAt(0).toUpperCase()}
+                  {user.firstName.charAt(0).toUpperCase()}
                 </div>
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white">{user.name}</h2>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">{user.firstName} {user.lastName}</h2>
                 <p className="text-gray-500 dark:text-gray-400 text-sm">{user.email}</p>
                 <div className="mt-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
-                  {user.role === 'admin' ? 'بەڕێوەبەر' : 'بەکارھێنەر'}
+                  بەکارھێنەر
                 </div>
               </div>
 
@@ -240,7 +242,7 @@ function ProfileContent() {
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">ناو</label>
                       <input
                         type="text"
-                        value={user.name}
+                        value={`${user.firstName} ${user.lastName}`}
                         readOnly
                         className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
                       />
@@ -258,7 +260,7 @@ function ProfileContent() {
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">ڕۆڵی بەکارھێنەر</label>
                       <input
                         type="text"
-                        value={user.role === 'admin' ? 'بەڕێوەبەر' : 'بەکارھێنەر'}
+                        value="بەکارھێنەر"
                         readOnly
                         className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
                       />
@@ -276,8 +278,8 @@ function ProfileContent() {
                 </div>
               )}
 
-              {activeTab === 'orders' && <OrdersTab />}
-              {activeTab === 'favorites' && <FavoritesTab />}
+              {activeTab === 'orders' && <OrdersTab userId={user.id} />}
+              {activeTab === 'favorites' && <FavoritesTab userId={user.id} />}
               {activeTab === 'settings' && <SettingsTab />}
             </div>
           </div>
