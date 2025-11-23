@@ -104,20 +104,20 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       />
       
       {/* Menu Panel */}
-      <div className={`fixed top-0 h-full w-80 max-w-[85vw] bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out md:hidden right-0 ${
+      <div className={`fixed top-0 h-full w-80 max-w-[85vw] bg-white dark:bg-gray-900 shadow-xl z-50 transform transition-transform duration-300 ease-in-out md:hidden right-0 ${
         isOpen ? 'translate-x-0' : 'translate-x-full'
       } ${
         currentLanguage === 'ku' ? 'text-right' : 'text-left'
       }`} dir={currentLanguage === 'ku' ? 'rtl' : 'ltr'}>
         
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-blue-600 text-white">
+        <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800 bg-blue-600 dark:bg-blue-800 text-white">
           <h2 className="text-lg font-semibold">
             {t('nav.menu')}
           </h2>
           <button
             onClick={onClose}
-            className="p-2 rounded-full hover:bg-blue-700 transition-colors"
+            className="p-2 rounded-full hover:bg-blue-700 dark:hover:bg-blue-900 transition-colors"
             aria-label="Close menu"
           >
             <X size={20} />
@@ -132,10 +132,10 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 key={item.href}
                 href={item.href}
                 onClick={onClose}
-                className="flex items-center justify-between px-4 py-2.5 text-gray-700 hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-b-0"
+                className="flex items-center justify-between px-4 py-2.5 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors border-b border-gray-100 dark:border-gray-800 last:border-b-0"
               >
                 <div className={`flex items-center space-x-3 ${currentLanguage === 'ku' ? 'space-x-reverse' : ''}`}>
-                  <item.icon size={18} className="text-gray-500" />
+                  <item.icon size={18} className="text-gray-500 dark:text-gray-400" />
                   <span className="text-sm font-medium">{item.label}</span>
                 </div>
                 {item.badge && (
@@ -149,16 +149,16 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
           {/* Language Selector */}
           <div className="mt-3 px-4">
-            <div className="border-t border-gray-200 pt-3">
+            <div className="border-t border-gray-200 dark:border-gray-800 pt-3">
               <button
                 onClick={() => setShowLanguageMenu(!showLanguageMenu)}
-                className="flex items-center justify-between w-full px-4 py-2.5 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                className="flex items-center justify-between w-full px-4 py-2.5 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
               >
                 <div className={`flex items-center space-x-3 ${currentLanguage === 'ku' ? 'space-x-reverse' : ''}`}>
-                  <Globe size={18} className="text-gray-500" />
+                  <Globe size={18} className="text-gray-500 dark:text-gray-400" />
                   <div className={`flex flex-col ${currentLanguage === 'ku' ? 'items-end' : 'items-start'}`}>
                     <span className="text-sm font-medium">{t('nav.language')}</span>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-gray-500 dark:text-gray-400">
                       {languages.find(lang => lang.code === currentLanguage)?.name}
                     </span>
                   </div>
@@ -172,7 +172,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               </button>
               
               {showLanguageMenu && (
-                <div className="mt-2 bg-gray-50 rounded-lg p-2 border border-gray-200">
+                <div className="mt-2 bg-gray-50 dark:bg-gray-800 rounded-lg p-2 border border-gray-200 dark:border-gray-700">
                   <div className="space-y-1">
                     {languages.map((lang) => (
                       <button
@@ -180,8 +180,8 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                         onClick={() => handleLanguageChange(lang.code as 'ku' | 'en' | 'de')}
                         className={`flex items-center justify-between w-full px-3 py-2 text-sm rounded-md transition-colors ${
                           currentLanguage === lang.code
-                            ? 'bg-blue-100 text-blue-700 border border-blue-200'
-                            : 'text-gray-700 hover:bg-white hover:shadow-sm'
+                            ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800'
+                            : 'text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-700 hover:shadow-sm'
                         }`}
                       >
                         <div className={`flex items-center space-x-3 ${currentLanguage === 'ku' ? 'space-x-reverse' : ''}`}>
@@ -189,7 +189,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                           <span className="font-medium">{lang.name}</span>
                         </div>
                         {currentLanguage === lang.code && (
-                          <span className="text-blue-600 font-bold">✓</span>
+                          <span className="text-blue-600 dark:text-blue-400 font-bold">✓</span>
                         )}
                       </button>
                     ))}
@@ -200,8 +200,8 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           </div>
 
           {/* Footer */}
-          <div className="mt-4 px-4 text-center text-xs text-gray-500">
-            <div className="border-t border-gray-200 pt-3">
+          <div className="mt-4 px-4 text-center text-xs text-gray-500 dark:text-gray-400">
+            <div className="border-t border-gray-200 dark:border-gray-800 pt-3">
               <p className="text-xs">{t('app.name')}</p>
               <p className="mt-1 text-xs opacity-70">v1.0.0</p>
             </div>

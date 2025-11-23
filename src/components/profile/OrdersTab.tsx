@@ -134,17 +134,17 @@ export default function OrdersTab({ userId }: OrdersTabProps) {
   const getStatusColor = (status: Order['status']) => {
     switch (status) {
       case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300';
       case 'processing':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300';
       case 'shipped':
-        return 'bg-purple-100 text-purple-800';
+        return 'bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300';
       case 'delivered':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300';
       case 'cancelled':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300';
     }
   };
 
@@ -170,112 +170,81 @@ export default function OrdersTab({ userId }: OrdersTabProps) {
   if (userOrders.length === 0) {
     return (
       <div className="text-center py-12">
-        <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <span className="text-gray-400 text-2xl">📦</span>
+        <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
+          <span className="text-gray-400 dark:text-gray-500 text-2xl">📦</span>
         </div>
-        <h3 className="text-lg font-medium text-gray-900 mb-2">هیچ داواکارییەکت نەکردووە</h3>
-        <p className="text-gray-500 mb-4">کاتێک داواکارییەک دەکەیت، لێرە دەبینیتەوە</p>
-        <a
-          href="/books"
-          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
-        >
-          دان بە کتابەکانەوە
-        </a>
+        <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">هیچ داواکارییەک نییە</h3>
+        <p className="text-gray-500 dark:text-gray-400">تۆ تا ئێستا هیچ داواکارییەکت ئەنجام نەداوە.</p>
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-900">داواکارییەکانت</h2>
-        <p className="text-sm text-gray-600">{userOrders.length} داواکاری</p>
-      </div>
-
-      {userOrders.map((order) => (
-        <div key={order.id} className="bg-white border border-gray-200 rounded-lg shadow-sm">
-          {/* Order Header */}
-          <div className="px-6 py-4 border-b border-gray-200">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex items-center space-x-4 rtl:space-x-reverse mb-2 sm:mb-0">
+      <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">داواکارییەکان</h2>
+      
+      <div className="space-y-4">
+        {userOrders.map((order) => (
+          <div key={order.id} className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden transition-colors duration-300">
+            <div className="bg-gray-50 dark:bg-gray-700/50 px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex flex-wrap items-center justify-between gap-4">
+              <div className="flex flex-wrap gap-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">#{order.id}</h3>
-                  <p className="text-sm text-gray-600">
-                    {order.createdAt.toLocaleDateString('ku-Arab-IQ', {
+                  <p className="text-xs text-gray-500 dark:text-gray-400 uppercase">ژمارەی داواکاری</p>
+                  <p className="font-medium text-gray-900 dark:text-white">#{order.id}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 uppercase">بەروار</p>
+                  <p className="font-medium text-gray-900 dark:text-white">{order.createdAt.toLocaleDateString('ku-Arab-IQ', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric'
-                    })}
-                  </p>
+                    })}</p>
                 </div>
+                <div>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 uppercase">کۆی گشتی</p>
+                  <p className="font-medium text-gray-900 dark:text-white">{formatPrice(order.totalAmount)}</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-3">
                 <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
                   {getStatusText(order.status)}
                 </span>
-              </div>
-              <div className="text-left rtl:text-right">
-                <p className="text-lg font-semibold text-gray-900">
-                  {formatPrice(order.totalAmount)}
-                </p>
-                <p className="text-sm text-gray-600">
-                  {order.items.reduce((sum, item) => sum + item.quantity, 0)} بڕگە
-                </p>
+                <button className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm font-medium">
+                  وردەکاری
+                </button>
               </div>
             </div>
-          </div>
-
-          {/* Order Items */}
-          <div className="px-6 py-4">
-            <div className="space-y-3">
-              {order.items.map((item, index) => (
-                <div key={index} className="flex items-center space-x-4 rtl:space-x-reverse">
-                  <div className="flex-shrink-0 w-12 h-16 bg-gray-200 rounded">
-                    {/* Placeholder for book image */}
-                    <div className="w-full h-full bg-gradient-to-br from-blue-400 to-blue-600 rounded flex items-center justify-center">
-                      <span className="text-white text-xs font-bold">
-                        {item.book.title.charAt(0)}
-                      </span>
+            
+            <div className="p-6 bg-white dark:bg-gray-800">
+              <div className="space-y-4">
+                {order.items.map((item, index) => (
+                  <div key={index} className="flex items-center gap-4">
+                    <div className="relative w-16 h-24 flex-shrink-0 bg-gray-100 dark:bg-gray-700 rounded overflow-hidden">
+                      <div className="w-full h-full bg-gradient-to-br from-blue-400 to-blue-600 rounded flex items-center justify-center">
+                        <span className="text-white text-xs font-bold">
+                          {item.book.title.charAt(0)}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                        {item.book.title}
+                      </h4>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{item.book.author}</p>
+                      <div className="mt-1 flex items-center text-sm text-gray-500 dark:text-gray-400">
+                        <span>{formatPrice(item.book.price * item.quantity)}</span>
+                        <span className="mx-2">•</span>
+                        <span>{item.quantity} دانە</span>
+                      </div>
                     </div>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-medium text-gray-900 truncate">
-                      {item.book.title}
-                    </h4>
-                    <p className="text-sm text-gray-600">{item.book.author}</p>
-                    <p className="text-xs text-gray-500">بڕ: {item.quantity}</p>
-                  </div>
-                  <div className="text-right rtl:text-left">
-                    <p className="text-sm font-medium text-gray-900">
-                      {formatPrice(item.book.price * item.quantity)}
-                    </p>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
-
-          {/* Order Actions */}
-          <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-between items-center">
-            <div className="text-sm text-gray-600">
-              <p>ڕێگای پارەدان: {order.paymentMethod === 'cash' ? 'کاش' : order.paymentMethod === 'card' ? 'کارت' : 'کارەبا بانکی'}</p>
-            </div>
-            <div className="flex space-x-2 rtl:space-x-reverse">
-              <button className="px-3 py-1 text-sm text-blue-600 hover:text-blue-800">
-                بینینی وردەکارییەکان
-              </button>
-              {order.status === 'delivered' && (
-                <button className="px-3 py-1 text-sm text-green-600 hover:text-green-800">
-                  دانپێدانان
-                </button>
-              )}
-              {order.status === 'pending' && (
-                <button className="px-3 py-1 text-sm text-red-600 hover:text-red-800">
-                  هەڵوەشاندن
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

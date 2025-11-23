@@ -1,21 +1,23 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, Suspense, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
-// import OrdersTab from '@/components/profile/OrdersTab';
-// import FavoritesTab from '@/components/profile/FavoritesTab';
-// import SettingsTab from '@/components/profile/SettingsTab';
+import OrdersTab from '@/components/profile/OrdersTab';
+import FavoritesTab from '@/components/profile/FavoritesTab';
+import SettingsTab from '@/components/profile/SettingsTab';
 
 function ProfileContent() {
   const { user, isAuthenticated, isLoading, logout, updateProfile } = useAuth();
   const { t } = useLanguage();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   const [activeTab, setActiveTab] = useState('profile');
   const [isEditing, setIsEditing] = useState(false);
+  const [profileImage, setProfileImage] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -57,6 +59,12 @@ function ProfileContent() {
           country: user.address?.country || ''
         }
       });
+      
+      // Load profile image from local storage if available (simulation)
+      const savedImage = localStorage.getItem(`profile_image_${user.id}`);
+      if (savedImage) {
+        setProfileImage(savedImage);
+      }
     }
   }, [user]);
 
@@ -92,289 +100,185 @@ function ProfileContent() {
     router.push('/');
   };
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        setProfileImage(base64String);
+        if (user) {
+          localStorage.setItem(`profile_image_${user.id}`, base64String);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const triggerFileInput = () => {
+    fileInputRef.current?.click();
+  };
+
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center transition-colors duration-300">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">{t('common.loading')}</p>
+          <p className="mt-4 text-gray-600 dark:text-gray-400">{t('common.loading')}</p>
         </div>
       </div>
     );
   }
 
   if (!user) {
-    return null;
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-24 pb-12">
+        <div className="container mx-auto px-4">
+          <div className="max-w-md mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 text-center">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">پێویستە بچیتە ژوورەوە</h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">بۆ بینینی پڕۆفایلەکەت، تکایە سەرەتا بچۆ ژوورەوە.</p>
+            <Link 
+              href="/auth/login" 
+              className="inline-block bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors"
+            >
+              چوونە ژوورەوە
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4 rtl:space-x-reverse">
-              <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-xl">
-                  {user.firstName.charAt(0)}{user.lastName.charAt(0)}
-                </span>
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">
-                  {user.firstName} {user.lastName}
-                </h1>
-                <p className="text-gray-600">{user.email}</p>
-              </div>
-            </div>
-            <button
-              onClick={handleLogout}
-              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
-            >
-              {t('profile.logout')}
-            </button>
-          </div>
-        </div>
-
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-24 pb-12">
+      <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Sidebar */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-sm">
-              <nav className="space-y-1 p-4">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 sticky top-24 transition-colors duration-300">
+              <div className="flex flex-col items-center text-center mb-6">
+                <div className="w-24 h-24 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center text-blue-600 dark:text-blue-300 text-3xl font-bold mb-4">
+                  {user.name.charAt(0).toUpperCase()}
+                </div>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">{user.name}</h2>
+                <p className="text-gray-500 dark:text-gray-400 text-sm">{user.email}</p>
+                <div className="mt-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
+                  {user.role === 'admin' ? 'بەڕێوەبەر' : 'بەکارھێنەر'}
+                </div>
+              </div>
+
+              <nav className="space-y-2">
                 <button
                   onClick={() => setActiveTab('profile')}
-                  className={`w-full text-right rtl:text-right px-4 py-2 rounded-lg transition-colors ${
-                    activeTab === 'profile' 
-                      ? 'bg-blue-50 text-blue-700 border-r-4 border-blue-700' 
-                      : 'text-gray-700 hover:bg-gray-50'
+                  className={`w-full flex items-center space-x-3 space-x-reverse px-4 py-2 rounded-md transition-colors ${
+                    activeTab === 'profile'
+                      ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
+                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
                   }`}
                 >
-                  {t('profile.personalInfo')}
+                  <User className="w-5 h-5" />
+                  <span>زانیاری کەسی</span>
                 </button>
+                
                 <button
                   onClick={() => setActiveTab('orders')}
-                  className={`w-full text-right rtl:text-right px-4 py-2 rounded-lg transition-colors ${
-                    activeTab === 'orders' 
-                      ? 'bg-blue-50 text-blue-700 border-r-4 border-blue-700' 
-                      : 'text-gray-700 hover:bg-gray-50'
+                  className={`w-full flex items-center space-x-3 space-x-reverse px-4 py-2 rounded-md transition-colors ${
+                    activeTab === 'orders'
+                      ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
+                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
                   }`}
                 >
-                  {t('profile.orders')}
+                  <Package className="w-5 h-5" />
+                  <span>داواکارییەکان</span>
                 </button>
+                
                 <button
                   onClick={() => setActiveTab('favorites')}
-                  className={`w-full text-right rtl:text-right px-4 py-2 rounded-lg transition-colors ${
-                    activeTab === 'favorites' 
-                      ? 'bg-blue-50 text-blue-700 border-r-4 border-blue-700' 
-                      : 'text-gray-700 hover:bg-gray-50'
+                  className={`w-full flex items-center space-x-3 space-x-reverse px-4 py-2 rounded-md transition-colors ${
+                    activeTab === 'favorites'
+                      ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
+                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
                   }`}
                 >
-                  {t('profile.wishlist')}
+                  <Heart className="w-5 h-5" />
+                  <span>لیستی دڵخواز</span>
                 </button>
+                
                 <button
                   onClick={() => setActiveTab('settings')}
-                  className={`w-full text-right rtl:text-right px-4 py-2 rounded-lg transition-colors ${
-                    activeTab === 'settings' 
-                      ? 'bg-blue-50 text-blue-700 border-r-4 border-blue-700' 
-                      : 'text-gray-700 hover:bg-gray-50'
+                  className={`w-full flex items-center space-x-3 space-x-reverse px-4 py-2 rounded-md transition-colors ${
+                    activeTab === 'settings'
+                      ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
+                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
                   }`}
                 >
-                  Settings
+                  <Settings className="w-5 h-5" />
+                  <span>ڕێکخستنەکان</span>
                 </button>
+
+                <div className="pt-4 mt-4 border-t border-gray-200 dark:border-gray-700">
+                  <button
+                    onClick={logout}
+                    className="w-full flex items-center space-x-3 space-x-reverse px-4 py-2 rounded-md text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                  >
+                    <LogOut className="w-5 h-5" />
+                    <span>چوونە دەرەوە</span>
+                  </button>
+                </div>
               </nav>
             </div>
           </div>
 
           {/* Main Content */}
           <div className="lg:col-span-3">
-            <div className="bg-white rounded-lg shadow-sm">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 transition-colors duration-300">
               {activeTab === 'profile' && (
-                <div className="p-6">
-                  <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl font-semibold text-gray-900">{t('profile.personalInfo')}</h2>
-                    <button
-                      onClick={() => setIsEditing(!isEditing)}
-                      className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-                    >
-                      {isEditing ? t('buttons.cancel') : t('buttons.edit')}
-                    </button>
-                  </div>
-
-                  <div className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          First Name
-                        </label>
-                        {isEditing ? (
-                          <input
-                            type="text"
-                            name="firstName"
-                            value={formData.firstName}
-                            onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                          />
-                        ) : (
-                          <p className="text-gray-900">{user.firstName}</p>
-                        )}
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Last Name
-                        </label>
-                        {isEditing ? (
-                          <input
-                            type="text"
-                            name="lastName"
-                            value={formData.lastName}
-                            onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                          />
-                        ) : (
-                          <p className="text-gray-900">{user.lastName}</p>
-                        )}
-                      </div>
-                    </div>
-
+                <div className="space-y-6">
+                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">زانیاری کەسی</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        ئیمەیل
-                      </label>
-                      <p className="text-gray-900">{user.email}</p>
-                      <p className="text-xs text-gray-500 mt-1">ئیمەیل ناگۆڕدرێت</p>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">ناو</label>
+                      <input
+                        type="text"
+                        value={user.name}
+                        readOnly
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
+                      />
                     </div>
-
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        ژمارەی تەلەفۆن
-                      </label>
-                      {isEditing ? (
-                        <input
-                          type="tel"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleInputChange}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                        />
-                      ) : (
-                        <p className="text-gray-900">{user.phone || 'زیادنەکراوە'}</p>
-                      )}
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">ئیمەیل</label>
+                      <input
+                        type="email"
+                        value={user.email}
+                        readOnly
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
+                      />
                     </div>
-
-                    {/* Address Section */}
                     <div>
-                      <h3 className="text-lg font-medium text-gray-900 mb-4">ناونیشان</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            شەقام
-                          </label>
-                          {isEditing ? (
-                            <input
-                              type="text"
-                              name="address.street"
-                              value={formData.address.street}
-                              onChange={handleInputChange}
-                              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                            />
-                          ) : (
-                            <p className="text-gray-900">{user.address?.street || 'زیادنەکراوە'}</p>
-                          )}
-                        </div>
-
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            شار
-                          </label>
-                          {isEditing ? (
-                            <input
-                              type="text"
-                              name="address.city"
-                              value={formData.address.city}
-                              onChange={handleInputChange}
-                              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                            />
-                          ) : (
-                            <p className="text-gray-900">{user.address?.city || 'زیادنەکراوە'}</p>
-                          )}
-                        </div>
-
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            دەوڵەت/پارێزگا
-                          </label>
-                          {isEditing ? (
-                            <input
-                              type="text"
-                              name="address.state"
-                              value={formData.address.state}
-                              onChange={handleInputChange}
-                              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                            />
-                          ) : (
-                            <p className="text-gray-900">{user.address?.state || 'زیادنەکراوە'}</p>
-                          )}
-                        </div>
-
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            وڵات
-                          </label>
-                          {isEditing ? (
-                            <input
-                              type="text"
-                              name="address.country"
-                              value={formData.address.country}
-                              onChange={handleInputChange}
-                              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                            />
-                          ) : (
-                            <p className="text-gray-900">{user.address?.country || 'زیادنەکراوە'}</p>
-                          )}
-                        </div>
-                      </div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">ڕۆڵی بەکارھێنەر</label>
+                      <input
+                        type="text"
+                        value={user.role === 'admin' ? 'بەڕێوەبەر' : 'بەکارھێنەر'}
+                        readOnly
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
+                      />
                     </div>
-
-                    {isEditing && (
-                      <div className="flex justify-end space-x-4 rtl:space-x-reverse">
-                        <button
-                          onClick={() => setIsEditing(false)}
-                          className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
-                        >
-                          {t('buttons.cancel')}
-                        </button>
-                        <button
-                          onClick={handleSaveProfile}
-                          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-                        >
-                          {t('buttons.save')}
-                        </button>
-                      </div>
-                    )}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">بەرواری دروستکردن</label>
+                      <input
+                        type="text"
+                        value={new Date().toLocaleDateString('ku-IQ')}
+                        readOnly
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
+                      />
+                    </div>
                   </div>
                 </div>
               )}
 
-              {activeTab === 'orders' && (
-                <div className="p-6">
-                  <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('profile.orders')}</h2>
-                  <p className="text-gray-600">{t('profile.noOrders')}</p>
-                </div>
-              )}
-
-              {activeTab === 'favorites' && (
-                <div className="p-6">
-                  <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('profile.wishlist')}</h2>
-                  <p className="text-gray-600">No favorite books yet</p>
-                </div>  
-              )}
-
-              {activeTab === 'settings' && (
-                <div className="p-6">
-                  <h2 className="text-xl font-semibold text-gray-900 mb-4">Settings</h2>
-                  <p className="text-gray-600">Settings panel coming soon</p>
-                </div>
-              )}
+              {activeTab === 'orders' && <OrdersTab />}
+              {activeTab === 'favorites' && <FavoritesTab />}
+              {activeTab === 'settings' && <SettingsTab />}
             </div>
           </div>
         </div>
@@ -385,10 +289,10 @@ function ProfileContent() {
 
 export default function ProfilePage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-gray-50 flex items-center justify-center">
+    <Suspense fallback={<div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center transition-colors duration-300">
       <div className="text-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-        <p className="text-gray-600">Loading profile...</p>
+        <p className="text-gray-600 dark:text-gray-400">Loading profile...</p>
       </div>
     </div>}>
       <ProfileContent />

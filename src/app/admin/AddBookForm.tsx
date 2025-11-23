@@ -140,10 +140,10 @@ export default function AddBookForm({ onClose, onSave }: AddBookFormProps) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6 max-w-4xl mx-auto">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 max-w-4xl mx-auto transition-colors duration-300">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-xl font-bold text-gray-800">
+        <h3 className="text-xl font-bold text-gray-800 dark:text-white">
           {currentLanguage === 'ku' ? 'کتابی نوێ زیاد بکە' : currentLanguage === 'en' ? 'Add New Book' : 'Neues Buch Hinzufügen'}
         </h3>
         
@@ -152,7 +152,7 @@ export default function AddBookForm({ onClose, onSave }: AddBookFormProps) {
           {[1, 2, 3, 4].map((step) => (
             <div key={step} className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
               currentStep === step ? 'bg-blue-600 text-white' : 
-              currentStep > step ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-600'
+              currentStep > step ? 'bg-green-500 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
             }`}>
               {currentStep > step ? '✓' : step}
             </div>
@@ -164,19 +164,19 @@ export default function AddBookForm({ onClose, onSave }: AddBookFormProps) {
         {/* Step 1: Basic Info */}
         {currentStep === 1 && (
           <div className="space-y-6">
-            <h4 className="text-lg font-semibold text-gray-700 border-b pb-2">
+            <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300 border-b dark:border-gray-700 pb-2">
               {currentLanguage === 'ku' ? 'زانیاریە سەرەکیەکان' : currentLanguage === 'en' ? 'Basic Information' : 'Grundinformationen'}
             </h4>
             
             {/* Image Upload */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-1">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   {currentLanguage === 'ku' ? 'وێنەی کتاب' : currentLanguage === 'en' ? 'Book Cover' : 'Buchcover'}
                 </label>
                 <div
                   className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
-                    dragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400'
+                    dragActive ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
                   }`}
                   onDragEnter={handleDrag}
                   onDragLeave={handleDrag}
@@ -196,8 +196,8 @@ export default function AddBookForm({ onClose, onSave }: AddBookFormProps) {
                     </div>
                   ) : (
                     <div>
-                      <Upload className="mx-auto h-12 w-12 text-gray-400 mb-2" />
-                      <p className="text-sm text-gray-600">
+                      <Upload className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500 mb-2" />
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
                         {currentLanguage === 'ku' ? 'وێنە بکێشە یان کلیک بکە' : currentLanguage === 'en' ? 'Drag image here or click' : 'Bild hierher ziehen oder klicken'}
                       </p>
                       <input
@@ -218,13 +218,13 @@ export default function AddBookForm({ onClose, onSave }: AddBookFormProps) {
               <div className="lg:col-span-2 space-y-4">
                 {/* Category */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     {currentLanguage === 'ku' ? 'پۆل' : currentLanguage === 'en' ? 'Category' : 'Kategorie'}
                   </label>
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({...formData, category: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     required
                   >
                     {categories.map((cat) => (
@@ -238,7 +238,7 @@ export default function AddBookForm({ onClose, onSave }: AddBookFormProps) {
                 {/* Price & Original Price */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {currentLanguage === 'ku' ? 'نرخ (یۆرۆ)' : currentLanguage === 'en' ? 'Price (EUR)' : 'Preis (EUR)'}
                     </label>
                     <input
@@ -246,12 +246,12 @@ export default function AddBookForm({ onClose, onSave }: AddBookFormProps) {
                       step="0.01"
                       value={formData.price}
                       onChange={(e) => setFormData({...formData, price: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {currentLanguage === 'ku' ? 'نرخی سەرەتایی' : currentLanguage === 'en' ? 'Original Price' : 'Ursprünglicher Preis'}
                     </label>
                     <input
@@ -259,14 +259,14 @@ export default function AddBookForm({ onClose, onSave }: AddBookFormProps) {
                       step="0.01"
                       value={formData.originalPrice}
                       onChange={(e) => setFormData({...formData, originalPrice: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     />
                   </div>
                 </div>
 
                 {/* Inventory Count */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     {currentLanguage === 'ku' ? 'ژمارەی مەوجوود' : currentLanguage === 'en' ? 'Inventory Count' : 'Lagerbestand'}
                   </label>
                   <input
@@ -274,7 +274,7 @@ export default function AddBookForm({ onClose, onSave }: AddBookFormProps) {
                     min="0"
                     value={formData.inventoryCount}
                     onChange={(e) => setFormData({...formData, inventoryCount: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     required
                   />
                 </div>
@@ -282,23 +282,23 @@ export default function AddBookForm({ onClose, onSave }: AddBookFormProps) {
                 {/* Pages & ISBN */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {currentLanguage === 'ku' ? 'ژمارەی لاپەڕەکان' : currentLanguage === 'en' ? 'Pages' : 'Seiten'}
                     </label>
                     <input
                       type="number"
                       value={formData.pages}
                       onChange={(e) => setFormData({...formData, pages: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">ISBN</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">ISBN</label>
                     <input
                       type="text"
                       value={formData.isbn}
                       onChange={(e) => setFormData({...formData, isbn: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     />
                   </div>
                 </div>
@@ -306,25 +306,25 @@ export default function AddBookForm({ onClose, onSave }: AddBookFormProps) {
                 {/* Publish Date & Tags */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {currentLanguage === 'ku' ? 'بەرواری چاپ' : currentLanguage === 'en' ? 'Publish Date' : 'Veröffentlichungsdatum'}
                     </label>
                     <input
                       type="date"
                       value={formData.publishDate}
                       onChange={(e) => setFormData({...formData, publishDate: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       {currentLanguage === 'ku' ? 'تاگەکان (بە کۆما جیابکەرەوە)' : currentLanguage === 'en' ? 'Tags (comma separated)' : 'Tags (kommagetrennt)'}
                     </label>
                     <input
                       type="text"
                       value={formData.tags}
                       onChange={(e) => setFormData({...formData, tags: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       placeholder="شیعر, کلاسیک, نەوروز"
                     />
                   </div>
@@ -332,7 +332,7 @@ export default function AddBookForm({ onClose, onSave }: AddBookFormProps) {
 
                 {/* Status Checkboxes */}
                 <div className="flex flex-wrap gap-6 mt-4">
-                  <label className="flex items-center">
+                  <label className="flex items-center text-gray-700 dark:text-gray-300">
                     <input
                       type="checkbox"
                       checked={formData.featured}
@@ -341,7 +341,7 @@ export default function AddBookForm({ onClose, onSave }: AddBookFormProps) {
                     />
                     <span className="text-sm">{currentLanguage === 'ku' ? 'تایبەت' : currentLanguage === 'en' ? 'Featured' : 'Empfohlen'}</span>
                   </label>
-                  <label className="flex items-center">
+                  <label className="flex items-center text-gray-700 dark:text-gray-300">
                     <input
                       type="checkbox"
                       checked={formData.bestseller}
@@ -350,7 +350,7 @@ export default function AddBookForm({ onClose, onSave }: AddBookFormProps) {
                     />
                     <span className="text-sm">{currentLanguage === 'ku' ? 'باشترین فرۆش' : currentLanguage === 'en' ? 'Bestseller' : 'Bestseller'}</span>
                   </label>
-                  <label className="flex items-center">
+                  <label className="flex items-center text-gray-700 dark:text-gray-300">
                     <input
                       type="checkbox"
                       checked={formData.newRelease}
@@ -368,72 +368,72 @@ export default function AddBookForm({ onClose, onSave }: AddBookFormProps) {
         {/* Step 2: Kurdish Version */}
         {currentStep === 2 && (
           <div className="space-y-6">
-            <h4 className="text-lg font-semibold text-gray-700 border-b pb-2 flex items-center">
+            <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300 border-b dark:border-gray-700 pb-2 flex items-center">
               <span className="mr-3 text-2xl">🇮🇶</span>
               {currentLanguage === 'ku' ? 'وەشانی کوردی' : currentLanguage === 'en' ? 'Kurdish Version' : 'Kurdische Version'}
             </h4>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   {currentLanguage === 'ku' ? 'ناونیشان (کوردی)' : currentLanguage === 'en' ? 'Title (Kurdish)' : 'Titel (Kurdisch)'}
                 </label>
                 <input
                   type="text"
                   value={formData.titleKu}
                   onChange={(e) => setFormData({...formData, titleKu: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   required
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   {currentLanguage === 'ku' ? 'نووسەر (کوردی)' : currentLanguage === 'en' ? 'Author (Kurdish)' : 'Autor (Kurdisch)'}
                 </label>
                 <input
                   type="text"
                   value={formData.authorKu}
                   onChange={(e) => setFormData({...formData, authorKu: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   required
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   {currentLanguage === 'ku' ? 'چاپخانە (کوردی)' : currentLanguage === 'en' ? 'Publisher (Kurdish)' : 'Verlag (Kurdisch)'}
                 </label>
                 <input
                   type="text"
                   value={formData.publisherKu}
                   onChange={(e) => setFormData({...formData, publisherKu: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   {currentLanguage === 'ku' ? 'وەرگێڕ (ئەگەر هەبێت)' : currentLanguage === 'en' ? 'Translator (if applicable)' : 'Übersetzer (falls zutreffend)'}
                 </label>
                 <input
                   type="text"
                   value={formData.translator}
                   onChange={(e) => setFormData({...formData, translator: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 />
               </div>
               
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   {currentLanguage === 'ku' ? 'پێناسە (کوردی)' : currentLanguage === 'en' ? 'Description (Kurdish)' : 'Beschreibung (Kurdisch)'}
                 </label>
                 <textarea
                   rows={4}
                   value={formData.descriptionKu}
                   onChange={(e) => setFormData({...formData, descriptionKu: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 />
               </div>
             </div>
@@ -443,57 +443,57 @@ export default function AddBookForm({ onClose, onSave }: AddBookFormProps) {
         {/* Step 3: English Version */}
         {currentStep === 3 && (
           <div className="space-y-6">
-            <h4 className="text-lg font-semibold text-gray-700 border-b pb-2 flex items-center">
+            <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300 border-b dark:border-gray-700 pb-2 flex items-center">
               <span className="mr-3 text-2xl">🇬🇧</span>
               {currentLanguage === 'ku' ? 'وەشانی ئینگلیزی' : currentLanguage === 'en' ? 'English Version' : 'Englische Version'}
             </h4>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   {currentLanguage === 'ku' ? 'ناونیشان (ئینگلیزی)' : currentLanguage === 'en' ? 'Title (English)' : 'Titel (Englisch)'}
                 </label>
                 <input
                   type="text"
                   value={formData.titleEn}
                   onChange={(e) => setFormData({...formData, titleEn: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   {currentLanguage === 'ku' ? 'نووسەر (ئینگلیزی)' : currentLanguage === 'en' ? 'Author (English)' : 'Autor (Englisch)'}
                 </label>
                 <input
                   type="text"
                   value={formData.authorEn}
                   onChange={(e) => setFormData({...formData, authorEn: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   {currentLanguage === 'ku' ? 'چاپخانە (ئینگلیزی)' : currentLanguage === 'en' ? 'Publisher (English)' : 'Verlag (Englisch)'}
                 </label>
                 <input
                   type="text"
                   value={formData.publisherEn}
                   onChange={(e) => setFormData({...formData, publisherEn: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 />
               </div>
               
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   {currentLanguage === 'ku' ? 'پێناسە (ئینگلیزی)' : currentLanguage === 'en' ? 'Description (English)' : 'Beschreibung (Englisch)'}
                 </label>
                 <textarea
                   rows={4}
                   value={formData.descriptionEn}
                   onChange={(e) => setFormData({...formData, descriptionEn: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 />
               </div>
             </div>
@@ -503,57 +503,57 @@ export default function AddBookForm({ onClose, onSave }: AddBookFormProps) {
         {/* Step 4: German Version */}
         {currentStep === 4 && (
           <div className="space-y-6">
-            <h4 className="text-lg font-semibold text-gray-700 border-b pb-2 flex items-center">
+            <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300 border-b dark:border-gray-700 pb-2 flex items-center">
               <span className="mr-3 text-2xl">🇩🇪</span>
               {currentLanguage === 'ku' ? 'وەشانی ئەڵمانی' : currentLanguage === 'en' ? 'German Version' : 'Deutsche Version'}
             </h4>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   {currentLanguage === 'ku' ? 'ناونیشان (ئەڵمانی)' : currentLanguage === 'en' ? 'Title (German)' : 'Titel (Deutsch)'}
                 </label>
                 <input
                   type="text"
                   value={formData.titleDe}
                   onChange={(e) => setFormData({...formData, titleDe: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   {currentLanguage === 'ku' ? 'نووسەر (ئەڵمانی)' : currentLanguage === 'en' ? 'Author (German)' : 'Autor (Deutsch)'}
                 </label>
                 <input
                   type="text"
                   value={formData.authorDe}
                   onChange={(e) => setFormData({...formData, authorDe: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   {currentLanguage === 'ku' ? 'چاپخانە (ئەڵمانی)' : currentLanguage === 'en' ? 'Publisher (German)' : 'Verlag (Deutsch)'}
                 </label>
                 <input
                   type="text"
                   value={formData.publisherDe}
                   onChange={(e) => setFormData({...formData, publisherDe: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 />
               </div>
               
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   {currentLanguage === 'ku' ? 'پێناسە (ئەڵمانی)' : currentLanguage === 'en' ? 'Description (German)' : 'Beschreibung (Deutsch)'}
                 </label>
                 <textarea
                   rows={4}
                   value={formData.descriptionDe}
                   onChange={(e) => setFormData({...formData, descriptionDe: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 />
               </div>
             </div>
@@ -561,12 +561,12 @@ export default function AddBookForm({ onClose, onSave }: AddBookFormProps) {
         )}
         
         {/* Navigation Buttons */}
-        <div className="flex justify-between mt-8 pt-6 border-t">
+        <div className="flex justify-between mt-8 pt-6 border-t dark:border-gray-700">
           <div className="flex space-x-4 rtl:space-x-reverse">
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              className="px-6 py-2 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             >
               {currentLanguage === 'ku' ? 'پاشگەزبوونەوە' : currentLanguage === 'en' ? 'Cancel' : 'Abbrechen'}
             </button>
@@ -575,7 +575,7 @@ export default function AddBookForm({ onClose, onSave }: AddBookFormProps) {
               <button
                 type="button"
                 onClick={() => setCurrentStep(currentStep - 1)}
-                className="px-6 py-2 text-blue-600 border border-blue-300 rounded-lg hover:bg-blue-50 transition-colors"
+                className="px-6 py-2 text-blue-600 dark:text-blue-400 border border-blue-300 dark:border-blue-500/50 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
               >
                 {currentLanguage === 'ku' ? 'گەڕانەوە' : currentLanguage === 'en' ? 'Previous' : 'Zurück'}
               </button>

@@ -5,6 +5,7 @@ import { Book, Category } from '@/lib/types';
 import { bookService } from '@/lib/bookService';
 import BookCard from '@/components/ui/BookCard';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useState, useEffect } from 'react';
 
@@ -25,24 +26,38 @@ export default function HomePage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-gray-50 py-8">
+    <main className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 transition-colors duration-300">
       <div className="container mx-auto px-4">
         <div className="flex flex-col lg:flex-row gap-6">
-          {/* Left Ad Space - Visible on Large Screens */}
-          <div className="hidden lg:block w-64 flex-shrink-0">
-            <div className="sticky top-4">
-              <div className="bg-white border-2 border-dashed border-gray-300 rounded-lg h-[600px] flex flex-col items-center justify-center text-gray-400 p-4">
-                <span className="text-4xl mb-2">📢</span>
-                <span className="text-center font-medium">شوێنی ریکلام</span>
-                <span className="text-xs text-center mt-2">(Ad Space)</span>
+          {/* Left Sidebar - Categories */}
+          <aside className="hidden lg:block w-64 flex-shrink-0">
+            <div className="sticky top-4 space-y-6">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 transition-colors duration-300">
+                <h3 className="font-bold text-lg mb-4 border-b border-gray-200 dark:border-gray-700 pb-2 text-gray-900 dark:text-white">{t('nav.categories')}</h3>
+                <ul className="space-y-2">
+                  {categories.map((category) => (
+                    <li key={category.id}>
+                      <Link 
+                        href={`/category/${category.slug}`}
+                        className="flex items-center justify-between text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 p-2 rounded transition-colors"
+                      >
+                        <span className="flex items-center gap-2">
+                          <span className="text-xl">{category.icon}</span>
+                          <span className="text-sm font-medium">{t(`categories.${category.id}`)}</span>
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <div className="bg-white border-2 border-dashed border-gray-300 rounded-lg h-[600px] flex flex-col items-center justify-center text-gray-400 p-4 mt-4">
+              
+              {/* Small Ad */}
+              <div className="bg-white dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg h-[200px] flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 p-4 transition-colors duration-300">
                 <span className="text-4xl mb-2">📢</span>
                 <span className="text-center font-medium">شوێنی ریکلام</span>
-                <span className="text-xs text-center mt-2">(Ad Space)</span>
               </div>
             </div>
-          </div>
+          </aside>
 
           {/* Main Content */}
           <div className="flex-1 min-w-0">
@@ -87,8 +102,8 @@ export default function HomePage() {
             {/* Categories Section */}
             <section className="mb-8 md:mb-12">
               <div className="text-center mb-6 md:mb-8">
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">{t('nav.categories')}</h2>
-                <p className="text-sm md:text-base text-gray-600">
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-2">{t('nav.categories')}</h2>
+                <p className="text-sm md:text-base text-gray-600 dark:text-gray-400">
                   {t('description.categories')}
                 </p>
               </div>
@@ -98,12 +113,12 @@ export default function HomePage() {
                   <Link
                     key={category.id}
                     href={`/category/${category.slug}`}
-                    className="bg-white rounded-lg p-3 md:p-4 text-center shadow-sm hover:shadow-md transition-all group border border-gray-100"
+                    className="bg-white dark:bg-gray-800 rounded-lg p-3 md:p-4 text-center shadow-sm hover:shadow-md transition-all group border border-gray-100 dark:border-gray-700"
                   >
                     <div className="text-2xl md:text-3xl mb-2 group-hover:scale-110 transition-transform">
                       {category.icon}
                     </div>
-                    <h3 className="text-sm md:text-base font-semibold text-gray-800 group-hover:text-blue-600 transition-colors line-clamp-1">
+                    <h3 className="text-sm md:text-base font-semibold text-gray-800 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-1">
                       {t(`categories.${category.id}`)}
                     </h3>
                   </Link>
@@ -115,10 +130,10 @@ export default function HomePage() {
             {featuredBooks.length > 0 && (
               <section className="mb-8 md:mb-12">
                 <div className="flex justify-between items-center mb-4 md:mb-6">
-                  <h2 className="text-xl md:text-2xl font-bold text-gray-800">{t('sections.featuredBooks')}</h2>
+                  <h2 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">{t('sections.featuredBooks')}</h2>
                   <Link
                     href="/books?filter=featured"
-                    className="text-blue-600 hover:text-blue-800 font-semibold flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse text-sm"
+                    className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-semibold flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse text-sm"
                   >
                     <span>{t('buttons.viewAll')}</span>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -139,10 +154,10 @@ export default function HomePage() {
             {bestsellerBooks.length > 0 && (
               <section className="mb-8 md:mb-12">
                 <div className="flex justify-between items-center mb-4 md:mb-6">
-                  <h2 className="text-xl md:text-2xl font-bold text-gray-800">{t('sections.bestSellers')}</h2>
+                  <h2 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">{t('sections.bestSellers')}</h2>
                   <Link
                     href="/bestsellers"
-                    className="text-blue-600 hover:text-blue-800 font-semibold flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse text-sm"
+                    className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-semibold flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse text-sm"
                   >
                     <span>{t('buttons.viewAll')}</span>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -163,10 +178,10 @@ export default function HomePage() {
             {newReleaseBooks.length > 0 && (
               <section className="mb-8 md:mb-12">
                 <div className="flex justify-between items-center mb-4 md:mb-6">
-                  <h2 className="text-xl md:text-2xl font-bold text-gray-800">{t('sections.newReleases')}</h2>
+                  <h2 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">{t('sections.newReleases')}</h2>
                   <Link
                     href="/new-releases"
-                    className="text-blue-600 hover:text-blue-800 font-semibold flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse text-sm"
+                    className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-semibold flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse text-sm"
                   >
                     <span>{t('buttons.viewAll')}</span>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -220,21 +235,56 @@ export default function HomePage() {
             </section>
           </div>
 
-          {/* Right Ad Space - Visible on Large Screens */}
-          <div className="hidden lg:block w-64 flex-shrink-0">
-            <div className="sticky top-4">
-              <div className="bg-white border-2 border-dashed border-gray-300 rounded-lg h-[600px] flex flex-col items-center justify-center text-gray-400 p-4">
-                <span className="text-4xl mb-2">📢</span>
-                <span className="text-center font-medium">شوێنی ریکلام</span>
-                <span className="text-xs text-center mt-2">(Ad Space)</span>
+          {/* Right Sidebar - Newsletter & Featured */}
+          <aside className="hidden lg:block w-64 flex-shrink-0">
+            <div className="sticky top-4 space-y-6">
+              {/* Newsletter */}
+              <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl p-6 text-white shadow-lg">
+                <div className="text-4xl mb-3">📧</div>
+                <h3 className="font-bold text-lg mb-2">{t('footer.newsletter')}</h3>
+                <p className="text-xs text-blue-100 mb-4 leading-relaxed">
+                  {t('footer.newsletterDesc') || 'بۆ ئاگاداربوون لە نوێترین کتێبەکان و داشکاندنەکان، ئیمەیڵەکەت بنووسە.'}
+                </p>
+                <div className="space-y-2">
+                  <input 
+                    type="email" 
+                    placeholder="Email..." 
+                    className="w-full px-3 py-2 rounded-lg text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  />
+                  <button className="w-full bg-white text-blue-600 font-bold py-2 rounded-lg text-sm hover:bg-blue-50 transition-colors shadow-sm">
+                    {t('footer.subscribe')}
+                  </button>
+                </div>
               </div>
-              <div className="bg-white border-2 border-dashed border-gray-300 rounded-lg h-[600px] flex flex-col items-center justify-center text-gray-400 p-4 mt-4">
-                <span className="text-4xl mb-2">📢</span>
-                <span className="text-center font-medium">شوێنی ریکلام</span>
-                <span className="text-xs text-center mt-2">(Ad Space)</span>
-              </div>
+
+              {/* Featured Book Highlight */}
+              {featuredBooks.length > 0 && (
+                <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-md border border-gray-100 dark:border-gray-700 transition-colors duration-300">
+                  <div className="flex items-center gap-2 mb-3 text-orange-500 font-bold border-b border-gray-100 dark:border-gray-700 pb-2">
+                    <span>✨</span>
+                    <h3 className="text-sm">{t('sections.featuredBooks')}</h3>
+                  </div>
+                  <div className="relative aspect-[2/3] w-full mb-3 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700 shadow-inner">
+                     <Image 
+                       src={featuredBooks[0].coverUrl || featuredBooks[0].image || '/images/default-book-cover.jpg'} 
+                       alt={featuredBooks[0].title}
+                       fill
+                       className="object-cover hover:scale-105 transition-transform duration-500"
+                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                     />
+                  </div>
+                  <h4 className="font-bold text-gray-900 dark:text-white truncate text-sm">{featuredBooks[0].title}</h4>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate mb-3">{featuredBooks[0].author}</p>
+                  <Link 
+                    href={`/book/${featuredBooks[0].id}`}
+                    className="block w-full text-center bg-gray-900 dark:bg-blue-600 text-white py-2 rounded-lg text-xs font-bold hover:bg-gray-800 dark:hover:bg-blue-700 transition-colors"
+                  >
+                    {t('buttons.viewDetails')}
+                  </Link>
+                </div>
+              )}
             </div>
-          </div>
+          </aside>
         </div>
       </div>
     </main>

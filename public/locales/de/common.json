@@ -49,5 +49,30 @@
     "followUs": "Folgen Sie uns",
     "newsletter": "Newsletter",
     "subscribe": "Abonnieren"
+  },
+  "ads": {
+    "specialOffer": "Sonderangebot",
+    "limitedTime": "Begrenzte Zeit",
+    "adSpace": "Werbefläche",
+    "contactUs": "Kontaktieren Sie uns"
+  },
+  "authors": {
+    "title": "Autoren",
+    "subtitle": "Lernen Sie renommierte kurdische Autoren kennen",
+    "search": "Autoren suchen...",
+    "sortBy": "Sortieren nach:",
+    "sortName": "Name",
+    "sortBooks": "Anzahl Bücher",
+    "sortYear": "Geburtsjahr",
+    "found": "Autoren gefunden",
+    "book": "Buch",
+    "books": "Bücher",
+    "moreBooks": "weitere Bücher",
+    "noBooks": "Keine Bücher verfügbar",
+    "viewProfile": "Profil anzeigen",
+    "noAuthorsFound": "Keine Autoren gefunden",
+    "noAuthorsMessage": "Entschuldigung, keine Autoren verfügbar",
+    "clearSearch": "Suche löschen",
+    "popularAuthors": "Beliebte Autoren"
   }
 }

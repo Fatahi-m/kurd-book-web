@@ -5,6 +5,8 @@ import { books } from '@/data/books';
 import { Book, UserFavorites } from '@/lib/types';
 import { useLanguage } from '@/contexts/LanguageContext';
 import BookCard from '@/components/ui/BookCard';
+import Link from 'next/link';
+import { Heart } from 'lucide-react';
 
 // Mock favorites data
 const mockFavorites: UserFavorites = {
@@ -49,89 +51,37 @@ export default function FavoritesTab({ userId }: FavoritesTabProps) {
     return (
       <div className="text-center py-12">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-        <p className="text-gray-600">چاوەڕێ بکە...</p>
+        <p className="text-gray-600 dark:text-gray-400">چاوەڕێ بکە...</p>
       </div>
     );
   }
 
-  if (favoriteBooks.length === 0) {
+  if (favorites.length === 0) {
     return (
       <div className="text-center py-12">
-        <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <span className="text-gray-400 text-2xl">❤️</span>
+        <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
+          <Heart className="w-8 h-8 text-gray-400 dark:text-gray-500" />
         </div>
-        <h3 className="text-lg font-medium text-gray-900 mb-2">هیچ کتابێکت دڵخواز نەکردووە</h3>
-        <p className="text-gray-500 mb-4">کتابەکانی دڵخوازت لێرە نیشان دەدرێن</p>
-        <a
-          href="/books"
-          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+        <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">لیستی دڵخواز بەتاڵە</h3>
+        <p className="text-gray-500 dark:text-gray-400 mb-6">تۆ تا ئێستا هیچ کتابێکت زیاد نەکردووە بۆ لیستی دڵخواز.</p>
+        <Link 
+          href="/books" 
+          className="inline-block bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors"
         >
-          گەڕان بۆ کتاب
-        </a>
+          گەڕان بەناو کتابەکان
+        </Link>
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-900">کتابە دڵخوازەکانت</h2>
-        <p className="text-sm text-gray-600">{favoriteBooks.length} کتاب</p>
-      </div>
-
-      {/* Favorites Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">لیستی دڵخواز</h2>
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {favoriteBooks.map((book) => (
-          <div key={book.id} className="relative">
-            <BookCard book={book} />
-            
-            {/* Remove from favorites button */}
-            <button
-              onClick={() => removeFavorite(book.id)}
-              className="absolute top-2 right-2 rtl:right-auto rtl:left-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors shadow-lg"
-              title="سڕینەوە لە دڵخوازەکان"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
+          <BookCard key={book.id} book={book} />
         ))}
-      </div>
-
-      {/* Clear All Favorites */}
-      {favoriteBooks.length > 0 && (
-        <div className="flex justify-center pt-6 border-t border-gray-200">
-          <button
-            onClick={() => setFavorites([])}
-            className="px-4 py-2 text-sm text-red-600 hover:text-red-800 border border-red-300 hover:border-red-400 rounded-md transition-colors"
-          >
-            سڕینەوەی هەموو دڵخوازەکان
-          </button>
-        </div>
-      )}
-
-      {/* Quick Actions */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <h3 className="text-sm font-medium text-blue-900 mb-2">کردارە خێراکان</h3>
-        <div className="flex flex-wrap gap-2">
-          <button
-            onClick={() => {
-              const allIds = favoriteBooks.map(book => book.id);
-              // Add all favorites to cart logic here
-              console.log('Adding all favorites to cart:', allIds);
-            }}
-            className="px-3 py-1 text-xs bg-blue-600 text-white rounded-md hover:bg-blue-700"
-          >
-            زیادکردنی هەموو بۆ سەبەتە
-          </button>
-          <a
-            href="/books?category=recommendations"
-            className="px-3 py-1 text-xs bg-white text-blue-600 border border-blue-300 rounded-md hover:bg-blue-50"
-          >
-            پێشنیاری کتابی نوێ
-          </a>
-        </div>
       </div>
     </div>
   );

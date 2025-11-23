@@ -24,7 +24,7 @@ export default function LanguageSwitcher() {
     <div className="relative dropdown-container">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+        className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
         type="button"
       >
         <span className="text-lg">{currentLang?.flag}</span>
@@ -43,21 +43,21 @@ export default function LanguageSwitcher() {
           />
           
           {/* Dropdown */}
-          <div className="absolute top-full mt-1 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-20 py-1 right-0 rtl:right-auto rtl:left-0 overflow-visible">
+          <div className="absolute top-full mt-1 w-40 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-20 py-1 right-0 rtl:right-auto rtl:left-0 overflow-visible">
             {languages.map((lang) => (
               <button
                 key={lang.code}
                 onClick={() => handleLanguageChange(lang.code)}
-                className={`w-full text-left rtl:text-right px-4 py-2 text-sm hover:bg-gray-100 flex items-center gap-3 rtl:flex-row-reverse transition-colors ${
+                className={`w-full text-left rtl:text-right px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-3 rtl:flex-row-reverse transition-colors ${
                   currentLanguage === lang.code 
-                    ? 'bg-blue-50 text-blue-700 font-medium' 
-                    : 'text-gray-700'
+                    ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-medium' 
+                    : 'text-gray-700 dark:text-gray-200'
                 }`}
               >
                 <span className="text-lg">{lang.flag}</span>
                 <span>{lang.name}</span>
                 {currentLanguage === lang.code && (
-                  <span className="ml-auto rtl:ml-0 rtl:mr-auto text-blue-600">✓</span>
+                  <span className="ml-auto rtl:ml-0 rtl:mr-auto text-blue-600 dark:text-blue-400">✓</span>
                 )}
               </button>
             ))}

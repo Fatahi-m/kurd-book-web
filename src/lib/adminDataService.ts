@@ -1,5 +1,22 @@
+import { books as websiteBooks, authors as websiteAuthors } from '@/data/books';
+
 // Admin Data Management Service
 // در یک پروژه واقعی، این عملیات‌ها با backend انجام می‌شود
+
+export interface AdminOrder {
+  id: string;
+  customerName: string;
+  customerEmail: string;
+  date: string;
+  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+  total: number;
+  items: {
+    bookId: string;
+    title: string;
+    quantity: number;
+    price: number;
+  }[];
+}
 
 export interface AdminBook {
   id: string;
@@ -15,19 +32,15 @@ export interface AdminBook {
   publisherKu?: string;
   publisherEn?: string;
   publisherDe?: string;
-  translator?: string;
   price: number;
   originalPrice?: number;
   description: string;
   descriptionKu?: string;
   descriptionEn?: string;
   descriptionDe?: string;
-  isbn?: string;
-  pages?: number;
   language: string;
   category: string;
   tags: string[];
-  publishDate?: string;
   inStock: boolean;
   inventoryCount: number;
   featured: boolean;
@@ -36,18 +49,17 @@ export interface AdminBook {
   rating: number;
   reviewCount: number;
   imageUrl?: string;
+  pages?: number;
+  isbn?: string;
+  publishDate?: string;
+  translator?: string;
 }
 
 export interface AdminAuthor {
   id: string;
   name: string;
   latinName?: string;
-  birthYear?: number;
-  deathYear?: number;
   nationality?: string;
-  biographyKu?: string;
-  biographyEn?: string;
-  biographyDe?: string;
   imageUrl?: string;
 }
 
@@ -55,6 +67,7 @@ class AdminDataService {
   private static instance: AdminDataService;
   private books: AdminBook[] = [];
   private authors: AdminAuthor[] = [];
+  private orders: AdminOrder[] = [];
 
   private constructor() {
     // Initialize with existing data
@@ -72,15 +85,89 @@ class AdminDataService {
     // Check if we're in the browser environment
     if (typeof window !== 'undefined') {
       // Load from localStorage or use default data
-      const savedBooks = localStorage.getItem('admin_books');
-      const savedAuthors = localStorage.getItem('admin_authors');
+      // Using v3 keys to force refresh data with website books
+      const savedBooks = localStorage.getItem('admin_books_v3');
+      const savedAuthors = localStorage.getItem('admin_authors_v3');
+      const savedOrders = localStorage.getItem('admin_orders_v3');
 
       if (savedBooks) {
         this.books = JSON.parse(savedBooks);
+      } else {
+        // Load books from website data
+        this.books = websiteBooks.map(book => ({
+          id: book.id,
+          title: book.title,
+          titleKu: book.language === 'kurdish' ? book.title : undefined,
+          author: book.author,
+          authorKu: book.language === 'kurdish' ? book.author : undefined,
+          publisher: book.publisher,
+          publisherKu: book.language === 'kurdish' ? book.publisher : undefined,
+          price: book.price,
+          originalPrice: book.originalPrice,
+          description: book.description,
+          descriptionKu: book.language === 'kurdish' ? book.description : undefined,
+          language: book.language,
+          category: book.category,
+          tags: book.tags,
+          inStock: book.inStock,
+          inventoryCount: 50, // Default inventory
+          featured: book.featured,
+          bestseller: book.bestseller,
+          newRelease: book.newRelease,
+          rating: book.rating,
+          reviewCount: book.reviewCount,
+          imageUrl: book.image,
+          pages: book.pages,
+          isbn: book.isbn,
+          publishDate: book.publishedDate
+        }));
+        this.saveToStorage();
       }
 
       if (savedAuthors) {
         this.authors = JSON.parse(savedAuthors);
+      } else {
+        // Load authors from website data
+        this.authors = websiteAuthors.map(author => ({
+          id: author.id,
+          name: author.name,
+          latinName: author.latinName,
+          nationality: author.nationality,
+          imageUrl: author.image
+        }));
+        this.saveToStorage();
+      }
+
+      if (savedOrders) {
+        this.orders = JSON.parse(savedOrders);
+      } else {
+        // Add sample orders
+        this.orders = [
+          {
+            id: 'ORD-001',
+            customerName: 'Ali Karimi',
+            customerEmail: 'ali@example.com',
+            date: new Date(Date.now() - 86400000).toISOString(), // Yesterday
+            status: 'delivered',
+            total: 43.40,
+            items: [
+              { bookId: '1', title: 'Mem u Zin', quantity: 1, price: 18.50 },
+              { bookId: '2', title: 'Sherko Bekas Poems', quantity: 1, price: 24.90 }
+            ]
+          },
+          {
+            id: 'ORD-002',
+            customerName: 'Sara Ahmed',
+            customerEmail: 'sara@example.com',
+            date: new Date().toISOString(), // Today
+            status: 'processing',
+            total: 18.50,
+            items: [
+              { bookId: '1', title: 'Mem u Zin', quantity: 1, price: 18.50 }
+            ]
+          }
+        ];
+        this.saveToStorage();
       }
     }
   }
@@ -88,8 +175,9 @@ class AdminDataService {
   private saveToStorage() {
     // Check if we're in the browser environment
     if (typeof window !== 'undefined') {
-      localStorage.setItem('admin_books', JSON.stringify(this.books));
-      localStorage.setItem('admin_authors', JSON.stringify(this.authors));
+      localStorage.setItem('admin_books_v3', JSON.stringify(this.books));
+      localStorage.setItem('admin_authors_v3', JSON.stringify(this.authors));
+      localStorage.setItem('admin_orders_v3', JSON.stringify(this.orders));
     }
   }
 
@@ -102,30 +190,27 @@ class AdminDataService {
     return this.books.find(book => book.id === id);
   }
 
-  addBook(bookData: Omit<AdminBook, 'id' | 'rating' | 'reviewCount'>): AdminBook {
+  addBook(book: Omit<AdminBook, 'id' | 'rating' | 'reviewCount'>): AdminBook {
     const newBook: AdminBook = {
-      ...bookData,
+      ...book,
       id: Date.now().toString(),
-      rating: 0,
+      inventoryCount: book.inventoryCount || 0,
+      inStock: (book.inventoryCount || 0) > 0,
       reviewCount: 0,
-      inventoryCount: bookData.inventoryCount || 1,
-      inStock: (bookData.inventoryCount || 1) > 0
+      rating: 0
     };
-
     this.books.push(newBook);
     this.saveToStorage();
-    
     return newBook;
   }
 
-  updateBook(id: string, updates: Partial<AdminBook>): AdminBook | null {
-    const index = this.books.findIndex(book => book.id === id);
+  updateBook(updatedBook: AdminBook): AdminBook | null {
+    const index = this.books.findIndex(book => book.id === updatedBook.id);
     if (index === -1) return null;
 
-    this.books[index] = { ...this.books[index], ...updates };
+    this.books[index] = updatedBook;
     this.saveToStorage();
-    
-    return this.books[index];
+    return updatedBook;
   }
 
   deleteBook(id: string): boolean {
@@ -134,7 +219,6 @@ class AdminDataService {
 
     this.books.splice(index, 1);
     this.saveToStorage();
-    
     return true;
   }
 
@@ -143,29 +227,22 @@ class AdminDataService {
     return [...this.authors];
   }
 
-  getAuthorById(id: string): AdminAuthor | undefined {
-    return this.authors.find(author => author.id === id);
-  }
-
-  addAuthor(authorData: Omit<AdminAuthor, 'id'>): AdminAuthor {
-    const newAuthor: AdminAuthor = {
-      ...authorData,
+  addAuthor(author: Omit<AdminAuthor, 'id'>): AdminAuthor {
+    const newAuthor = {
+      ...author,
       id: Date.now().toString()
     };
-
     this.authors.push(newAuthor);
     this.saveToStorage();
-    
     return newAuthor;
   }
 
-  updateAuthor(id: string, updates: Partial<AdminAuthor>): AdminAuthor | null {
+  updateAuthor(id: string, updatedAuthor: Partial<AdminAuthor>): AdminAuthor | null {
     const index = this.authors.findIndex(author => author.id === id);
     if (index === -1) return null;
 
-    this.authors[index] = { ...this.authors[index], ...updates };
+    this.authors[index] = { ...this.authors[index], ...updatedAuthor };
     this.saveToStorage();
-    
     return this.authors[index];
   }
 
@@ -175,19 +252,57 @@ class AdminDataService {
 
     this.authors.splice(index, 1);
     this.saveToStorage();
-    
+    return true;
+  }
+
+  // Order Management
+  getAllOrders(): AdminOrder[] {
+    return [...this.orders].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  }
+
+  getOrderById(id: string): AdminOrder | undefined {
+    return this.orders.find(order => order.id === id);
+  }
+
+  updateOrderStatus(id: string, status: AdminOrder['status']): AdminOrder | null {
+    const index = this.orders.findIndex(order => order.id === id);
+    if (index === -1) return null;
+
+    this.orders[index].status = status;
+    this.saveToStorage();
+    return this.orders[index];
+  }
+
+  deleteOrder(id: string): boolean {
+    const index = this.orders.findIndex(order => order.id === id);
+    if (index === -1) return false;
+
+    this.orders.splice(index, 1);
+    this.saveToStorage();
     return true;
   }
 
   // Statistics
   getStats() {
+    const totalRevenue = this.orders
+      .filter(o => o.status !== 'cancelled')
+      .reduce((sum, order) => sum + order.total, 0);
+
+    const totalInventoryValue = this.books.reduce((sum, book) => {
+      return sum + (book.price * (book.inventoryCount || 0));
+    }, 0);
+
     return {
       totalBooks: this.books.length,
       totalAuthors: this.authors.length,
       totalReviews: this.books.reduce((sum, book) => sum + book.reviewCount, 0),
       averageRating: this.books.length > 0 
         ? (this.books.reduce((sum, book) => sum + book.rating, 0) / this.books.length).toFixed(1)
-        : '0.0'
+        : '0.0',
+      totalOrders: this.orders.length,
+      totalRevenue: totalRevenue,
+      totalInventoryValue: totalInventoryValue,
+      recentOrders: this.orders.slice(0, 5)
     };
   }
 
@@ -242,8 +357,9 @@ class AdminDataService {
     this.books = [];
     this.authors = [];
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('admin_books');
-      localStorage.removeItem('admin_authors');
+      localStorage.removeItem('admin_books_v2');
+      localStorage.removeItem('admin_authors_v2');
+      localStorage.removeItem('admin_orders_v2');
     }
   }
 }

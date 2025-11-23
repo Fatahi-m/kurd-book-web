@@ -49,5 +49,30 @@
     "followUs": "Follow Us",
     "newsletter": "Newsletter",
     "subscribe": "Subscribe"
+  },
+  "ads": {
+    "specialOffer": "Special Offer",
+    "limitedTime": "Limited Time",
+    "adSpace": "Ad Space",
+    "contactUs": "Contact Us"
+  },
+  "authors": {
+    "title": "Authors",
+    "subtitle": "Meet renowned Kurdish authors",
+    "search": "Search authors...",
+    "sortBy": "Sort by:",
+    "sortName": "Name",
+    "sortBooks": "Books Count",
+    "sortYear": "Birth Year",
+    "found": "authors found",
+    "book": "book",
+    "books": "books",
+    "moreBooks": "more books",
+    "noBooks": "No books available",
+    "viewProfile": "View Profile",
+    "noAuthorsFound": "No Authors Found",
+    "noAuthorsMessage": "Sorry, no authors available",
+    "clearSearch": "Clear Search",
+    "popularAuthors": "Popular Authors"
   }
 }
