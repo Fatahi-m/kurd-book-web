@@ -9,6 +9,7 @@ import { adminDataService } from '@/lib/adminDataService';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import CreditCardForm from '@/components/checkout/CreditCardForm';
+import { motion } from 'framer-motion';
 
 export default function CheckoutPage() {
   const { cart, getCartTotal, clearCart } = useCart();
@@ -109,34 +110,34 @@ export default function CheckoutPage() {
 
   if (orderComplete) {
     return (
-      <main className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 transition-colors duration-300">
+      <main className="min-h-screen bg-[#F5F2E9] dark:bg-[#121212] py-24 transition-colors duration-300 font-sans">
         <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 text-center animate-fade-in">
-            <div className="w-24 h-24 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce-slow">
-              <svg className="w-12 h-12 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              {currentLanguage === 'ku' ? 'داواکارییەکەت وەرگیرا' : currentLanguage === 'en' ? 'Order Placed Successfully!' : 'Bestellung erfolgreich aufgegeben!'}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="max-w-2xl mx-auto text-center"
+          >
+            <div className="text-6xl mb-8">✓</div>
+            <h1 className="text-4xl font-serif text-gray-900 dark:text-white mb-6">
+              {currentLanguage === 'ku' ? 'داواکارییەکەت وەرگیرا' : currentLanguage === 'en' ? 'Order Placed Successfully' : 'Bestellung erfolgreich aufgegeben'}
             </h1>
-            <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 mb-6 inline-block">
-              <p className="text-gray-600 dark:text-gray-300 font-mono text-lg">
-                {currentLanguage === 'ku' ? `ژمارەی داواکاری: #${orderId}` : currentLanguage === 'en' ? `Order ID: #${orderId}` : `Bestellnummer: #${orderId}`}
+            <div className="bg-white dark:bg-gray-800/50 p-6 mb-8 inline-block border border-gray-200 dark:border-gray-800">
+              <p className="text-gray-600 dark:text-gray-300 font-mono text-lg tracking-widest">
+                {currentLanguage === 'ku' ? `ژمارەی داواکاری: #${orderId}` : currentLanguage === 'en' ? `ORDER ID: #${orderId}` : `BESTELLNUMMER: #${orderId}`}
               </p>
             </div>
-            <p className="text-gray-600 dark:text-gray-300 mb-8 max-w-md mx-auto">
+            <p className="text-gray-600 dark:text-gray-300 mb-12 max-w-md mx-auto font-light leading-relaxed">
               {currentLanguage === 'ku' ? 'سوپاس بۆ کڕینەکەت. ئیمەیڵێکی پشتڕاستکردنەوەت بۆ دەنێرین.' : currentLanguage === 'en' ? 'Thank you for your purchase. We will send you a confirmation email shortly.' : 'Vielen Dank für Ihren Einkauf. Wir senden Ihnen in Kürze eine Bestätigungs-E-Mail.'}
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/" className="bg-blue-600 text-white px-8 py-3 rounded-xl hover:bg-blue-700 transition-colors font-bold shadow-lg shadow-blue-200 dark:shadow-none">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Link href="/" className="bg-black dark:bg-white text-white dark:text-black px-8 py-3 text-sm uppercase tracking-widest hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">
                 {currentLanguage === 'ku' ? 'گەڕانەوە بۆ ماڵەوە' : currentLanguage === 'en' ? 'Return Home' : 'Zurück zur Startseite'}
               </Link>
-              <Link href="/profile?tab=orders" className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white px-8 py-3 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-bold">
+              <Link href="/profile?tab=orders" className="border border-black dark:border-white text-black dark:text-white px-8 py-3 text-sm uppercase tracking-widest hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
                 {currentLanguage === 'ku' ? 'بینینی داواکارییەکان' : currentLanguage === 'en' ? 'View Orders' : 'Bestellungen ansehen'}
               </Link>
             </div>
-          </div>
+          </motion.div>
         </div>
       </main>
     );
@@ -147,46 +148,47 @@ export default function CheckoutPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 transition-colors duration-300">
+    <main className="min-h-screen bg-[#F5F2E9] dark:bg-[#121212] py-12 md:py-24 transition-colors duration-300 font-sans">
       <div className="container mx-auto px-4">
         {/* Progress Steps */}
-        <div className="max-w-3xl mx-auto mb-12">
-          <div className="flex items-center justify-between relative">
-            <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-gray-200 dark:bg-gray-700 -z-10"></div>
-            <div className={`absolute left-0 top-1/2 transform -translate-y-1/2 h-1 bg-blue-600 transition-all duration-500 -z-10`} style={{ width: `${((currentStep - 1) / 2) * 100}%` }}></div>
-            
-            {steps.map((step) => (
-              <div key={step.id} className="flex flex-col items-center bg-gray-50 dark:bg-gray-900 px-2">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 ${
-                  currentStep >= step.id 
-                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-200 dark:shadow-none scale-110' 
-                    : 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400'
+        <div className="max-w-3xl mx-auto mb-16">
+          <div className="flex items-center justify-center gap-4 md:gap-12">
+            {steps.map((step, index) => (
+              <div key={step.id} className="flex items-center">
+                <div className={`flex items-center gap-3 ${
+                  currentStep >= step.id ? 'text-black dark:text-white' : 'text-gray-400'
                 }`}>
-                  {currentStep > step.id ? '✓' : step.id}
+                  <span className={`w-8 h-8 flex items-center justify-center border rounded-full text-sm ${
+                    currentStep >= step.id ? 'border-black dark:border-white' : 'border-gray-300'
+                  }`}>
+                    {step.id}
+                  </span>
+                  <span className="text-sm uppercase tracking-widest hidden md:inline-block">{step.title}</span>
                 </div>
-                <span className={`mt-2 text-sm font-medium transition-colors ${
-                  currentStep >= step.id ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400'
-                }`}>
-                  {step.title}
-                </span>
+                {index < steps.length - 1 && (
+                  <div className="w-12 h-px bg-gray-300 mx-4 md:mx-6 hidden md:block" />
+                )}
               </div>
             ))}
           </div>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-8 max-w-6xl mx-auto">
+        <div className="flex flex-col lg:flex-row gap-16 max-w-6xl mx-auto">
           {/* Checkout Form */}
           <div className="flex-1">
-            <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8 transition-all duration-300">
+            <form onSubmit={handleSubmit} className="space-y-12">
               
               {/* Step 1: Contact Info */}
-              <div className={currentStep === 1 ? 'block animate-fade-in' : 'hidden'}>
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+              <motion.div 
+                initial={{ opacity: 0 }} animate={{ opacity: currentStep === 1 ? 1 : 0.5 }}
+                className={currentStep === 1 ? 'block' : 'hidden'}
+              >
+                <h2 className="text-3xl font-serif text-gray-900 dark:text-white mb-8">
                   {currentLanguage === 'ku' ? 'زانیاری پەیوەندی' : currentLanguage === 'en' ? 'Contact Information' : 'Kontaktinformationen'}
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-2">
+                    <label className="text-xs uppercase tracking-widest text-gray-500">
                       {currentLanguage === 'ku' ? 'ناو' : currentLanguage === 'en' ? 'First Name' : 'Vorname'}
                     </label>
                     <input
@@ -195,11 +197,11 @@ export default function CheckoutPage() {
                       required
                       value={formData.firstName}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                      className="w-full bg-transparent border-b border-gray-300 dark:border-gray-700 py-2 focus:border-black dark:focus:border-white outline-none transition-colors"
                     />
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <div className="space-y-2">
+                    <label className="text-xs uppercase tracking-widest text-gray-500">
                       {currentLanguage === 'ku' ? 'پاشناو' : currentLanguage === 'en' ? 'Last Name' : 'Nachname'}
                     </label>
                     <input
@@ -208,11 +210,11 @@ export default function CheckoutPage() {
                       required
                       value={formData.lastName}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                      className="w-full bg-transparent border-b border-gray-300 dark:border-gray-700 py-2 focus:border-black dark:focus:border-white outline-none transition-colors"
                     />
                   </div>
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <div className="md:col-span-2 space-y-2">
+                    <label className="text-xs uppercase tracking-widest text-gray-500">
                       {currentLanguage === 'ku' ? 'ئیمەیڵ' : currentLanguage === 'en' ? 'Email' : 'E-Mail'}
                     </label>
                     <input
@@ -221,11 +223,11 @@ export default function CheckoutPage() {
                       required
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                      className="w-full bg-transparent border-b border-gray-300 dark:border-gray-700 py-2 focus:border-black dark:focus:border-white outline-none transition-colors"
                     />
                   </div>
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <div className="md:col-span-2 space-y-2">
+                    <label className="text-xs uppercase tracking-widest text-gray-500">
                       {currentLanguage === 'ku' ? 'ژمارەی مۆبایل' : currentLanguage === 'en' ? 'Phone Number' : 'Telefonnummer'}
                     </label>
                     <input
@@ -234,20 +236,23 @@ export default function CheckoutPage() {
                       required
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                      className="w-full bg-transparent border-b border-gray-300 dark:border-gray-700 py-2 focus:border-black dark:focus:border-white outline-none transition-colors"
                     />
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Step 2: Shipping Address */}
-              <div className={currentStep === 2 ? 'block animate-fade-in' : 'hidden'}>
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+              <motion.div 
+                initial={{ opacity: 0 }} animate={{ opacity: currentStep === 2 ? 1 : 0.5 }}
+                className={currentStep === 2 ? 'block' : 'hidden'}
+              >
+                <h2 className="text-3xl font-serif text-gray-900 dark:text-white mb-8">
                   {currentLanguage === 'ku' ? 'ناونیشانی گەیاندن' : currentLanguage === 'en' ? 'Shipping Address' : 'Lieferadresse'}
                 </h2>
-                <div className="space-y-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <div className="space-y-8">
+                  <div className="space-y-2">
+                    <label className="text-xs uppercase tracking-widest text-gray-500">
                       {currentLanguage === 'ku' ? 'ناونیشان' : currentLanguage === 'en' ? 'Address' : 'Adresse'}
                     </label>
                     <input
@@ -256,13 +261,13 @@ export default function CheckoutPage() {
                       required
                       value={formData.address}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                      className="w-full bg-transparent border-b border-gray-300 dark:border-gray-700 py-2 focus:border-black dark:focus:border-white outline-none transition-colors"
                       placeholder="Street, Apartment, etc."
                     />
                   </div>
-                  <div className="grid grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <div className="grid grid-cols-2 gap-8">
+                    <div className="space-y-2">
+                      <label className="text-xs uppercase tracking-widest text-gray-500">
                         {currentLanguage === 'ku' ? 'شار' : currentLanguage === 'en' ? 'City' : 'Stadt'}
                       </label>
                       <input
@@ -271,11 +276,11 @@ export default function CheckoutPage() {
                         required
                         value={formData.city}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                        className="w-full bg-transparent border-b border-gray-300 dark:border-gray-700 py-2 focus:border-black dark:focus:border-white outline-none transition-colors"
                       />
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <div className="space-y-2">
+                      <label className="text-xs uppercase tracking-widest text-gray-500">
                         {currentLanguage === 'ku' ? 'کۆدی پۆستە' : currentLanguage === 'en' ? 'Zip Code' : 'Postleitzahl'}
                       </label>
                       <input
@@ -284,24 +289,27 @@ export default function CheckoutPage() {
                         required
                         value={formData.zipCode}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                        className="w-full bg-transparent border-b border-gray-300 dark:border-gray-700 py-2 focus:border-black dark:focus:border-white outline-none transition-colors"
                       />
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Step 3: Payment Method */}
-              <div className={currentStep === 3 ? 'block animate-fade-in' : 'hidden'}>
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+              <motion.div 
+                initial={{ opacity: 0 }} animate={{ opacity: currentStep === 3 ? 1 : 0.5 }}
+                className={currentStep === 3 ? 'block' : 'hidden'}
+              >
+                <h2 className="text-3xl font-serif text-gray-900 dark:text-white mb-8">
                   {currentLanguage === 'ku' ? 'شێوازی پارەدان' : currentLanguage === 'en' ? 'Payment Method' : 'Zahlungsmethode'}
                 </h2>
                 
-                <div className="grid grid-cols-2 gap-4 mb-8">
-                  <label className={`cursor-pointer border-2 rounded-xl p-4 flex flex-col items-center justify-center gap-2 transition-all ${
+                <div className="grid grid-cols-2 gap-6 mb-12">
+                  <label className={`cursor-pointer border p-6 flex flex-col items-center justify-center gap-4 transition-all ${
                     formData.paymentMethod === 'card' 
-                      ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300' 
-                      : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
+                      ? 'border-black dark:border-white bg-white dark:bg-gray-800' 
+                      : 'border-gray-200 dark:border-gray-800 hover:border-gray-400'
                   }`}>
                     <input
                       type="radio"
@@ -311,14 +319,14 @@ export default function CheckoutPage() {
                       onChange={handleInputChange}
                       className="hidden"
                     />
-                    <span className="text-3xl">💳</span>
-                    <span className="font-bold text-sm">Credit Card</span>
+                    <span className="text-2xl">💳</span>
+                    <span className="text-sm uppercase tracking-widest">Credit Card</span>
                   </label>
                   
-                  <label className={`cursor-pointer border-2 rounded-xl p-4 flex flex-col items-center justify-center gap-2 transition-all ${
+                  <label className={`cursor-pointer border p-6 flex flex-col items-center justify-center gap-4 transition-all ${
                     formData.paymentMethod === 'cash' 
-                      ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300' 
-                      : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
+                      ? 'border-black dark:border-white bg-white dark:bg-gray-800' 
+                      : 'border-gray-200 dark:border-gray-800 hover:border-gray-400'
                   }`}>
                     <input
                       type="radio"
@@ -328,8 +336,8 @@ export default function CheckoutPage() {
                       onChange={handleInputChange}
                       className="hidden"
                     />
-                    <span className="text-3xl">💵</span>
-                    <span className="font-bold text-sm">Cash on Delivery</span>
+                    <span className="text-2xl">💵</span>
+                    <span className="text-sm uppercase tracking-widest">Cash on Delivery</span>
                   </label>
                 </div>
 
@@ -338,15 +346,15 @@ export default function CheckoutPage() {
                     <CreditCardForm onChange={() => {}} />
                   </div>
                 )}
-              </div>
+              </motion.div>
 
               {/* Navigation Buttons */}
-              <div className="flex gap-4 mt-8 pt-6 border-t border-gray-100 dark:border-gray-700">
+              <div className="flex gap-6 pt-8 border-t border-gray-200 dark:border-gray-800">
                 {currentStep > 1 && (
                   <button
                     type="button"
                     onClick={() => setCurrentStep(prev => prev - 1)}
-                    className="px-6 py-3 rounded-xl font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                    className="px-8 py-3 text-sm uppercase tracking-widest border border-gray-300 dark:border-gray-700 hover:border-black dark:hover:border-white transition-colors"
                   >
                     {currentLanguage === 'ku' ? 'گەڕانەوە' : 'Back'}
                   </button>
@@ -355,18 +363,14 @@ export default function CheckoutPage() {
                 <button
                   type="submit"
                   disabled={isProcessing}
-                  className={`flex-1 py-3 rounded-xl font-bold text-white transition-all shadow-lg shadow-blue-200 dark:shadow-none ${
+                  className={`flex-1 py-3 text-sm uppercase tracking-widest text-white transition-colors ${
                     isProcessing
                       ? 'bg-gray-400 cursor-not-allowed'
-                      : 'bg-blue-600 hover:bg-blue-700 transform hover:-translate-y-0.5'
+                      : 'bg-black dark:bg-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200'
                   }`}
                 >
                   {isProcessing ? (
                     <span className="flex items-center justify-center gap-2">
-                      <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
                       Processing...
                     </span>
                   ) : (
@@ -381,55 +385,46 @@ export default function CheckoutPage() {
 
           {/* Order Summary Sidebar */}
           <div className="lg:w-96">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 sticky top-4 transition-all duration-300">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 pb-4 border-b border-gray-100 dark:border-gray-700">
+            <div className="bg-white dark:bg-[#1a1a1a] p-8 border border-gray-100 dark:border-gray-800 sticky top-24">
+              <h3 className="text-lg font-serif text-gray-900 dark:text-white mb-6 pb-4 border-b border-gray-100 dark:border-gray-800">
                 {currentLanguage === 'ku' ? 'پوختەی داواکاری' : currentLanguage === 'en' ? 'Order Summary' : 'Bestellübersicht'}
               </h3>
               
-              <div className="space-y-4 mb-6 max-h-80 overflow-y-auto pr-2 custom-scrollbar">
+              <div className="space-y-6 mb-8 max-h-80 overflow-y-auto pr-2 custom-scrollbar">
                 {cart.items.map((item) => (
-                  <div key={item.book.id} className="flex gap-4 group">
-                    <div className="w-16 h-20 bg-gray-100 dark:bg-gray-700 rounded-lg flex-shrink-0 overflow-hidden shadow-sm group-hover:shadow-md transition-all">
+                  <div key={item.book.id} className="flex gap-4">
+                    <div className="w-12 aspect-[2/3] bg-gray-100 dark:bg-gray-800 flex-shrink-0 overflow-hidden">
                       {item.book.image || item.book.coverUrl ? (
                         <img src={item.book.image || item.book.coverUrl} alt={item.book.title} className="w-full h-full object-cover" />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-xl">📚</div>
+                        <div className="w-full h-full flex items-center justify-center text-xs">📚</div>
                       )}
                     </div>
-                    <div className="flex-1 min-w-0 py-1">
-                      <h4 className="text-sm font-bold text-gray-900 dark:text-white truncate">{item.book.title}</h4>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">{item.book.author}</p>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-sm font-serif text-gray-900 dark:text-white truncate">{item.book.title}</h4>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{item.book.author}</p>
                       <div className="flex justify-between items-center">
-                        <span className="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded text-gray-600 dark:text-gray-300">x{item.quantity}</span>
-                        <span className="text-sm font-bold text-blue-600 dark:text-blue-400">{formatPrice(item.book.price * item.quantity)}</span>
+                        <span className="text-xs text-gray-400">Qty: {item.quantity}</span>
+                        <span className="text-sm font-light">{formatPrice(item.book.price * item.quantity)}</span>
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
 
-              <div className="space-y-3 pt-4 border-t border-gray-100 dark:border-gray-700">
-                <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+              <div className="space-y-3 pt-4 border-t border-gray-100 dark:border-gray-800">
+                <div className="flex justify-between text-sm font-light text-gray-600 dark:text-gray-400">
                   <span>{currentLanguage === 'ku' ? 'کۆی گشتی کاڵاکان' : currentLanguage === 'en' ? 'Subtotal' : 'Zwischensumme'}</span>
-                  <span className="font-medium">{formatPrice(getCartTotal())}</span>
+                  <span>{formatPrice(getCartTotal())}</span>
                 </div>
-                <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                <div className="flex justify-between text-sm font-light text-gray-600 dark:text-gray-400">
                   <span>{currentLanguage === 'ku' ? 'گەیاندن' : currentLanguage === 'en' ? 'Shipping' : 'Versand'}</span>
-                  <span className="text-green-600 dark:text-green-400 font-medium">{currentLanguage === 'ku' ? 'بەخۆڕایی' : currentLanguage === 'en' ? 'Free' : 'Kostenlos'}</span>
+                  <span className="text-green-600 dark:text-green-400">{currentLanguage === 'ku' ? 'بەخۆڕایی' : currentLanguage === 'en' ? 'Free' : 'Kostenlos'}</span>
                 </div>
-                <div className="flex justify-between text-xl font-bold text-gray-900 dark:text-white pt-4 border-t border-gray-100 dark:border-gray-700 mt-2">
+                <div className="flex justify-between text-lg font-serif text-gray-900 dark:text-white pt-4 border-t border-gray-100 dark:border-gray-800 mt-2">
                   <span>{currentLanguage === 'ku' ? 'کۆی گشتی' : currentLanguage === 'en' ? 'Total' : 'Gesamt'}</span>
-                  <span className="text-blue-600 dark:text-blue-400">{formatPrice(getCartTotal())}</span>
+                  <span>{formatPrice(getCartTotal())}</span>
                 </div>
-              </div>
-              
-              <div className="mt-6 bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 flex items-start gap-3">
-                <span className="text-xl">🛡️</span>
-                <p className="text-xs text-blue-800 dark:text-blue-200 leading-relaxed">
-                  {currentLanguage === 'ku' 
-                    ? 'پاراستنی کڕیار: گەرەنتی گەڕاندنەوەی پارە ئەگەر کاڵاکە وەک وەسفەکە نەبوو.' 
-                    : 'Buyer Protection: Money back guarantee if the item is not as described.'}
-                </p>
               </div>
             </div>
           </div>

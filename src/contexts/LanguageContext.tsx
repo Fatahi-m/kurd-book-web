@@ -9,6 +9,7 @@ interface LanguageContextType {
   setLanguage: (lang: Language) => void;
   t: (key: string) => string;
   dir: 'rtl' | 'ltr';
+  isRTL: boolean;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -874,9 +875,10 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
   };
 
   const dir = currentLanguage === 'ku' ? 'rtl' : 'ltr';
+  const isRTL = dir === 'rtl';
 
   return (
-    <LanguageContext.Provider value={{ currentLanguage, setLanguage, t, dir }}>
+    <LanguageContext.Provider value={{ currentLanguage, setLanguage, t, dir, isRTL }}>
       {children}
     </LanguageContext.Provider>
   );

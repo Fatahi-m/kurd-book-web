@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter, Noto_Sans_Arabic } from 'next/font/google'
+import { Inter, Vazirmatn, Playfair_Display, Lora } from 'next/font/google'
 import './globals.css'
 import '../styles/mobile.css'
 import Header from '@/components/layout/Header'
@@ -12,11 +12,28 @@ import { AuthProvider } from '@/contexts/AuthContext'
 import { ThemeProvider } from '@/contexts/ThemeContext'
 import { ReviewProvider } from '@/contexts/ReviewContext'
 
-const inter = Inter({ subsets: ['latin'] })
-const notoSansArabic = Noto_Sans_Arabic({
+const inter = Inter({ 
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+})
+
+const vazirmatn = Vazirmatn({
   subsets: ['arabic'],
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-  variable: '--font-noto-sans-arabic',
+  variable: '--font-vazirmatn',
+  display: 'swap',
+})
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-playfair',
+  display: 'swap',
+})
+
+const lora = Lora({
+  subsets: ['latin'],
+  variable: '--font-lora',
   display: 'swap',
 })
 
@@ -55,7 +72,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ku" dir="rtl">
-      <body className={`${notoSansArabic.variable} font-kurdish antialiased transition-all duration-300 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100`}>
+      <body className={`${vazirmatn.variable} ${playfair.variable} ${lora.variable} ${inter.variable} font-sans font-light antialiased transition-all duration-300 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100`}>
         <LanguageProvider>
           <AuthProvider>
             <CartProvider>

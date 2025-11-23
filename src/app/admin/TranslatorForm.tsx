@@ -51,8 +51,8 @@ export default function TranslatorForm({ translator, onClose, onSave }: Translat
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 max-w-md mx-auto w-full transition-colors duration-300">
-      <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-6">
+    <div className="bg-white dark:bg-[#1a1a1a] border border-[#e5e5e5] dark:border-[#333] p-6 max-w-md mx-auto w-full transition-colors duration-300">
+      <h3 className="text-xl font-serif text-[#2c2c2c] dark:text-white mb-6">
         {translator 
           ? (currentLanguage === 'ku' ? 'دەستکاریکردنی وەرگێڕ' : 'Edit Translator')
           : (currentLanguage === 'ku' ? 'زیادکردنی وەرگێڕ' : 'Add Translator')
@@ -61,44 +61,44 @@ export default function TranslatorForm({ translator, onClose, onSave }: Translat
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className="block text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">
             {currentLanguage === 'ku' ? 'ناو' : 'Name'}
           </label>
           <input
             type="text"
             value={formData.name}
             onChange={(e) => setFormData({...formData, name: e.target.value})}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+            className="w-full px-3 py-2 border border-[#e5e5e5] dark:border-[#333] focus:outline-none focus:border-black dark:focus:border-white bg-white dark:bg-[#1a1a1a] text-[#2c2c2c] dark:text-white transition-colors"
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className="block text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">
             {currentLanguage === 'ku' ? 'ناوی لاتینی (بۆ گەڕان)' : 'Latin Name (for search)'}
           </label>
           <input
             type="text"
             value={formData.latinName}
             onChange={(e) => setFormData({...formData, latinName: e.target.value})}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+            className="w-full px-3 py-2 border border-[#e5e5e5] dark:border-[#333] focus:outline-none focus:border-black dark:focus:border-white bg-white dark:bg-[#1a1a1a] text-[#2c2c2c] dark:text-white transition-colors"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className="block text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">
             {currentLanguage === 'ku' ? 'نەتەوە' : 'Nationality'}
           </label>
           <input
             type="text"
             value={formData.nationality}
             onChange={(e) => setFormData({...formData, nationality: e.target.value})}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+            className="w-full px-3 py-2 border border-[#e5e5e5] dark:border-[#333] focus:outline-none focus:border-black dark:focus:border-white bg-white dark:bg-[#1a1a1a] text-[#2c2c2c] dark:text-white transition-colors"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className="block text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">
             {currentLanguage === 'ku' ? 'زمانەکان (بە کۆما جیایان بکەوە)' : 'Languages (comma separated)'}
           </label>
           <input
@@ -106,21 +106,21 @@ export default function TranslatorForm({ translator, onClose, onSave }: Translat
             value={formData.languages}
             onChange={(e) => setFormData({...formData, languages: e.target.value})}
             placeholder="کوردی, فارسی, ئینگلیزی"
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+            className="w-full px-3 py-2 border border-[#e5e5e5] dark:border-[#333] focus:outline-none focus:border-black dark:focus:border-white bg-white dark:bg-[#1a1a1a] text-[#2c2c2c] dark:text-white transition-colors"
           />
         </div>
 
-        <div className="flex justify-end gap-3 mt-6">
+        <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-[#e5e5e5] dark:border-[#333]">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+            className="px-6 py-2 text-gray-600 dark:text-gray-300 border border-[#e5e5e5] dark:border-[#333] hover:bg-[#F9F7F2] dark:hover:bg-[#222] transition-colors uppercase tracking-widest text-xs"
           >
             {currentLanguage === 'ku' ? 'پاشگەزبوونەوە' : 'Cancel'}
           </button>
           <button
             type="submit"
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="px-6 py-2 bg-[#2c2c2c] dark:bg-white text-white dark:text-black hover:bg-black dark:hover:bg-gray-200 transition-colors uppercase tracking-widest text-xs"
           >
             {currentLanguage === 'ku' ? 'تۆمارکردن' : 'Save'}
           </button>

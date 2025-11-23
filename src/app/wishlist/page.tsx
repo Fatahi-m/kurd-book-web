@@ -8,6 +8,7 @@ import { useCart } from '@/contexts/CartContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Book } from '@/lib/types';
 import { formatPrice } from '@/lib/utils';
+import { motion } from 'framer-motion';
 
 export default function WishlistPage() {
   const { items: wishlistItems, removeFromWishlist } = useWishlist();
@@ -51,22 +52,21 @@ export default function WishlistPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-24 pb-12 flex justify-center items-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen bg-[#F5F2E9] dark:bg-[#121212] pt-24 pb-12 flex justify-center items-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b border-black dark:border-white"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-8 pb-12 transition-colors duration-300">
+    <div className="min-h-screen bg-[#F5F2E9] dark:bg-[#121212] pt-12 pb-24 transition-colors duration-300 font-sans">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-baseline justify-between mb-12 border-b border-gray-200 dark:border-gray-800 pb-6">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
-              <Heart className="w-8 h-8 text-red-500 fill-current" />
+            <h1 className="text-3xl md:text-4xl font-serif text-gray-900 dark:text-white mb-2">
               {currentLanguage === 'ku' ? 'لیستی دڵخواز' : currentLanguage === 'en' ? 'My Wishlist' : 'Meine Wunschliste'}
             </h1>
-            <p className="mt-2 text-gray-600 dark:text-gray-400">
+            <p className="text-sm font-light text-gray-500 dark:text-gray-400 uppercase tracking-widest">
               {wishlistItems.length} {currentLanguage === 'ku' ? 'کتێب' : currentLanguage === 'en' ? 'items' : 'Artikel'}
             </p>
           </div>
@@ -74,7 +74,7 @@ export default function WishlistPage() {
           {wishlistItems.length > 0 && (
             <Link 
               href="/books" 
-              className="hidden md:flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors"
+              className="hidden md:flex items-center gap-2 text-sm uppercase tracking-widest text-gray-500 hover:text-black dark:hover:text-white transition-colors"
             >
               {currentLanguage === 'ku' ? 'زیاتر بگەڕێ' : currentLanguage === 'en' ? 'Continue Shopping' : 'Weiter einkaufen'}
               <ArrowRight className="w-4 h-4 rtl:rotate-180" />
@@ -83,14 +83,16 @@ export default function WishlistPage() {
         </div>
 
         {wishlistItems.length === 0 ? (
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-12 text-center max-w-2xl mx-auto transition-all duration-300">
-            <div className="w-24 h-24 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Heart className="w-12 h-12 text-red-300 dark:text-red-700" />
-            </div>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center max-w-md mx-auto py-24"
+          >
+            <div className="text-6xl mb-6 opacity-20">♡</div>
+            <h2 className="text-2xl font-serif text-gray-900 dark:text-white mb-4">
               {currentLanguage === 'ku' ? 'لیستی دڵخوازت بەتاڵە' : currentLanguage === 'en' ? 'Your wishlist is empty' : 'Ihre Wunschliste ist leer'}
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
+            <p className="text-gray-600 dark:text-gray-400 mb-8 font-light leading-relaxed">
               {currentLanguage === 'ku' 
                 ? 'هیچ کتێبێکت زیاد نەکردووە بۆ لیستی دڵخواز. کتێبەکان بگەڕێ و ئەوانەی بەدڵتە زیادیان بکە.' 
                 : currentLanguage === 'en' 
@@ -99,82 +101,67 @@ export default function WishlistPage() {
             </p>
             <Link 
               href="/books" 
-              className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-xl hover:bg-blue-700 transition-all hover:shadow-lg hover:shadow-blue-200 dark:hover:shadow-none transform hover:-translate-y-1"
+              className="inline-block bg-black dark:bg-white text-white dark:text-black px-8 py-3 text-sm uppercase tracking-widest hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
             >
-              <BookOpen className="w-5 h-5" />
               {currentLanguage === 'ku' ? 'گەڕان بۆ کتێب' : currentLanguage === 'en' ? 'Browse Books' : 'Bücher durchsuchen'}
             </Link>
-          </div>
+          </motion.div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {wishlistItems.map((item) => (
-              <div key={item.id} className="bg-white dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 group border border-gray-100 dark:border-gray-700">
-                <div className="relative aspect-[2/3] overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {wishlistItems.map((item, index) => (
+              <motion.div 
+                key={item.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="group"
+              >
+                <div className="relative aspect-[2/3] mb-4 bg-gray-200 dark:bg-gray-800 overflow-hidden">
                   <img 
                     src={item.imageUrl || '/images/placeholder-book.jpg'} 
                     alt={item.title} 
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
                     <button
                       onClick={() => handleAddToCart(item)}
-                      className="p-3 bg-white text-blue-600 rounded-full hover:bg-blue-50 transition-colors transform hover:scale-110 shadow-lg"
+                      className="w-10 h-10 bg-white text-black flex items-center justify-center hover:bg-gray-200 transition-colors"
                       title={currentLanguage === 'ku' ? 'زیادکردن بۆ سەبەتە' : 'Add to Cart'}
                     >
-                      <ShoppingCart className="w-5 h-5" />
+                      <ShoppingCart className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => removeFromWishlist(item.id)}
-                      className="p-3 bg-white text-red-500 rounded-full hover:bg-red-50 transition-colors transform hover:scale-110 shadow-lg"
+                      className="w-10 h-10 bg-white text-black flex items-center justify-center hover:bg-red-50 hover:text-red-600 transition-colors"
                       title={currentLanguage === 'ku' ? 'ل لابردن' : 'Remove'}
                     >
-                      <Trash2 className="w-5 h-5" />
+                      <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
-                  {item.originalPrice && item.originalPrice > item.price && (
-                    <div className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-lg shadow-md">
-                      SALE
-                    </div>
-                  )}
                 </div>
                 
-                <div className="p-5">
+                <div className="text-center">
                   <Link href={`/book/${item.id}`}>
-                    <h3 className="font-bold text-gray-900 dark:text-white mb-1 line-clamp-1 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                    <h3 className="font-serif text-lg text-gray-900 dark:text-white mb-1 hover:underline decoration-1 underline-offset-4">
                       {item.title}
                     </h3>
                   </Link>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
+                  <p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">
                     {item.author}
                   </p>
                   
-                  <div className="flex items-center justify-between mt-4">
-                    <div className="flex flex-col">
-                      {item.originalPrice && item.originalPrice > item.price ? (
-                        <>
-                          <span className="text-lg font-bold text-blue-600 dark:text-blue-400">
-                            {formatPrice(item.price)}
-                          </span>
-                          <span className="text-sm text-gray-400 line-through">
-                            {formatPrice(item.originalPrice)}
-                          </span>
-                        </>
-                      ) : (
-                        <span className="text-lg font-bold text-blue-600 dark:text-blue-400">
-                          {formatPrice(item.price)}
-                        </span>
-                      )}
-                    </div>
-                    
-                    <button
-                      onClick={() => handleAddToCart(item)}
-                      className="md:hidden p-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg"
-                    >
-                      <ShoppingCart className="w-5 h-5" />
-                    </button>
+                  <div className="flex items-center justify-center gap-3">
+                    {item.originalPrice && item.originalPrice > item.price && (
+                      <span className="text-sm text-gray-400 line-through font-light">
+                        {formatPrice(item.originalPrice)}
+                      </span>
+                    )}
+                    <span className="text-base font-medium text-gray-900 dark:text-white">
+                      {formatPrice(item.price)}
+                    </span>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         )}

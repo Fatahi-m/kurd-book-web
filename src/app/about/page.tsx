@@ -3,6 +3,7 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { BookOpen, Heart, Users, GraduationCap, Sparkles, Globe } from 'lucide-react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 export default function AboutPage() {
   const { currentLanguage } = useLanguage();
@@ -17,17 +18,17 @@ export default function AboutPage() {
         subtitle: "Kurd Book is not just an online store. We are built on three sacred goals:",
         items: [
           {
-            icon: <Globe className="w-8 h-8" />,
+            icon: <Globe className="w-6 h-6" />,
             title: "Preserving Identity in Diaspora",
             desc: "We want to keep our language and culture alive in the hearts of Kurdish families living in Europe by facilitating access to Kurdish books and promoting the culture of reading."
           },
           {
-            icon: <Users className="w-8 h-8" />,
+            icon: <Users className="w-6 h-6" />,
             title: "Supporting Kurdish Authors",
             desc: "Our authors are the guardians of our language. We have provided a platform for their works to be seen and sold, providing financial support for them to continue creating valuable works."
           },
           {
-            icon: <Heart className="w-8 h-8" />,
+            icon: <Heart className="w-6 h-6" />,
             title: "Our Beating Heart: Children's Future",
             desc: "This is where our story becomes different. We believe no child should be deprived of reading and writing due to poverty. Literacy is the strongest weapon to fight suffering and build the future."
           }
@@ -49,7 +50,7 @@ export default function AboutPage() {
     ku: {
       title: "زیاتر لە کتێبفرۆشییەک؛ لانەیەک بۆ کولتوور و هیوا",
       subtitle: "ئێمە کێین و بۆچی لێرەین؟",
-      intro: "لە دڵی ئەوروپادا، کیلۆمەترها دوور لە چیاکانی نیشتمان، هەستمان بە بۆشاییەکی گەورە کرد. دەستگەیشتن بە کتێبی کوردی، کە گەنجینەی زمان و ناسنامەمانە، بۆ زۆرێک لە ئێمە لە تاراوگە سەخت یان مەحاڵ بوو. کورد بووک لەدایک بوو تا پردێک بێت لە نێوان تۆ و کولتوورەکەتدا. ئێمە لێرەین تا چیتر هیچ کوردێک لە ئەوروپا حەسرەتی خوێندنەوەی کتێب بە زمانی دایکی نەبێت.",
+      intro: "لە دڵی ئەوروپادا، کیلۆمەترها دوور لە چیاکانی نیشتمان، هەستمان بە بۆشاییەکی گەورە کرد. دەستگەیشتن بە کتێبی کوردی، کە گەنجینەی زمان و ناسنامەمانە، بۆ زۆرێک لە ئێمە لە تاراوگە ئەستەم یان مەحاڵ بوو. کورد بووک لەدایک بوو تا ببێتە پردێک لە نێوان تۆ و کولتوورەکەت. ئێمە لێرەین تا هیچ کوردێک لە ئەوروپا حەسرەتی خوێندنەوەی کتێب بە زمانی دایکی نەبێت.",
       missions: {
         title: "پەیامی سێقۆڵیی ئێمە",
         subtitle: "کورد بووک تەنها فرۆشگایەکی ئۆنلاین نییە. ئێمە لەسەر سێ ئامانجی پیرۆز دامەزراوین:",
@@ -128,100 +129,112 @@ export default function AboutPage() {
   const isRTL = currentLanguage === 'ku';
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-      {/* Hero Section */}
-      <div className="relative bg-blue-900 text-white overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/images/pattern.png')] opacity-10"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-900/50 to-blue-900"></div>
-        <div className="container mx-auto px-4 py-20 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center justify-center p-3 bg-blue-800/50 rounded-full mb-6 backdrop-blur-sm animate-fade-in">
-              <Sparkles className="w-6 h-6 text-yellow-400 mr-2" />
-              <span className="text-blue-100 font-medium tracking-wide uppercase text-sm">Our Mission</span>
-            </div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+    <main className="min-h-screen bg-[#F5F2E9] dark:bg-[#121212] transition-colors duration-500">
+      {/* Editorial Hero */}
+      <div className="relative pt-32 pb-20 px-6 overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="max-w-4xl"
+          >
+            <span className="text-sm font-light tracking-[0.2em] text-gray-500 dark:text-gray-400 uppercase mb-6 block">
+              Our Story
+            </span>
+            <h1 className="text-5xl md:text-7xl font-serif text-gray-900 dark:text-white mb-8 leading-[1.1]">
               {t.title}
             </h1>
-            <p className="text-xl md:text-2xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl font-light text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl">
               {t.subtitle}
+            </p>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Intro Text */}
+      <div className="px-6 py-20 border-t border-gray-200 dark:border-gray-800">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-12 gap-12">
+          <div className="md:col-span-4">
+            <h2 className="text-2xl font-serif text-gray-900 dark:text-white">
+              The Vision
+            </h2>
+          </div>
+          <div className="md:col-span-8">
+            <p className="text-lg md:text-xl font-light text-gray-600 dark:text-gray-300 leading-loose">
+              {t.intro}
             </p>
           </div>
         </div>
       </div>
 
-      {/* Intro Section */}
-      <div className="container mx-auto px-4 py-16">
-        <div className="max-w-3xl mx-auto text-center">
-          <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-loose">
-            {t.intro}
-          </p>
-        </div>
-      </div>
-
-      {/* Three Pillars Section */}
-      <div className="bg-white dark:bg-gray-800 py-20 transition-colors duration-300">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+      {/* Missions */}
+      <div className="px-6 py-20 bg-white dark:bg-[#1a1a1a]">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-16">
+            <h2 className="text-3xl md:text-4xl font-serif text-gray-900 dark:text-white mb-6">
               {t.missions.title}
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            <p className="text-lg font-light text-gray-600 dark:text-gray-400 max-w-2xl">
               {t.missions.subtitle}
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-12">
             {t.missions.items.map((item, index) => (
-              <div key={index} className="bg-gray-50 dark:bg-gray-700/50 rounded-2xl p-8 text-center hover:transform hover:-translate-y-2 transition-all duration-300 shadow-lg hover:shadow-xl border border-gray-100 dark:border-gray-600">
-                <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="group"
+              >
+                <div className="mb-6 text-gray-900 dark:text-white opacity-80 group-hover:opacity-100 transition-opacity">
                   {item.icon}
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+                <h3 className="text-xl font-serif text-gray-900 dark:text-white mb-4">
                   {item.title}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-400 font-light leading-relaxed">
                   {item.desc}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Donation Highlight Section */}
-      <div className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-700 transform -skew-y-3 origin-top-left scale-110"></div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-5xl mx-auto bg-white dark:bg-gray-800 rounded-3xl shadow-2xl overflow-hidden">
-            <div className="grid md:grid-cols-2">
-              <div className="p-10 md:p-12 flex flex-col justify-center">
-                <div className="flex items-center gap-3 mb-6">
-                  <GraduationCap className="w-8 h-8 text-blue-600 dark:text-blue-400" />
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-                    {t.donation.title}
-                  </h3>
-                </div>
-                <p className="text-gray-600 dark:text-gray-300 mb-8 text-lg leading-relaxed">
-                  {t.donation.text}
-                </p>
-                <div className="space-y-4">
-                  {t.donation.points.map((point, index) => (
-                    <div key={index} className="flex items-start gap-3">
-                      <div className="w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        ✓
-                      </div>
-                      <p className="text-gray-700 dark:text-gray-200">{point}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="bg-gray-100 dark:bg-gray-700 relative min-h-[300px] md:min-h-full">
-                {/* Placeholder for an image of children reading or a classroom */}
-                <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-                  <div className="text-center p-8">
-                    <Heart className="w-20 h-20 mx-auto mb-4 text-red-400 animate-pulse" />
-                    <p className="text-lg font-medium">{t.donation.closing}</p>
+      {/* Donation Section - Editorial Style */}
+      <div className="px-6 py-24 bg-[#F5F2E9] dark:bg-[#121212]">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div>
+              <span className="text-sm font-light tracking-[0.2em] text-blue-600 dark:text-blue-400 uppercase mb-6 block">
+                Impact
+              </span>
+              <h2 className="text-4xl md:text-5xl font-serif text-gray-900 dark:text-white mb-8">
+                {t.donation.title}
+              </h2>
+              <p className="text-lg font-light text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+                {t.donation.text}
+              </p>
+              <div className="space-y-6">
+                {t.donation.points.map((point, index) => (
+                  <div key={index} className="flex items-start gap-4">
+                    <span className="text-blue-600 dark:text-blue-400 mt-1">✦</span>
+                    <p className="text-gray-700 dark:text-gray-200 font-light">{point}</p>
                   </div>
+                ))}
+              </div>
+            </div>
+            <div className="relative aspect-[4/5] md:aspect-square bg-gray-200 dark:bg-gray-800 overflow-hidden">
+              {/* Abstract decorative element instead of image placeholder */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center p-12">
+                  <Heart className="w-16 h-16 mx-auto mb-6 text-gray-400 dark:text-gray-600" strokeWidth={1} />
+                  <p className="text-xl font-serif text-gray-500 dark:text-gray-500 italic">
+                    "{t.donation.closing}"
+                  </p>
                 </div>
               </div>
             </div>
@@ -229,17 +242,13 @@ export default function AboutPage() {
         </div>
       </div>
 
-      {/* CTA Section */}
-      <div className="container mx-auto px-4 py-20 text-center">
-        <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 max-w-2xl mx-auto">
-          {t.donation.closing}
-        </h2>
+      {/* CTA */}
+      <div className="px-6 py-24 border-t border-gray-200 dark:border-gray-800 text-center">
         <Link 
           href="/books" 
-          className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-blue-600 rounded-xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200 dark:shadow-none transform hover:-translate-y-1"
+          className="inline-block px-12 py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-medium tracking-[0.2em] uppercase hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
         >
           {t.cta}
-          <span className={`ml-2 ${isRTL ? 'rotate-180' : ''}`}>→</span>
         </Link>
       </div>
     </main>

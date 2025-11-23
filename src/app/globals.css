@@ -39,12 +39,20 @@ html.dark body {
 }
 
 /* Language-specific font configuration */
-body.font-vazir {
-  font-family: 'Vazirmatn', 'Vazir', 'Tahoma', 'Arial', sans-serif;
+body {
+  font-family: var(--font-vazirmatn), 'Tahoma', 'Arial', sans-serif;
+  font-weight: 300; /* Default to light/thin as requested */
 }
 
 body.font-english {
-  font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--font-inter), sans-serif;
+}
+
+/* Force Vazirmatn for RTL elements even if they have other classes */
+[dir="rtl"] .font-serif,
+[dir="rtl"] .font-sans,
+[dir="rtl"] .font-mono {
+  font-family: var(--font-vazirmatn), sans-serif;
 }
 
 /* RTL/LTR direction support */
