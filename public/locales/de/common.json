@@ -12,7 +12,9 @@
     "about": "Über uns",
     "contact": "Kontakt",
     "cart": "Warenkorb",
-    "search": "Suchen"
+    "search": "Suchen",
+    "menu": "Menü",
+    "language": "Sprache"
   },
   "categories": {
     "literature": "Literatur",
@@ -26,12 +28,25 @@
     "biography": "Biografie",
     "culture": "Kultur"
   },
-  "homepage": {
+  "home": {
     "featured": "Empfohlene Bücher",
+    "featuredSubtitle": "Unsere Empfehlungen für Sie",
     "bestsellers": "Bestseller",
+    "bestsellersSubtitle": "Beliebteste Bücher bei unseren Kunden",
     "newReleases": "Neuerscheinungen",
     "specialOffers": "Sonderangebote",
     "viewAll": "Alle anzeigen"
+  },
+  "hero": {
+    "badge": "Neue Kollektion 2025",
+    "explore": "Bücher entdecken",
+    "learnMore": "Mehr erfahren"
+  },
+  "sections": {
+    "featuredBooks": "Wahl des Herausgebers"
+  },
+  "app": {
+    "name": "Kurd Book"
   },
   "book": {
     "price": "Preis",
@@ -48,7 +63,16 @@
     "contactInfo": "Kontaktinformationen",
     "followUs": "Folgen Sie uns",
     "newsletter": "Newsletter",
-    "subscribe": "Abonnieren"
+    "subscribe": "Abonnieren",
+    "aboutPurchase": "Über den Einkauf",
+    "shipping": "Versand",
+    "payment": "Zahlungsmethoden",
+    "returns": "Rücksendungen",
+    "faq": "Häufig gestellte Fragen",
+    "aboutShop": "Über den Shop",
+    "terms": "Allgemeine Geschäftsbedingungen",
+    "privacy": "Datenschutz",
+    "copyright": "Alle Rechte vorbehalten."
   },
   "ads": {
     "specialOffer": "Sonderangebot",
@@ -74,5 +98,11 @@
     "noAuthorsMessage": "Entschuldigung, keine Autoren verfügbar",
     "clearSearch": "Suche löschen",
     "popularAuthors": "Beliebte Autoren"
+  },
+  "buttons": {
+    "viewDetails": "Details anzeigen",
+    "addToCart": "In den Warenkorb",
+    "viewAll": "Alle anzeigen",
+    "buy": "Kaufen"
   }
 }

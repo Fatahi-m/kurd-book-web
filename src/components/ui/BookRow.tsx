@@ -8,16 +8,18 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 interface BookRowProps {
-  title: string;
+  title?: string;
+  subtitle?: string;
   books: Book[];
   viewAllLink?: string;
-  variant?: 'default' | 'colored' | 'gray' | 'showcase';
+  variant?: 'default' | 'colored' | 'gray' | 'showcase' | 'centered';
   bgClass?: string;
   icon?: React.ReactNode;
 }
 
 export default function BookRow({ 
   title, 
+  subtitle,
   books, 
   viewAllLink, 
   variant = 'default', 
@@ -40,27 +42,27 @@ export default function BookRow({
   };
 
   // Determine background styles based on variant
-  let containerClasses = "rounded-xl p-4 md:p-6 mb-8 relative group";
-  let headerClasses = "flex justify-between items-center mb-4";
-  let titleClasses = "text-xl md:text-2xl font-bold flex items-center gap-2";
-  let linkClasses = "text-sm font-semibold flex items-center gap-1 transition-colors";
+  let containerClasses = "mb-12 relative group";
+  let headerClasses = "flex justify-between items-center mb-6 border-b border-gray-100 dark:border-gray-800 pb-2";
+  let titleClasses = "text-xl md:text-2xl font-bold flex items-center gap-2 text-[#313131] dark:text-white";
+  let linkClasses = "text-sm font-bold text-[#e11d48] hover:text-[#be123c] flex items-center gap-1 transition-colors";
 
   if (variant === 'colored') {
-    containerClasses += ` ${bgClass || 'bg-rose-900'}`;
-    titleClasses += " text-white";
-    linkClasses += " text-white/90 hover:text-white";
+    containerClasses = `rounded-xl p-6 md:p-8 mb-12 relative group ${bgClass || 'bg-[#e11d48]'}`;
+    headerClasses = "flex justify-between items-center mb-6";
+    titleClasses = "text-xl md:text-2xl font-bold flex items-center gap-2 text-white";
+    linkClasses = "text-sm font-bold text-white/90 hover:text-white flex items-center gap-1 transition-colors";
   } else if (variant === 'gray') {
-    containerClasses += " bg-gray-50 dark:bg-gray-800/50";
-    titleClasses += " text-gray-900 dark:text-white";
-    linkClasses += " text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
+    containerClasses = "rounded-xl p-6 md:p-8 mb-12 relative group bg-gray-50 dark:bg-gray-800/50";
+  } else if (variant === 'centered') {
+    containerClasses = `py-12 relative group ${bgClass || 'bg-white'}`;
+    headerClasses = "flex flex-col items-center justify-center mb-10 text-center";
+    titleClasses = "text-2xl md:text-3xl font-bold text-[#313131] mb-2 relative inline-block";
+    linkClasses = "hidden"; 
   } else if (variant === 'showcase') {
-    // 30book style showcase: Beige background, side title on desktop
+    // ... existing showcase logic ...
     containerClasses = "rounded-xl p-0 mb-12 relative group bg-[#f5f5f5] dark:bg-gray-800 overflow-hidden flex flex-col md:flex-row border border-gray-200 dark:border-gray-700";
-    headerClasses = "hidden"; // We handle header differently for showcase
-  } else {
-    containerClasses += " bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800";
-    titleClasses += " text-gray-900 dark:text-white";
-    linkClasses += " text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
+    headerClasses = "hidden"; 
   }
 
   if (variant === 'showcase') {
@@ -134,20 +136,39 @@ export default function BookRow({
 
   return (
     <section className={containerClasses}>
-      <div className={headerClasses}>
-        <h2 className={titleClasses}>
-          {icon && <span>{icon}</span>}
-          {title}
-        </h2>
-        {viewAllLink && (
-          <Link href={viewAllLink} className={linkClasses}>
-            <span>{t('buttons.viewAll')}</span>
-            <ChevronLeft className="w-4 h-4 rtl:rotate-180" />
-          </Link>
-        )}
-      </div>
+      {title && (
+        <div className={`${headerClasses} ${variant === 'centered' ? 'max-w-6xl mx-auto px-4' : ''}`}>
+          {variant === 'centered' ? (
+            <>
+              <h2 className={titleClasses}>
+                <span className="text-[#e11d48] mr-2">»</span>
+                {title}
+                <span className="text-[#e11d48] ml-2">«</span>
+              </h2>
+              {subtitle && (
+                <p className="text-gray-500 text-sm md:text-base max-w-2xl mx-auto">
+                  {subtitle}
+                </p>
+              )}
+            </>
+          ) : (
+            <>
+              <h2 className={titleClasses}>
+                {icon && <span>{icon}</span>}
+                {title}
+              </h2>
+              {viewAllLink && (
+                <Link href={viewAllLink} className={linkClasses}>
+                  <span>{t('buttons.viewAll')}</span>
+                  <ChevronLeft className="w-4 h-4 rtl:rotate-180" />
+                </Link>
+              )}
+            </>
+          )}
+        </div>
+      )}
 
-      <div className="relative">
+      <div className={`relative ${variant === 'centered' ? 'max-w-6xl mx-auto px-12' : ''}`}>
         {/* Scroll Buttons */}
         <button 
           onClick={() => scroll('left')}

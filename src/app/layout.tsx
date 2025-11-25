@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter, Vazirmatn, Playfair_Display, Lora } from 'next/font/google'
+import { Inter, IBM_Plex_Sans_Arabic, Playfair_Display, Lora } from 'next/font/google'
 import './globals.css'
 import '../styles/mobile.css'
 import Header from '@/components/layout/Header'
@@ -18,10 +18,10 @@ const inter = Inter({
   display: 'swap',
 })
 
-const vazirmatn = Vazirmatn({
+const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
   subsets: ['arabic'],
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-  variable: '--font-vazirmatn',
+  weight: ['100', '200', '300', '400', '500', '600', '700'],
+  variable: '--font-ibm-plex-arabic',
   display: 'swap',
 })
 
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     'mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-status-bar-style': 'default',
-    'msapplication-TileColor': '#2563eb',
+    'msapplication-TileColor': '#e11d48',
     'msapplication-config': 'none'
   }
 }
@@ -62,7 +62,7 @@ export const viewport: Viewport = {
   initialScale: 1.0,
   maximumScale: 5.0,
   userScalable: true,
-  themeColor: '#2563eb',
+  themeColor: '#e11d48',
 }
 
 export default function RootLayout({
@@ -72,7 +72,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ku" dir="rtl">
-      <body className={`${vazirmatn.variable} ${playfair.variable} ${lora.variable} ${inter.variable} font-sans font-light antialiased transition-all duration-300 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100`}>
+      <body className={`${ibmPlexSansArabic.variable} ${playfair.variable} ${lora.variable} ${inter.variable} font-sans font-light antialiased transition-all duration-300 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100`}>
         <LanguageProvider>
           <AuthProvider>
             <CartProvider>

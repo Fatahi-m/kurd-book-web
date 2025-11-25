@@ -327,6 +327,111 @@ export const categories: Category[] = [
       de: 'Kulturelle Bücher'
     },
     icon: '🎭'
+  },
+  {
+    id: 'psychology',
+    name: {
+      ku: 'دەروونناسی',
+      en: 'Psychology',
+      de: 'Psychologie'
+    },
+    slug: 'psychology',
+    description: {
+      ku: 'کتابەکانی دەروونناسی و گەشەپێدان',
+      en: 'Psychology and self-development',
+      de: 'Psychologie und Selbstentwicklung'
+    },
+    icon: '🧠'
+  },
+  {
+    id: 'philosophy',
+    name: {
+      ku: 'فەلسەفە',
+      en: 'Philosophy',
+      de: 'Philosophie'
+    },
+    slug: 'philosophy',
+    description: {
+      ku: 'کتابەکانی فەلسەفی',
+      en: 'Philosophical books',
+      de: 'Philosophische Bücher'
+    },
+    icon: '🤔'
+  },
+  {
+    id: 'art',
+    name: {
+      ku: 'هونەر',
+      en: 'Art',
+      de: 'Kunst'
+    },
+    slug: 'art',
+    description: {
+      ku: 'کتابەکانی هونەری',
+      en: 'Art books',
+      de: 'Kunstbücher'
+    },
+    icon: '🎨'
+  },
+  {
+    id: 'business',
+    name: {
+      ku: 'بازرگانی',
+      en: 'Business',
+      de: 'Wirtschaft'
+    },
+    slug: 'business',
+    description: {
+      ku: 'کتابەکانی بازرگانی و ئابووری',
+      en: 'Business and economics',
+      de: 'Wirtschaft und Ökonomie'
+    },
+    icon: '💼'
+  },
+  {
+    id: 'cooking',
+    name: {
+      ku: 'خواردن',
+      en: 'Cooking',
+      de: 'Kochen'
+    },
+    slug: 'cooking',
+    description: {
+      ku: 'کتابەکانی خواردن دروستکردن',
+      en: 'Cookbooks',
+      de: 'Kochbücher'
+    },
+    icon: '🍳'
+  },
+  {
+    id: 'travel',
+    name: {
+      ku: 'گەشت',
+      en: 'Travel',
+      de: 'Reisen'
+    },
+    slug: 'travel',
+    description: {
+      ku: 'کتابەکانی گەشتیاری',
+      en: 'Travel books',
+      de: 'Reisebücher'
+    },
+    icon: '✈️'
+  },
+  {
+    id: 'health',
+    name: {
+      ku: 'تەندروستی',
+      en: 'Health',
+      de: 'Gesundheit'
+    },
+    slug: 'health',
+    description: {
+      ku: 'کتابەکانی تەندروستی',
+      en: 'Health books',
+      de: 'Gesundheitsbücher'
+    },
+    icon: '🏥'
   }
 ];
 

@@ -1,8 +1,9 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useRef } from 'react';
 
 interface SpotlightProps {
   title?: string;
@@ -22,83 +23,46 @@ export default function ImmersiveBookSpotlight({
   const { t, isRTL } = useLanguage();
 
   return (
-    <section className="relative py-32 overflow-hidden bg-[#2c2c2c] text-[#F5F2E9]">
-      {/* Abstract Background Art */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none">
-         <div className="absolute top-0 right-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
-         <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#c5a47e] rounded-full blur-[120px] opacity-40"></div>
-         <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black to-transparent"></div>
-      </div>
-
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-24">
+    <section className="relative py-16 bg-slate-50 dark:bg-[#151515] text-[#1a1a1a] dark:text-[#f5f5f5] border-b border-[#e5e5e5] dark:border-[#333]">
+      <div className="container mx-auto px-6 md:px-12">
+        <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20">
           
-          {/* 3D Book Presentation */}
-          <motion.div 
-            initial={{ opacity: 0, rotateY: -30, x: -50 }}
-            whileInView={{ opacity: 1, rotateY: -15, x: 0 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-            viewport={{ once: true }}
-            className="w-full lg:w-5/12 flex justify-center perspective-1000"
-          >
-            <div className="relative w-[280px] md:w-[360px] aspect-[2/3] transform-style-3d group cursor-pointer">
-              {/* Book Spine Effect */}
-              <div className="absolute top-1 left-0 w-full h-full bg-white transform -translate-x-4 translate-z-[-10px] shadow-2xl"></div>
-              <div className="absolute top-2 left-0 w-full h-full bg-gray-800 transform -translate-x-2 translate-z-[-5px]"></div>
-              
-              {/* Main Cover */}
-              <div className="relative w-full h-full shadow-[20px_20px_60px_rgba(0,0,0,0.5)] transition-transform duration-700 group-hover:rotate-y-12 group-hover:scale-105">
-                <img 
-                  src={image} 
-                  alt={title} 
-                  className="w-full h-full object-cover border-r-2 border-white/10"
-                />
-                {/* Lighting/Sheen */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-transparent to-white/20 pointer-events-none"></div>
-                
-                {/* Floating Badge */}
-                <div className="absolute -top-6 -right-6 bg-[#c5a47e] text-[#2c2c2c] w-20 h-20 rounded-full flex items-center justify-center font-bold text-xs uppercase tracking-widest shadow-lg animate-pulse-slow">
-                  <span className="text-center leading-tight">Book<br/>of the<br/>Month</span>
-                </div>
-              </div>
+          {/* Left: Image (Clean & Simple) */}
+          <div className="w-full md:w-1/2 flex justify-center md:justify-end">
+            <div className="relative w-[200px] md:w-[260px] aspect-[2/3] shadow-xl">
+              <img 
+                src={image} 
+                alt={title} 
+                className="w-full h-full object-cover rounded-sm"
+              />
             </div>
-          </motion.div>
+          </div>
 
-          {/* Editorial Content */}
-          <motion.div 
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
-            viewport={{ once: true }}
-            className="w-full lg:w-6/12 text-center lg:text-left lg:rtl:text-right"
-          >
-            <div className="inline-block border border-[#c5a47e] px-4 py-1 mb-6">
-              <span className="text-[#c5a47e] text-xs tracking-[0.3em] uppercase">Masterpiece Collection</span>
-            </div>
+          {/* Right: Content (Structured) */}
+          <div className="w-full md:w-1/2 text-center md:text-left">
+            <span className="text-[10px] font-bold tracking-[0.2em] text-[#e11d48] uppercase mb-3 block">
+              Featured Selection
+            </span>
             
-            <h2 className="text-4xl md:text-6xl font-serif text-[#F5F2E9] mb-4 leading-tight">
+            <h2 className="text-2xl md:text-3xl font-serif mb-3 leading-tight text-[#1a1a1a] dark:text-[#f5f5f5]">
               {title}
             </h2>
             
-            <p className="text-xl text-[#c5a47e] mb-8 font-serif italic">
-              by {author}
+            <p className="text-base font-serif italic text-gray-600 dark:text-gray-400 mb-4">
+              by <span className="text-[#1a1a1a] dark:text-[#f5f5f5]">{author}</span>
             </p>
             
-            <p className="text-lg text-gray-400 leading-relaxed mb-10 font-light max-w-xl mx-auto lg:mx-0">
+            <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400 mb-6 max-w-md mx-auto md:mx-0 font-light">
               {description}
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start items-center">
-              <Link href={link} className="group relative px-8 py-4 bg-[#F5F2E9] text-[#2c2c2c] overflow-hidden">
-                <span className="relative z-10 text-sm tracking-widest uppercase font-bold group-hover:text-[#F5F2E9] transition-colors duration-300">View Details</span>
-                <div className="absolute inset-0 bg-[#c5a47e] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-              </Link>
-              
-              <button className="text-[#F5F2E9] text-sm tracking-widest uppercase border-b border-transparent hover:border-[#c5a47e] pb-1 transition-all">
-                Add to Wishlist
-              </button>
-            </div>
-          </motion.div>
+            <Link 
+              href={link} 
+              className="inline-block px-6 py-2 bg-[#0f172a] dark:bg-[#f5f5f5] text-white dark:text-[#1a1a1a] text-[10px] font-bold tracking-widest uppercase hover:opacity-90 transition-opacity"
+            >
+              View Details
+            </Link>
+          </div>
 
         </div>
       </div>

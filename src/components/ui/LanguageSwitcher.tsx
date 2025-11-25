@@ -4,12 +4,16 @@ import React, { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const languages = [
-  { code: 'ku', name: 'کوردی', flag: '🏴‍⚔️' },
-  { code: 'en', name: 'English', flag: '🇺🇸' },
-  { code: 'de', name: 'Deutsch', flag: '🇩🇪' }
+  { code: 'ku', name: 'کوردی', flag: 'KU' },
+  { code: 'en', name: 'English', flag: 'EN' },
+  { code: 'de', name: 'Deutsch', flag: 'DE' }
 ] as const;
 
-export default function LanguageSwitcher() {
+interface LanguageSwitcherProps {
+  variant?: 'default' | 'minimal';
+}
+
+export default function LanguageSwitcher({ variant = 'default' }: LanguageSwitcherProps) {
   const { currentLanguage, setLanguage } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -20,16 +24,20 @@ export default function LanguageSwitcher() {
     setIsOpen(false);
   };
 
+  const buttonClasses = variant === 'minimal'
+    ? "flex items-center gap-1 text-[11px] text-gray-600 dark:text-gray-400 hover:text-[#e11d48] transition-colors"
+    : "flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors";
+
   return (
     <div className="relative dropdown-container">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+        className={buttonClasses}
         type="button"
       >
-        <span className="text-lg">{currentLang?.flag}</span>
+        <span className={variant === 'minimal' ? "text-sm" : "text-lg"}>{currentLang?.flag}</span>
         <span className="hidden sm:inline">{currentLang?.name}</span>
-        <svg className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className={`h-3 w-3 transition-transform ${isOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </button>
@@ -50,14 +58,14 @@ export default function LanguageSwitcher() {
                 onClick={() => handleLanguageChange(lang.code)}
                 className={`w-full text-left rtl:text-right px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-3 rtl:flex-row-reverse transition-colors ${
                   currentLanguage === lang.code 
-                    ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-medium' 
+                    ? 'bg-rose-50 dark:bg-rose-900/30 text-[#e11d48] dark:text-rose-300 font-medium' 
                     : 'text-gray-700 dark:text-gray-200'
                 }`}
               >
                 <span className="text-lg">{lang.flag}</span>
                 <span>{lang.name}</span>
                 {currentLanguage === lang.code && (
-                  <span className="ml-auto rtl:ml-0 rtl:mr-auto text-blue-600 dark:text-blue-400">✓</span>
+                  <span className="ml-auto rtl:ml-0 rtl:mr-auto text-[#e11d48] dark:text-rose-400">✓</span>
                 )}
               </button>
             ))}

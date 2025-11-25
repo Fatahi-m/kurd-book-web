@@ -117,13 +117,13 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       }`} dir={currentLanguage === 'ku' ? 'rtl' : 'ltr'}>
         
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800 bg-blue-600 dark:bg-blue-800 text-white">
+        <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800 bg-[#0f172a] dark:bg-[#0f172a] text-white">
           <h2 className="text-lg font-semibold">
             {t('nav.menu')}
           </h2>
           <button
             onClick={onClose}
-            className="p-2 rounded-full hover:bg-blue-700 dark:hover:bg-blue-900 transition-colors"
+            className="p-2 rounded-full hover:bg-[#1e293b] dark:hover:bg-[#1e293b] transition-colors"
             aria-label="Close menu"
           >
             <X size={20} />
@@ -145,7 +145,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                   <span className="text-sm font-medium">{item.label}</span>
                 </div>
                 {item.badge && (
-                  <span className="bg-red-500 text-white text-xs rounded-full px-2 py-1 min-w-[18px] text-center">
+                  <span className="bg-[#e11d48] text-white text-xs rounded-full px-2 py-1 min-w-[18px] text-center">
                     {item.badge}
                   </span>
                 )}
@@ -186,7 +186,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                         onClick={() => handleLanguageChange(lang.code as 'ku' | 'en' | 'de')}
                         className={`flex items-center justify-between w-full px-3 py-2 text-sm rounded-md transition-colors ${
                           currentLanguage === lang.code
-                            ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800'
+                            ? 'bg-rose-100 dark:bg-rose-900/30 text-[#e11d48] dark:text-rose-300 border border-rose-200 dark:border-rose-800'
                             : 'text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-700 hover:shadow-sm'
                         }`}
                       >
@@ -195,7 +195,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                           <span className="font-medium">{lang.name}</span>
                         </div>
                         {currentLanguage === lang.code && (
-                          <span className="text-blue-600 dark:text-blue-400 font-bold">✓</span>
+                          <span className="text-[#e11d48] dark:text-rose-400 font-bold">✓</span>
                         )}
                       </button>
                     ))}

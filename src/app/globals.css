@@ -6,6 +6,7 @@
 html {
   overflow-x: hidden;
   max-width: 100vw;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -38,10 +39,57 @@ html.dark body {
   overflow-x: hidden;
 }
 
+/* Global Texture & Variables */
+:root {
+  --color-primary: #e11d48; /* Rose 600 */
+  --color-primary-light: #f43f5e; /* Rose 500 */
+  --color-secondary: #0f172a; /* Slate 900 */
+  --color-bg: #ffffff;
+  --color-surface: #f8fafc; /* Slate 50 */
+  --color-text-main: #0f172a;
+  --radius-card: 1rem;
+}
+
+html.dark :root {
+  --color-primary: #e11d48;
+  --color-primary-light: #fb7185; /* Rose 400 */
+  --color-bg: #0f172a; /* Slate 900 */
+  --color-surface: #1e293b; /* Slate 800 */
+  --color-text-main: #f8fafc;
+}
+
+/* Remove Texture, Add Modern Gradient Mesh */
+.bg-texture {
+  background-color: var(--color-bg);
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.05) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(15, 23, 42, 0.05) 0px, transparent 50%);
+  background-attachment: fixed;
+}
+
 /* Language-specific font configuration */
 body {
-  font-family: var(--font-vazirmatn), 'Tahoma', 'Arial', sans-serif;
-  font-weight: 300; /* Default to light/thin as requested */
+  font-family: var(--font-ibm-plex-arabic), 'Inter', sans-serif; /* Switched to Sans-Serif priority */
+  font-weight: 300; /* Lighter weight by default */
+  color: var(--color-text-main);
+}
+
+/* Modern Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 5px;
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 
 body.font-english {
@@ -52,7 +100,7 @@ body.font-english {
 [dir="rtl"] .font-serif,
 [dir="rtl"] .font-sans,
 [dir="rtl"] .font-mono {
-  font-family: var(--font-vazirmatn), sans-serif;
+  font-family: var(--font-ibm-plex-arabic), sans-serif;
 }
 
 /* RTL/LTR direction support */
@@ -66,7 +114,7 @@ body.font-english {
 
 /* Custom component styles */
 .kurdish-text {
-  font-family: 'Vazirmatn', 'Vazir', 'Tahoma', 'Arial', sans-serif;
+  font-family: 'IBM Plex Sans Arabic', 'Tahoma', 'Arial', sans-serif;
   direction: rtl;
   text-align: right;
 }

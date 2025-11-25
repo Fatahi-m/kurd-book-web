@@ -12,7 +12,9 @@
     "about": "دەربارە",
     "contact": "پەیوەندی",
     "cart": "سەبەتە",
-    "search": "گەڕان"
+    "search": "گەڕان",
+    "menu": "مێنۆ",
+    "language": "زمان"
   },
   "categories": {
     "literature": "ئەدەبیات",
@@ -26,12 +28,25 @@
     "biography": "بیۆگرافی",
     "culture": "کلتوور"
   },
-  "homepage": {
+  "home": {
     "featured": "کتابە تایبەتەکان",
+    "featuredSubtitle": "پێشنیارەکانی ئێمە بۆ تۆ",
     "bestsellers": "باشترین فرۆشراوەکان", 
+    "bestsellersSubtitle": "پڕفرۆشترین کتێبەکان لای کڕیاران",
     "newReleases": "کتابە نوێکان",
     "specialOffers": "پێشکەشە تایبەتەکان",
     "viewAll": "بینینی هەموو"
+  },
+  "hero": {
+    "badge": "کۆکراوەی نوێی ٢٠٢٥",
+    "explore": "گەڕان لە کتێبەکان",
+    "learnMore": "زیاتر بزانە"
+  },
+  "sections": {
+    "featuredBooks": "هەڵبژاردەی سەرنووسەر"
+  },
+  "app": {
+    "name": "کورد بووک"
   },
   "book": {
     "price": "نرخ",
@@ -48,7 +63,16 @@
     "contactInfo": "زانیاری پەیوەندی",
     "followUs": "شوێنمان بکەوە",
     "newsletter": "نامەی هەواڵ",
-    "subscribe": "بەشداربوون"
+    "subscribe": "بەشداربوون",
+    "aboutPurchase": "دەربارەی کڕین",
+    "shipping": "گەیاندن",
+    "payment": "شێوازەکانی پارەدان",
+    "returns": "گەڕاندنەوە",
+    "faq": "پرسیارە باوەکان",
+    "aboutShop": "دەربارەی فرۆشگا",
+    "terms": "مەرج و ڕێنماییەکان",
+    "privacy": "پاراستنی نهێنی",
+    "copyright": "هەموو مافەکان پارێزراوە."
   },
   "ads": {
     "specialOffer": "پێشکەشی تایبەت",
@@ -74,5 +98,14 @@
     "noAuthorsMessage": "ببورە، هیچ نووسەرێک بەردەست نییە",
     "clearSearch": "پاککردنەوەی گەڕان",
     "popularAuthors": "نووسەرە بەناوبانگەکان"
+  },
+  "common": {
+    "by": "نووسینی"
+  },
+  "buttons": {
+    "viewDetails": "زیادتر ببینە",
+    "addToCart": "زیادکردن بۆ سەبەتە",
+    "viewAll": "بینینی هەموو",
+    "buy": "کڕین"
   }
 }

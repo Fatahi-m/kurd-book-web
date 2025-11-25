@@ -57,7 +57,7 @@ export default function BottomNav() {
               href={item.href}
               className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors duration-200 relative ${
                 isActive
-                  ? 'text-blue-600 dark:text-blue-400'
+                  ? 'text-[#e11d48] dark:text-[#fb7185]'
                   : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
               }`}
             >
@@ -68,7 +68,7 @@ export default function BottomNav() {
                   className={`transition-transform duration-200 ${isActive ? 'scale-110' : ''}`}
                 />
                 {item.badge ? (
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-[16px] h-[16px] flex items-center justify-center px-1 border-2 border-white dark:border-gray-900">
+                  <span className="absolute -top-2 -right-2 bg-[#e11d48] text-white text-[10px] font-bold rounded-full min-w-[16px] h-[16px] flex items-center justify-center px-1 border-2 border-white dark:border-gray-900">
                     {item.badge > 99 ? '99+' : item.badge}
                   </span>
                 ) : null}

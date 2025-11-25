@@ -45,10 +45,10 @@ export default function ShowcaseRow({ title, books, icon }: ShowcaseRowProps) {
   }
 
   return (
-    <section className="relative bg-[#f3efe9] dark:bg-[#1a1a1a] py-0 mb-12 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800 flex flex-col md:flex-row group/section">
+    <section className="relative bg-slate-50 dark:bg-[#1a1a1a] py-0 mb-12 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800 flex flex-col md:flex-row group/section">
       
       {/* Side Title (Desktop) */}
-      <div className="md:w-64 flex-shrink-0 p-6 md:p-8 flex flex-col justify-center items-center md:items-start text-center md:text-right rtl:md:text-left bg-[#e8e2d9] dark:bg-[#252525] z-20 shadow-lg md:shadow-none relative overflow-hidden">
+      <div className="md:w-64 flex-shrink-0 p-6 md:p-8 flex flex-col justify-center items-center md:items-start text-center md:text-right rtl:md:text-left bg-slate-100 dark:bg-[#252525] z-20 shadow-lg md:shadow-none relative overflow-hidden">
         <div className="relative z-10">
           <h2 className="text-2xl md:text-4xl font-black text-gray-800 dark:text-white leading-tight mb-4">
             {title}
@@ -69,10 +69,10 @@ export default function ShowcaseRow({ title, books, icon }: ShowcaseRowProps) {
       </div>
 
       {/* Scrolling Content */}
-      <div className="flex-1 relative overflow-hidden py-8 md:py-10 bg-[#f3efe9] dark:bg-[#1a1a1a]">
+      <div className="flex-1 relative overflow-hidden py-8 md:py-10 bg-slate-50 dark:bg-[#1a1a1a]">
         {/* Gradient Masks for smooth fade effect */}
-        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#f3efe9] dark:from-[#1a1a1a] to-transparent z-10 pointer-events-none"></div>
-        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#f3efe9] dark:from-[#1a1a1a] to-transparent z-10 pointer-events-none"></div>
+        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-slate-50 dark:from-[#1a1a1a] to-transparent z-10 pointer-events-none"></div>
+        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-slate-50 dark:from-[#1a1a1a] to-transparent z-10 pointer-events-none"></div>
 
         {/* Marquee Container */}
         <div 
@@ -125,7 +125,7 @@ function ShowcaseBookCard({ book }: { book: Book }) {
     <div className="bg-white dark:bg-[#252525] rounded-xl p-3 shadow-md hover:shadow-xl transition-all duration-300 h-full flex flex-col relative group border border-gray-100 dark:border-gray-700">
       {/* Discount Badge */}
       {discountPercentage > 0 && (
-        <div className="absolute top-3 left-3 z-10 bg-[#ff6b6b] text-white text-sm font-bold px-2 py-1 rounded-lg shadow-sm">
+        <div className="absolute top-3 left-3 z-10 bg-[#e11d48] text-white text-sm font-bold px-2 py-1 rounded-lg shadow-sm">
           %{discountPercentage}
         </div>
       )}
@@ -148,7 +148,7 @@ function ShowcaseBookCard({ book }: { book: Book }) {
       {/* Content */}
       <div className="flex flex-col flex-grow">
         <Link href={`/book/${book.id}`}>
-          <h3 className="font-bold text-gray-800 dark:text-gray-100 text-sm mb-2 line-clamp-2 min-h-[2.5em] hover:text-blue-600 dark:hover:text-blue-400 transition-colors leading-tight">
+          <h3 className="font-bold text-gray-800 dark:text-gray-100 text-sm mb-2 line-clamp-2 min-h-[2.5em] hover:text-[#e11d48] dark:hover:text-rose-400 transition-colors leading-tight">
             {book.title}
           </h3>
         </Link>

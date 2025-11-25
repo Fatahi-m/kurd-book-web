@@ -86,12 +86,12 @@ export default function MiniBookSlider({ books, title }: MiniBookSliderProps) {
             </div>
             
             <div className="flex items-center justify-between mt-auto">
-              <span className="font-bold text-blue-600 dark:text-blue-400 text-sm">
+              <span className="font-bold text-[#e11d48] dark:text-rose-400 text-sm">
                 {formatPrice(currentBook.price)}
               </span>
               <Link 
                 href={`/book/${currentBook.id}`}
-                className="bg-blue-600 text-white p-1.5 rounded-md hover:bg-blue-700 transition-colors"
+                className="bg-[#e11d48] text-white p-1.5 rounded-md hover:bg-[#be123c] transition-colors"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -112,7 +112,7 @@ export default function MiniBookSlider({ books, title }: MiniBookSliderProps) {
               }}
               className={`w-1.5 h-1.5 rounded-full transition-colors ${
                 idx === currentIndex 
-                  ? 'bg-blue-600 dark:bg-blue-400' 
+                  ? 'bg-[#e11d48] dark:bg-rose-400' 
                   : 'bg-gray-300 dark:bg-gray-600'
               }`}
             />

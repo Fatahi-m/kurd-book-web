@@ -12,7 +12,9 @@
     "about": "About",
     "contact": "Contact",
     "cart": "Cart",
-    "search": "Search"
+    "search": "Search",
+    "menu": "Menu",
+    "language": "Language"
   },
   "categories": {
     "literature": "Literature",
@@ -26,12 +28,25 @@
     "biography": "Biography",
     "culture": "Culture"
   },
-  "homepage": {
+  "home": {
     "featured": "Featured Books",
+    "featuredSubtitle": "Our recommendations for you",
     "bestsellers": "Best Sellers",
+    "bestsellersSubtitle": "Most popular books among our customers",
     "newReleases": "New Releases", 
     "specialOffers": "Special Offers",
     "viewAll": "View All"
+  },
+  "hero": {
+    "badge": "New Collection 2025",
+    "explore": "Explore Books",
+    "learnMore": "Learn More"
+  },
+  "sections": {
+    "featuredBooks": "Editor's Choice"
+  },
+  "app": {
+    "name": "Kurd Book"
   },
   "book": {
     "price": "Price",
@@ -48,7 +63,16 @@
     "contactInfo": "Contact Information",
     "followUs": "Follow Us",
     "newsletter": "Newsletter",
-    "subscribe": "Subscribe"
+    "subscribe": "Subscribe",
+    "aboutPurchase": "About Purchase",
+    "shipping": "Shipping",
+    "payment": "Payment Methods",
+    "returns": "Returns & Refunds",
+    "faq": "FAQ",
+    "aboutShop": "About Shop",
+    "terms": "Terms & Conditions",
+    "privacy": "Privacy Policy",
+    "copyright": "All rights reserved."
   },
   "ads": {
     "specialOffer": "Special Offer",
@@ -74,5 +98,14 @@
     "noAuthorsMessage": "Sorry, no authors available",
     "clearSearch": "Clear Search",
     "popularAuthors": "Popular Authors"
+  },
+  "common": {
+    "by": "By"
+  },
+  "buttons": {
+    "viewDetails": "View Details",
+    "addToCart": "Add to Cart",
+    "viewAll": "View All",
+    "buy": "Buy"
   }
 }
