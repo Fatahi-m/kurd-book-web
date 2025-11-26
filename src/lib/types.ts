@@ -4,14 +4,17 @@ export interface Book {
   title: string;
   titleKu?: string;
   titleEn?: string;
+  titleDe?: string;
   titleKmr?: string;
   author: string;
   authorKu?: string;
   authorEn?: string;
+  authorDe?: string;
   authorKmr?: string;
   publisher: string;
   publisherKu?: string;
   publisherEn?: string;
+  publisherDe?: string;
   publisherKmr?: string;
   translator?: string;
   price: number;
@@ -21,6 +24,7 @@ export interface Book {
   description: string;
   descriptionKu?: string;
   descriptionEn?: string;
+  descriptionDe?: string;
   descriptionKmr?: string;
   isbn?: string;
   pages?: number;
