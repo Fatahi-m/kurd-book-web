@@ -10,7 +10,6 @@ import CollectionGrid from '@/components/ui/CollectionGrid';
 import FeaturedAuthorsRow from '@/components/ui/FeaturedAuthorsRow';
 import Link from 'next/link';
 import { ChevronRight, Truck, ShieldCheck, Heart } from 'lucide-react';
-import AboutSummary from '@/components/ui/AboutSummary';
 import MissionTeaser from '@/components/ui/MissionTeaser';
 
 export default function HomePage() {
@@ -68,9 +67,6 @@ export default function HomePage() {
 
       {/* Featured Authors */}
       <FeaturedAuthorsRow />
-
-      {/* About Summary */}
-      <AboutSummary />
 
       {/* Mission Teaser */}
       <MissionTeaser />

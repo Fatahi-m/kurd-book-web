@@ -776,7 +776,7 @@ export default function AdminPanelContent() {
   );
 
   return (
-    <div className="min-h-screen bg-[#F5F2E9] dark:bg-[#121212] flex transition-colors duration-300 font-serif">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0f172a] flex transition-colors duration-300 font-serif">
       {/* Sidebar Overlay */}
       {isSidebarOpen && (
         <div 

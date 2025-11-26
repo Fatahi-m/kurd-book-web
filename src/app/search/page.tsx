@@ -97,7 +97,7 @@ function SearchContent() {
   };
 
   return (
-    <main className="min-h-screen bg-[#F5F2E9] dark:bg-[#121212] py-12 transition-colors duration-500">
+    <main className="min-h-screen bg-slate-50 dark:bg-[#0f172a] py-12 transition-colors duration-500">
       <div className="container mx-auto px-6">
         {/* Search Header */}
         <div className="mb-12">
@@ -241,7 +241,7 @@ function SearchContent() {
 
 export default function SearchPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+    <Suspense fallback={<div className="min-h-screen bg-slate-50 dark:bg-[#0f172a] flex items-center justify-center">
       <div className="text-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
         <p className="text-gray-600 dark:text-gray-400">Loading search...</p>

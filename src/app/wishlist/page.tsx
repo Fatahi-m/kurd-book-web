@@ -52,14 +52,14 @@ export default function WishlistPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#F5F2E9] dark:bg-[#121212] pt-24 pb-12 flex justify-center items-center">
+      <div className="min-h-screen bg-slate-50 dark:bg-[#0f172a] pt-24 pb-12 flex justify-center items-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b border-black dark:border-white"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F2E9] dark:bg-[#121212] pt-12 pb-24 transition-colors duration-300 font-sans">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0f172a] pt-12 pb-24 transition-colors duration-300 font-sans">
       <div className="container mx-auto px-4">
         <div className="flex items-baseline justify-between mb-12 border-b border-gray-200 dark:border-gray-800 pb-6">
           <div>

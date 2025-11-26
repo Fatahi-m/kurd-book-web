@@ -12,9 +12,10 @@ import { Book } from '@/lib/types';
 import { 
   Search, ShoppingCart, User, Menu, ChevronDown, HelpCircle, Rocket, Home, Gift,
   BookOpen, Feather, Landmark, Baby, GraduationCap, Moon, Gavel, Microscope, 
-  Globe, Brain, Lightbulb, Palette, Briefcase, Utensils, Plane, HeartPulse
+  Globe, Brain, Lightbulb, Palette, Briefcase, Utensils, Plane, HeartPulse, X
 } from 'lucide-react';
 import LanguageSwitcher from '@/components/ui/LanguageSwitcher';
+import MobileMenu from '@/components/ui/MobileMenu';
 import { categories } from '@/data/books';
 
 const getCategoryIcon = (slug: string) => {
@@ -42,6 +43,7 @@ const getCategoryIcon = (slug: string) => {
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<Book[]>([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -91,7 +93,7 @@ export default function Header() {
         <div className="container mx-auto px-4">
           
           {/* Top Utility Line (Status) */}
-          <div className="flex justify-between items-center mb-4 text-xs text-gray-400">
+          <div className="hidden md:flex justify-between items-center mb-4 text-xs text-gray-400">
             <div className="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
               <Rocket size={14} />
               <span>{t('header.orderStatus') || "Order Status"}</span>
@@ -103,6 +105,14 @@ export default function Header() {
 
           <div className="flex items-center gap-8 justify-between">
             
+            {/* Mobile Menu Button */}
+            <button 
+              className="md:hidden text-white p-2 -ml-2"
+              onClick={() => setIsMobileMenuOpen(true)}
+            >
+              <Menu size={24} />
+            </button>
+
             {/* Logo */}
             <Link href="/" className="flex-shrink-0 flex items-center gap-3 group">
               <div className="w-10 h-10 bg-[#e11d48] rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-rose-900/20">
@@ -189,7 +199,7 @@ export default function Header() {
       </div>
 
       {/* 2. Navigation Bar (Clean White) */}
-      <div className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-40">
+      <div className="hidden md:block bg-white border-b border-gray-200 shadow-sm sticky top-0 z-40">
         <div className="container mx-auto px-4">
           <ul className="flex items-center gap-8 text-[15px] font-medium h-16 text-gray-700">
             
@@ -286,6 +296,9 @@ export default function Header() {
           </button>
         </form>
       </div>
+
+      {/* Mobile Menu Drawer */}
+      <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
     </header>
   );
 }

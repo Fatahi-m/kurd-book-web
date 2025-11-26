@@ -9,14 +9,14 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        vazir: ['var(--font-ibm-plex-arabic)', 'Tahoma', 'Arial', 'sans-serif'],
-        kurdish: ['var(--font-ibm-plex-arabic)', 'Tahoma', 'Arial', 'sans-serif'],
+        vazir: ['var(--font-vazirmatn)', 'Tahoma', 'Arial', 'sans-serif'],
+        kurdish: ['var(--font-vazirmatn)', 'Tahoma', 'Arial', 'sans-serif'],
         english: ['var(--font-inter)', 'sans-serif'],
-        serif: ['var(--font-playfair)', 'var(--font-ibm-plex-arabic)', 'serif'],
-        mono: ['var(--font-lora)', 'var(--font-ibm-plex-arabic)', 'monospace'],
-        editorial: ['var(--font-playfair)', 'var(--font-ibm-plex-arabic)', 'serif'],
-        body: ['var(--font-lora)', 'var(--font-ibm-plex-arabic)', 'serif'],
-        sans: ['var(--font-inter)', 'var(--font-ibm-plex-arabic)', 'sans-serif'],
+        serif: ['var(--font-playfair)', 'var(--font-vazirmatn)', 'serif'],
+        mono: ['var(--font-lora)', 'var(--font-vazirmatn)', 'monospace'],
+        editorial: ['var(--font-playfair)', 'var(--font-vazirmatn)', 'serif'],
+        body: ['var(--font-lora)', 'var(--font-vazirmatn)', 'serif'],
+        sans: ['var(--font-inter)', 'var(--font-vazirmatn)', 'sans-serif'],
       },
       colors: {
         brand: {

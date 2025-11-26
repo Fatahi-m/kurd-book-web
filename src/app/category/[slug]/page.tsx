@@ -56,7 +56,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
   const categoryBooks = allBooks.filter(book => book.category === category.id);
 
   return (
-    <main className="min-h-screen bg-[#F5F2E9] dark:bg-[#121212] py-20 transition-colors duration-500">
+    <main className="min-h-screen bg-slate-50 dark:bg-[#0f172a] py-20 transition-colors duration-500">
       <div className="container mx-auto px-6">
         {/* Category Header */}
         <div className="mb-20 text-center">

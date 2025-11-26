@@ -56,15 +56,15 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       badge: null
     },
     {
-      href: '/about',
-      icon: Info,
-      label: t('nav.about'),
-      badge: null
-    },
-    {
       href: '/books',
       icon: BookOpen,
       label: t('nav.books'),
+      badge: null
+    },
+    {
+      href: '/authors',
+      icon: User,
+      label: t('nav.authors'),
       badge: null
     },
     {
@@ -74,9 +74,15 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       badge: null
     },
     {
-      href: '/authors',
-      icon: User,
-      label: t('nav.authors'),
+      href: '/about',
+      icon: Info,
+      label: t('nav.about'),
+      badge: null
+    },
+    {
+      href: '/contact',
+      icon: Info,
+      label: t('nav.contact'),
       badge: null
     },
     {
@@ -105,28 +111,32 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     <>
       {/* Backdrop */}
       <div 
-        className="fixed inset-0 bg-black bg-opacity-50 z-[60] md:hidden"
+        className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] md:hidden transition-opacity duration-300 ${
+          isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
         onClick={onClose}
       />
       
       {/* Menu Panel */}
-      <div className={`fixed top-0 h-full w-80 max-w-[85vw] bg-white dark:bg-gray-900 shadow-xl z-[60] transform transition-transform duration-300 ease-in-out md:hidden right-0 ${
-        isOpen ? 'translate-x-0' : 'translate-x-full'
+      <div className={`fixed top-0 h-full w-[85vw] max-w-sm bg-white dark:bg-gray-900 shadow-2xl z-[60] transform transition-transform duration-300 ease-out md:hidden ${
+        currentLanguage === 'ku' 
+          ? `right-0 ${isOpen ? 'translate-x-0' : 'translate-x-full'}` 
+          : `left-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`
       } ${
         currentLanguage === 'ku' ? 'text-right' : 'text-left'
       }`} dir={currentLanguage === 'ku' ? 'rtl' : 'ltr'}>
         
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800 bg-[#0f172a] dark:bg-[#0f172a] text-white">
-          <h2 className="text-lg font-semibold">
+        <div className="flex items-center justify-between p-5 border-b border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900">
+          <h2 className="text-xl font-bold font-serif text-gray-900 dark:text-white">
             {t('nav.menu')}
           </h2>
           <button
             onClick={onClose}
-            className="p-2 rounded-full hover:bg-[#1e293b] dark:hover:bg-[#1e293b] transition-colors"
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500 transition-colors"
             aria-label="Close menu"
           >
-            <X size={20} />
+            <X size={24} />
           </button>
         </div>
 

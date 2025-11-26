@@ -111,10 +111,10 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
   };
 
   return (
-    <main className="min-h-screen bg-white font-sans pb-16">
+    <main className="min-h-screen bg-slate-50 font-sans pb-16">
       
       {/* Breadcrumb */}
-      <div className="bg-white">
+      <div className="bg-slate-50">
         <div className="w-full max-w-5xl mx-auto px-6 md:px-12 py-3">
           <nav className="text-xs text-gray-400 flex items-center gap-2">
             <Link href="/" className="hover:text-[#48B063] transition-colors">{t('nav.home')}</Link>
@@ -293,7 +293,7 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
       </div>
 
       {/* Section 2: Details & Sidebar */}
-      <div id="details-section" className="bg-white py-12">
+      <div id="details-section" className="bg-slate-50 py-12">
         <div className="w-full max-w-5xl mx-auto px-6 md:px-12">
           <div className="flex flex-col lg:flex-row gap-12">
             

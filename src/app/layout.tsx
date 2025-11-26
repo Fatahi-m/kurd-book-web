@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter, IBM_Plex_Sans_Arabic, Playfair_Display, Lora } from 'next/font/google'
+import { Inter, Vazirmatn, Playfair_Display, Lora } from 'next/font/google'
 import './globals.css'
 import '../styles/mobile.css'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import BottomNav from '@/components/layout/BottomNav'
+import AboutSummary from '@/components/ui/AboutSummary'
 import { CartProvider } from '@/contexts/CartContext'
 import { WishlistProvider } from '@/contexts/WishlistContext'
 import { LanguageProvider } from '@/contexts/LanguageContext'
@@ -18,10 +19,9 @@ const inter = Inter({
   display: 'swap',
 })
 
-const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
-  subsets: ['arabic'],
-  weight: ['100', '200', '300', '400', '500', '600', '700'],
-  variable: '--font-ibm-plex-arabic',
+const vazirmatn = Vazirmatn({
+  subsets: ['arabic', 'latin'],
+  variable: '--font-vazirmatn',
   display: 'swap',
 })
 
@@ -72,7 +72,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ku" dir="rtl">
-      <body className={`${ibmPlexSansArabic.variable} ${playfair.variable} ${lora.variable} ${inter.variable} font-sans font-light antialiased transition-all duration-300 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100`}>
+      <body className={`${vazirmatn.variable} ${playfair.variable} ${lora.variable} ${inter.variable} font-sans font-light antialiased transition-all duration-300 bg-slate-50 dark:bg-[#0f172a] text-gray-900 dark:text-gray-100`}>
         <LanguageProvider>
           <AuthProvider>
             <CartProvider>
@@ -84,6 +84,7 @@ export default function RootLayout({
                       <main className="flex-1 pb-16 md:pb-0">
                         {children}
                       </main>
+                      <AboutSummary />
                       <Footer />
                       <BottomNav />
                     </div>

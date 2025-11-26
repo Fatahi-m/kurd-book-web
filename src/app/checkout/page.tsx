@@ -110,7 +110,7 @@ export default function CheckoutPage() {
 
   if (orderComplete) {
     return (
-      <main className="min-h-screen bg-[#F5F2E9] dark:bg-[#121212] py-24 transition-colors duration-300 font-sans">
+      <main className="min-h-screen bg-slate-50 dark:bg-[#0f172a] py-24 transition-colors duration-300 font-sans">
         <div className="container mx-auto px-4">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -148,7 +148,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#F5F2E9] dark:bg-[#121212] py-12 md:py-24 transition-colors duration-300 font-sans">
+    <main className="min-h-screen bg-slate-50 dark:bg-[#0f172a] py-12 md:py-24 transition-colors duration-300 font-sans">
       <div className="container mx-auto px-4">
         {/* Progress Steps */}
         <div className="max-w-3xl mx-auto mb-16">

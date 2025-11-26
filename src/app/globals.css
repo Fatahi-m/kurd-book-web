@@ -16,7 +16,7 @@ body {
 
 /* Dark mode transitions */
 html.dark body {
-  background-color: #111827; /* gray-900 */
+  background-color: #0f172a; /* Slate 900 */
   color: #f3f4f6; /* gray-100 */
 }
 
@@ -44,8 +44,8 @@ html.dark body {
   --color-primary: #e11d48; /* Rose 600 */
   --color-primary-light: #f43f5e; /* Rose 500 */
   --color-secondary: #0f172a; /* Slate 900 */
-  --color-bg: #ffffff;
-  --color-surface: #f8fafc; /* Slate 50 */
+  --color-bg: #f8fafc; /* Slate 50 */
+  --color-surface: #ffffff;
   --color-text-main: #0f172a;
   --radius-card: 1rem;
 }
@@ -69,8 +69,8 @@ html.dark :root {
 
 /* Language-specific font configuration */
 body {
-  font-family: var(--font-ibm-plex-arabic), 'Inter', sans-serif; /* Switched to Sans-Serif priority */
-  font-weight: 300; /* Lighter weight by default */
+  font-family: var(--font-vazirmatn), 'Inter', sans-serif;
+  font-weight: 400;
   color: var(--color-text-main);
 }
 
@@ -96,11 +96,11 @@ body.font-english {
   font-family: var(--font-inter), sans-serif;
 }
 
-/* Force Vazirmatn for RTL elements even if they have other classes */
+/* Force Noto Naskh Arabic for RTL elements even if they have other classes */
 [dir="rtl"] .font-serif,
 [dir="rtl"] .font-sans,
 [dir="rtl"] .font-mono {
-  font-family: var(--font-ibm-plex-arabic), sans-serif;
+  font-family: var(--font-vazirmatn), sans-serif;
 }
 
 /* RTL/LTR direction support */
@@ -114,7 +114,7 @@ body.font-english {
 
 /* Custom component styles */
 .kurdish-text {
-  font-family: 'IBM Plex Sans Arabic', 'Tahoma', 'Arial', sans-serif;
+  font-family: var(--font-vazirmatn), 'Tahoma', 'Arial', sans-serif;
   direction: rtl;
   text-align: right;
 }

@@ -45,7 +45,7 @@ export default function AuthorDetailPage({ params }: AuthorDetailPageProps) {
   }, {} as Record<string, Book[]>);
 
   return (
-    <main className="min-h-screen bg-[#F5F2E9] dark:bg-[#121212] py-20 transition-colors duration-500">
+    <main className="min-h-screen bg-slate-50 dark:bg-[#0f172a] py-20 transition-colors duration-500">
       <div className="container mx-auto px-6">
         {/* Breadcrumb */}
         <nav className="text-xs font-light tracking-[0.2em] text-gray-500 dark:text-gray-400 uppercase mb-12 text-center">

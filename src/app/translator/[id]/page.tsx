@@ -55,7 +55,7 @@ export default function TranslatorDetailPage({ params }: TranslatorDetailPagePro
   }, {} as Record<string, Book[]>);
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 transition-colors duration-300">
+    <main className="min-h-screen bg-slate-50 dark:bg-[#0f172a] py-8 transition-colors duration-300">
       <div className="container mx-auto px-4">
         {/* Breadcrumb */}
         <nav className="text-sm text-gray-600 dark:text-gray-400 mb-6">

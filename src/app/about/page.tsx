@@ -129,7 +129,7 @@ export default function AboutPage() {
   const isRTL = currentLanguage === 'ku';
 
   return (
-    <main className="min-h-screen bg-[#F5F2E9] dark:bg-[#121212] transition-colors duration-500">
+    <main className="min-h-screen bg-slate-50 dark:bg-[#0f172a] transition-colors duration-500">
       {/* Editorial Hero */}
       <div className="relative pt-32 pb-20 px-6 overflow-hidden">
         <div className="max-w-7xl mx-auto">
@@ -205,7 +205,7 @@ export default function AboutPage() {
       </div>
 
       {/* Donation Section - Editorial Style */}
-      <div className="px-6 py-24 bg-[#F5F2E9] dark:bg-[#121212]">
+      <div className="px-6 py-24 bg-slate-50 dark:bg-[#0f172a]">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div>

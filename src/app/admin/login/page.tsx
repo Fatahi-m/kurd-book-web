@@ -43,7 +43,7 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F2E9] dark:bg-[#121212] flex items-center justify-center p-4 transition-colors duration-300 font-serif">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0f172a] flex items-center justify-center p-4 transition-colors duration-300 font-serif">
       <div className="bg-white dark:bg-[#1a1a1a] border border-[#e5e5e5] dark:border-[#333] p-8 w-full max-w-md transition-colors duration-300">
         {/* Logo */}
         <div className="text-center mb-8">
@@ -119,7 +119,7 @@ export default function AdminLogin() {
         </form>
 
         {/* Demo Credentials */}
-        <div className="mt-8 p-4 bg-[#F5F2E9] dark:bg-[#121212] border border-[#e5e5e5] dark:border-[#333]">
+        <div className="mt-8 p-4 bg-slate-50 dark:bg-[#0f172a] border border-[#e5e5e5] dark:border-[#333]">
           <p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">
             {currentLanguage === 'ku' ? 'زانیاریەکانی تاقیکردنەوە:' : currentLanguage === 'en' ? 'Demo Credentials:' : 'Demo Anmeldedaten:'}
           </p>

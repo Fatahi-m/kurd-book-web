@@ -11,9 +11,9 @@ export default function BestsellersPage() {
   const bestsellerBooks = books.filter((book: Book) => book.bestseller);
 
   return (
-    <main className="min-h-screen bg-[#F5F2E9] dark:bg-[#121212] transition-colors duration-300">
+    <main className="min-h-screen bg-slate-50 dark:bg-[#0f172a] transition-colors duration-300">
       {/* Header Section */}
-      <div className="bg-[#F5F2E9] dark:bg-[#121212] border-b border-[#E5E0D5] dark:border-[#2A2A2A] pt-32 pb-12 px-4">
+      <div className="bg-slate-50 dark:bg-[#0f172a] border-b border-[#E5E0D5] dark:border-[#2A2A2A] pt-32 pb-12 px-4">
         <div className="container mx-auto max-w-7xl">
           <div className="flex flex-col items-center text-center space-y-6">
             <div className="flex items-center space-x-2 text-sm tracking-widest uppercase text-[#8C8C8C] dark:text-[#A0A0A0]">

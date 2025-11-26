@@ -112,7 +112,7 @@ export default function ContactPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#F5F2E9] dark:bg-[#121212] transition-colors duration-500">
+    <main className="min-h-screen bg-slate-50 dark:bg-[#0f172a] transition-colors duration-500">
       <div className="pt-32 pb-20 px-6">
         <div className="max-w-7xl mx-auto">
           <motion.div 

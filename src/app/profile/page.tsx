@@ -122,7 +122,7 @@ function ProfileContent() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#F5F2E9] dark:bg-[#121212] flex items-center justify-center transition-colors duration-300">
+      <div className="min-h-screen bg-slate-50 dark:bg-[#0f172a] flex items-center justify-center transition-colors duration-300">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b border-black dark:border-white mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400 font-light uppercase tracking-widest">{t('common.loading')}</p>
@@ -143,7 +143,7 @@ function ProfileContent() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F5F2E9] dark:bg-[#121212] pt-12 pb-24 transition-colors duration-300 font-sans">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0f172a] pt-12 pb-24 transition-colors duration-300 font-sans">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           {/* Sidebar */}
@@ -360,7 +360,7 @@ function ProfileContent() {
 
 export default function ProfilePage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#F5F2E9] dark:bg-[#121212] flex items-center justify-center transition-colors duration-300">
+    <Suspense fallback={<div className="min-h-screen bg-slate-50 dark:bg-[#0f172a] flex items-center justify-center transition-colors duration-300">
       <div className="text-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b border-black dark:border-white mx-auto mb-4"></div>
         <p className="text-gray-600 dark:text-gray-400 font-light uppercase tracking-widest">Loading profile...</p>

@@ -32,29 +32,29 @@ export default function FeaturedAuthorsRow() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {featuredAuthors.map((author) => (
-            <Link href={`/author/${author.id}`} key={author.id} className="group block">
-              <div className="relative aspect-[3/4] overflow-hidden bg-gray-200 dark:bg-gray-800 mb-3 rounded-xl md:rounded-none shadow-sm md:shadow-none">
+            <Link href={`/author/${author.id}`} key={author.id} className="group flex flex-col items-center text-center">
+              <div className="relative w-32 h-32 md:w-40 md:h-40 mb-4 rounded-full overflow-hidden border-4 border-white dark:border-gray-800 shadow-lg group-hover:shadow-xl group-hover:border-rose-100 dark:group-hover:border-rose-900/30 transition-all duration-300 transform group-hover:-translate-y-2">
                 {author.image ? (
                   <Image
                     src={author.image}
                     alt={author.name}
                     fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105 grayscale group-hover:grayscale-0"
-                    sizes="(max-width: 768px) 50vw, 25vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
+                    sizes="(max-width: 768px) 128px, 160px"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800">
-                    <span className="text-4xl opacity-30">✒️</span>
+                  <div className="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800 text-4xl">
+                    ✒️
                   </div>
                 )}
               </div>
-              <div className="text-center px-2">
-                <h3 className="text-sm md:text-lg font-bold md:font-serif text-slate-900 dark:text-[#f5f5f5] group-hover:text-[#e11d48] transition-colors line-clamp-1">
+              <div className="px-2">
+                <h3 className="text-lg font-bold font-serif text-slate-900 dark:text-[#f5f5f5] group-hover:text-[#e11d48] transition-colors line-clamp-1 mb-1">
                   {author.name}
                 </h3>
-                <p className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mt-1 font-medium">
+                <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-widest font-medium group-hover:text-rose-500/70 transition-colors">
                   {author.genre && author.genre.length > 0 ? author.genre[0] : (t('common.author') || 'Author')}
                 </p>
               </div>

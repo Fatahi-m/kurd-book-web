@@ -168,7 +168,7 @@ export default function BookRow({
         </div>
       )}
 
-      <div className={`relative ${variant === 'centered' ? 'max-w-6xl mx-auto px-12' : ''}`}>
+      <div className={`relative ${variant === 'centered' ? 'max-w-6xl mx-auto px-4 md:px-12' : ''}`}>
         {/* Scroll Buttons */}
         <button 
           onClick={() => scroll('left')}

@@ -21,7 +21,7 @@ export default function CartPage() {
 
   if (cart.items.length === 0) {
     return (
-      <main className="min-h-screen bg-[#F5F2E9] dark:bg-[#121212] py-24 transition-colors duration-300 font-sans">
+      <main className="min-h-screen bg-slate-50 dark:bg-[#0f172a] py-24 transition-colors duration-300 font-sans">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-md mx-auto">
             <div className="text-6xl mb-6 opacity-20">🛒</div>
@@ -42,7 +42,7 @@ export default function CartPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#F5F2E9] dark:bg-[#121212] py-12 md:py-24 transition-colors duration-300 font-sans">
+    <main className="min-h-screen bg-slate-50 dark:bg-[#0f172a] py-12 md:py-24 transition-colors duration-300 font-sans">
       <div className="container mx-auto px-4">
         <div className="flex items-baseline justify-between mb-12 border-b border-gray-200 dark:border-gray-800 pb-6">
           <h1 className="text-3xl md:text-4xl font-serif text-gray-900 dark:text-white">{t('cart.title')}</h1>

@@ -109,7 +109,7 @@ export default function BooksPage() {
   }, [filteredBooks, sortBy]);
 
   return (
-    <main className="min-h-screen bg-white dark:bg-[#0f172a] py-8 md:py-12 transition-colors duration-300 font-sans">
+    <main className="min-h-screen bg-slate-50 dark:bg-[#0f172a] py-8 md:py-12 transition-colors duration-300 font-sans">
       <div className="w-full max-w-5xl mx-auto px-6 md:px-12">
         
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
