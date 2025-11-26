@@ -136,10 +136,10 @@ function ProfileContent() {
   }
 
   const tabs = [
-    { id: 'profile', label: currentLanguage === 'ku' ? 'زانیاری کەسی' : currentLanguage === 'en' ? 'Personal Info' : 'Persönliche Daten', icon: User },
-    { id: 'orders', label: currentLanguage === 'ku' ? 'داواکارییەکان' : currentLanguage === 'en' ? 'Orders' : 'Bestellungen', icon: Package },
-    { id: 'favorites', label: currentLanguage === 'ku' ? 'لیستی دڵخواز' : currentLanguage === 'en' ? 'Wishlist' : 'Wunschliste', icon: Heart },
-    { id: 'settings', label: currentLanguage === 'ku' ? 'ڕێکخستنەکان' : currentLanguage === 'en' ? 'Settings' : 'Einstellungen', icon: Settings },
+    { id: 'profile', label: t('profile.personalInfo'), icon: User },
+    { id: 'orders', label: t('profile.orders'), icon: Package },
+    { id: 'favorites', label: t('profile.wishlist'), icon: Heart },
+    { id: 'settings', label: t('profile.settings'), icon: Settings },
   ];
 
   return (
@@ -198,7 +198,7 @@ function ProfileContent() {
                     className="w-full flex items-center space-x-4 rtl:space-x-reverse px-4 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors"
                   >
                     <LogOut className="w-4 h-4" />
-                    <span className="text-sm uppercase tracking-widest">{currentLanguage === 'ku' ? 'چوونە دەرەوە' : currentLanguage === 'en' ? 'Logout' : 'Abmelden'}</span>
+                    <span className="text-sm uppercase tracking-widest">{t('profile.logout')}</span>
                   </button>
                 </div>
               </nav>
@@ -218,7 +218,7 @@ function ProfileContent() {
                 <div>
                   <div className="flex justify-between items-center mb-12 pb-6 border-b border-gray-100 dark:border-gray-800">
                     <h2 className="text-2xl font-serif text-gray-900 dark:text-white">
-                      {currentLanguage === 'ku' ? 'زانیاری کەسی' : currentLanguage === 'en' ? 'Personal Information' : 'Persönliche Daten'}
+                      {t('profile.personalInfo')}
                     </h2>
                     {!isEditing ? (
                       <button
@@ -226,7 +226,7 @@ function ProfileContent() {
                         className="flex items-center gap-2 text-sm uppercase tracking-widest text-gray-500 hover:text-black dark:hover:text-white transition-colors"
                       >
                         <Edit2 className="w-4 h-4" />
-                        {currentLanguage === 'ku' ? 'دەستکاری' : 'Edit'}
+                        {t('profile.edit')}
                       </button>
                     ) : (
                       <div className="flex gap-4">
@@ -234,13 +234,13 @@ function ProfileContent() {
                           onClick={() => setIsEditing(false)}
                           className="text-sm uppercase tracking-widest text-gray-500 hover:text-black dark:hover:text-white transition-colors"
                         >
-                          {currentLanguage === 'ku' ? 'پاشگەزبوونەوە' : 'Cancel'}
+                          {t('profile.cancel')}
                         </button>
                         <button
                           onClick={handleSaveProfile}
                           className="text-sm uppercase tracking-widest text-black dark:text-white border-b border-black dark:border-white pb-0.5 hover:opacity-70 transition-opacity"
                         >
-                          {currentLanguage === 'ku' ? 'پاشکەوتکردن' : 'Save'}
+                          {t('profile.save')}
                         </button>
                       </div>
                     )}
@@ -250,7 +250,7 @@ function ProfileContent() {
                     <div className="space-y-8">
                       <div className="space-y-2">
                         <label className="text-xs uppercase tracking-widest text-gray-500">
-                          {currentLanguage === 'ku' ? 'ناو' : 'First Name'}
+                          {t('profile.firstName')}
                         </label>
                         <input
                           type="text"
@@ -263,7 +263,7 @@ function ProfileContent() {
                       </div>
                       <div className="space-y-2">
                         <label className="text-xs uppercase tracking-widest text-gray-500">
-                          {currentLanguage === 'ku' ? 'پاشناو' : 'Last Name'}
+                          {t('profile.lastName')}
                         </label>
                         <input
                           type="text"
@@ -276,7 +276,7 @@ function ProfileContent() {
                       </div>
                       <div className="space-y-2">
                         <label className="text-xs uppercase tracking-widest text-gray-500">
-                          {currentLanguage === 'ku' ? 'ئیمەیڵ' : 'Email'}
+                          {t('profile.email')}
                         </label>
                         <input
                           type="email"
@@ -290,7 +290,7 @@ function ProfileContent() {
                     <div className="space-y-8">
                       <div className="space-y-2">
                         <label className="text-xs uppercase tracking-widest text-gray-500">
-                          {currentLanguage === 'ku' ? 'ژمارەی مۆبایل' : 'Phone Number'}
+                          {t('profile.phone')}
                         </label>
                         <input
                           type="tel"
@@ -303,7 +303,7 @@ function ProfileContent() {
                       </div>
                       <div className="space-y-2">
                         <label className="text-xs uppercase tracking-widest text-gray-500">
-                          {currentLanguage === 'ku' ? 'ناونیشان' : 'Address'}
+                          {t('profile.address')}
                         </label>
                         <input
                           type="text"
@@ -317,7 +317,7 @@ function ProfileContent() {
                       <div className="grid grid-cols-2 gap-8">
                         <div className="space-y-2">
                           <label className="text-xs uppercase tracking-widest text-gray-500">
-                            {currentLanguage === 'ku' ? 'شار' : 'City'}
+                            {t('profile.city')}
                           </label>
                           <input
                             type="text"
@@ -330,7 +330,7 @@ function ProfileContent() {
                         </div>
                         <div className="space-y-2">
                           <label className="text-xs uppercase tracking-widest text-gray-500">
-                            {currentLanguage === 'ku' ? 'کۆدی پۆستە' : 'Zip Code'}
+                            {t('profile.zipCode')}
                           </label>
                           <input
                             type="text"
@@ -359,11 +359,13 @@ function ProfileContent() {
 }
 
 export default function ProfilePage() {
+  const { t } = useLanguage();
+  
   return (
     <Suspense fallback={<div className="min-h-screen bg-slate-50 dark:bg-[#0f172a] flex items-center justify-center transition-colors duration-300">
       <div className="text-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b border-black dark:border-white mx-auto mb-4"></div>
-        <p className="text-gray-600 dark:text-gray-400 font-light uppercase tracking-widest">Loading profile...</p>
+        <p className="text-gray-600 dark:text-gray-400 font-light uppercase tracking-widest">{t('profile.loading')}</p>
       </div>
     </div>}>
       <ProfileContent />

@@ -37,7 +37,7 @@ export default function LibristoHero() {
   }, []);
 
   return (
-    <div className="w-[95%] max-w-7xl mx-auto mt-4 md:mt-8 rounded-3xl bg-[#0f172a] relative overflow-hidden shadow-2xl">
+    <div className="w-full md:w-[95%] max-w-7xl mx-auto md:mt-8 md:rounded-3xl bg-[#0f172a] relative overflow-hidden shadow-2xl">
       
       {/* Background Elements */}
       <div className="absolute top-0 right-0 w-1/2 h-full bg-[#e11d48]/10 blur-3xl rounded-full translate-x-1/2 -translate-y-1/2"></div>

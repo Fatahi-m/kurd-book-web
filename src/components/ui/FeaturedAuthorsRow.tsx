@@ -52,7 +52,7 @@ export default function FeaturedAuthorsRow() {
               </div>
               <div className="px-2">
                 <h3 className="text-lg font-bold font-serif text-slate-900 dark:text-[#f5f5f5] group-hover:text-[#e11d48] transition-colors line-clamp-1 mb-1">
-                  {author.name}
+                  {currentLanguage === 'ku' ? author.name : (author.latinName || author.name)}
                 </h3>
                 <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-widest font-medium group-hover:text-rose-500/70 transition-colors">
                   {author.genre && author.genre.length > 0 ? author.genre[0] : (t('common.author') || 'Author')}

@@ -64,10 +64,10 @@ export default function WishlistPage() {
         <div className="flex items-baseline justify-between mb-12 border-b border-gray-200 dark:border-gray-800 pb-6">
           <div>
             <h1 className="text-3xl md:text-4xl font-serif text-gray-900 dark:text-white mb-2">
-              {currentLanguage === 'ku' ? 'لیستی دڵخواز' : currentLanguage === 'en' ? 'My Wishlist' : 'Meine Wunschliste'}
+              {t('wishlist.title')}
             </h1>
             <p className="text-sm font-light text-gray-500 dark:text-gray-400 uppercase tracking-widest">
-              {wishlistItems.length} {currentLanguage === 'ku' ? 'کتێب' : currentLanguage === 'en' ? 'items' : 'Artikel'}
+              {wishlistItems.length} {t('wishlist.items')}
             </p>
           </div>
           
@@ -76,7 +76,7 @@ export default function WishlistPage() {
               href="/books" 
               className="hidden md:flex items-center gap-2 text-sm uppercase tracking-widest text-gray-500 hover:text-black dark:hover:text-white transition-colors"
             >
-              {currentLanguage === 'ku' ? 'زیاتر بگەڕێ' : currentLanguage === 'en' ? 'Continue Shopping' : 'Weiter einkaufen'}
+              {t('wishlist.continueShopping')}
               <ArrowRight className="w-4 h-4 rtl:rotate-180" />
             </Link>
           )}
@@ -90,20 +90,16 @@ export default function WishlistPage() {
           >
             <div className="text-6xl mb-6 opacity-20">♡</div>
             <h2 className="text-2xl font-serif text-gray-900 dark:text-white mb-4">
-              {currentLanguage === 'ku' ? 'لیستی دڵخوازت بەتاڵە' : currentLanguage === 'en' ? 'Your wishlist is empty' : 'Ihre Wunschliste ist leer'}
+              {t('wishlist.empty')}
             </h2>
             <p className="text-gray-600 dark:text-gray-400 mb-8 font-light leading-relaxed">
-              {currentLanguage === 'ku' 
-                ? 'هیچ کتێبێکت زیاد نەکردووە بۆ لیستی دڵخواز. کتێبەکان بگەڕێ و ئەوانەی بەدڵتە زیادیان بکە.' 
-                : currentLanguage === 'en' 
-                  ? 'You haven\'t added any books to your wishlist yet. Browse our collection and save your favorites.' 
-                  : 'Sie haben noch keine Bücher zu Ihrer Wunschliste hinzugefügt. Stöbern Sie in unserer Sammlung und speichern Sie Ihre Favoriten.'}
+              {t('wishlist.emptyMessage')}
             </p>
             <Link 
               href="/books" 
               className="inline-block bg-black dark:bg-white text-white dark:text-black px-8 py-3 text-sm uppercase tracking-widest hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
             >
-              {currentLanguage === 'ku' ? 'گەڕان بۆ کتێب' : currentLanguage === 'en' ? 'Browse Books' : 'Bücher durchsuchen'}
+              {t('wishlist.browseBooks')}
             </Link>
           </motion.div>
         ) : (
@@ -126,14 +122,14 @@ export default function WishlistPage() {
                     <button
                       onClick={() => handleAddToCart(item)}
                       className="w-10 h-10 bg-white text-black flex items-center justify-center hover:bg-gray-200 transition-colors"
-                      title={currentLanguage === 'ku' ? 'زیادکردن بۆ سەبەتە' : 'Add to Cart'}
+                      title={t('wishlist.addToCart')}
                     >
                       <ShoppingCart className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => removeFromWishlist(item.id)}
                       className="w-10 h-10 bg-white text-black flex items-center justify-center hover:bg-red-50 hover:text-red-600 transition-colors"
-                      title={currentLanguage === 'ku' ? 'ل لابردن' : 'Remove'}
+                      title={t('wishlist.remove')}
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>

@@ -18,7 +18,7 @@ interface BookCardProps {
 export default function BookCard({ book, showDiscount = true }: BookCardProps) {
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
-  const { t } = useLanguage();
+  const { t, currentLanguage } = useLanguage();
   const { getAverageRating, getReviewCount } = useReviews();
   
   const discountPercentage = book.originalPrice 
@@ -28,6 +28,15 @@ export default function BookCard({ book, showDiscount = true }: BookCardProps) {
   const rating = getAverageRating(book.id) || book.rating || 0;
   const reviewCount = getReviewCount(book.id) || book.reviewCount || 0;
 
+  // Get localized content
+  const title = currentLanguage === 'kmr' ? (book.titleKmr || book.title) : 
+                currentLanguage === 'en' ? (book.titleEn || book.title) : 
+                (book.titleKu || book.title);
+                
+  const author = currentLanguage === 'kmr' ? (book.authorKmr || book.author) : 
+                 currentLanguage === 'en' ? (book.authorEn || book.author) : 
+                 (book.authorKu || book.author);
+
   const handleWishlistToggle = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -36,8 +45,8 @@ export default function BookCard({ book, showDiscount = true }: BookCardProps) {
     } else {
       addToWishlist({
         id: book.id,
-        title: book.title,
-        author: book.author,
+        title: title,
+        author: author,
         price: book.price,
         originalPrice: book.originalPrice,
         imageUrl: book.coverUrl || book.image,
@@ -54,7 +63,7 @@ export default function BookCard({ book, showDiscount = true }: BookCardProps) {
           {book.coverUrl || book.image ? (
             <Image
               src={book.coverUrl || book.image || '/images/default-book-cover.jpg'}
-              alt={book.title}
+              alt={title}
               fill
               className="object-cover"
               sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1200px) 25vw, 20vw"
@@ -70,10 +79,10 @@ export default function BookCard({ book, showDiscount = true }: BookCardProps) {
         {/* Badges */}
         <div className="absolute top-2 left-2 flex flex-col gap-1 z-10 pointer-events-none">
            {book.bestseller && (
-             <span className="text-[10px] font-bold bg-yellow-400 text-black px-2 py-0.5 rounded shadow-sm uppercase tracking-wider">Top</span>
+             <span className="text-[10px] font-bold bg-yellow-400 text-black px-2 py-0.5 rounded shadow-sm uppercase tracking-wider">{t('status.bestseller')}</span>
            )}
            {book.newRelease && (
-             <span className="text-[10px] font-bold bg-black text-white px-2 py-0.5 rounded shadow-sm uppercase tracking-wider">New</span>
+             <span className="text-[10px] font-bold bg-black text-white px-2 py-0.5 rounded shadow-sm uppercase tracking-wider">{t('status.newRelease')}</span>
            )}
            {showDiscount && discountPercentage > 0 && (
              <span className="text-[10px] font-bold bg-rose-600 text-white px-2 py-0.5 rounded shadow-sm uppercase tracking-wider">-{discountPercentage}%</span>
@@ -85,13 +94,13 @@ export default function BookCard({ book, showDiscount = true }: BookCardProps) {
       <div className="mt-3 flex flex-col gap-1 px-1">
         <Link href={`/author/${book.author}`}>
            <p className="text-xs font-medium text-gray-500 uppercase tracking-wide hover:text-rose-600 transition-colors line-clamp-1">
-             {book.author}
+             {author}
            </p>
         </Link>
 
         <Link href={`/book/${book.id}`}>
-          <h3 className="font-bold text-gray-900 leading-tight line-clamp-2 group-hover:text-rose-600 transition-colors min-h-[2.5em]" title={book.title}>
-            {book.title}
+          <h3 className="font-bold text-gray-900 leading-tight line-clamp-2 group-hover:text-rose-600 transition-colors min-h-[2.5em]" title={title}>
+            {title}
           </h3>
         </Link>
 
@@ -125,14 +134,14 @@ export default function BookCard({ book, showDiscount = true }: BookCardProps) {
                   e.preventDefault();
                   if (book.inStock) addToCart(book, 1);
                 }}
-                className={`h-9 w-9 rounded-full flex items-center justify-center transition-all duration-300 shadow-sm hover:shadow-md
+                className={`h-10 w-10 md:h-9 md:w-9 rounded-full flex items-center justify-center transition-all duration-300 shadow-sm hover:shadow-md active:scale-95
                   ${book.inStock
                     ? 'bg-white border border-gray-200 text-gray-900 hover:bg-rose-600 hover:border-rose-600 hover:text-white'
                     : 'bg-gray-50 text-gray-300 cursor-not-allowed'}
                 `}
                 title={t('buttons.addToCart')}
             >
-                <ShoppingCart size={16} />
+                <ShoppingCart size={18} className="md:w-4 md:h-4" />
             </button>
         </div>
       </div>

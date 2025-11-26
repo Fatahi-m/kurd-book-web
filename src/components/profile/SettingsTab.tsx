@@ -121,7 +121,7 @@ export default function SettingsTab() {
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
           <Settings className="w-6 h-6 text-blue-600" />
-          {currentLanguage === 'ku' ? 'ڕێکخستنەکان' : currentLanguage === 'en' ? 'Settings' : 'Einstellungen'}
+          {currentLanguage === 'ku' ? 'ڕێکخستنەکان' : currentLanguage === 'en' ? 'Settings' : 'Mîheng'}
         </h2>
         {updateMessage && (
           <span className={`text-sm px-4 py-2 rounded-full font-medium animate-fade-in ${
@@ -138,12 +138,12 @@ export default function SettingsTab() {
       <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-sm transition-all duration-300 hover:shadow-md">
         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2 pb-4 border-b border-gray-100 dark:border-gray-700">
           <Globe className="w-5 h-5 text-blue-500" />
-          {currentLanguage === 'ku' ? 'زمان و نیشاندان' : currentLanguage === 'en' ? 'Language & Display' : 'Sprache & Anzeige'}
+          {currentLanguage === 'ku' ? 'زمان و نیشاندان' : currentLanguage === 'en' ? 'Language & Display' : 'Ziman û Dîmen'}
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              {currentLanguage === 'ku' ? 'زمانی سایت' : currentLanguage === 'en' ? 'Language' : 'Sprache'}
+              {currentLanguage === 'ku' ? 'زمانی سایت' : currentLanguage === 'en' ? 'Language' : 'Ziman'}
             </label>
             <select
               value={settings.preferences.language}
@@ -152,13 +152,13 @@ export default function SettingsTab() {
             >
               <option value="ku">کوردی (Kurdish)</option>
               <option value="en">English</option>
-              <option value="de">Deutsch</option>
+              <option value="kmr">Kurmancî</option>
             </select>
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              {currentLanguage === 'ku' ? 'یەکەی پارە' : currentLanguage === 'en' ? 'Currency' : 'Währung'}
+              {currentLanguage === 'ku' ? 'یەکەی پارە' : currentLanguage === 'en' ? 'Currency' : 'Dirav'}
             </label>
             <select
               value={settings.preferences.currency}
@@ -171,7 +171,7 @@ export default function SettingsTab() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              {currentLanguage === 'ku' ? 'ژمارەی کتێب لە هەر پەڕەیەکدا' : currentLanguage === 'en' ? 'Items per page' : 'Artikel pro Seite'}
+              {currentLanguage === 'ku' ? 'ژمارەی کتێب لە هەر پەڕەیەکدا' : currentLanguage === 'en' ? 'Items per page' : 'Tiştên li ser rûpelê'}
             </label>
             <select
               value={settings.preferences.itemsPerPage}
@@ -191,7 +191,7 @@ export default function SettingsTab() {
       <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-sm transition-all duration-300 hover:shadow-md">
         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2 pb-4 border-b border-gray-100 dark:border-gray-700">
           <Bell className="w-5 h-5 text-yellow-500" />
-          {currentLanguage === 'ku' ? 'ئاگادارکردنەوەکان' : currentLanguage === 'en' ? 'Notifications' : 'Benachrichtigungen'}
+          {currentLanguage === 'ku' ? 'ئاگادارکردنەوەکان' : currentLanguage === 'en' ? 'Notifications' : 'Agahdarî'}
         </h3>
         <div className="space-y-5">
           {[
@@ -224,7 +224,7 @@ export default function SettingsTab() {
       <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-sm transition-all duration-300 hover:shadow-md">
         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2 pb-4 border-b border-gray-100 dark:border-gray-700">
           <Shield className="w-5 h-5 text-green-500" />
-          {currentLanguage === 'ku' ? 'تایبەتمەندی' : currentLanguage === 'en' ? 'Privacy' : 'Privatsphäre'}
+          {currentLanguage === 'ku' ? 'تایبەتمەندی' : currentLanguage === 'en' ? 'Privacy' : 'Taybetmendî'}
         </h3>
         <div className="space-y-5">
           {[
@@ -255,26 +255,26 @@ export default function SettingsTab() {
       <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-sm transition-all duration-300 hover:shadow-md">
         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2 pb-4 border-b border-gray-100 dark:border-gray-700">
           <Lock className="w-5 h-5 text-purple-500" />
-          {currentLanguage === 'ku' ? 'ئاسایش' : currentLanguage === 'en' ? 'Security' : 'Sicherheit'}
+          {currentLanguage === 'ku' ? 'ئاسایش' : currentLanguage === 'en' ? 'Security' : 'Ewlehî'}
         </h3>
         <div className="space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <h4 className="text-sm font-medium text-gray-900 dark:text-white">{currentLanguage === 'ku' ? 'گۆڕینی وشەی نهێنی' : currentLanguage === 'en' ? 'Change Password' : 'Passwort ändern'}</h4>
+              <h4 className="text-sm font-medium text-gray-900 dark:text-white">{currentLanguage === 'ku' ? 'گۆڕینی وشەی نهێنی' : currentLanguage === 'en' ? 'Change Password' : 'Şîfreyê biguherîne'}</h4>
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                {currentLanguage === 'ku' ? 'دواین گۆڕین: ٣ مانگ لەمەوبەر' : currentLanguage === 'en' ? 'Last changed: 3 months ago' : 'Zuletzt geändert: vor 3 Monaten'}
+                {currentLanguage === 'ku' ? 'دواین گۆڕین: ٣ مانگ لەمەوبەر' : currentLanguage === 'en' ? 'Last changed: 3 months ago' : 'Guherîna dawî: berî 3 mehan'}
               </p>
             </div>
             <button className="px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors">
-              {currentLanguage === 'ku' ? 'گۆڕین' : currentLanguage === 'en' ? 'Update' : 'Aktualisieren'}
+              {currentLanguage === 'ku' ? 'گۆڕین' : currentLanguage === 'en' ? 'Update' : 'Nûvekirin'}
             </button>
           </div>
           
           <div className="flex items-center justify-between">
             <div>
-              <h4 className="text-sm font-medium text-gray-900 dark:text-white">{currentLanguage === 'ku' ? 'سەلماندنی دوو هەنگاوی' : currentLanguage === 'en' ? 'Two-Factor Authentication' : 'Zwei-Faktor-Authentifizierung'}</h4>
+              <h4 className="text-sm font-medium text-gray-900 dark:text-white">{currentLanguage === 'ku' ? 'سەلماندنی دوو هەنگاوی' : currentLanguage === 'en' ? 'Two-Factor Authentication' : 'Erêkirina du-gavekî'}</h4>
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                {currentLanguage === 'ku' ? 'زیادکردنی ئاسایشی هەژمارەکەت' : currentLanguage === 'en' ? 'Add an extra layer of security' : 'Erhöhen Sie die Sicherheit Ihres Kontos'}
+                {currentLanguage === 'ku' ? 'زیادکردنی ئاسایشی هەژمارەکەت' : currentLanguage === 'en' ? 'Add an extra layer of security' : 'Ewlehiya hesabê xwe zêde bikin'}
               </p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
@@ -289,17 +289,17 @@ export default function SettingsTab() {
       <div className="bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/30 rounded-xl p-6 shadow-sm transition-all duration-300">
         <h3 className="text-lg font-bold text-red-700 dark:text-red-400 mb-6 flex items-center gap-2 pb-4 border-b border-red-200 dark:border-red-800/30">
           <Trash2 className="w-5 h-5" />
-          {currentLanguage === 'ku' ? 'ناوچەی مەترسیدار' : currentLanguage === 'en' ? 'Danger Zone' : 'Gefahrenzone'}
+          {currentLanguage === 'ku' ? 'ناوچەی مەترسیدار' : currentLanguage === 'en' ? 'Danger Zone' : 'Herêma Xeter'}
         </h3>
         <div className="flex items-center justify-between">
           <div>
-            <h4 className="text-sm font-medium text-gray-900 dark:text-white">{currentLanguage === 'ku' ? 'سڕینەوەی هەژمار' : currentLanguage === 'en' ? 'Delete Account' : 'Konto löschen'}</h4>
+            <h4 className="text-sm font-medium text-gray-900 dark:text-white">{currentLanguage === 'ku' ? 'سڕینەوەی هەژمار' : currentLanguage === 'en' ? 'Delete Account' : 'Hesab jêbibe'}</h4>
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-              {currentLanguage === 'ku' ? 'ئەم کردارە پاشگەزبوونەوەی نییە' : currentLanguage === 'en' ? 'This action cannot be undone' : 'Diese Aktion kann nicht rückgängig gemacht werden'}
+              {currentLanguage === 'ku' ? 'ئەم کردارە پاشگەزبوونەوەی نییە' : currentLanguage === 'en' ? 'This action cannot be undone' : 'Ev kiryar nayê vegerandin'}
             </p>
           </div>
           <button className="px-4 py-2 text-sm font-medium text-red-600 dark:text-red-400 bg-white dark:bg-gray-800 border border-red-200 dark:border-red-800 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
-            {currentLanguage === 'ku' ? 'سڕینەوە' : currentLanguage === 'en' ? 'Delete' : 'Löschen'}
+            {currentLanguage === 'ku' ? 'سڕینەوە' : currentLanguage === 'en' ? 'Delete' : 'Jêbirin'}
           </button>
         </div>
       </div>
@@ -311,7 +311,7 @@ export default function SettingsTab() {
           className="flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors"
         >
           <RefreshCw className="w-4 h-4" />
-          {currentLanguage === 'ku' ? 'گەڕاندنەوەی بۆ ڕێکخستنی سەرەتایی' : currentLanguage === 'en' ? 'Reset to Defaults' : 'Zurücksetzen'}
+          {currentLanguage === 'ku' ? 'گەڕاندنەوەی بۆ ڕێکخستنی سەرەتایی' : currentLanguage === 'en' ? 'Reset to Defaults' : 'Vegerîne'}
         </button>
         
         <button

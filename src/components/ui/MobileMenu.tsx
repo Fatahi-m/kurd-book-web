@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
-import { X, Home, BookOpen, Heart, ShoppingCart, User, Search, Globe, ChevronRight, Info } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { X, Home, BookOpen, Heart, ShoppingCart, User, Search, Globe, ChevronRight, Info, Palette, LogIn, LogOut } from 'lucide-react';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -16,6 +17,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const { t, currentLanguage, setLanguage } = useLanguage();
   const { getCartItemCount } = useCart();
   const { getWishlistItemCount } = useWishlist();
+  const { user, logout } = useAuth();
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
 
   // Close menu on escape key
@@ -39,7 +41,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     };
   }, [isOpen, onClose]);
 
-  const handleLanguageChange = (lang: 'ku' | 'en' | 'de') => {
+  const handleLanguageChange = (lang: 'ku' | 'en' | 'kmr') => {
     setLanguage(lang);
     setShowLanguageMenu(false);
     onClose();
@@ -65,6 +67,12 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       href: '/authors',
       icon: User,
       label: t('nav.authors'),
+      badge: null
+    },
+    {
+      href: '/arts',
+      icon: Palette,
+      label: t('nav.arts'),
       badge: null
     },
     {
@@ -102,7 +110,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const languages = [
     { code: 'ku', name: 'کوردی', flag: '🇰🇺' },
     { code: 'en', name: 'English', flag: '🇺🇸' },
-    { code: 'de', name: 'Deutsch', flag: '🇩🇪' }
+    { code: 'kmr', name: 'Kurmancî', flag: '☀️' }
   ];
 
   if (!isOpen) return null;
@@ -138,6 +146,43 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           >
             <X size={24} />
           </button>
+        </div>
+
+        {/* User Profile Section */}
+        <div className="p-4 bg-gray-50 dark:bg-gray-800/50 border-b border-gray-100 dark:border-gray-800">
+          {user ? (
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-[#e11d48] text-white flex items-center justify-center text-xl font-bold">
+                {user.firstName.charAt(0).toUpperCase()}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-bold text-gray-900 dark:text-white truncate">
+                  {user.firstName} {user.lastName}
+                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                  {user.email}
+                </p>
+              </div>
+              <button 
+                onClick={() => {
+                  logout();
+                  onClose();
+                }}
+                className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+              >
+                <LogOut size={20} />
+              </button>
+            </div>
+          ) : (
+            <Link 
+              href="/auth/login"
+              onClick={onClose}
+              className="flex items-center justify-center gap-2 w-full py-3 bg-[#e11d48] text-white rounded-lg font-bold text-sm hover:bg-[#be123c] transition-colors shadow-sm"
+            >
+              <LogIn size={18} />
+              {t('auth.login')} / {t('auth.register')}
+            </Link>
+          )}
         </div>
 
         {/* Menu Items */}
@@ -193,7 +238,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     {languages.map((lang) => (
                       <button
                         key={lang.code}
-                        onClick={() => handleLanguageChange(lang.code as 'ku' | 'en' | 'de')}
+                        onClick={() => handleLanguageChange(lang.code as 'ku' | 'en' | 'kmr')}
                         className={`flex items-center justify-between w-full px-3 py-2 text-sm rounded-md transition-colors ${
                           currentLanguage === lang.code
                             ? 'bg-rose-100 dark:bg-rose-900/30 text-[#e11d48] dark:text-rose-300 border border-rose-200 dark:border-rose-800'

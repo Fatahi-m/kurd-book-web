@@ -6,7 +6,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 const languages = [
   { code: 'ku', name: 'کوردی', flag: 'KU' },
   { code: 'en', name: 'English', flag: 'EN' },
-  { code: 'de', name: 'Deutsch', flag: 'DE' }
+  { code: 'kmr', name: 'Kurmancî', flag: 'KMR' }
 ] as const;
 
 interface LanguageSwitcherProps {
@@ -19,7 +19,7 @@ export default function LanguageSwitcher({ variant = 'default' }: LanguageSwitch
 
   const currentLang = languages.find(lang => lang.code === currentLanguage);
 
-  const handleLanguageChange = (langCode: 'ku' | 'en' | 'de') => {
+  const handleLanguageChange = (langCode: 'ku' | 'en' | 'kmr') => {
     setLanguage(langCode);
     setIsOpen(false);
   };

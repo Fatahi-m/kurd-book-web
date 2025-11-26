@@ -18,6 +18,10 @@ export default function MissionTeaser() {
     de: {
       text: "Jedes hier verkaufte Buch ist ein Ziegelstein für den Bau einer helleren Zukunft für die Kinder unseres Landes. Begleiten Sie uns, um gemeinsam Wissen zu säen und Hoffnung zu ernten.",
       button: "Unsere ganze Mission lesen"
+    },
+    kmr: {
+      text: "Her pirtûkek ku li vir tê firotin, xîştek e ji bo avakirina pêşerojeke ronaktir ji bo zarokên welatê me. Bi me re bin da ku em bi hev re zanînê biçînin û hêviyê biçinîn.",
+      button: "Mîsyona Me Bixwîne"
     }
   };
 

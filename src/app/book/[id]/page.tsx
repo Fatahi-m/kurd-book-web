@@ -87,6 +87,19 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
   const discountPercentage = book.originalPrice 
     ? Math.round((1 - book.price / book.originalPrice) * 100)
     : 0;
+
+  // Get localized content
+  const title = currentLanguage === 'kmr' ? (book.titleKmr || book.title) : 
+                currentLanguage === 'en' ? (book.titleEn || book.title) : 
+                (book.titleKu || book.title);
+                
+  const author = currentLanguage === 'kmr' ? (book.authorKmr || book.author) : 
+                 currentLanguage === 'en' ? (book.authorEn || book.author) : 
+                 (book.authorKu || book.author);
+
+  const description = currentLanguage === 'kmr' ? (book.descriptionKmr || book.description) : 
+                      currentLanguage === 'en' ? (book.descriptionEn || book.description) : 
+                      (book.descriptionKu || book.description);
     
   const handleAddToCart = () => {
     if (book.inStock) {
@@ -100,8 +113,8 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
     } else {
       addToWishlist({
         id: book.id,
-        title: book.title,
-        author: book.author,
+        title: title,
+        author: author,
         price: book.price,
         originalPrice: book.originalPrice,
         imageUrl: book.coverUrl || book.image,
@@ -123,7 +136,7 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
             <span>»</span>
             <span className="text-gray-500 font-medium">{book.category}</span>
             <span>»</span>
-            <span className="text-gray-400 truncate max-w-[200px]">{book.title}</span>
+            <span className="text-gray-400 truncate max-w-[200px]">{title}</span>
           </nav>
         </div>
       </div>
@@ -138,7 +151,7 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
               {book.coverUrl || book.image ? (
                 <Image
                   src={book.coverUrl || book.image || '/images/default-book-cover.jpg'}
-                  alt={book.title}
+                  alt={title}
                   fill
                   className="object-cover"
                   priority
@@ -155,7 +168,7 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
           <div className="lg:col-span-5 flex flex-col pt-2">
             <div className="flex justify-between items-start mb-1">
                <h1 className="text-3xl lg:text-[2.5rem] font-serif font-bold text-[#002F34] leading-[1.1] tracking-tight">
-                {currentLanguage === 'ku' && book.titleKu ? book.titleKu : book.title}
+                {title}
               </h1>
             </div>
             
@@ -177,7 +190,7 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
 
             <div className="mb-6">
               <Link href={`/author/${book.author}`} className="text-lg font-medium text-[#48B063] hover:underline">
-                {currentLanguage === 'ku' && book.authorKu ? book.authorKu : book.author}
+                {author}
               </Link>
             </div>
 
@@ -190,14 +203,14 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
               </div>
               <div className="w-px h-5 bg-gray-300"></div>
               <div className="flex items-center gap-2">
-                <span className="text-gray-500 font-medium">Format:</span>
+                <span className="text-gray-500 font-medium">{t('book.binding')}:</span>
                 <BookOpen size={16} className="text-gray-400" />
                 <span className="font-bold text-[#002F34]">Paperback</span>
               </div>
             </div>
 
             <div className="mb-4 text-sm text-gray-600">
-               <span className="block mb-1 font-medium text-gray-400 text-xs uppercase tracking-wider">Publisher</span>
+               <span className="block mb-1 font-medium text-gray-400 text-xs uppercase tracking-wider">{t('book.publisher')}</span>
                <span className="text-[#48B063] font-bold text-base">{book.publisher}</span>
                <span className="text-gray-400 mx-2">•</span>
                <span className="text-gray-600">{book.publishedDate || 'November 2009'}</span>
@@ -205,7 +218,7 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
 
             <div className="text-gray-600 italic text-sm leading-relaxed mb-4 relative">
                <p className="line-clamp-3">
-                  {currentLanguage === 'ku' && book.descriptionKu ? book.descriptionKu : book.description}
+                  {description}
                </p>
                <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-white to-transparent"></div>
             </div>
@@ -214,7 +227,7 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
               onClick={() => document.getElementById('details-section')?.scrollIntoView({ behavior: 'smooth' })}
               className="text-[#48B063] font-bold hover:underline flex items-center gap-1 text-sm w-fit"
             >
-              Full description <ChevronDownIcon className="w-4 h-4" />
+              {t('book.fullDescription')} <ChevronDownIcon className="w-4 h-4" />
             </button>
           </div>
 
@@ -231,20 +244,20 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
                     {formatPrice(book.price)}
                   </span>
                 </div>
-                <p className="text-[11px] text-gray-400 mb-8 font-medium">incl. VAT</p>
+                <p className="text-[11px] text-gray-400 mb-8 font-medium">{t('book.inclVAT')}</p>
 
                 {/* Delivery Badge - Yellow */}
                 <div className="bg-[#FDF6B2] text-[#723B13] px-4 py-3 rounded-md font-bold text-xs flex items-center justify-center gap-2 relative shadow-sm mb-4 w-full">
                   <div className="absolute top-full right-10 border-8 border-transparent border-t-[#FDF6B2] w-0 h-0"></div>
                   <Truck size={16} strokeWidth={2.5} />
-                  {book.inStock ? 'We deliver by Christmas' : 'Out of Stock'}
+                  {book.inStock ? t('book.deliveryPromise') : t('book.outOfStock')}
                 </div>
 
                 {/* Stock Badge - Green */}
                 <div className="bg-[#84C493] text-white px-4 py-2.5 rounded-md font-bold text-xs w-full text-center shadow-sm mb-2 uppercase tracking-wide">
-                   External Stock
+                   {t('book.externalStock')}
                 </div>
-                <p className="text-[11px] text-gray-500 text-center w-full mb-6 font-medium">We ship in 4-7 days</p>
+                <p className="text-[11px] text-gray-500 text-center w-full mb-6 font-medium">{t('book.shippingTime')}</p>
 
                 <div className="flex items-center gap-3 w-full">
                   <button 
@@ -262,13 +275,13 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
                     }`}
                   >
                     <ShoppingCart size={22} strokeWidth={2.5} />
-                    {book.inStock ? (currentLanguage === 'ku' ? 'زیادکردن' : 'Add to Cart') : (currentLanguage === 'ku' ? 'نامەوجود' : 'Out of Stock')}
+                    {book.inStock ? t('book.addToCart') : t('book.outOfStock')}
                   </button>
                 </div>
                 
                 <p className="text-[10px] text-gray-400 mt-4 flex items-center gap-2 justify-center w-full">
                    <span className="w-5 h-5 rounded-full border border-gray-300 flex items-center justify-center text-[9px] font-bold text-gray-500">30</span>
-                   30 days return policy
+                   {t('book.returnPolicy')}
                 </p>
              </div>
           </div>
@@ -281,7 +294,7 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
         <div className="text-center mb-8">
            <h2 className="text-3xl font-serif font-bold text-[#002F34] inline-flex items-center gap-4">
               <span className="text-gray-300">»</span>
-              {currentLanguage === 'ku' ? 'کڕیارانی تر ئەمشیان کڕیوە' : 'Customers also bought'}
+              {t('book.customersAlsoBought')}
               <span className="text-gray-300">«</span>
            </h2>
         </div>
@@ -300,69 +313,69 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
             {/* Main Content (Left) */}
             <div className="flex-1">
               <h2 className="text-3xl font-serif font-bold text-[#002F34] mb-8">
-                {currentLanguage === 'ku' ? 'زانیاری دەربارەی کتێب' : 'Information about the book'}
+                {t('book.information')}
               </h2>
 
               {/* Specs Grid - 3 Columns */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-y-8 gap-x-8 mb-12">
                   <div>
-                      <span className="block text-xs text-gray-400 mb-1">Full Name</span>
+                      <span className="block text-xs text-gray-400 mb-1">{t('book.fullName')}</span>
                       <span className="font-bold text-[#002F34] text-sm leading-tight block">
                         {currentLanguage === 'ku' && book.titleKu ? book.titleKu : book.title}
                       </span>
                   </div>
                   <div>
-                      <span className="block text-xs text-gray-400 mb-1">Author</span>
+                      <span className="block text-xs text-gray-400 mb-1">{t('book.author')}</span>
                       <Link href={`/author/${book.author}`} className="font-bold text-[#48B063] text-sm hover:underline">
                         {currentLanguage === 'ku' && book.authorKu ? book.authorKu : book.author}
                       </Link>
                   </div>
                   <div>
-                      <span className="block text-xs text-gray-400 mb-1">Language</span>
+                      <span className="block text-xs text-gray-400 mb-1">{t('book.language')}</span>
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-[#002F34] text-sm capitalize">{book.language}</span>
                       </div>
                   </div>
 
                   <div>
-                      <span className="block text-xs text-gray-400 mb-1">Binding</span>
+                      <span className="block text-xs text-gray-400 mb-1">{t('book.binding')}</span>
                       <div className="flex items-center gap-2">
                          <BookOpen size={16} className="text-gray-400" />
                          <span className="font-bold text-[#002F34] text-sm">Paperback</span>
                       </div>
                   </div>
                   <div>
-                      <span className="block text-xs text-gray-400 mb-1">Release Date</span>
+                      <span className="block text-xs text-gray-400 mb-1">{t('book.releaseDate')}</span>
                       <span className="font-bold text-[#002F34] text-sm">{book.publishedDate || '2009'}</span>
                   </div>
                   <div>
-                      <span className="block text-xs text-gray-400 mb-1">Pages</span>
+                      <span className="block text-xs text-gray-400 mb-1">{t('book.pages')}</span>
                       <span className="font-bold text-[#002F34] text-sm">{book.pages || '288'}</span>
                   </div>
 
                   <div>
-                      <span className="block text-xs text-gray-400 mb-1">EAN</span>
+                      <span className="block text-xs text-gray-400 mb-1">{t('book.ean')}</span>
                       <span className="font-bold text-[#002F34] text-sm">{book.isbn ? `978${book.isbn.replace(/-/g, '')}` : '9788434893511'}</span>
                   </div>
                   <div>
-                      <span className="block text-xs text-gray-400 mb-1">ISBN</span>
+                      <span className="block text-xs text-gray-400 mb-1">{t('book.isbn')}</span>
                       <span className="font-bold text-[#002F34] text-sm">{book.isbn || '8434893517'}</span>
                   </div>
                   <div>
-                      <span className="block text-xs text-gray-400 mb-1">Libristo-Code</span>
+                      <span className="block text-xs text-gray-400 mb-1">{t('book.libristoCode')}</span>
                       <span className="font-bold text-[#002F34] text-sm">04456526</span>
                   </div>
 
                   <div>
-                      <span className="block text-xs text-gray-400 mb-1">Publisher</span>
+                      <span className="block text-xs text-gray-400 mb-1">{t('book.publisher')}</span>
                       <span className="font-bold text-[#48B063] text-sm">{book.publisher}</span>
                   </div>
                   <div>
-                      <span className="block text-xs text-gray-400 mb-1">Weight</span>
+                      <span className="block text-xs text-gray-400 mb-1">{t('book.weight')}</span>
                       <span className="font-bold text-[#002F34] text-sm">836g</span>
                   </div>
                   <div>
-                      <span className="block text-xs text-gray-400 mb-1">Dimensions</span>
+                      <span className="block text-xs text-gray-400 mb-1">{t('book.dimensions')}</span>
                       <span className="font-bold text-[#002F34] text-sm">211 x 288 x 22 mm</span>
                   </div>
               </div>
@@ -372,7 +385,7 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
               {/* Categories */}
               <div className="space-y-3">
                 <div className="flex flex-wrap gap-2 text-sm items-center">
-                    <span className="text-gray-400 text-xs uppercase tracking-wider">Category</span>
+                    <span className="text-gray-400 text-xs uppercase tracking-wider">{t('book.category')}</span>
                     <Link href={`/category/${book.category}`} className="text-[#48B063] font-bold hover:underline capitalize">
                     {book.category}
                     </Link>
@@ -382,7 +395,7 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
                     <span className="text-[#48B063] font-bold">Romance Languages</span>
                 </div>
                 <div className="flex flex-wrap gap-2 text-sm items-center">
-                    <span className="text-gray-400 text-xs uppercase tracking-wider">Tags</span>
+                    <span className="text-gray-400 text-xs uppercase tracking-wider">{t('book.tags')}</span>
                     {book.tags.map((tag, i) => (
                     <span key={i} className="text-[#48B063] font-bold hover:underline cursor-pointer">
                         {tag}{i < book.tags.length - 1 ? ',' : ''}
@@ -401,28 +414,28 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
                         <Gift size={64} className="text-white drop-shadow-sm" strokeWidth={1.5} />
                     </div>
                     <h3 className="text-2xl font-serif font-bold text-white mb-2 leading-tight px-4">
-                      {currentLanguage === 'ku' ? 'ئەم کتێبە بکە بە دیاری' : 'Gift this book today'}
+                      {t('book.giftTitle')}
                     </h3>
                  </div>
 
                  {/* Body part */}
                  <div className="p-8 pt-2">
                     <h4 className="text-[#002F34] font-serif font-bold text-xl mb-6 text-center border-b border-[#cba6c1] pb-4 mx-4">
-                        {currentLanguage === 'ku' ? 'زۆر ئاسانە' : 'It is very simple'}
+                        {t('book.giftSubtitle')}
                     </h4>
                     
                     <div className="space-y-6 text-left px-2">
                       <div className="flex gap-4 items-start">
                         <div className="w-8 h-8 rounded-full bg-[#002F34] text-white flex items-center justify-center text-sm font-bold flex-shrink-0 shadow-sm mt-1">1</div>
-                        <p className="text-sm text-[#002F34] leading-snug font-medium">Put the book in your cart and choose "Send as gift"</p>
+                        <p className="text-sm text-[#002F34] leading-snug font-medium">{t('book.giftStep1')}</p>
                       </div>
                       <div className="flex gap-4 items-start">
                         <div className="w-8 h-8 rounded-full bg-[#002F34] text-white flex items-center justify-center text-sm font-bold flex-shrink-0 shadow-sm mt-1">2</div>
-                        <p className="text-sm text-[#002F34] leading-snug font-medium">We send you a voucher immediately</p>
+                        <p className="text-sm text-[#002F34] leading-snug font-medium">{t('book.giftStep2')}</p>
                       </div>
                       <div className="flex gap-4 items-start">
                         <div className="w-8 h-8 rounded-full bg-[#002F34] text-white flex items-center justify-center text-sm font-bold flex-shrink-0 shadow-sm mt-1">3</div>
-                        <p className="text-sm text-[#002F34] leading-snug font-medium">The book will be sent to the recipient's address</p>
+                        <p className="text-sm text-[#002F34] leading-snug font-medium">{t('book.giftStep3')}</p>
                       </div>
                     </div>
                  </div>
@@ -438,7 +451,7 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
         <div className="text-center mb-8">
            <h2 className="text-3xl font-serif font-bold text-[#002F34] inline-flex items-center gap-4">
               <span className="text-gray-300">»</span>
-              {currentLanguage === 'ku' ? 'شاید ئەم بابەتانەش جالب بن' : 'Maybe these topics are also interesting'}
+              {t('book.interestingTopics')}
               <span className="text-gray-300">«</span>
            </h2>
         </div>

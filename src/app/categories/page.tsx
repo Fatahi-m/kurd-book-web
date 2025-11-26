@@ -58,7 +58,7 @@ export default function CategoriesPage() {
               </div>
               
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-rose-600 transition-colors">
-                {currentLanguage === 'ku' ? category.name.ku : (currentLanguage === 'de' ? category.name.de : category.name.en)}
+                {currentLanguage === 'ku' ? category.name.ku : (currentLanguage === 'kmr' ? category.name.kmr : category.name.en)}
               </h3>
               
               <p className="text-sm text-gray-500 dark:text-gray-400">

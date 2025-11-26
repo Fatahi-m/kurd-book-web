@@ -43,7 +43,7 @@ export default function CollectionGrid() {
               <div className="relative w-full aspect-square overflow-hidden rounded-full mb-4 border border-gray-200 dark:border-gray-800 group-hover:border-[#e11d48] transition-colors duration-300 max-w-[160px]">
                 <Image 
                   src={categoryImages[category.slug]} 
-                  alt={currentLanguage === 'ku' ? category.name.ku : (currentLanguage === 'de' ? category.name.de : category.name.en)}
+                  alt={currentLanguage === 'ku' ? category.name.ku : (currentLanguage === 'kmr' ? category.name.kmr : category.name.en)}
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-110"
                 />
@@ -51,7 +51,7 @@ export default function CollectionGrid() {
               </div>
               
               <h3 className="text-sm font-bold uppercase tracking-widest text-[#1a1a1a] dark:text-[#f5f5f5] group-hover:text-[#e11d48] transition-colors">
-                {currentLanguage === 'ku' ? category.name.ku : (currentLanguage === 'de' ? category.name.de : category.name.en)}
+                {currentLanguage === 'ku' ? category.name.ku : (currentLanguage === 'kmr' ? category.name.kmr : category.name.en)}
               </h3>
             </Link>
           ))}

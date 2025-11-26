@@ -168,7 +168,7 @@ export default function CartPage() {
         {recommendedBooks.length > 0 && (
           <div className="mt-24 pt-12 border-t border-gray-200 dark:border-gray-800">
             <h2 className="text-2xl font-serif text-center mb-12">
-              {currentLanguage === 'ku' ? 'کتابەکانی تر کە ڕەنگە حەزت لێبێت' : currentLanguage === 'en' ? 'You Might Also Like' : 'Das könnte Ihnen auch gefallen'}
+              {t('cart.youMightAlsoLike')}
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {recommendedBooks.map((book) => (

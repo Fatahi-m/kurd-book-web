@@ -6,6 +6,7 @@ import { Book, Category } from '@/lib/types';
 import { adminDataService, AdminBook } from '@/lib/adminDataService';
 import BookCard from '@/components/ui/BookCard';
 import { notFound } from 'next/navigation';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface CategoryPageProps {
   params: {
@@ -14,6 +15,7 @@ interface CategoryPageProps {
 }
 
 export default function CategoryPage({ params }: CategoryPageProps) {
+  const { t, currentLanguage } = useLanguage();
   const [allBooks, setAllBooks] = useState<Book[]>([]);
   const category = categories.find(cat => cat.slug === params.slug);
   
@@ -62,18 +64,18 @@ export default function CategoryPage({ params }: CategoryPageProps) {
         <div className="mb-20 text-center">
           <div className="text-6xl mb-6 opacity-80">{category.icon}</div>
           <span className="text-sm font-light tracking-[0.2em] text-gray-500 dark:text-gray-400 uppercase mb-6 block">
-            Category
+            {t('book.category')}
           </span>
           <h1 className="text-5xl md:text-7xl font-serif text-gray-900 dark:text-white mb-8">
-            {category.name.ku}
+            {category.name[currentLanguage]}
           </h1>
           <p className="text-xl font-light text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
-            {category.description?.ku}
+            {category.description?.[currentLanguage]}
           </p>
           
           <div className="mt-12 flex items-center justify-center gap-8 border-t border-gray-200 dark:border-gray-800 pt-8 max-w-xs mx-auto">
             <span className="text-sm font-light text-gray-500 uppercase tracking-widest">
-              {categoryBooks.length} Books
+              {categoryBooks.length} {t('stats.books')}
             </span>
           </div>
         </div>
@@ -89,10 +91,10 @@ export default function CategoryPage({ params }: CategoryPageProps) {
           <div className="text-center py-20">
             <div className="text-6xl mb-6 opacity-20">📚</div>
             <h2 className="text-2xl font-serif text-gray-900 dark:text-white mb-4">
-              No books found
+              {t('search.noResults')}
             </h2>
             <p className="text-gray-500 dark:text-gray-400 font-light">
-              This category is currently empty.
+              {t('category.empty')}
             </p>
           </div>
         )}

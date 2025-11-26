@@ -103,9 +103,9 @@ export default function CheckoutPage() {
   };
 
   const steps = [
-    { id: 1, title: currentLanguage === 'ku' ? 'زانیاری' : 'Information' },
-    { id: 2, title: currentLanguage === 'ku' ? 'گەیاندن' : 'Shipping' },
-    { id: 3, title: currentLanguage === 'ku' ? 'پارەدان' : 'Payment' }
+    { id: 1, title: t('checkout.information') },
+    { id: 2, title: t('checkout.shipping') },
+    { id: 3, title: t('checkout.payment') }
   ];
 
   if (orderComplete) {
@@ -119,22 +119,22 @@ export default function CheckoutPage() {
           >
             <div className="text-6xl mb-8">✓</div>
             <h1 className="text-4xl font-serif text-gray-900 dark:text-white mb-6">
-              {currentLanguage === 'ku' ? 'داواکارییەکەت وەرگیرا' : currentLanguage === 'en' ? 'Order Placed Successfully' : 'Bestellung erfolgreich aufgegeben'}
+              {t('checkout.orderPlaced')}
             </h1>
             <div className="bg-white dark:bg-gray-800/50 p-6 mb-8 inline-block border border-gray-200 dark:border-gray-800">
               <p className="text-gray-600 dark:text-gray-300 font-mono text-lg tracking-widest">
-                {currentLanguage === 'ku' ? `ژمارەی داواکاری: #${orderId}` : currentLanguage === 'en' ? `ORDER ID: #${orderId}` : `BESTELLNUMMER: #${orderId}`}
+                {t('checkout.orderId')}: #{orderId}
               </p>
             </div>
             <p className="text-gray-600 dark:text-gray-300 mb-12 max-w-md mx-auto font-light leading-relaxed">
-              {currentLanguage === 'ku' ? 'سوپاس بۆ کڕینەکەت. ئیمەیڵێکی پشتڕاستکردنەوەت بۆ دەنێرین.' : currentLanguage === 'en' ? 'Thank you for your purchase. We will send you a confirmation email shortly.' : 'Vielen Dank für Ihren Einkauf. Wir senden Ihnen in Kürze eine Bestätigungs-E-Mail.'}
+              {t('checkout.thankYou')}
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Link href="/" className="bg-black dark:bg-white text-white dark:text-black px-8 py-3 text-sm uppercase tracking-widest hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">
-                {currentLanguage === 'ku' ? 'گەڕانەوە بۆ ماڵەوە' : currentLanguage === 'en' ? 'Return Home' : 'Zurück zur Startseite'}
+                {t('checkout.returnHome')}
               </Link>
               <Link href="/profile?tab=orders" className="border border-black dark:border-white text-black dark:text-white px-8 py-3 text-sm uppercase tracking-widest hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                {currentLanguage === 'ku' ? 'بینینی داواکارییەکان' : currentLanguage === 'en' ? 'View Orders' : 'Bestellungen ansehen'}
+                {t('checkout.viewOrders')}
               </Link>
             </div>
           </motion.div>
@@ -184,12 +184,12 @@ export default function CheckoutPage() {
                 className={currentStep === 1 ? 'block' : 'hidden'}
               >
                 <h2 className="text-3xl font-serif text-gray-900 dark:text-white mb-8">
-                  {currentLanguage === 'ku' ? 'زانیاری پەیوەندی' : currentLanguage === 'en' ? 'Contact Information' : 'Kontaktinformationen'}
+                  {t('checkout.contactInfo')}
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-2">
                     <label className="text-xs uppercase tracking-widest text-gray-500">
-                      {currentLanguage === 'ku' ? 'ناو' : currentLanguage === 'en' ? 'First Name' : 'Vorname'}
+                      {t('auth.firstName')}
                     </label>
                     <input
                       type="text"
@@ -202,7 +202,7 @@ export default function CheckoutPage() {
                   </div>
                   <div className="space-y-2">
                     <label className="text-xs uppercase tracking-widest text-gray-500">
-                      {currentLanguage === 'ku' ? 'پاشناو' : currentLanguage === 'en' ? 'Last Name' : 'Nachname'}
+                      {t('auth.lastName')}
                     </label>
                     <input
                       type="text"
@@ -215,7 +215,7 @@ export default function CheckoutPage() {
                   </div>
                   <div className="md:col-span-2 space-y-2">
                     <label className="text-xs uppercase tracking-widest text-gray-500">
-                      {currentLanguage === 'ku' ? 'ئیمەیڵ' : currentLanguage === 'en' ? 'Email' : 'E-Mail'}
+                      {t('auth.email')}
                     </label>
                     <input
                       type="email"
@@ -228,7 +228,7 @@ export default function CheckoutPage() {
                   </div>
                   <div className="md:col-span-2 space-y-2">
                     <label className="text-xs uppercase tracking-widest text-gray-500">
-                      {currentLanguage === 'ku' ? 'ژمارەی مۆبایل' : currentLanguage === 'en' ? 'Phone Number' : 'Telefonnummer'}
+                      {t('auth.phone')}
                     </label>
                     <input
                       type="tel"
@@ -248,12 +248,12 @@ export default function CheckoutPage() {
                 className={currentStep === 2 ? 'block' : 'hidden'}
               >
                 <h2 className="text-3xl font-serif text-gray-900 dark:text-white mb-8">
-                  {currentLanguage === 'ku' ? 'ناونیشانی گەیاندن' : currentLanguage === 'en' ? 'Shipping Address' : 'Lieferadresse'}
+                  {t('checkout.shippingAddress')}
                 </h2>
                 <div className="space-y-8">
                   <div className="space-y-2">
                     <label className="text-xs uppercase tracking-widest text-gray-500">
-                      {currentLanguage === 'ku' ? 'ناونیشان' : currentLanguage === 'en' ? 'Address' : 'Adresse'}
+                      {t('profile.address')}
                     </label>
                     <input
                       type="text"
@@ -268,7 +268,7 @@ export default function CheckoutPage() {
                   <div className="grid grid-cols-2 gap-8">
                     <div className="space-y-2">
                       <label className="text-xs uppercase tracking-widest text-gray-500">
-                        {currentLanguage === 'ku' ? 'شار' : currentLanguage === 'en' ? 'City' : 'Stadt'}
+                        {t('profile.city')}
                       </label>
                       <input
                         type="text"
@@ -281,7 +281,7 @@ export default function CheckoutPage() {
                     </div>
                     <div className="space-y-2">
                       <label className="text-xs uppercase tracking-widest text-gray-500">
-                        {currentLanguage === 'ku' ? 'کۆدی پۆستە' : currentLanguage === 'en' ? 'Zip Code' : 'Postleitzahl'}
+                        {t('profile.zipCode')}
                       </label>
                       <input
                         type="text"
@@ -302,7 +302,7 @@ export default function CheckoutPage() {
                 className={currentStep === 3 ? 'block' : 'hidden'}
               >
                 <h2 className="text-3xl font-serif text-gray-900 dark:text-white mb-8">
-                  {currentLanguage === 'ku' ? 'شێوازی پارەدان' : currentLanguage === 'en' ? 'Payment Method' : 'Zahlungsmethode'}
+                  {t('checkout.paymentMethod')}
                 </h2>
                 
                 <div className="grid grid-cols-2 gap-6 mb-12">
@@ -320,7 +320,7 @@ export default function CheckoutPage() {
                       className="hidden"
                     />
                     <span className="text-2xl">💳</span>
-                    <span className="text-sm uppercase tracking-widest">Credit Card</span>
+                    <span className="text-sm uppercase tracking-widest">{t('checkout.creditCard')}</span>
                   </label>
                   
                   <label className={`cursor-pointer border p-6 flex flex-col items-center justify-center gap-4 transition-all ${
@@ -337,7 +337,7 @@ export default function CheckoutPage() {
                       className="hidden"
                     />
                     <span className="text-2xl">💵</span>
-                    <span className="text-sm uppercase tracking-widest">Cash on Delivery</span>
+                    <span className="text-sm uppercase tracking-widest">{t('checkout.cashOnDelivery')}</span>
                   </label>
                 </div>
 
@@ -356,7 +356,7 @@ export default function CheckoutPage() {
                     onClick={() => setCurrentStep(prev => prev - 1)}
                     className="px-8 py-3 text-sm uppercase tracking-widest border border-gray-300 dark:border-gray-700 hover:border-black dark:hover:border-white transition-colors"
                   >
-                    {currentLanguage === 'ku' ? 'گەڕانەوە' : 'Back'}
+                    {t('checkout.back')}
                   </button>
                 )}
                 
@@ -371,12 +371,12 @@ export default function CheckoutPage() {
                 >
                   {isProcessing ? (
                     <span className="flex items-center justify-center gap-2">
-                      Processing...
+                      {t('checkout.processing')}
                     </span>
                   ) : (
                     currentStep === 3 
-                      ? (currentLanguage === 'ku' ? 'تەواوکردنی داواکاری' : 'Place Order')
-                      : (currentLanguage === 'ku' ? 'دواتر' : 'Next Step')
+                      ? t('checkout.placeOrder')
+                      : t('checkout.nextStep')
                   )}
                 </button>
               </div>
@@ -387,7 +387,7 @@ export default function CheckoutPage() {
           <div className="lg:w-96">
             <div className="bg-white dark:bg-[#1a1a1a] p-8 border border-gray-100 dark:border-gray-800 sticky top-24">
               <h3 className="text-lg font-serif text-gray-900 dark:text-white mb-6 pb-4 border-b border-gray-100 dark:border-gray-800">
-                {currentLanguage === 'ku' ? 'پوختەی داواکاری' : currentLanguage === 'en' ? 'Order Summary' : 'Bestellübersicht'}
+                {t('checkout.orderSummary')}
               </h3>
               
               <div className="space-y-6 mb-8 max-h-80 overflow-y-auto pr-2 custom-scrollbar">
@@ -404,7 +404,7 @@ export default function CheckoutPage() {
                       <h4 className="text-sm font-serif text-gray-900 dark:text-white truncate">{item.book.title}</h4>
                       <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{item.book.author}</p>
                       <div className="flex justify-between items-center">
-                        <span className="text-xs text-gray-400">Qty: {item.quantity}</span>
+                        <span className="text-xs text-gray-400">{t('checkout.qty')}: {item.quantity}</span>
                         <span className="text-sm font-light">{formatPrice(item.book.price * item.quantity)}</span>
                       </div>
                     </div>
@@ -414,15 +414,15 @@ export default function CheckoutPage() {
 
               <div className="space-y-3 pt-4 border-t border-gray-100 dark:border-gray-800">
                 <div className="flex justify-between text-sm font-light text-gray-600 dark:text-gray-400">
-                  <span>{currentLanguage === 'ku' ? 'کۆی گشتی کاڵاکان' : currentLanguage === 'en' ? 'Subtotal' : 'Zwischensumme'}</span>
+                  <span>{t('checkout.subtotal')}</span>
                   <span>{formatPrice(getCartTotal())}</span>
                 </div>
                 <div className="flex justify-between text-sm font-light text-gray-600 dark:text-gray-400">
-                  <span>{currentLanguage === 'ku' ? 'گەیاندن' : currentLanguage === 'en' ? 'Shipping' : 'Versand'}</span>
-                  <span className="text-green-600 dark:text-green-400">{currentLanguage === 'ku' ? 'بەخۆڕایی' : currentLanguage === 'en' ? 'Free' : 'Kostenlos'}</span>
+                  <span>{t('checkout.shipping')}</span>
+                  <span className="text-green-600 dark:text-green-400">{t('checkout.free')}</span>
                 </div>
                 <div className="flex justify-between text-lg font-serif text-gray-900 dark:text-white pt-4 border-t border-gray-100 dark:border-gray-800 mt-2">
-                  <span>{currentLanguage === 'ku' ? 'کۆی گشتی' : currentLanguage === 'en' ? 'Total' : 'Gesamt'}</span>
+                  <span>{t('checkout.total')}</span>
                   <span>{formatPrice(getCartTotal())}</span>
                 </div>
               </div>

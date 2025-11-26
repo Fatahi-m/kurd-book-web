@@ -46,7 +46,7 @@ export default function AuthorsPage() {
         {/* Header */}
         <div className="mb-20 text-center">
           <span className="text-sm font-light tracking-[0.2em] text-gray-500 dark:text-gray-400 uppercase mb-6 block">
-            Literary Figures
+            {t('authors.literaryFigures')}
           </span>
           <h1 className="text-5xl md:text-7xl font-serif text-gray-900 dark:text-white mb-8">
             {t('authors.title')}
@@ -80,7 +80,7 @@ export default function AuthorsPage() {
 
         {/* Authors Grid */}
         {filteredAuthors.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-20">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-8 gap-y-12">
             {filteredAuthors.map((author: Author) => {
               const authorBooks = getAuthorBooks(author.name);
               return (
@@ -89,7 +89,7 @@ export default function AuthorsPage() {
                   key={author.id} 
                   className="group block text-center"
                 >
-                  <div className="relative w-48 h-48 mx-auto mb-8 rounded-full overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500">
+                  <div className="relative w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500 border-4 border-transparent group-hover:border-gray-200 dark:group-hover:border-gray-700">
                     {author.image ? (
                       <img 
                         src={author.image} 
@@ -97,21 +97,21 @@ export default function AuthorsPage() {
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-4xl font-serif text-gray-400">
+                      <div className="w-full h-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-3xl font-serif text-gray-400">
                         {(currentLanguage === 'ku' ? author.name : (author.latinName || author.name)).charAt(0)}
                       </div>
                     )}
                   </div>
                   
-                  <h2 className="text-2xl font-serif text-gray-900 dark:text-white mb-2 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">
+                  <h2 className="text-lg font-serif text-gray-900 dark:text-white mb-1 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors line-clamp-1">
                     {currentLanguage === 'ku' ? author.name : (author.latinName || author.name)}
                   </h2>
                   
-                  <div className="text-sm font-light text-gray-500 dark:text-gray-400 mb-4 uppercase tracking-widest">
+                  <div className="text-xs font-light text-gray-500 dark:text-gray-400 mb-3 uppercase tracking-widest line-clamp-1">
                     {author.nationality} {author.birthYear && `• ${author.birthYear}`}
                   </div>
 
-                  <div className="flex items-center justify-center gap-6 text-sm font-light text-gray-600 dark:text-gray-400">
+                  <div className="flex items-center justify-center gap-6 text-xs font-light text-gray-600 dark:text-gray-400">
                     <span>{authorBooks.length} {authorBooks.length === 1 ? t('authors.book') : t('authors.books')}</span>
                   </div>
                 </Link>

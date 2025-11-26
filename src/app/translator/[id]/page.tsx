@@ -204,18 +204,18 @@ export default function TranslatorDetailPage({ params }: TranslatorDetailPagePro
               {/* Newsletter */}
               <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border border-blue-100 dark:border-blue-900/30 transition-colors duration-300">
                 <h3 className="font-bold text-blue-800 dark:text-blue-200 mb-2">
-                  {currentLanguage === 'ku' ? 'ئاگاداری نوێترینەکان بە' : currentLanguage === 'de' ? 'Bleiben Sie auf dem Laufenden' : 'Stay Updated'}
+                  {currentLanguage === 'ku' ? 'ئاگاداری نوێترینەکان بە' : currentLanguage === 'kmr' ? 'Agahdar bin' : 'Stay Updated'}
                 </h3>
                 <p className="text-xs text-blue-600 dark:text-blue-300 mb-4">
-                  {currentLanguage === 'ku' ? 'تۆمار بکە بۆ وەرگرتنی هەواڵی نوێترین کتێبەکان' : currentLanguage === 'de' ? 'Melden Sie sich an, um Neuigkeiten über die neuesten Bücher zu erhalten' : 'Subscribe to get news about the latest books'}
+                  {currentLanguage === 'ku' ? 'تۆمار بکە بۆ وەرگرتنی هەواڵی نوێترین کتێبەکان' : currentLanguage === 'kmr' ? 'Ji bo nûçeyên pirtûkên herî dawî bibin abone' : 'Subscribe to get news about the latest books'}
                 </p>
                 <input 
                   type="email" 
-                  placeholder={currentLanguage === 'ku' ? 'ئیمەیڵەکەت بنووسە' : currentLanguage === 'de' ? 'Ihre E-Mail' : 'Your email'}
+                  placeholder={currentLanguage === 'ku' ? 'ئیمەیڵەکەت بنووسە' : currentLanguage === 'kmr' ? 'E-nameya we' : 'Your email'}
                   className="w-full px-3 py-2 rounded-lg border border-blue-200 dark:border-blue-800 text-sm mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                 />
                 <button className="w-full bg-blue-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
-                  {currentLanguage === 'ku' ? 'تۆمارکردن' : currentLanguage === 'de' ? 'Abonnieren' : 'Subscribe'}
+                  {currentLanguage === 'ku' ? 'تۆمارکردن' : currentLanguage === 'kmr' ? 'Abone bibin' : 'Subscribe'}
                 </button>
               </div>
             </div>

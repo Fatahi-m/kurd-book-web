@@ -4,15 +4,15 @@ export interface Book {
   title: string;
   titleKu?: string;
   titleEn?: string;
-  titleDe?: string;
+  titleKmr?: string;
   author: string;
   authorKu?: string;
   authorEn?: string;
-  authorDe?: string;
+  authorKmr?: string;
   publisher: string;
   publisherKu?: string;
   publisherEn?: string;
-  publisherDe?: string;
+  publisherKmr?: string;
   translator?: string;
   price: number;
   originalPrice?: number;
@@ -21,7 +21,7 @@ export interface Book {
   description: string;
   descriptionKu?: string;
   descriptionEn?: string;
-  descriptionDe?: string;
+  descriptionKmr?: string;
   isbn?: string;
   pages?: number;
   language: 'kurdish' | 'english' | 'arabic' | 'persian' | string;
@@ -43,13 +43,13 @@ export interface Category {
   name: {
     ku: string;
     en: string;
-    de: string;
+    kmr: string;
   };
   slug: string;
   description?: {
     ku: string;
     en: string;
-    de: string;
+    kmr: string;
   };
   icon?: string;
   parentId?: string;
@@ -72,7 +72,7 @@ export interface User {
     country: string;
   };
   preferences: {
-    language: 'ku' | 'en' | 'de';
+    language: 'ku' | 'en' | 'kmr';
     notifications: boolean;
   };
   createdAt: Date;
@@ -135,7 +135,7 @@ export interface Author {
   bio?: {
     ku: string;
     en: string;
-    de: string;
+    kmr: string;
   };
   image?: string;
   birthYear?: number;
@@ -154,7 +154,7 @@ export interface Translator {
   bio?: {
     ku: string;
     en: string;
-    de: string;
+    kmr: string;
   };
   image?: string;
   birthYear?: number;
@@ -162,4 +162,54 @@ export interface Translator {
   nationality?: string;
   languages?: string[];
   books: string[]; // Book IDs
+}
+
+// Artisan types (For Arts & Culture section)
+export interface Artisan {
+  id: string;
+  name: string;
+  latinName?: string;
+  bio: {
+    ku: string;
+    en: string;
+    kmr: string;
+  };
+  image: string;
+  location: {
+    city: string;
+    country: string;
+    coordinates?: { lat: number; lng: number };
+  };
+  specialty: string[]; // e.g., ['Weaving', 'Woodwork']
+  products: string[]; // ArtProduct IDs
+  story?: { // A longer story about the artisan
+    ku: string;
+    en: string;
+    kmr: string;
+  };
+}
+
+// Art Product types
+export interface ArtProduct {
+  id: string;
+  title: {
+    ku: string;
+    en: string;
+    kmr: string;
+  };
+  artisanId: string;
+  price: number;
+  images: string[];
+  description: {
+    ku: string;
+    en: string;
+    kmr: string;
+  };
+  category: 'textile' | 'woodwork' | 'jewelry' | 'painting' | 'pottery' | 'other';
+  materials: string[];
+  dimensions?: string; // e.g., "30x40 cm"
+  weight?: string; // e.g., "500g"
+  inStock: boolean;
+  isHandmade: boolean;
+  creationTime?: string; // e.g., "2 weeks"
 }

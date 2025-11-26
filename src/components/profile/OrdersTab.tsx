@@ -67,13 +67,13 @@ export default function OrdersTab({ userId }: OrdersTabProps) {
     } else if (currentLanguage === 'en') {
       return status.charAt(0).toUpperCase() + status.slice(1);
     } else {
-      // German translations
+      // Kurmanji translations
       switch (status) {
-        case 'pending': return 'Ausstehend';
-        case 'processing': return 'In Bearbeitung';
-        case 'shipped': return 'Versandt';
-        case 'delivered': return 'Geliefert';
-        case 'cancelled': return 'Storniert';
+        case 'pending': return 'Li benda erêkirinê';
+        case 'processing': return 'Di pêvajoyê de';
+        case 'shipped': return 'Hatiye şandin';
+        case 'delivered': return 'Gihîştiye';
+        case 'cancelled': return 'Hatiye betalkirin';
         default: return status;
       }
     }
@@ -94,14 +94,14 @@ export default function OrdersTab({ userId }: OrdersTabProps) {
           <Package className="w-10 h-10 text-blue-400 dark:text-blue-500" />
         </div>
         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-          {currentLanguage === 'ku' ? 'هیچ داواکارییەک نییە' : currentLanguage === 'en' ? 'No orders yet' : 'Keine Bestellungen'}
+          {currentLanguage === 'ku' ? 'هیچ داواکارییەک نییە' : currentLanguage === 'en' ? 'No orders yet' : 'Ti ferman tune'}
         </h3>
         <p className="text-gray-500 dark:text-gray-400 max-w-md mx-auto">
           {currentLanguage === 'ku' 
             ? 'تۆ تا ئێستا هیچ داواکارییەکت ئەنجام نەداوە. دەست بکە بە کڕین!' 
             : currentLanguage === 'en' 
               ? 'You haven\'t placed any orders yet. Start shopping now!' 
-              : 'Sie haben noch keine Bestellungen aufgegeben. Jetzt einkaufen!'}
+              : 'We hîn ti ferman nedaye. Niha dest bi kirînê bikin!'}
         </p>
       </div>
     );
@@ -111,7 +111,7 @@ export default function OrdersTab({ userId }: OrdersTabProps) {
     <div className="space-y-6">
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
         <Package className="w-6 h-6 text-blue-600" />
-        {currentLanguage === 'ku' ? 'داواکارییەکان' : currentLanguage === 'en' ? 'My Orders' : 'Meine Bestellungen'}
+        {currentLanguage === 'ku' ? 'داواکارییەکان' : currentLanguage === 'en' ? 'My Orders' : 'Fermanên min'}
       </h2>
       
       <div className="space-y-4">
@@ -124,16 +124,16 @@ export default function OrdersTab({ userId }: OrdersTabProps) {
               <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
                 <div>
                   <p className="text-xs text-gray-500 dark:text-gray-400 uppercase font-semibold tracking-wider mb-1">
-                    {currentLanguage === 'ku' ? 'ژمارەی داواکاری' : currentLanguage === 'en' ? 'Order ID' : 'Bestell-Nr.'}
+                    {currentLanguage === 'ku' ? 'ژمارەی داواکاری' : currentLanguage === 'en' ? 'Order ID' : 'Hejmara Fermanê'}
                   </p>
                   <p className="font-bold text-gray-900 dark:text-white font-mono">#{order.id.substring(0, 8)}</p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-500 dark:text-gray-400 uppercase font-semibold tracking-wider mb-1">
-                    {currentLanguage === 'ku' ? 'بەروار' : currentLanguage === 'en' ? 'Date' : 'Datum'}
+                    {currentLanguage === 'ku' ? 'بەروار' : currentLanguage === 'en' ? 'Date' : 'Dîrok'}
                   </p>
                   <p className="font-medium text-gray-900 dark:text-white">
-                    {new Date(order.date).toLocaleDateString(currentLanguage === 'ku' ? 'ku-IQ' : currentLanguage === 'de' ? 'de-DE' : 'en-US', {
+                    {new Date(order.date).toLocaleDateString(currentLanguage === 'ku' ? 'ku-IQ' : currentLanguage === 'kmr' ? 'ku-TR' : 'en-US', {
                       year: 'numeric',
                       month: 'short',
                       day: 'numeric'
@@ -142,7 +142,7 @@ export default function OrdersTab({ userId }: OrdersTabProps) {
                 </div>
                 <div>
                   <p className="text-xs text-gray-500 dark:text-gray-400 uppercase font-semibold tracking-wider mb-1">
-                    {currentLanguage === 'ku' ? 'کۆی گشتی' : currentLanguage === 'en' ? 'Total' : 'Gesamt'}
+                    {currentLanguage === 'ku' ? 'کۆی گشتی' : currentLanguage === 'en' ? 'Total' : 'Giştî'}
                   </p>
                   <p className="font-bold text-blue-600 dark:text-blue-400">{formatPrice(order.total)}</p>
                 </div>

@@ -5,12 +5,21 @@ export const books: Book[] = [
   {
     id: '1',
     title: 'مەم و زین',
+    titleKu: 'مەم و زین',
+    titleEn: 'Mem and Zin',
+    titleKmr: 'Mem û Zîn',
     author: 'ئەحمەدی خانی',
+    authorKu: 'ئەحمەدی خانی',
+    authorEn: 'Ahmad Khani',
+    authorKmr: 'Ehmedê Xanî',
     publisher: 'دەزگای چاپ و بڵاوکردنەوەی کوردستان',
     price: 22.50,
     originalPrice: 25.00,
     image: '/images/books/book-1.jpg',
     description: 'ئەم کتابە یەکێک لە گرنگترین بەرهەمەکانی ئەدەبیاتی کلاسیکی کوردییە',
+    descriptionKu: 'ئەم کتابە یەکێک لە گرنگترین بەرهەمەکانی ئەدەبیاتی کلاسیکی کوردییە',
+    descriptionEn: 'This book is one of the most important works of classical Kurdish literature',
+    descriptionKmr: 'Ev pirtûk yek ji girîngtirîn berhemên wêjeya klasîk a Kurdî ye',
     isbn: '978-964-123-456-7',
     pages: 320,
     language: 'kurdish',
@@ -27,11 +36,20 @@ export const books: Book[] = [
   {
     id: '2',
     title: 'جنێرال جۆتیار',
+    titleKu: 'جنێرال جۆتیار',
+    titleEn: 'General Cotyar',
+    titleKmr: 'General Cotyar',
     author: 'شێرکۆ بێکەس',
+    authorKu: 'شێرکۆ بێکەس',
+    authorEn: 'Sherko Bekas',
+    authorKmr: 'Şêrko Bêkes',
     publisher: 'سەردەم',
     price: 16.90,
     image: '/images/books/book-2.jpg',
     description: 'رۆمانێکی مۆدێرن لە شێرکۆ بێکەس',
+    descriptionKu: 'رۆمانێکی مۆدێرن لە شێرکۆ بێکەس',
+    descriptionEn: 'A modern novel by Sherko Bekas',
+    descriptionKmr: 'Romaneke nûjen ji Şêrko Bêkes',
     isbn: '978-964-234-567-8',
     pages: 280,
     language: 'kurdish',
@@ -48,12 +66,21 @@ export const books: Book[] = [
   {
     id: '3',
     title: 'مێژووی کورد',
+    titleKu: 'مێژووی کورد',
+    titleEn: 'History of the Kurds',
+    titleKmr: 'Dîroka Kurd',
     author: 'د. کەمال مەزهەر ئەحمەد',
+    authorKu: 'د. کەمال مەزهەر ئەحمەد',
+    authorEn: 'Dr. Kamal Mazhar Ahmad',
+    authorKmr: 'Dr. Kemal Mezher Ehmed',
     publisher: 'چاپخانەی کوردستان',
     price: 24.90,
     originalPrice: 29.90,
     image: '/images/books/book-3.jpg',
     description: 'کتابێکی جیاوازی مێژووی کورد لە سەردەمی دێرینەوە تا ئێستا',
+    descriptionKu: 'کتابێکی جیاوازی مێژووی کورد لە سەردەمی دێرینەوە تا ئێستا',
+    descriptionEn: 'A distinct book on Kurdish history from ancient times to the present',
+    descriptionKmr: 'Pirtûkeke cihêreng a dîroka Kurd ji demên kevnare heta niha',
     isbn: '978-964-345-678-9',
     pages: 450,
     language: 'kurdish',
@@ -70,11 +97,20 @@ export const books: Book[] = [
   {
     id: '4',
     title: 'چیرۆکەکانی منداڵان',
+    titleKu: 'چیرۆکەکانی منداڵان',
+    titleEn: 'Children\'s Stories',
+    titleKmr: 'Çîrokên Zarokan',
     author: 'ئارام تیگران',
+    authorKu: 'ئارام تیگران',
+    authorEn: 'Aram Tigran',
+    authorKmr: 'Aram Tîgran',
     publisher: 'منداڵ',
     price: 15.50,
     image: '/images/books/book-4.jpg',
     description: 'کۆمەڵێک چیرۆکی جوان بۆ منداڵان',
+    descriptionKu: 'کۆمەڵێک چیرۆکی جوان بۆ منداڵان',
+    descriptionEn: 'A collection of beautiful stories for children',
+    descriptionKmr: 'Komek çîrokên xweşik ji bo zarokan',
     isbn: '978-964-456-789-0',
     pages: 120,
     language: 'kurdish',
@@ -91,11 +127,20 @@ export const books: Book[] = [
   {
     id: '5',
     title: 'شیعرەکانی گۆران',
+    titleKu: 'شیعرەکانی گۆران',
+    titleEn: 'Goran\'s Poems',
+    titleKmr: 'Helbestên Goran',
     author: 'عبدوڵڵا گۆران',
+    authorKu: 'عبدوڵڵا گۆران',
+    authorEn: 'Abdullah Goran',
+    authorKmr: 'Ebdullah Goran',
     publisher: 'دەزگای چاپ و بڵاوکردنەوەی کوردستان',
     price: 19.90,
     image: '/images/books/book-5.jpg',
     description: 'کۆمەڵێک لە باشترین شیعرەکانی عبدوڵڵا گۆران',
+    descriptionKu: 'کۆمەڵێک لە باشترین شیعرەکانی عبدوڵڵا گۆران',
+    descriptionEn: 'A collection of the best poems of Abdullah Goran',
+    descriptionKmr: 'Komek ji helbestên herî baş ên Ebdullah Goran',
     isbn: '978-964-567-890-1',
     pages: 200,
     language: 'kurdish',
@@ -112,11 +157,20 @@ export const books: Book[] = [
   {
     id: '6',
     title: 'فەلسەفەی کوردی',
+    titleKu: 'فەلسەفەی کوردی',
+    titleEn: 'Kurdish Philosophy',
+    titleKmr: 'Felsefeya Kurdî',
     author: 'د. محەمەد سالح',
+    authorKu: 'د. محەمەد سالح',
+    authorEn: 'Dr. Mohammed Salih',
+    authorKmr: 'Dr. Mihemed Salih',
     publisher: 'بیر',
     price: 23.50,
     image: '/images/books/book-6.jpg',
     description: 'لێکۆڵینەوەیەک لە فەلسەفەی کوردی',
+    descriptionKu: 'لێکۆڵینەوەیەک لە فەلسەفەی کوردی',
+    descriptionEn: 'A study on Kurdish philosophy',
+    descriptionKmr: 'Lêkolînek li ser felsefeya Kurdî',
     isbn: '978-964-678-901-2',
     pages: 380,
     language: 'kurdish',
@@ -133,12 +187,21 @@ export const books: Book[] = [
   {
     id: '7',
     title: 'مێژووی تەواوی جیهان',
+    titleKu: 'مێژووی تەواوی جیهان',
+    titleEn: 'A Complete History of the World',
+    titleKmr: 'Dîroka Temamiya Cîhanê',
     author: 'جان کلۆد بارۆ و غیوم بیغۆ',
+    authorKu: 'جان کلۆد بارۆ و غیوم بیغۆ',
+    authorEn: 'Jean-Claude Barreau and Guillaume Bigot',
+    authorKmr: 'Jean-Claude Barreau û Guillaume Bigot',
     translator: 'هۆگر ڕەحمان قادر',
     publisher: 'ناوەندی غەزەلنووس',
     price: 18.00,
     image: '/images/books/book-7.jpg',
     description: 'کتێبێک سەبارەت بە مێژووی جیهان لە سەرەتاوە تا ئێستا',
+    descriptionKu: 'کتێبێک سەبارەت بە مێژووی جیهان لە سەرەتاوە تا ئێستا',
+    descriptionEn: 'A book about the history of the world from the beginning to the present',
+    descriptionKmr: 'Pirtûkek li ser dîroka cîhanê ji destpêkê heta niha',
     isbn: '978-964-000-001-1',
     pages: 500,
     language: 'kurdish',
@@ -155,12 +218,21 @@ export const books: Book[] = [
   {
     id: '8',
     title: 'مەسخ',
+    titleKu: 'مەسخ',
+    titleEn: 'The Metamorphosis',
+    titleKmr: 'Metamorfoz',
     author: 'فرانتس کافکا',
+    authorKu: 'فرانتس کافکا',
+    authorEn: 'Franz Kafka',
+    authorKmr: 'Franz Kafka',
     translator: 'ئازاد هاشم',
     publisher: 'ناوەندی ئەندێشە',
     price: 10.00,
     image: '/images/books/book-8.jpg',
     description: 'ڕۆمانی بەناوبانگی کافکا',
+    descriptionKu: 'ڕۆمانی بەناوبانگی کافکا',
+    descriptionEn: 'Kafka\'s famous novel',
+    descriptionKmr: 'Romana navdar a Kafka',
     isbn: '978-964-000-002-2',
     pages: 120,
     language: 'kurdish',
@@ -183,13 +255,13 @@ export const categories: Category[] = [
     name: {
       ku: 'ئەدەبیات',
       en: 'Literature',
-      de: 'Literatur'
+      kmr: 'Wêje'
     },
     slug: 'literature',
     description: {
       ku: 'کتابەکانی ئەدەبیات و رۆمان',
       en: 'Literature and novels',
-      de: 'Literatur und Romane'
+      kmr: 'Pirtûkên wêje û roman'
     },
     icon: '📚'
   },
@@ -198,13 +270,13 @@ export const categories: Category[] = [
     name: {
       ku: 'شیعر',
       en: 'Poetry',
-      de: 'Poesie'
+      kmr: 'Helbest'
     },
     slug: 'poetry',
     description: {
       ku: 'کۆمەڵگای شاعیران و شیعرەکانیان',
       en: 'Poetry collections and poets',
-      de: 'Gedichtsammlungen und Dichter'
+      kmr: 'Komeleya helbestvanan û helbestên wan'
     },
     icon: '✍️'
   },
@@ -213,13 +285,13 @@ export const categories: Category[] = [
     name: {
       ku: 'مێژوو',
       en: 'History',
-      de: 'Geschichte'
+      kmr: 'Dîrok'
     },
     slug: 'history',
     description: {
       ku: 'کتابەکانی مێژوویی کورد و دنیا',
       en: 'Kurdish and world history books',
-      de: 'Kurdische und Weltgeschichte'
+      kmr: 'Pirtûkên dîroka Kurd û cîhanê'
     },
     icon: '🏛️'
   },
@@ -228,13 +300,13 @@ export const categories: Category[] = [
     name: {
       ku: 'منداڵان',
       en: 'Children',
-      de: 'Kinder'
+      kmr: 'Zarok'
     },
     slug: 'children',
     description: {
       ku: 'کتابەکانی منداڵان و نەوجوانان',
       en: 'Children and young adult books',
-      de: 'Kinder- und Jugendbücher'
+      kmr: 'Pirtûkên zarok û ciwanan'
     },
     icon: '🧸'
   },
@@ -243,13 +315,13 @@ export const categories: Category[] = [
     name: {
       ku: 'پەروەردە',
       en: 'Education',
-      de: 'Bildung'
+      kmr: 'Perwerde'
     },
     slug: 'education',
     description: {
       ku: 'کتابەکانی پەروەردەیی و فێرکاری',
       en: 'Educational and learning books',
-      de: 'Bildungs- und Lernbücher'
+      kmr: 'Pirtûkên perwerde û fêrbûnê'
     },
     icon: '🎓'
   },
@@ -258,13 +330,13 @@ export const categories: Category[] = [
     name: {
       ku: 'ئایین',
       en: 'Religion',
-      de: 'Religion'
+      kmr: 'Ol'
     },
     slug: 'religion',
     description: {
       ku: 'کتابەکانی ئاینی',
       en: 'Religious books',
-      de: 'Religiöse Bücher'
+      kmr: 'Pirtûkên olî'
     },
     icon: '🕌'
   },
@@ -273,13 +345,13 @@ export const categories: Category[] = [
     name: {
       ku: 'سیاسەت',
       en: 'Politics',
-      de: 'Politik'
+      kmr: 'Siyaset'
     },
     slug: 'politics',
     description: {
       ku: 'کتابەکانی سیاسی',
       en: 'Political books',
-      de: 'Politische Bücher'
+      kmr: 'Pirtûkên siyasî'
     },
     icon: '🏛️'
   },
@@ -288,13 +360,13 @@ export const categories: Category[] = [
     name: {
       ku: 'زانست',
       en: 'Science',
-      de: 'Wissenschaft'
+      kmr: 'Zanist'
     },
     slug: 'science',
     description: {
       ku: 'کتابەکانی زانستی',
       en: 'Scientific books',
-      de: 'Wissenschaftliche Bücher'
+      kmr: 'Pirtûkên zanistî'
     },
     icon: '🔬'
   },
@@ -303,13 +375,13 @@ export const categories: Category[] = [
     name: {
       ku: 'بیۆگرافی',
       en: 'Biography',
-      de: 'Biografie'
+      kmr: 'Jînenîgarî'
     },
     slug: 'biography',
     description: {
       ku: 'ژیاننامەی کەسایەتییەکان',
       en: 'Biographies of personalities',
-      de: 'Biografien von Persönlichkeiten'
+      kmr: 'Jînenîgariya kesayetiyan'
     },
     icon: '👤'
   },
@@ -318,13 +390,13 @@ export const categories: Category[] = [
     name: {
       ku: 'کلتوور',
       en: 'Culture',
-      de: 'Kultur'
+      kmr: 'Çand'
     },
     slug: 'culture',
     description: {
       ku: 'کتابەکانی کلتووری',
       en: 'Cultural books',
-      de: 'Kulturelle Bücher'
+      kmr: 'Pirtûkên çandî'
     },
     icon: '🎭'
   },
@@ -333,13 +405,13 @@ export const categories: Category[] = [
     name: {
       ku: 'دەروونناسی',
       en: 'Psychology',
-      de: 'Psychologie'
+      kmr: 'Derûnnasî'
     },
     slug: 'psychology',
     description: {
       ku: 'کتابەکانی دەروونناسی و گەشەپێدان',
       en: 'Psychology and self-development',
-      de: 'Psychologie und Selbstentwicklung'
+      kmr: 'Pirtûkên derûnnasî û pêşveçûnê'
     },
     icon: '🧠'
   },
@@ -348,13 +420,13 @@ export const categories: Category[] = [
     name: {
       ku: 'فەلسەفە',
       en: 'Philosophy',
-      de: 'Philosophie'
+      kmr: 'Felsefe'
     },
     slug: 'philosophy',
     description: {
       ku: 'کتابەکانی فەلسەفی',
       en: 'Philosophical books',
-      de: 'Philosophische Bücher'
+      kmr: 'Pirtûkên felsefî'
     },
     icon: '🤔'
   },
@@ -363,13 +435,13 @@ export const categories: Category[] = [
     name: {
       ku: 'هونەر',
       en: 'Art',
-      de: 'Kunst'
+      kmr: 'Huner'
     },
     slug: 'art',
     description: {
       ku: 'کتابەکانی هونەری',
       en: 'Art books',
-      de: 'Kunstbücher'
+      kmr: 'Pirtûkên hunerî'
     },
     icon: '🎨'
   },
@@ -378,13 +450,13 @@ export const categories: Category[] = [
     name: {
       ku: 'بازرگانی',
       en: 'Business',
-      de: 'Wirtschaft'
+      kmr: 'Karsazî'
     },
     slug: 'business',
     description: {
       ku: 'کتابەکانی بازرگانی و ئابووری',
       en: 'Business and economics',
-      de: 'Wirtschaft und Ökonomie'
+      kmr: 'Pirtûkên karsazî û aborî'
     },
     icon: '💼'
   },
@@ -393,13 +465,13 @@ export const categories: Category[] = [
     name: {
       ku: 'خواردن',
       en: 'Cooking',
-      de: 'Kochen'
+      kmr: 'Xwarinçêkirin'
     },
     slug: 'cooking',
     description: {
       ku: 'کتابەکانی خواردن دروستکردن',
       en: 'Cookbooks',
-      de: 'Kochbücher'
+      kmr: 'Pirtûkên xwarinçêkirinê'
     },
     icon: '🍳'
   },
@@ -408,13 +480,13 @@ export const categories: Category[] = [
     name: {
       ku: 'گەشت',
       en: 'Travel',
-      de: 'Reisen'
+      kmr: 'Geşt'
     },
     slug: 'travel',
     description: {
       ku: 'کتابەکانی گەشتیاری',
       en: 'Travel books',
-      de: 'Reisebücher'
+      kmr: 'Pirtûkên geştyariyê'
     },
     icon: '✈️'
   },
@@ -423,13 +495,13 @@ export const categories: Category[] = [
     name: {
       ku: 'تەندروستی',
       en: 'Health',
-      de: 'Gesundheit'
+      kmr: 'Tenduristî'
     },
     slug: 'health',
     description: {
       ku: 'کتابەکانی تەندروستی',
       en: 'Health books',
-      de: 'Gesundheitsbücher'
+      kmr: 'Pirtûkên tenduristiyê'
     },
     icon: '🏥'
   }
@@ -444,7 +516,7 @@ export const authors: Author[] = [
     bio: {
       ku: 'ئەحمەدی خانی (١٦٥١-١٧٠٧) یەکێک لە گەورە شاعیرەکانی کوردە و دامەزرێنەری شیعری کلاسیکی کوردی. لە گوندی ئەحمەدی خان لە دایک بووە. بەرهەمی نامۆی "مەم و زین" یەکێک لە گرنگترین بەرهەمەکانی ئەدەبیاتی کوردییە کە تایبەتمەندیەکانی نەتەوایەتی و رۆمانسی کوردی تێدا کۆکراوەتەوە.',
       en: 'Ahmad Khani (1651-1707) is one of the greatest Kurdish poets and the founder of Kurdish classical poetry. Born in the village of Ahmad Khan, his immortal work "Mem and Zin" is one of the most important works of Kurdish literature that combines Kurdish national and romantic characteristics.',
-      de: 'Ahmad Khani (1651-1707) ist einer der größten kurdischen Dichter und der Begründer der kurdischen klassischen Dichtung. Geboren im Dorf Ahmad Khan, ist sein unsterbliches Werk "Mem und Zin" eines der wichtigsten Werke der kurdischen Literatur.'
+      kmr: 'Ehmedê Xanî (1651-1707) yek ji mezintirîn helbestvanên Kurd e û damezrênerê helbesta klasîk a Kurdî ye. Li gundê Ehmedê Xan ji dayik bûye. Berhema wî ya nemir "Mem û Zîn" yek ji girîngtirîn berhemên wêjeya Kurdî ye ku taybetmendiyên neteweyî û romantîk ên Kurdî li hev dicivîne.'
     },
     image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
     birthYear: 1651,
@@ -461,7 +533,7 @@ export const authors: Author[] = [
     bio: {
       ku: 'شێرکۆ بێکەس (١٩٤٠-٢٠١٣) یەکێک لە گرنگترین شاعیرانی هاوچەرخی کوردە. لە سلێمانی لە دایک بووە و لە تەمەنی منداڵیەوە بە شیعر خەریک بووە. شیعرەکانی بە نوێبوون و جوانی ناسراون. چەندین خەڵاتی نێودەوڵەتیی وەرگرتووە و وەک "شاعیری ئازادی" ناسراوە.',
       en: 'Sherko Bekas (1940-2013) is one of the most important contemporary Kurdish poets. Born in Sulaymaniyah, he has been involved in poetry since childhood. His poems are known for their innovation and beauty. He has received several international awards and is known as the "Poet of Freedom".',
-      de: 'Sherko Bekas (1940-2013) ist einer der wichtigsten zeitgenössischen kurdischen Dichter. Geboren in Sulaymaniyah, beschäftigte er sich seit seiner Kindheit mit Dichtung. Seine Gedichte sind für ihre Innovation und Schönheit bekannt.'
+      kmr: 'Şêrko Bêkes (1940-2013) yek ji girîngtirîn helbestvanên hevdem ên Kurd e. Li Silêmaniyê ji dayik bûye û ji zarokatiya xwe ve bi helbestê re mijûl bûye. Helbestên wî bi nûbûn û bedewiya xwe têne naskirin. Çendîn xelatên navneteweyî wergirtine û wekî "Helbestvanê Azadiyê" tê naskirin.'
     },
     image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
     birthYear: 1940,
@@ -478,7 +550,7 @@ export const authors: Author[] = [
     bio: {
       ku: 'د. کەمال مەزهەر ئەحمەد (١٩٦٥) مێژووناسێکی ناسراوی کوردە و پسپۆڕی مێژووی کورد و ناوچەکە. لە زانکۆی بەغدا بڕوانامەی دکتۆرای مێژووی وەرگرتووە. چەندین کتاب و توێژینەوەی لەسەر مێژووی کورد نووسیووە. ئێستا وەک مامۆستای زانکۆ لە زانکۆی سلێمانی کار دەکات.',
       en: 'Dr. Kamal Mazhar Ahmad (1965) is a renowned Kurdish historian and expert on Kurdish and regional history. He received his PhD in History from the University of Baghdad. He has written several books and research papers on Kurdish history. He currently works as a university professor at the University of Sulaymaniyah.',
-      de: 'Dr. Kamal Mazhar Ahmad (1965) ist ein renommierter kurdischer Historiker und Experte für kurdische und regionale Geschichte. Er promovierte in Geschichte an der Universität Bagdad und arbeitet derzeit als Universitätsprofessor.'
+      kmr: 'Dr. Kemal Mezher Ehmed (1965) dîroknasekî navdar ê Kurd e û pisporê dîroka Kurd û herêmê ye. Doktora xwe ya dîrokê ji Zanîngeha Bexdayê wergirtiye. Çendîn pirtûk û lêkolîn li ser dîroka Kurd nivîsandine. Niha wekî mamosteyê zanîngehê li Zanîngeha Silêmaniyê kar dike.'
     },
     image: 'https://images.unsplash.com/photo-1556157382-97eda2d62296?w=150&h=150&fit=crop&crop=face',
     birthYear: 1965,
@@ -494,7 +566,7 @@ export const authors: Author[] = [
     bio: {
       ku: 'ئارام تیگران (١٩٨٠) نووسەری چیرۆک و رۆمانی منداڵانە. لە هەولێر لە دایک بووە و لە زانکۆی دهۆک بڕوانامەی لیسانسی ئەدەبیاتی وەرگرتووە. چەندین چیرۆک و رۆمانی بۆ منداڵان نووسیووە کە زۆر پەسەندکراون. شێوازی نووسینی سادە و خۆشە.',
       en: 'Aram Tigran (1980) is a story and novel writer for children. Born in Erbil, he received his bachelor\'s degree in literature from Duhok University. He has written several stories and novels for children that are highly appreciated.',
-      de: 'Aram Tigran (1980) ist ein Geschichten- und Romanautor für Kinder. Geboren in Erbil, erhielt er seinen Bachelor-Abschluss in Literatur von der Universität Duhok.'
+      kmr: 'Aram Tîgran (1980) nivîskarê çîrok û romanên zarokan e. Li Hewlêrê ji dayik bûye û lîsansa xwe ya wêjeyê ji Zanîngeha Duhokê wergirtiye. Çendîn çîrok û roman ji bo zarokan nivîsandine ku pir hatine ecibandin.'
     },
     image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face',
     birthYear: 1980,
@@ -510,7 +582,7 @@ export const authors: Author[] = [
     bio: {
       ku: 'عبدوڵڵا گۆران (١٩٠٤-١٩٦٢) یەکێک لە گەورە شاعیرانی کوردە و بناغەی شیعری نوێی کوردی. لە هەڵەبجە لە دایک بووە. شیعرەکانی تایبەتمەندی نوێبوون و رۆمانسیزمیان هەیە. وەک "شاعیری گۆران" ناسراوە چونکە شێوازێکی تازەی بۆ شیعری کوردی هێناوە.',
       en: 'Abdullah Goran (1904-1962) is one of the great Kurdish poets and the founder of modern Kurdish poetry. Born in Halabja, his poems have characteristics of innovation and romanticism. Known as the "Poet of Change".',
-      de: 'Abdullah Goran (1904-1962) ist einer der großen kurdischen Dichter und der Begründer der modernen kurdischen Dichtung. Geboren in Halabja, haben seine Gedichte Eigenschaften von Innovation und Romantik.'
+      kmr: 'Ebdullah Goran (1904-1962) yek ji helbestvanên mezin ên Kurd e û damezrênerê helbesta nû ya Kurdî ye. Li Helebceyê ji dayik bûye. Helbestên wî taybetmendiyên nûbûn û romantîzmê hene. Wekî "Helbestvanê Guhertinê" tê naskirin.'
     },
     image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&h=150&fit=crop&crop=face',
     birthYear: 1904,
@@ -527,7 +599,7 @@ export const authors: Author[] = [
     bio: {
       ku: 'د. محەمەد سالح (١٩٧٠) فەیلەسوف و لێکۆڵەرێکی کوردە. لە کەرکووک لە دایک بووە و لە زانکۆی بەغدا دکتۆرای فەلسەفەی وەرگرتووە. چەندین کتاب لەسەر فەلسەفەی ئیسلامی و کوردایەتی نووسیووە. ئێستا وەک مامۆستای زانکۆ کار دەکات.',
       en: 'Dr. Mohammed Salih (1970) is a Kurdish philosopher and researcher. Born in Kirkuk, he received his PhD in Philosophy from the University of Baghdad. He has written several books on Islamic philosophy and Kurdish identity.',
-      de: 'Dr. Mohammed Salih (1970) ist ein kurdischer Philosoph und Forscher. Geboren in Kirkuk, promovierte er in Philosophie an der Universität Bagdad.'
+      kmr: 'Dr. Mihemed Salih (1970) fîlozof û lêkolînerekî Kurd e. Li Kerkûkê ji dayik bûye û doktora xwe ya felsefeyê ji Zanîngeha Bexdayê wergirtiye. Çendîn pirtûk li ser felsefeya Îslamî û nasnameya Kurdî nivîsandine.'
     },
     image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&h=150&fit=crop&crop=face',
     birthYear: 1970,
@@ -547,7 +619,7 @@ export const translators: import('@/lib/types').Translator[] = [
     bio: {
       ku: 'هەژار موکریانی (١٩٢١-١٩٩١) شاعیر، نووسەر و وەرگێڕی گەورەی کوردە. وەرگێڕانی قورئانی پیرۆز و شەرەفنامە و چوارینەکانی خەیام لە گرنگترین کارەکانی ئەون.',
       en: 'Hejar Mukriyani (1921-1991) was a great Kurdish poet, writer, and translator. His translations of the Holy Quran, Sharafnama, and Khayyam\'s Quartets are among his most important works.',
-      de: 'Hejar Mukriyani (1921-1991) war ein großer kurdischer Dichter, Schriftsteller und Übersetzer. Seine Übersetzungen des Heiligen Koran, Sharafnama und Khayyams Quartette gehören zu seinen wichtigsten Werken.'
+      kmr: 'Hejar Mukriyanî (1921-1991) helbestvan, nivîskar û wergêrekî mezin ê Kurd bû. Wergera Qurana Pîroz, Şerefname û Çarînên Xeyam ji girîngtirîn karên wî ne.'
     },
     image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=150&h=150&fit=crop&crop=face',
     birthYear: 1921,
@@ -563,7 +635,7 @@ export const translators: import('@/lib/types').Translator[] = [
     bio: {
       ku: 'محەمەد قازی (١٩١٣-١٩٩٨) یەکێک لە بەناوبانگترین وەرگێڕەکانی ئێران و کوردستان بوو. ئەو بە "باوکی وەرگێڕانی ئێران" ناسراوە و دەیان شاکاری ئەدەبی جیهانی وەرگێڕاوەتە سەر زمانی فارسی و کوردی.',
       en: 'Mohammad Qazi (1913-1998) was one of the most famous translators in Iran and Kurdistan. Known as the "Father of Translation in Iran", he translated dozens of world literary masterpieces into Persian and Kurdish.',
-      de: 'Mohammad Qazi (1913-1998) war einer der berühmtesten Übersetzer im Iran und in Kurdistan. Bekannt als "Vater der Übersetzung im Iran", übersetzte er Dutzende von Meisterwerken der Weltliteratur ins Persische und Kurdische.'
+      kmr: 'Mihemed Qazî (1913-1998) yek ji navdartirîn wergêrên Îran û Kurdistanê bû. Wekî "Bavê Wergera Îranê" tê naskirin û bi dehan şaheserên wêjeya cîhanî wergerandine ser zimanê Farisî û Kurdî.'
     },
     image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop&crop=face',
     birthYear: 1913,
@@ -579,7 +651,7 @@ export const translators: import('@/lib/types').Translator[] = [
     bio: {
       ku: 'هۆگر ڕەحمان قادر وەرگێڕێکی بەتوانای کوردە کە چەندین کتێبی گرنگی مێژوویی و فکری وەرگێڕاوە.',
       en: 'Hogir Rahman Qadir is a capable Kurdish translator who has translated several important historical and intellectual books.',
-      de: 'Hogir Rahman Qadir ist ein fähiger kurdischer Übersetzer, der mehrere wichtige historische und intellektuelle Bücher übersetzt hat.'
+      kmr: 'Hogir Rehman Qadir wergêrekî jêhatî yê Kurd e ku çendîn pirtûkên girîng ên dîrokî û fikrî wergerandine.'
     },
     image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
     birthYear: 1980,
@@ -594,7 +666,7 @@ export const translators: import('@/lib/types').Translator[] = [
     bio: {
       ku: 'ئازاد هاشم وەرگێڕ و نووسەرێکی کوردە، ناسراوە بە وەرگێڕانی بەرهەمە ئەدەبییە جیهانییەکان.',
       en: 'Azad Hashim is a Kurdish translator and writer, known for translating world literary works.',
-      de: 'Azad Hashim ist ein kurdischer Übersetzer und Schriftsteller, bekannt für die Übersetzung von Werken der Weltliteratur.'
+      kmr: 'Azad Haşim wergêr û nivîskarekî Kurd e, ku bi wergera berhemên wêjeyî yên cîhanî tê naskirin.'
     },
     image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
     birthYear: 1975,

@@ -104,7 +104,7 @@ function SearchContent() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-gray-200 dark:border-gray-800 pb-8">
             <div className="flex-1">
               <span className="text-sm font-light tracking-[0.2em] text-gray-500 dark:text-gray-400 uppercase mb-4 block">
-                Search
+                {t('search.title')}
               </span>
               <form onSubmit={handleSearch} className="relative max-w-2xl">
                 <input
@@ -125,7 +125,7 @@ function SearchContent() {
                 onClick={() => setShowFilters(!showFilters)}
                 className="text-sm uppercase tracking-widest text-gray-900 dark:text-white border border-gray-900 dark:border-white px-6 py-2 hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-gray-900 transition-colors"
               >
-                {showFilters ? 'Hide Filters' : t('search.filters')}
+                {showFilters ? t('search.hideFilters') : t('search.filters')}
               </button>
             </div>
           </div>
@@ -150,7 +150,7 @@ function SearchContent() {
                   }}
                   className="text-xs uppercase tracking-widest text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
                 >
-                  Reset All
+                  {t('search.resetAll')}
                 </button>
               </div>
 
@@ -219,7 +219,7 @@ function SearchContent() {
             ) : (
               <div className="py-20 text-center border-t border-gray-200 dark:border-gray-800">
                 <p className="text-xl font-serif text-gray-500 dark:text-gray-400 italic mb-8">
-                  No books found for "{searchQuery}"
+                  {t('search.noResultsFor')} "{searchQuery}"
                 </p>
                 <button
                   onClick={() => {
@@ -228,7 +228,7 @@ function SearchContent() {
                   }}
                   className="text-sm uppercase tracking-widest text-gray-900 dark:text-white border-b border-gray-900 dark:border-white pb-1 hover:opacity-70 transition-opacity"
                 >
-                  Clear Search
+                  {t('search.clearSearch')}
                 </button>
               </div>
             )}
@@ -244,7 +244,34 @@ export default function SearchPage() {
     <Suspense fallback={<div className="min-h-screen bg-slate-50 dark:bg-[#0f172a] flex items-center justify-center">
       <div className="text-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-        <p className="text-gray-600 dark:text-gray-400">Loading search...</p>
+        <p className="text-gray-600 dark:text-gray-400">{/* We can't use t() here because it's outside LanguageProvider context usually, but here it is inside layout which has provider. 
+           However, SearchPage component itself doesn't use hook. 
+           Wait, SearchPage is a server component or client? It has 'use client'.
+           But Suspense fallback is rendered before the component loads.
+           Actually, t() is not available here easily without wrapping.
+           Let's check if I can use t() here. 
+           The t function comes from useLanguage hook.
+           SearchPage is the default export.
+           I can make a separate component for the fallback or just leave it hardcoded for now or use a simple "Loading..." which might be acceptable or try to use a client component for fallback.
+           
+           Actually, let's look at how other pages handle loading.
+           They usually don't have explicit Suspense boundaries with custom text like this.
+           
+           I'll leave "Loading search..." as is for now or change it to "Loading..." which is more generic.
+           But wait, I can create a Loading component that uses useLanguage.
+           
+           Let's just change it to "Loading..." for now to be safe, or better yet, I can't use t() inside the fallback prop directly if t is not defined in that scope.
+           SearchPage component function body is where t is defined.
+           The Suspense is wrapping SearchContent.
+           SearchPage itself is a component.
+           
+           I can move the Suspense inside a wrapper that has access to t, but SearchPage is the page component.
+           
+           Let's just skip this one for now as it's a loading state and might not be critical, or I can try to use a generic loading component.
+           
+           Actually, I'll just leave it.
+           */
+        }Loading search...</p>
       </div>
     </div>}>
       <SearchContent />

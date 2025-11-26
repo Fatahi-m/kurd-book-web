@@ -79,7 +79,13 @@ export default function BooksPage() {
       const searchLower = searchTerm.toLowerCase();
       const matchesSearch =
         book.title.toLowerCase().includes(searchLower) ||
+        (book.titleKu && book.titleKu.toLowerCase().includes(searchLower)) ||
+        (book.titleEn && book.titleEn.toLowerCase().includes(searchLower)) ||
+        (book.titleKmr && book.titleKmr.toLowerCase().includes(searchLower)) ||
         book.author.toLowerCase().includes(searchLower) ||
+        (book.authorKu && book.authorKu.toLowerCase().includes(searchLower)) ||
+        (book.authorEn && book.authorEn.toLowerCase().includes(searchLower)) ||
+        (book.authorKmr && book.authorKmr.toLowerCase().includes(searchLower)) ||
         (book.translator && book.translator.toLowerCase().includes(searchLower));
         
       return matchesCategory && matchesPublisher && matchesAuthor && matchesStock && matchesSearch;
@@ -123,7 +129,7 @@ export default function BooksPage() {
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder={currentLanguage === 'ku' ? 'گەڕان...' : 'Search...'}
+                placeholder={t('books.searchPlaceholder')}
                 className="w-full pl-10 pr-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm focus:border-[#48B063] dark:focus:border-[#48B063] outline-none transition-colors"
               />
               <Search className="absolute left-3 top-2.5 text-gray-400 w-4 h-4 rtl:right-3 rtl:left-auto" />
@@ -133,7 +139,7 @@ export default function BooksPage() {
             <div className="flex items-center justify-between cursor-pointer group pb-4 border-b border-gray-100 dark:border-gray-700"
                  onClick={() => setInStockOnly(!inStockOnly)}>
               <span className="font-bold text-[#313131] dark:text-gray-200 text-sm uppercase tracking-wide">
-                {currentLanguage === 'ku' ? 'بەردەستەکان' : 'In Stock Only'}
+                {t('books.inStockOnly')}
               </span>
               <div className={`w-9 h-5 rounded-full relative transition-colors duration-300 ${inStockOnly ? 'bg-[#48B063]' : 'bg-gray-300 dark:bg-gray-600'}`}>
                 <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all duration-300 shadow-sm ${inStockOnly ? 'left-5 rtl:right-5 rtl:left-auto' : 'left-1 rtl:right-1 rtl:left-auto'}`} />
@@ -178,7 +184,7 @@ export default function BooksPage() {
                 className="w-full flex items-center justify-between group"
               >
                 <span className="font-bold text-base text-[#313131] dark:text-white">
-                  {currentLanguage === 'ku' ? 'بڵاوکراوە' : 'Publishers'}
+                  {t('books.publishers')}
                 </span>
                 {expandedSections.publisher ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
               </button>
@@ -193,7 +199,7 @@ export default function BooksPage() {
                           : 'text-gray-600 dark:text-gray-400 hover:text-[#48B063] dark:hover:text-[#48B063]'
                       }`}
                     >
-                      {currentLanguage === 'ku' ? 'هەموو' : 'All'}
+                      {t('books.all')}
                     </button>
                   {publishers.map(pub => (
                     <button
@@ -221,7 +227,7 @@ export default function BooksPage() {
                 className="w-full flex items-center justify-between group"
               >
                 <span className="font-bold text-base text-[#313131] dark:text-white">
-                  {currentLanguage === 'ku' ? 'نووسەر' : 'Authors'}
+                  {t('books.authors')}
                 </span>
                 {expandedSections.author ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
               </button>
@@ -236,7 +242,7 @@ export default function BooksPage() {
                           : 'text-gray-600 dark:text-gray-400 hover:text-[#48B063] dark:hover:text-[#48B063]'
                       }`}
                     >
-                      {currentLanguage === 'ku' ? 'هەموو' : 'All'}
+                      {t('books.all')}
                     </button>
                   {authors.map(author => (
                     <button
@@ -268,7 +274,7 @@ export default function BooksPage() {
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder={currentLanguage === 'ku' ? 'گەڕان...' : 'Search by title, author, ISBN...'}
+                  placeholder={t('books.searchPlaceholderLong')}
                   className="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-[4px] text-sm focus:border-[#48B063] dark:focus:border-[#48B063] outline-none transition-all"
                 />
                 <Search className="absolute left-3 top-3 text-gray-400 w-4 h-4 rtl:right-3 rtl:left-auto" />
@@ -276,22 +282,22 @@ export default function BooksPage() {
 
               <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
                 <span className="text-sm text-gray-500 font-medium">
-                  {sortedBooks.length} {currentLanguage === 'ku' ? 'کتێب' : 'Results'}
+                  {sortedBooks.length} {t('books.results')}
                 </span>
                 
                 <div className="flex items-center gap-2">
                   <span className="text-sm text-gray-500">
-                    {currentLanguage === 'ku' ? 'ڕیزکردن:' : 'Sort by:'}
+                    {t('books.sortBy')}
                   </span>
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
                     className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-[4px] text-sm py-1.5 px-3 focus:outline-none focus:border-[#48B063] cursor-pointer"
                   >
-                    <option value="bestselling">{currentLanguage === 'ku' ? 'پڕفرۆشترین' : 'Bestselling'}</option>
-                    <option value="newest">{currentLanguage === 'ku' ? 'نوێترین' : 'Newest'}</option>
-                    <option value="price-asc">{currentLanguage === 'ku' ? 'ارزانترین' : 'Price: Low to High'}</option>
-                    <option value="price-desc">{currentLanguage === 'ku' ? 'گرانترین' : 'Price: High to Low'}</option>
+                    <option value="bestselling">{t('books.sortBestselling')}</option>
+                    <option value="newest">{t('books.sortNewest')}</option>
+                    <option value="price-asc">{t('books.sortPriceLowHigh')}</option>
+                    <option value="price-desc">{t('books.sortPriceHighLow')}</option>
                   </select>
                 </div>
               </div>
@@ -312,10 +318,10 @@ export default function BooksPage() {
               <div className="flex flex-col items-center justify-center py-32 text-center bg-white dark:bg-[#1e293b] rounded-xl border border-dashed border-gray-300 dark:border-gray-700">
                 <div className="text-6xl mb-6 opacity-20 grayscale">📚</div>
                 <h3 className="text-xl font-bold text-[#313131] dark:text-white mb-2">
-                  {currentLanguage === 'ku' ? 'هیچ ئەنجامێک نەدۆزرایەوە' : 'No results found'}
+                  {t('books.noResults')}
                 </h3>
                 <p className="text-gray-500">
-                  {currentLanguage === 'ku' ? 'تکایە فیلتەرەکان بگۆڕە و دووبارە هەوڵ بدەرەوە' : 'Try adjusting your search or filters'}
+                  {t('books.noResultsMessage')}
                 </p>
                 {books.length === 0 && (
                    <p className="text-red-500 mt-4 text-sm">

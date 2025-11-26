@@ -197,26 +197,20 @@ export default function BookRow({
               <BookCard book={book} showDiscount={variant === 'colored'} />
             </div>
           ))}
-          
-          {/* "See More" Card at the end */}
-          {viewAllLink && (
-            <div className="flex-shrink-0 w-[160px] md:w-[180px] snap-start flex items-center justify-center">
-              <Link 
-                href={viewAllLink}
-                className={`flex flex-col items-center justify-center w-full h-full min-h-[300px] rounded-xl border-2 border-dashed transition-colors ${
-                  variant === 'colored' 
-                    ? 'border-white/30 text-white hover:bg-white/10' 
-                    : 'border-gray-300 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'
-                }`}
-              >
-                <div className={`p-3 rounded-full mb-2 ${variant === 'colored' ? 'bg-white/20' : 'bg-gray-100 dark:bg-gray-700'}`}>
-                  <ChevronLeft className={`w-6 h-6 rtl:rotate-180 ${variant === 'colored' ? 'text-white' : 'text-gray-600 dark:text-gray-300'}`} />
-                </div>
-                <span className="font-bold">{t('buttons.viewAll')}</span>
-              </Link>
-            </div>
-          )}
         </div>
+        
+        {/* View All Button (Bottom) */}
+        {viewAllLink && (
+          <div className="mt-8 flex justify-center">
+            <Link 
+              href={viewAllLink}
+              className="inline-flex items-center gap-2 px-6 py-2 rounded-full border border-gray-200 dark:border-gray-700 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+            >
+              <span>{t('buttons.viewAll')}</span>
+              <ChevronLeft className="w-4 h-4 rtl:rotate-180" />
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );

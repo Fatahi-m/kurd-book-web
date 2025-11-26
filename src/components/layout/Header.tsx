@@ -86,7 +86,7 @@ export default function Header() {
   };
 
   return (
-    <header className="w-full flex flex-col z-50 relative font-sans">
+    <header className="w-full flex flex-col z-50 relative font-sans md:relative sticky top-0">
       
       {/* 1. Top Main Header (Modern Dark Slate) */}
       <div className="bg-[#0f172a] text-white py-4 border-b border-white/10 relative z-50">
@@ -221,7 +221,7 @@ export default function Header() {
                     >
                       <span className="text-gray-400 group-hover/item:text-[#e11d48] transition-colors">{getCategoryIcon(cat.slug)}</span>
                       <span className="font-medium text-sm">
-                        {currentLanguage === 'ku' ? cat.name.ku : (currentLanguage === 'de' ? cat.name.de : cat.name.en)}
+                        {currentLanguage === 'ku' ? cat.name.ku : (currentLanguage === 'kmr' ? cat.name.kmr : cat.name.en)}
                       </span>
                     </Link>
                   ))}
@@ -258,6 +258,12 @@ export default function Header() {
               </Link>
             </li>
             <li>
+              <Link href="/arts" className="hover:text-[#e11d48] transition-colors py-4 block relative group">
+                {t('nav.arts') || "Arts & Culture"}
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#e11d48] transition-all group-hover:w-full"></span>
+              </Link>
+            </li>
+            <li>
               <Link href="/about" className="hover:text-[#e11d48] transition-colors py-4 block relative group">
                 {t('nav.about') || "About"}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#e11d48] transition-all group-hover:w-full"></span>
@@ -288,7 +294,7 @@ export default function Header() {
             type="text"
             value={searchQuery}
             onChange={(e) => handleSearch(e.target.value)}
-            placeholder="Search..."
+            placeholder={t('search.placeholder') || "Search..."}
             className="w-full h-10 pl-4 pr-12 bg-[#1e293b] text-white rounded-lg text-sm outline-none border border-gray-700 focus:border-[#e11d48]"
           />
           <button type="submit" className="absolute right-0 top-0 h-10 w-10 text-gray-400 flex items-center justify-center">
