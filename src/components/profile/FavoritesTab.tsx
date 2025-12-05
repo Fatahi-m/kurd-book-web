@@ -44,13 +44,13 @@ export default function FavoritesTab({ userId }: FavoritesTabProps) {
   if (wishlistItems.length === 0) {
     return (
       <div className="text-center py-12">
-        <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Heart className="w-8 h-8 text-gray-400 dark:text-gray-500" />
+        <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
+          <Heart className="w-8 h-8 text-gray-300" />
         </div>
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+        <h3 className="text-lg font-medium text-gray-900 mb-2">
           {currentLanguage === 'ku' ? 'لیستی دڵخواز بەتاڵە' : currentLanguage === 'en' ? 'Wishlist is empty' : 'Wunschliste ist leer'}
         </h3>
-        <p className="text-gray-500 dark:text-gray-400 mb-6">
+        <p className="text-gray-500 mb-6">
           {currentLanguage === 'ku' 
             ? 'تۆ تا ئێستا هیچ کتێبێکت زیاد نەکردووە بۆ لیستی دڵخواز.' 
             : currentLanguage === 'en' 
@@ -59,7 +59,7 @@ export default function FavoritesTab({ userId }: FavoritesTabProps) {
         </p>
         <Link 
           href="/books" 
-          className="inline-block bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors"
+          className="inline-block bg-black text-white px-6 py-2 text-sm uppercase tracking-widest hover:bg-gray-800 transition-colors"
         >
           {currentLanguage === 'ku' ? 'گەڕان بۆ کتێب' : currentLanguage === 'en' ? 'Browse Books' : 'Bücher durchsuchen'}
         </Link>
@@ -69,13 +69,13 @@ export default function FavoritesTab({ userId }: FavoritesTabProps) {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
+      <h2 className="text-xl font-semibold text-gray-900 mb-6">
         {currentLanguage === 'ku' ? 'لیستی دڵخواز' : currentLanguage === 'en' ? 'My Wishlist' : 'Meine Wunschliste'}
       </h2>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {wishlistItems.map((item) => (
-          <div key={item.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden group hover:shadow-md transition-all duration-300">
+          <div key={item.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group hover:shadow-md transition-all duration-300">
             <div className="relative aspect-[2/3] overflow-hidden">
               <img 
                 src={item.imageUrl || '/images/placeholder-book.jpg'} 
@@ -85,7 +85,7 @@ export default function FavoritesTab({ userId }: FavoritesTabProps) {
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2">
                 <button
                   onClick={() => handleAddToCart(item)}
-                  className="p-2 bg-white text-blue-600 rounded-full hover:bg-blue-50 transition-colors shadow-lg transform hover:scale-110"
+                  className="p-2 bg-white text-black rounded-full hover:bg-gray-100 transition-colors shadow-lg transform hover:scale-110"
                   title={currentLanguage === 'ku' ? 'زیادکردن بۆ سەبەتە' : 'Add to Cart'}
                 >
                   <ShoppingCart className="w-5 h-5" />
@@ -102,11 +102,11 @@ export default function FavoritesTab({ userId }: FavoritesTabProps) {
             
             <div className="p-4">
               <Link href={`/book/${item.id}`}>
-                <h3 className="font-bold text-gray-900 dark:text-white mb-1 line-clamp-1 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                <h3 className="font-bold text-gray-900 mb-1 line-clamp-1 hover:text-blue-600 transition-colors">
                   {item.title}
                 </h3>
               </Link>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-3 line-clamp-1">
+              <p className="text-sm text-gray-500 mb-3 line-clamp-1">
                 {item.author}
               </p>
               
@@ -114,7 +114,7 @@ export default function FavoritesTab({ userId }: FavoritesTabProps) {
                 <div className="flex flex-col">
                   {item.originalPrice && item.originalPrice > item.price ? (
                     <>
-                      <span className="font-bold text-blue-600 dark:text-blue-400">
+                      <span className="font-bold text-blue-600">
                         {formatPrice(item.price)}
                       </span>
                       <span className="text-xs text-gray-400 line-through">
@@ -122,7 +122,7 @@ export default function FavoritesTab({ userId }: FavoritesTabProps) {
                       </span>
                     </>
                   ) : (
-                    <span className="font-bold text-blue-600 dark:text-blue-400">
+                    <span className="font-bold text-blue-600">
                       {formatPrice(item.price)}
                     </span>
                   )}

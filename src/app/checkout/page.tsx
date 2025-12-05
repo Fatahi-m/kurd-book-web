@@ -9,7 +9,8 @@ import { adminDataService } from '@/lib/adminDataService';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import CreditCardForm from '@/components/checkout/CreditCardForm';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Check, ChevronRight, Lock, Truck, CreditCard, User } from 'lucide-react';
 
 export default function CheckoutPage() {
   const { cart, getCartTotal, clearCart } = useCart();
@@ -69,6 +70,7 @@ export default function CheckoutPage() {
     
     if (currentStep < 3) {
       setCurrentStep(prev => prev + 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
@@ -103,37 +105,39 @@ export default function CheckoutPage() {
   };
 
   const steps = [
-    { id: 1, title: t('checkout.information') },
-    { id: 2, title: t('checkout.shipping') },
-    { id: 3, title: t('checkout.payment') }
+    { id: 1, title: t('checkout.information'), icon: User },
+    { id: 2, title: t('checkout.shipping'), icon: Truck },
+    { id: 3, title: t('checkout.payment'), icon: CreditCard }
   ];
 
   if (orderComplete) {
     return (
-      <main className="min-h-screen bg-slate-50 dark:bg-[#0f172a] py-24 transition-colors duration-300 font-sans">
+      <main className="min-h-screen bg-[#f8f5f2] py-24 transition-colors duration-300 font-sans flex items-center justify-center">
         <div className="container mx-auto px-4">
-          <motion.div 
+          <motion.div  
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="max-w-2xl mx-auto text-center"
+            className="max-w-2xl mx-auto text-center bg-white p-12 shadow-xl border border-gray-100"
           >
-            <div className="text-6xl mb-8">✓</div>
-            <h1 className="text-4xl font-serif text-gray-900 dark:text-white mb-6">
+            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-8">
+              <Check className="w-10 h-10 text-green-600" />
+            </div>
+            <h1 className="text-4xl font-serif text-gray-900 mb-6">
               {t('checkout.orderPlaced')}
             </h1>
-            <div className="bg-white dark:bg-gray-800/50 p-6 mb-8 inline-block border border-gray-200 dark:border-gray-800">
-              <p className="text-gray-600 dark:text-gray-300 font-mono text-lg tracking-widest">
-                {t('checkout.orderId')}: #{orderId}
+            <div className="bg-gray-50 p-6 mb-8 inline-block border border-gray-200 rounded-lg">
+              <p className="text-gray-600 font-mono text-lg tracking-widest">
+                {t('checkout.orderId')}: <span className="text-black font-bold">#{orderId}</span>
               </p>
             </div>
-            <p className="text-gray-600 dark:text-gray-300 mb-12 max-w-md mx-auto font-light leading-relaxed">
+            <p className="text-gray-600 mb-12 max-w-md mx-auto font-light leading-relaxed">
               {t('checkout.thankYou')}
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <Link href="/" className="bg-black dark:bg-white text-white dark:text-black px-8 py-3 text-sm uppercase tracking-widest hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">
+              <Link href="/" className="bg-gray-900 text-white px-8 py-4 text-sm uppercase tracking-widest hover:bg-black transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
                 {t('checkout.returnHome')}
               </Link>
-              <Link href="/profile?tab=orders" className="border border-black dark:border-white text-black dark:text-white px-8 py-3 text-sm uppercase tracking-widest hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+              <Link href="/profile?tab=orders" className="border border-gray-300 text-gray-900 px-8 py-4 text-sm uppercase tracking-widest hover:bg-gray-50 transition-colors">
                 {t('checkout.viewOrders')}
               </Link>
             </div>
@@ -148,283 +152,328 @@ export default function CheckoutPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-[#0f172a] py-12 md:py-24 transition-colors duration-300 font-sans">
-      <div className="container mx-auto px-4">
-        {/* Progress Steps */}
-        <div className="max-w-3xl mx-auto mb-16">
-          <div className="flex items-center justify-center gap-4 md:gap-12">
-            {steps.map((step, index) => (
-              <div key={step.id} className="flex items-center">
-                <div className={`flex items-center gap-3 ${
-                  currentStep >= step.id ? 'text-black dark:text-white' : 'text-gray-400'
-                }`}>
-                  <span className={`w-8 h-8 flex items-center justify-center border rounded-full text-sm ${
-                    currentStep >= step.id ? 'border-black dark:border-white' : 'border-gray-300'
+    <main className="min-h-screen bg-[#f8f5f2] py-12 md:py-20 transition-colors duration-300 font-sans">
+      <div className="container mx-auto px-4 max-w-7xl">
+        
+        {/* Header */}
+        <div className="mb-12 text-center">
+          <h1 className="text-3xl md:text-4xl font-serif text-gray-900 mb-8">{t('cart.checkout')}</h1>
+          
+          {/* Progress Steps */}
+          <div className="flex items-center justify-center max-w-3xl mx-auto">
+            {steps.map((step, index) => {
+              const Icon = step.icon;
+              const isActive = currentStep >= step.id;
+              const isCurrent = currentStep === step.id;
+              
+              return (
+                <div key={step.id} className="flex items-center">
+                  <div className={`flex flex-col items-center gap-2 relative z-10 ${
+                    isActive ? 'text-gray-900' : 'text-gray-400'
                   }`}>
-                    {step.id}
-                  </span>
-                  <span className="text-sm uppercase tracking-widest hidden md:inline-block">{step.title}</span>
+                    <div className={`w-10 h-10 flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
+                      isActive ? 'border-gray-900 bg-gray-900 text-white' : 'border-gray-300 bg-white'
+                    } ${isCurrent ? 'ring-4 ring-gray-200' : ''}`}>
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <span className="text-xs uppercase tracking-widest font-medium hidden md:block">{step.title}</span>
+                  </div>
+                  {index < steps.length - 1 && (
+                    <div className={`w-16 md:w-32 h-0.5 mx-2 md:mx-4 transition-colors duration-500 ${
+                      currentStep > step.id ? 'bg-gray-900' : 'bg-gray-300'
+                    }`} />
+                  )}
                 </div>
-                {index < steps.length - 1 && (
-                  <div className="w-12 h-px bg-gray-300 mx-4 md:mx-6 hidden md:block" />
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-16 max-w-6xl mx-auto">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-24">
           {/* Checkout Form */}
           <div className="flex-1">
             <form onSubmit={handleSubmit} className="space-y-12">
-              
-              {/* Step 1: Contact Info */}
-              <motion.div 
-                initial={{ opacity: 0 }} animate={{ opacity: currentStep === 1 ? 1 : 0.5 }}
-                className={currentStep === 1 ? 'block' : 'hidden'}
-              >
-                <h2 className="text-3xl font-serif text-gray-900 dark:text-white mb-8">
-                  {t('checkout.contactInfo')}
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="space-y-2">
-                    <label className="text-xs uppercase tracking-widest text-gray-500">
-                      {t('auth.firstName')}
-                    </label>
-                    <input
-                      type="text"
-                      name="firstName"
-                      required
-                      value={formData.firstName}
-                      onChange={handleInputChange}
-                      className="w-full bg-transparent border-b border-gray-300 dark:border-gray-700 py-2 focus:border-black dark:focus:border-white outline-none transition-colors"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-xs uppercase tracking-widest text-gray-500">
-                      {t('auth.lastName')}
-                    </label>
-                    <input
-                      type="text"
-                      name="lastName"
-                      required
-                      value={formData.lastName}
-                      onChange={handleInputChange}
-                      className="w-full bg-transparent border-b border-gray-300 dark:border-gray-700 py-2 focus:border-black dark:focus:border-white outline-none transition-colors"
-                    />
-                  </div>
-                  <div className="md:col-span-2 space-y-2">
-                    <label className="text-xs uppercase tracking-widest text-gray-500">
-                      {t('auth.email')}
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className="w-full bg-transparent border-b border-gray-300 dark:border-gray-700 py-2 focus:border-black dark:focus:border-white outline-none transition-colors"
-                    />
-                  </div>
-                  <div className="md:col-span-2 space-y-2">
-                    <label className="text-xs uppercase tracking-widest text-gray-500">
-                      {t('auth.phone')}
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      required
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      className="w-full bg-transparent border-b border-gray-300 dark:border-gray-700 py-2 focus:border-black dark:focus:border-white outline-none transition-colors"
-                    />
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Step 2: Shipping Address */}
-              <motion.div 
-                initial={{ opacity: 0 }} animate={{ opacity: currentStep === 2 ? 1 : 0.5 }}
-                className={currentStep === 2 ? 'block' : 'hidden'}
-              >
-                <h2 className="text-3xl font-serif text-gray-900 dark:text-white mb-8">
-                  {t('checkout.shippingAddress')}
-                </h2>
-                <div className="space-y-8">
-                  <div className="space-y-2">
-                    <label className="text-xs uppercase tracking-widest text-gray-500">
-                      {t('profile.address')}
-                    </label>
-                    <input
-                      type="text"
-                      name="address"
-                      required
-                      value={formData.address}
-                      onChange={handleInputChange}
-                      className="w-full bg-transparent border-b border-gray-300 dark:border-gray-700 py-2 focus:border-black dark:focus:border-white outline-none transition-colors"
-                      placeholder="Street, Apartment, etc."
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-8">
-                    <div className="space-y-2">
-                      <label className="text-xs uppercase tracking-widest text-gray-500">
-                        {t('profile.city')}
-                      </label>
-                      <input
-                        type="text"
-                        name="city"
-                        required
-                        value={formData.city}
-                        onChange={handleInputChange}
-                        className="w-full bg-transparent border-b border-gray-300 dark:border-gray-700 py-2 focus:border-black dark:focus:border-white outline-none transition-colors"
-                      />
+              <AnimatePresence mode="wait">
+                {/* Step 1: Contact Info */}
+                {currentStep === 1 && (
+                  <motion.div 
+                    key="step1"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    className="bg-white p-8 md:p-12 shadow-sm border border-gray-100"
+                  >
+                    <h2 className="text-2xl font-serif text-gray-900 mb-8 flex items-center gap-3">
+                      <span className="text-gray-300 text-4xl font-light">01</span>
+                      {t('checkout.contactInfo')}
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <div className="space-y-2">
+                        <label className="text-xs uppercase tracking-widest text-gray-500 font-medium">
+                          {t('auth.firstName')}
+                        </label>
+                        <input
+                          type="text"
+                          name="firstName"
+                          required
+                          value={formData.firstName}
+                          onChange={handleInputChange}
+                          className="w-full bg-transparent border-b border-gray-300 py-3 focus:border-gray-900 outline-none transition-colors text-lg"
+                          placeholder="John"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs uppercase tracking-widest text-gray-500 font-medium">
+                          {t('auth.lastName')}
+                        </label>
+                        <input
+                          type="text"
+                          name="lastName"
+                          required
+                          value={formData.lastName}
+                          onChange={handleInputChange}
+                          className="w-full bg-transparent border-b border-gray-300 py-3 focus:border-gray-900 outline-none transition-colors text-lg"
+                          placeholder="Doe"
+                        />
+                      </div>
+                      <div className="space-y-2 md:col-span-2">
+                        <label className="text-xs uppercase tracking-widest text-gray-500 font-medium">
+                          {t('auth.email')}
+                        </label>
+                        <input
+                          type="email"
+                          name="email"
+                          required
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          className="w-full bg-transparent border-b border-gray-300 py-3 focus:border-gray-900 outline-none transition-colors text-lg"
+                          placeholder="john@example.com"
+                        />
+                      </div>
+                      <div className="space-y-2 md:col-span-2">
+                        <label className="text-xs uppercase tracking-widest text-gray-500 font-medium">
+                          {t('auth.phone')}
+                        </label>
+                        <input
+                          type="tel"
+                          name="phone"
+                          required
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          className="w-full bg-transparent border-b border-gray-300 py-3 focus:border-gray-900 outline-none transition-colors text-lg"
+                          placeholder="+1 (555) 000-0000"
+                        />
+                      </div>
                     </div>
-                    <div className="space-y-2">
-                      <label className="text-xs uppercase tracking-widest text-gray-500">
-                        {t('profile.zipCode')}
-                      </label>
-                      <input
-                        type="text"
-                        name="zipCode"
-                        required
-                        value={formData.zipCode}
-                        onChange={handleInputChange}
-                        className="w-full bg-transparent border-b border-gray-300 dark:border-gray-700 py-2 focus:border-black dark:focus:border-white outline-none transition-colors"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Step 3: Payment Method */}
-              <motion.div 
-                initial={{ opacity: 0 }} animate={{ opacity: currentStep === 3 ? 1 : 0.5 }}
-                className={currentStep === 3 ? 'block' : 'hidden'}
-              >
-                <h2 className="text-3xl font-serif text-gray-900 dark:text-white mb-8">
-                  {t('checkout.paymentMethod')}
-                </h2>
-                
-                <div className="grid grid-cols-2 gap-6 mb-12">
-                  <label className={`cursor-pointer border p-6 flex flex-col items-center justify-center gap-4 transition-all ${
-                    formData.paymentMethod === 'card' 
-                      ? 'border-black dark:border-white bg-white dark:bg-gray-800' 
-                      : 'border-gray-200 dark:border-gray-800 hover:border-gray-400'
-                  }`}>
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value="card"
-                      checked={formData.paymentMethod === 'card'}
-                      onChange={handleInputChange}
-                      className="hidden"
-                    />
-                    <span className="text-2xl">💳</span>
-                    <span className="text-sm uppercase tracking-widest">{t('checkout.creditCard')}</span>
-                  </label>
-                  
-                  <label className={`cursor-pointer border p-6 flex flex-col items-center justify-center gap-4 transition-all ${
-                    formData.paymentMethod === 'cash' 
-                      ? 'border-black dark:border-white bg-white dark:bg-gray-800' 
-                      : 'border-gray-200 dark:border-gray-800 hover:border-gray-400'
-                  }`}>
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value="cash"
-                      checked={formData.paymentMethod === 'cash'}
-                      onChange={handleInputChange}
-                      className="hidden"
-                    />
-                    <span className="text-2xl">💵</span>
-                    <span className="text-sm uppercase tracking-widest">{t('checkout.cashOnDelivery')}</span>
-                  </label>
-                </div>
-
-                {formData.paymentMethod === 'card' && (
-                  <div className="animate-fade-in">
-                    <CreditCardForm onChange={() => {}} />
-                  </div>
+                  </motion.div>
                 )}
-              </motion.div>
+
+                {/* Step 2: Shipping */}
+                {currentStep === 2 && (
+                  <motion.div 
+                    key="step2"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    className="bg-white p-8 md:p-12 shadow-sm border border-gray-100"
+                  >
+                    <h2 className="text-2xl font-serif text-gray-900 mb-8 flex items-center gap-3">
+                      <span className="text-gray-300 text-4xl font-light">02</span>
+                      {t('checkout.shipping')}
+                    </h2>
+                    <div className="space-y-8">
+                      <div className="space-y-2">
+                        <label className="text-xs uppercase tracking-widest text-gray-500 font-medium">
+                          {t('checkout.address')}
+                        </label>
+                        <input
+                          type="text"
+                          name="address"
+                          required
+                          value={formData.address}
+                          onChange={handleInputChange}
+                          className="w-full bg-transparent border-b border-gray-300 py-3 focus:border-gray-900 outline-none transition-colors text-lg"
+                          placeholder="123 Book St"
+                        />
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="space-y-2">
+                          <label className="text-xs uppercase tracking-widest text-gray-500 font-medium">
+                            {t('checkout.city')}
+                          </label>
+                          <input
+                            type="text"
+                            name="city"
+                            required
+                            value={formData.city}
+                            onChange={handleInputChange}
+                            className="w-full bg-transparent border-b border-gray-300 py-3 focus:border-gray-900 outline-none transition-colors text-lg"
+                            placeholder="New York"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-xs uppercase tracking-widest text-gray-500 font-medium">
+                            {t('checkout.zipCode')}
+                          </label>
+                          <input
+                            type="text"
+                            name="zipCode"
+                            required
+                            value={formData.zipCode}
+                            onChange={handleInputChange}
+                            className="w-full bg-transparent border-b border-gray-300 py-3 focus:border-gray-900 outline-none transition-colors text-lg"
+                            placeholder="10001"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* Step 3: Payment */}
+                {currentStep === 3 && (
+                  <motion.div 
+                    key="step3"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    className="bg-white p-8 md:p-12 shadow-sm border border-gray-100"
+                  >
+                    <h2 className="text-2xl font-serif text-gray-900 mb-8 flex items-center gap-3">
+                      <span className="text-gray-300 text-4xl font-light">03</span>
+                      {t('checkout.payment')}
+                    </h2>
+                    
+                    <div className="mb-8">
+                      <div className="flex gap-4 mb-6">
+                        <button
+                          type="button"
+                          onClick={() => setFormData(prev => ({ ...prev, paymentMethod: 'card' }))}
+                          className={`flex-1 py-4 border text-center transition-all duration-300 ${
+                            formData.paymentMethod === 'card'
+                              ? 'border-gray-900 bg-gray-900 text-white'
+                              : 'border-gray-200 text-gray-500 hover:border-gray-400'
+                          }`}
+                        >
+                          <span className="text-sm uppercase tracking-widest">Credit Card</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setFormData(prev => ({ ...prev, paymentMethod: 'cod' }))}
+                          className={`flex-1 py-4 border text-center transition-all duration-300 ${
+                            formData.paymentMethod === 'cod'
+                              ? 'border-gray-900 bg-gray-900 text-white'
+                              : 'border-gray-200 text-gray-500 hover:border-gray-400'
+                          }`}
+                        >
+                          <span className="text-sm uppercase tracking-widest">Cash on Delivery</span>
+                        </button>
+                      </div>
+
+                      {formData.paymentMethod === 'card' && (
+                        <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
+                          <CreditCardForm onChange={() => {}} />
+                        </div>
+                      )}
+                      
+                      {formData.paymentMethod === 'cod' && (
+                        <div className="bg-gray-50 p-6 rounded-lg border border-gray-100 text-center text-gray-600">
+                          <p>{t('checkout.codMessage') || 'You will pay when the package arrives.'}</p>
+                        </div>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               {/* Navigation Buttons */}
-              <div className="flex gap-6 pt-8 border-t border-gray-200 dark:border-gray-800">
-                {currentStep > 1 && (
+              <div className="flex justify-between pt-6">
+                {currentStep > 1 ? (
                   <button
                     type="button"
                     onClick={() => setCurrentStep(prev => prev - 1)}
-                    className="px-8 py-3 text-sm uppercase tracking-widest border border-gray-300 dark:border-gray-700 hover:border-black dark:hover:border-white transition-colors"
+                    className="text-gray-500 hover:text-gray-900 uppercase tracking-widest text-sm font-medium transition-colors"
                   >
-                    {t('checkout.back')}
+                    ← {t('common.back')}
                   </button>
+                ) : (
+                  <Link
+                    href="/cart"
+                    className="text-gray-500 hover:text-gray-900 uppercase tracking-widest text-sm font-medium transition-colors"
+                  >
+                    ← {t('cart.returnToCart')}
+                  </Link>
                 )}
                 
                 <button
                   type="submit"
                   disabled={isProcessing}
-                  className={`flex-1 py-3 text-sm uppercase tracking-widest text-white transition-colors ${
-                    isProcessing
-                      ? 'bg-gray-400 cursor-not-allowed'
-                      : 'bg-black dark:bg-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200'
-                  }`}
+                  className="bg-gray-900 text-white px-10 py-4 text-sm uppercase tracking-widest hover:bg-black transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   {isProcessing ? (
-                    <span className="flex items-center justify-center gap-2">
-                      {t('checkout.processing')}
+                    <span className="flex items-center gap-2">
+                      <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      Processing...
                     </span>
                   ) : (
-                    currentStep === 3 
-                      ? t('checkout.placeOrder')
-                      : t('checkout.nextStep')
+                    <>
+                      {currentStep === 3 ? t('checkout.placeOrder') : t('checkout.continue')}
+                      <ChevronRight className="w-4 h-4" />
+                    </>
                   )}
                 </button>
               </div>
             </form>
           </div>
 
-          {/* Order Summary Sidebar */}
-          <div className="lg:w-96">
-            <div className="bg-white dark:bg-[#1a1a1a] p-8 border border-gray-100 dark:border-gray-800 sticky top-24">
-              <h3 className="text-lg font-serif text-gray-900 dark:text-white mb-6 pb-4 border-b border-gray-100 dark:border-gray-800">
-                {t('checkout.orderSummary')}
+          {/* Order Summary - Sticky */}
+          <div className="lg:w-[380px] flex-shrink-0">
+            <div className="bg-white p-8 border border-gray-200 sticky top-24 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+              <h3 className="text-lg font-serif text-gray-900 mb-6 pb-4 border-b border-gray-100 flex items-center justify-between">
+                <span>{t('cart.orderSummary')}</span>
+                <span className="text-sm font-sans text-gray-500 font-normal">{cart.items.length} items</span>
               </h3>
               
-              <div className="space-y-6 mb-8 max-h-80 overflow-y-auto pr-2 custom-scrollbar">
+              <div className="space-y-6 mb-8 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
                 {cart.items.map((item) => (
                   <div key={item.book.id} className="flex gap-4">
-                    <div className="w-12 aspect-[2/3] bg-gray-100 dark:bg-gray-800 flex-shrink-0 overflow-hidden">
+                    <div className="w-16 aspect-[2/3] bg-gray-100 flex-shrink-0 relative border border-gray-100">
                       {item.book.image || item.book.coverUrl ? (
                         <img src={item.book.image || item.book.coverUrl} alt={item.book.title} className="w-full h-full object-cover" />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-xs">📚</div>
+                        <div className="w-full h-full flex items-center justify-center text-xs opacity-20">📚</div>
                       )}
+                      <div className="absolute -top-2 -right-2 w-5 h-5 bg-gray-900 text-white text-[10px] flex items-center justify-center rounded-full">
+                        {item.quantity}
+                      </div>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-sm font-serif text-gray-900 dark:text-white truncate">{item.book.title}</h4>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{item.book.author}</p>
-                      <div className="flex justify-between items-center">
-                        <span className="text-xs text-gray-400">{t('checkout.qty')}: {item.quantity}</span>
-                        <span className="text-sm font-light">{formatPrice(item.book.price * item.quantity)}</span>
-                      </div>
+                      <h4 className="text-sm font-medium text-gray-900 truncate font-serif">{item.book.title}</h4>
+                      <p className="text-xs text-gray-500 truncate">{item.book.author}</p>
+                      <p className="text-sm font-medium text-gray-900 mt-1">{formatPrice(item.book.price * item.quantity)}</p>
                     </div>
                   </div>
                 ))}
               </div>
 
-              <div className="space-y-3 pt-4 border-t border-gray-100 dark:border-gray-800">
-                <div className="flex justify-between text-sm font-light text-gray-600 dark:text-gray-400">
-                  <span>{t('checkout.subtotal')}</span>
-                  <span>{formatPrice(getCartTotal())}</span>
+              <div className="space-y-3 pt-6 border-t border-gray-100">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">{t('cart.subtotal')}</span>
+                  <span className="text-gray-900 font-medium">{formatPrice(getCartTotal())}</span>
                 </div>
-                <div className="flex justify-between text-sm font-light text-gray-600 dark:text-gray-400">
-                  <span>{t('checkout.shipping')}</span>
-                  <span className="text-green-600 dark:text-green-400">{t('checkout.free')}</span>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">{t('cart.shipping')}</span>
+                  <span className="text-green-600 font-medium">{t('cart.shippingFree')}</span>
                 </div>
-                <div className="flex justify-between text-lg font-serif text-gray-900 dark:text-white pt-4 border-t border-gray-100 dark:border-gray-800 mt-2">
-                  <span>{t('checkout.total')}</span>
-                  <span>{formatPrice(getCartTotal())}</span>
+                <div className="flex justify-between text-lg font-serif pt-4 border-t border-gray-100 mt-4">
+                  <span className="text-gray-900">{t('cart.total')}</span>
+                  <span className="text-gray-900 font-bold">{formatPrice(getCartTotal())}</span>
                 </div>
+              </div>
+              
+              <div className="mt-6 flex items-center gap-2 text-xs text-gray-400 justify-center">
+                <Lock className="w-3 h-3" />
+                <span>Secure Checkout</span>
               </div>
             </div>
           </div>

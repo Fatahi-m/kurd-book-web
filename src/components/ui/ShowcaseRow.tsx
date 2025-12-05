@@ -45,18 +45,18 @@ export default function ShowcaseRow({ title, books, icon }: ShowcaseRowProps) {
   }
 
   return (
-    <section className="relative bg-slate-50 dark:bg-[#1a1a1a] py-0 mb-12 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800 flex flex-col md:flex-row group/section">
+    <section className="relative bg-slate-50 py-0 mb-12 overflow-hidden rounded-xl border border-gray-200 flex flex-col md:flex-row group/section">
       
       {/* Side Title (Desktop) */}
-      <div className="md:w-64 flex-shrink-0 p-6 md:p-8 flex flex-col justify-center items-center md:items-start text-center md:text-right rtl:md:text-left bg-slate-100 dark:bg-[#252525] z-20 shadow-lg md:shadow-none relative overflow-hidden">
+      <div className="md:w-64 flex-shrink-0 p-6 md:p-8 flex flex-col justify-center items-center md:items-start text-center md:text-right rtl:md:text-left bg-slate-100 z-20 shadow-lg md:shadow-none relative overflow-hidden">
         <div className="relative z-10">
-          <h2 className="text-2xl md:text-4xl font-black text-gray-800 dark:text-white leading-tight mb-4">
+          <h2 className="text-2xl md:text-4xl font-black text-gray-800 leading-tight mb-4">
             {title}
           </h2>
-          <div className="w-12 h-1 bg-gray-800 dark:bg-white mb-6 mx-auto md:mx-0"></div>
+          <div className="w-12 h-1 bg-gray-800 mb-6 mx-auto md:mx-0"></div>
           <Link 
             href="/books?filter=featured" 
-            className="inline-flex items-center justify-center px-6 py-2 border-2 border-gray-800 dark:border-white text-gray-800 dark:text-white font-bold rounded-full hover:bg-gray-800 hover:text-white dark:hover:bg-white dark:hover:text-gray-900 transition-all"
+            className="inline-flex items-center justify-center px-6 py-2 border-2 border-gray-800 text-gray-800 font-bold rounded-full hover:bg-gray-800 hover:text-white transition-all"
           >
             {t('buttons.viewAll')}
           </Link>
@@ -69,10 +69,10 @@ export default function ShowcaseRow({ title, books, icon }: ShowcaseRowProps) {
       </div>
 
       {/* Scrolling Content */}
-      <div className="flex-1 relative overflow-hidden py-8 md:py-10 bg-slate-50 dark:bg-[#1a1a1a]">
+      <div className="flex-1 relative overflow-hidden py-8 md:py-10 bg-slate-50">
         {/* Gradient Masks for smooth fade effect */}
-        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-slate-50 dark:from-[#1a1a1a] to-transparent z-10 pointer-events-none"></div>
-        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-slate-50 dark:from-[#1a1a1a] to-transparent z-10 pointer-events-none"></div>
+        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-slate-50 to-transparent z-10 pointer-events-none"></div>
+        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-slate-50 to-transparent z-10 pointer-events-none"></div>
 
         {/* Marquee Container */}
         <div 
@@ -122,7 +122,7 @@ function ShowcaseBookCard({ book }: { book: Book }) {
     : 0;
 
   return (
-    <div className="bg-white dark:bg-[#252525] rounded-xl p-3 shadow-md hover:shadow-xl transition-all duration-300 h-full flex flex-col relative group border border-gray-100 dark:border-gray-700">
+    <div className="bg-white rounded-xl p-3 shadow-md hover:shadow-xl transition-all duration-300 h-full flex flex-col relative group border border-gray-100">
       {/* Discount Badge */}
       {discountPercentage > 0 && (
         <div className="absolute top-3 left-3 z-10 bg-[#e11d48] text-white text-sm font-bold px-2 py-1 rounded-lg shadow-sm">
@@ -131,12 +131,12 @@ function ShowcaseBookCard({ book }: { book: Book }) {
       )}
 
       {/* Wishlist Icon */}
-      <button className="absolute top-3 right-3 z-10 text-gray-400 hover:text-red-500 transition-colors bg-white/80 dark:bg-black/50 rounded-full p-1.5 backdrop-blur-sm">
+      <button className="absolute top-3 right-3 z-10 text-gray-400 hover:text-red-500 transition-colors bg-white/80 rounded-full p-1.5 backdrop-blur-sm">
         <Heart className="w-4 h-4" />
       </button>
 
       {/* Image */}
-      <Link href={`/book/${book.id}`} className="block relative aspect-[2/3] mb-3 overflow-hidden rounded-lg bg-gray-50 dark:bg-gray-800">
+      <Link href={`/book/${book.id}`} className="block relative aspect-[2/3] mb-3 overflow-hidden rounded-lg bg-gray-50">
         <Image
           src={book.coverUrl || book.image || '/images/default-book-cover.jpg'}
           alt={book.title}
@@ -148,16 +148,16 @@ function ShowcaseBookCard({ book }: { book: Book }) {
       {/* Content */}
       <div className="flex flex-col flex-grow">
         <Link href={`/book/${book.id}`}>
-          <h3 className="font-bold text-gray-800 dark:text-gray-100 text-sm mb-2 line-clamp-2 min-h-[2.5em] hover:text-[#e11d48] dark:hover:text-rose-400 transition-colors leading-tight">
+          <h3 className="font-bold text-gray-800 text-sm mb-2 line-clamp-2 min-h-[2.5em] hover:text-[#e11d48] transition-colors leading-tight">
             {book.title}
           </h3>
         </Link>
 
-        <div className="mt-auto pt-3 border-t border-gray-100 dark:border-gray-700 flex items-end justify-between">
+        <div className="mt-auto pt-3 border-t border-gray-100 flex items-end justify-between">
           <div className="flex flex-col">
-            <span className="text-[10px] text-gray-500 dark:text-gray-400 mb-0.5">{t('common.price')}:</span>
+            <span className="text-[10px] text-gray-500 mb-0.5">{t('common.price')}:</span>
             <div className="flex flex-col">
-              <span className="font-bold text-gray-900 dark:text-white text-sm">
+              <span className="font-bold text-gray-900 text-sm">
                 {formatPrice(book.price)}
               </span>
               {book.originalPrice && (
@@ -169,8 +169,8 @@ function ShowcaseBookCard({ book }: { book: Book }) {
           </div>
           
           <div className="flex flex-col items-end max-w-[50%]">
-            <span className="text-[10px] text-gray-500 dark:text-gray-400 mb-0.5">{t('book.publisher')}:</span>
-            <span className="text-[11px] font-medium text-gray-700 dark:text-gray-300 truncate w-full text-right">
+            <span className="text-[10px] text-gray-500 mb-0.5">{t('book.publisher')}:</span>
+            <span className="text-[11px] font-medium text-gray-700 truncate w-full text-right">
               {book.publisher || book.author}
             </span>
           </div>

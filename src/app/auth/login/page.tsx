@@ -37,23 +37,23 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#0f172a] flex flex-col justify-center py-12 sm:px-6 lg:px-8 transition-colors duration-300 font-sans">
+    <div className="min-h-screen bg-white flex flex-col justify-center py-12 sm:px-6 lg:px-8 transition-colors duration-300 font-sans">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="sm:mx-auto sm:w-full sm:max-w-md"
       >
         <div className="flex justify-center mb-6">
-          <div className="w-16 h-16 bg-black dark:bg-white rounded-full flex items-center justify-center">
-            <span className="text-white dark:text-black font-serif text-3xl">K</span>
+          <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center">
+            <span className="text-white font-serif text-3xl">K</span>
           </div>
         </div>
-        <h2 className="text-center text-3xl font-serif text-gray-900 dark:text-white mb-2">
+        <h2 className="text-center text-3xl font-serif text-gray-900 mb-2">
           {t('auth.login')}
         </h2>
-        <p className="text-center text-sm text-gray-600 dark:text-gray-400 font-light">
+        <p className="text-center text-sm text-gray-600 font-light">
           {t('auth.noAccount')}{' '}
-          <Link href="/auth/register" className="font-medium text-black dark:text-white hover:underline underline-offset-4">
+          <Link href="/auth/register" className="font-medium text-black hover:underline underline-offset-4">
             {t('auth.signUp')}
           </Link>
         </p>
@@ -65,10 +65,10 @@ export default function LoginPage() {
         transition={{ delay: 0.1 }}
         className="mt-8 sm:mx-auto sm:w-full sm:max-w-md"
       >
-        <div className="bg-white dark:bg-[#1a1a1a] py-8 px-4 border border-gray-200 dark:border-gray-800 sm:px-10">
+        <div className="bg-white py-8 px-4 border border-gray-200 sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (
-              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 px-4 py-3 text-sm font-light">
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 text-sm font-light">
                 {error}
               </div>
             )}
@@ -85,7 +85,7 @@ export default function LoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="appearance-none block w-full px-3 py-2 border-b border-gray-300 dark:border-gray-700 placeholder-gray-400 focus:outline-none focus:border-black dark:focus:border-white bg-transparent text-gray-900 dark:text-white sm:text-sm transition-colors"
+                className="appearance-none block w-full px-3 py-2 border-b border-gray-300 placeholder-gray-400 focus:outline-none focus:border-black bg-transparent text-gray-900 sm:text-sm transition-colors"
                 placeholder={t('auth.email')}
               />
             </div>
@@ -102,7 +102,7 @@ export default function LoginPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="appearance-none block w-full px-3 py-2 border-b border-gray-300 dark:border-gray-700 placeholder-gray-400 focus:outline-none focus:border-black dark:focus:border-white bg-transparent text-gray-900 dark:text-white sm:text-sm transition-colors"
+                className="appearance-none block w-full px-3 py-2 border-b border-gray-300 placeholder-gray-400 focus:outline-none focus:border-black bg-transparent text-gray-900 sm:text-sm transition-colors"
                 placeholder={t('auth.password')}
               />
             </div>
@@ -115,13 +115,13 @@ export default function LoginPage() {
                   type="checkbox"
                   className="h-4 w-4 text-black border-gray-300 rounded focus:ring-black"
                 />
-                <label htmlFor="remember-me" className="mr-2 rtl:mr-0 rtl:ml-2 block text-sm text-gray-900 dark:text-gray-300 font-light">
+                <label htmlFor="remember-me" className="mr-2 rtl:mr-0 rtl:ml-2 block text-sm text-gray-900 font-light">
                   {t('auth.rememberMe')}
                 </label>
               </div>
 
               <div className="text-sm">
-                <Link href="/auth/forgot-password" className="font-light text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
+                <Link href="/auth/forgot-password" className="font-light text-gray-600 hover:text-black transition-colors">
                   {t('auth.forgotPassword')}
                 </Link>
               </div>
@@ -131,15 +131,15 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full flex justify-center py-3 px-4 border border-transparent text-sm uppercase tracking-widest text-white bg-black dark:bg-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 focus:outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full flex justify-center py-3 px-4 border border-transparent text-sm uppercase tracking-widest text-white bg-black hover:bg-gray-800 focus:outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? t('common.pleaseWait') : t('auth.signIn')}
               </button>
             </div>
           </form>
 
-          <div className="mt-8 pt-6 border-t border-gray-100 dark:border-gray-800">
-            <div className="bg-gray-50 dark:bg-gray-800/50 p-4 text-xs text-gray-500 dark:text-gray-400 font-light">
+          <div className="mt-8 pt-6 border-t border-gray-100">
+            <div className="bg-gray-50 p-4 text-xs text-gray-500 font-light">
               <p className="mb-2 font-medium uppercase tracking-wider">{t('auth.forTesting')}</p>
               <p>
                 <span className="inline-block w-20">Email:</span> admin@kurdbook.com<br />

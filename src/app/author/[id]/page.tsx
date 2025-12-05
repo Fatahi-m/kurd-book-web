@@ -45,15 +45,15 @@ export default function AuthorDetailPage({ params }: AuthorDetailPageProps) {
   }, {} as Record<string, Book[]>);
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-[#0f172a] py-20 transition-colors duration-500">
+    <main className="min-h-screen bg-white py-20 transition-colors duration-500">
       <div className="container mx-auto px-6">
         {/* Breadcrumb */}
-        <nav className="text-xs font-light tracking-[0.2em] text-gray-500 dark:text-gray-400 uppercase mb-12 text-center">
-          <Link href="/" className="hover:text-gray-900 dark:hover:text-white transition-colors">{t('nav.home')}</Link>
+        <nav className="text-xs font-light tracking-[0.2em] text-gray-500 uppercase mb-12 text-center">
+          <Link href="/" className="hover:text-black transition-colors">{t('nav.home')}</Link>
           <span className="mx-4">/</span>
-          <Link href="/authors" className="hover:text-gray-900 dark:hover:text-white transition-colors">{t('nav.authors')}</Link>
+          <Link href="/authors" className="hover:text-black transition-colors">{t('nav.authors')}</Link>
           <span className="mx-4">/</span>
-          <span className="text-gray-900 dark:text-white">
+          <span className="text-black">
             {currentLanguage === 'ku' ? author.name : (author.latinName || author.name)}
           </span>
         </nav>
@@ -69,17 +69,17 @@ export default function AuthorDetailPage({ params }: AuthorDetailPageProps) {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-6xl font-serif text-gray-400">
+                <div className="w-full h-full bg-gray-200 flex items-center justify-center text-6xl font-serif text-gray-400">
                   {(currentLanguage === 'ku' ? author.name : (author.latinName || author.name)).charAt(0)}
                 </div>
               )}
             </div>
 
-            <h1 className="text-5xl md:text-6xl font-serif text-gray-900 dark:text-white mb-6">
+            <h1 className="text-5xl md:text-6xl font-serif text-black mb-6">
               {currentLanguage === 'ku' ? author.name : (author.latinName || author.name)}
             </h1>
 
-            <div className="flex flex-wrap justify-center gap-6 text-sm font-light text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-8">
+            <div className="flex flex-wrap justify-center gap-6 text-sm font-light text-gray-500 uppercase tracking-widest mb-8">
               {author.birthYear && (
                 <span>{author.deathYear ? `${author.birthYear} — ${author.deathYear}` : `${t('authors.born')} ${author.birthYear}`}</span>
               )}
@@ -89,23 +89,23 @@ export default function AuthorDetailPage({ params }: AuthorDetailPageProps) {
             </div>
 
             {author.bio?.[currentLanguage] && (
-              <p className="text-xl font-light text-gray-600 dark:text-gray-300 leading-relaxed max-w-3xl mx-auto mb-12">
+              <p className="text-xl font-light text-gray-600 leading-relaxed max-w-3xl mx-auto mb-12">
                 {author.bio[currentLanguage]}
               </p>
             )}
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto border-t border-b border-gray-200 dark:border-gray-800 py-8">
+            <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto border-t border-b border-gray-200 py-8">
               <div>
-                <div className="text-3xl font-serif text-gray-900 dark:text-white mb-2">{authorBooks.length}</div>
+                <div className="text-3xl font-serif text-black mb-2">{authorBooks.length}</div>
                 <div className="text-xs font-light uppercase tracking-widest text-gray-500">{t('stats.books')}</div>
               </div>
               <div>
-                <div className="text-3xl font-serif text-gray-900 dark:text-white mb-2">{totalReviews}</div>
+                <div className="text-3xl font-serif text-black mb-2">{totalReviews}</div>
                 <div className="text-xs font-light uppercase tracking-widest text-gray-500">{t('book.reviews')}</div>
               </div>
               <div>
-                <div className="text-3xl font-serif text-gray-900 dark:text-white mb-2">{averageRating.toFixed(1)}</div>
+                <div className="text-3xl font-serif text-black mb-2">{averageRating.toFixed(1)}</div>
                 <div className="text-xs font-light uppercase tracking-widest text-gray-500">{t('admin.rating')}</div>
               </div>
             </div>
@@ -113,8 +113,8 @@ export default function AuthorDetailPage({ params }: AuthorDetailPageProps) {
 
           {/* Author's Books */}
           <div className="mb-20">
-            <div className="flex items-center justify-between mb-12 border-b border-gray-200 dark:border-gray-800 pb-6">
-              <h2 className="text-3xl font-serif text-gray-900 dark:text-white">
+            <div className="flex items-center justify-between mb-12 border-b border-gray-200 pb-6">
+              <h2 className="text-3xl font-serif text-black">
                 {t('authors.bibliography')}
               </h2>
             </div>
@@ -127,7 +127,7 @@ export default function AuthorDetailPage({ params }: AuthorDetailPageProps) {
               </div>
             ) : (
               <div className="text-center py-12">
-                <p className="text-gray-500 dark:text-gray-400 font-light italic">
+                <p className="text-gray-500 font-light italic">
                   {t('authors.noBooksAvailable')}
                 </p>
               </div>

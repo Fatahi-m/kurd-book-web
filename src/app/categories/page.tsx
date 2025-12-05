@@ -32,15 +32,15 @@ export default function CategoriesPage() {
   const { t, currentLanguage } = useLanguage();
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-[#0f172a] py-12 md:py-20 transition-colors duration-500">
+    <main className="min-h-screen bg-white py-12 md:py-20 transition-colors duration-500">
       <div className="container mx-auto px-6 md:px-12">
         
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-serif font-bold text-gray-900 dark:text-white mb-4">
+          <h1 className="text-4xl md:text-5xl font-serif font-bold text-black mb-4">
             {t('nav.categories') || 'Browse Categories'}
           </h1>
-          <p className="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto text-lg">
+          <p className="text-gray-500 max-w-2xl mx-auto text-lg">
             Explore our extensive collection of books across various genres and topics.
           </p>
         </div>
@@ -51,17 +51,17 @@ export default function CategoriesPage() {
             <Link 
               key={category.id}
               href={`/category/${category.slug}`} 
-              className="group bg-white dark:bg-[#1e293b] p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-800 hover:border-rose-100 dark:hover:border-rose-900/30 flex flex-col items-center text-center transform hover:-translate-y-1"
+              className="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-gray-300 flex flex-col items-center text-center transform hover:-translate-y-1"
             >
-              <div className="w-16 h-16 rounded-full bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+              <div className="w-16 h-16 rounded-full bg-gray-50 text-black flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                 {getCategoryIcon(category.slug)}
               </div>
               
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-rose-600 transition-colors">
+              <h3 className="text-xl font-bold text-black mb-2 group-hover:text-gray-600 transition-colors">
                 {currentLanguage === 'ku' ? category.name.ku : (currentLanguage === 'kmr' ? category.name.kmr : category.name.en)}
               </h3>
               
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+              <p className="text-sm text-gray-500">
                 {t('buttons.viewDetails') || 'View Collection'} &rarr;
               </p>
             </Link>

@@ -119,15 +119,15 @@ export default function SettingsTab() {
   return (
     <div className="space-y-8 animate-fade-in">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
+        <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
           <Settings className="w-6 h-6 text-blue-600" />
           {currentLanguage === 'ku' ? 'ڕێکخستنەکان' : currentLanguage === 'en' ? 'Settings' : 'Mîheng'}
         </h2>
         {updateMessage && (
           <span className={`text-sm px-4 py-2 rounded-full font-medium animate-fade-in ${
             updateMessage.includes('هەڵە') || updateMessage.includes('error')
-              ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300' 
-              : 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
+              ? 'bg-red-100 text-red-700' 
+              : 'bg-green-100 text-green-700'
           }`}>
             {updateMessage}
           </span>
@@ -135,20 +135,20 @@ export default function SettingsTab() {
       </div>
 
       {/* Language & Display Preferences */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-sm transition-all duration-300 hover:shadow-md">
-        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2 pb-4 border-b border-gray-100 dark:border-gray-700">
+      <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm transition-all duration-300 hover:shadow-md">
+        <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2 pb-4 border-b border-gray-100">
           <Globe className="w-5 h-5 text-blue-500" />
           {currentLanguage === 'ku' ? 'زمان و نیشاندان' : currentLanguage === 'en' ? 'Language & Display' : 'Ziman û Dîmen'}
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               {currentLanguage === 'ku' ? 'زمانی سایت' : currentLanguage === 'en' ? 'Language' : 'Ziman'}
             </label>
             <select
               value={settings.preferences.language}
               onChange={(e) => handlePreferenceChange('language', e.target.value)}
-              className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700/50 text-gray-900 dark:text-white outline-none transition-all"
+              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 bg-gray-50 text-gray-900 outline-none transition-all"
             >
               <option value="ku">کوردی (Kurdish)</option>
               <option value="en">English</option>
@@ -157,26 +157,26 @@ export default function SettingsTab() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               {currentLanguage === 'ku' ? 'یەکەی پارە' : currentLanguage === 'en' ? 'Currency' : 'Dirav'}
             </label>
             <select
               value={settings.preferences.currency}
               disabled
-              className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 outline-none cursor-not-allowed"
+              className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-100 text-gray-500 outline-none cursor-not-allowed"
             >
               <option value="EUR">یۆرۆ (EUR)</option>
             </select>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               {currentLanguage === 'ku' ? 'ژمارەی کتێب لە هەر پەڕەیەکدا' : currentLanguage === 'en' ? 'Items per page' : 'Tiştên li ser rûpelê'}
             </label>
             <select
               value={settings.preferences.itemsPerPage}
               onChange={(e) => handlePreferenceChange('itemsPerPage', parseInt(e.target.value))}
-              className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700/50 text-gray-900 dark:text-white outline-none transition-all"
+              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 bg-gray-50 text-gray-900 outline-none transition-all"
             >
               <option value={8}>8</option>
               <option value={12}>12</option>
@@ -188,8 +188,8 @@ export default function SettingsTab() {
       </div>
 
       {/* Notification Settings */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-sm transition-all duration-300 hover:shadow-md">
-        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2 pb-4 border-b border-gray-100 dark:border-gray-700">
+      <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm transition-all duration-300 hover:shadow-md">
+        <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2 pb-4 border-b border-gray-100">
           <Bell className="w-5 h-5 text-yellow-500" />
           {currentLanguage === 'ku' ? 'ئاگادارکردنەوەکان' : currentLanguage === 'en' ? 'Notifications' : 'Agahdarî'}
         </h3>
@@ -203,8 +203,8 @@ export default function SettingsTab() {
           ].map((item) => (
             <div key={item.key} className="flex items-center justify-between group">
               <div>
-                <label className="text-sm font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.label}</label>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{item.desc}</p>
+                <label className="text-sm font-medium text-gray-900 group-hover:text-blue-600 transition-colors">{item.label}</label>
+                <p className="text-xs text-gray-500 mt-0.5">{item.desc}</p>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
@@ -213,7 +213,7 @@ export default function SettingsTab() {
                   onChange={(e) => handleNotificationChange(item.key, e.target.checked)}
                   className="sr-only peer"
                 />
-                <div className="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 dark:after:border-gray-600 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600 dark:peer-checked:bg-blue-500"></div>
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
               </label>
             </div>
           ))}
@@ -221,8 +221,8 @@ export default function SettingsTab() {
       </div>
 
       {/* Privacy Settings */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-sm transition-all duration-300 hover:shadow-md">
-        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2 pb-4 border-b border-gray-100 dark:border-gray-700">
+      <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm transition-all duration-300 hover:shadow-md">
+        <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2 pb-4 border-b border-gray-100">
           <Shield className="w-5 h-5 text-green-500" />
           {currentLanguage === 'ku' ? 'تایبەتمەندی' : currentLanguage === 'en' ? 'Privacy' : 'Taybetmendî'}
         </h3>
@@ -234,8 +234,8 @@ export default function SettingsTab() {
           ].map((item) => (
             <div key={item.key} className="flex items-center justify-between group">
               <div>
-                <label className="text-sm font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.label}</label>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{item.desc}</p>
+                <label className="text-sm font-medium text-gray-900 group-hover:text-blue-600 transition-colors">{item.label}</label>
+                <p className="text-xs text-gray-500 mt-0.5">{item.desc}</p>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
@@ -244,7 +244,7 @@ export default function SettingsTab() {
                   onChange={(e) => handlePrivacyChange(item.key, e.target.checked)}
                   className="sr-only peer"
                 />
-                <div className="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 dark:after:border-gray-600 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600 dark:peer-checked:bg-blue-500"></div>
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
               </label>
             </div>
           ))}
@@ -252,63 +252,63 @@ export default function SettingsTab() {
       </div>
 
       {/* Security Settings */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-sm transition-all duration-300 hover:shadow-md">
-        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2 pb-4 border-b border-gray-100 dark:border-gray-700">
+      <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm transition-all duration-300 hover:shadow-md">
+        <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2 pb-4 border-b border-gray-100">
           <Lock className="w-5 h-5 text-purple-500" />
           {currentLanguage === 'ku' ? 'ئاسایش' : currentLanguage === 'en' ? 'Security' : 'Ewlehî'}
         </h3>
         <div className="space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <h4 className="text-sm font-medium text-gray-900 dark:text-white">{currentLanguage === 'ku' ? 'گۆڕینی وشەی نهێنی' : currentLanguage === 'en' ? 'Change Password' : 'Şîfreyê biguherîne'}</h4>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              <h4 className="text-sm font-medium text-gray-900">{currentLanguage === 'ku' ? 'گۆڕینی وشەی نهێنی' : currentLanguage === 'en' ? 'Change Password' : 'Şîfreyê biguherîne'}</h4>
+              <p className="text-xs text-gray-500 mt-1">
                 {currentLanguage === 'ku' ? 'دواین گۆڕین: ٣ مانگ لەمەوبەر' : currentLanguage === 'en' ? 'Last changed: 3 months ago' : 'Guherîna dawî: berî 3 mehan'}
               </p>
             </div>
-            <button className="px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors">
+            <button className="px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
               {currentLanguage === 'ku' ? 'گۆڕین' : currentLanguage === 'en' ? 'Update' : 'Nûvekirin'}
             </button>
           </div>
           
           <div className="flex items-center justify-between">
             <div>
-              <h4 className="text-sm font-medium text-gray-900 dark:text-white">{currentLanguage === 'ku' ? 'سەلماندنی دوو هەنگاوی' : currentLanguage === 'en' ? 'Two-Factor Authentication' : 'Erêkirina du-gavekî'}</h4>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              <h4 className="text-sm font-medium text-gray-900">{currentLanguage === 'ku' ? 'سەلماندنی دوو هەنگاوی' : currentLanguage === 'en' ? 'Two-Factor Authentication' : 'Erêkirina du-gavekî'}</h4>
+              <p className="text-xs text-gray-500 mt-1">
                 {currentLanguage === 'ku' ? 'زیادکردنی ئاسایشی هەژمارەکەت' : currentLanguage === 'en' ? 'Add an extra layer of security' : 'Ewlehiya hesabê xwe zêde bikin'}
               </p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" className="sr-only peer" />
-              <div className="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 dark:after:border-gray-600 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600 dark:peer-checked:bg-blue-500"></div>
+              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
             </label>
           </div>
         </div>
       </div>
 
       {/* Danger Zone */}
-      <div className="bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/30 rounded-xl p-6 shadow-sm transition-all duration-300">
-        <h3 className="text-lg font-bold text-red-700 dark:text-red-400 mb-6 flex items-center gap-2 pb-4 border-b border-red-200 dark:border-red-800/30">
+      <div className="bg-red-50 border border-red-100 rounded-xl p-6 shadow-sm transition-all duration-300">
+        <h3 className="text-lg font-bold text-red-700 mb-6 flex items-center gap-2 pb-4 border-b border-red-200">
           <Trash2 className="w-5 h-5" />
           {currentLanguage === 'ku' ? 'ناوچەی مەترسیدار' : currentLanguage === 'en' ? 'Danger Zone' : 'Herêma Xeter'}
         </h3>
         <div className="flex items-center justify-between">
           <div>
-            <h4 className="text-sm font-medium text-gray-900 dark:text-white">{currentLanguage === 'ku' ? 'سڕینەوەی هەژمار' : currentLanguage === 'en' ? 'Delete Account' : 'Hesab jêbibe'}</h4>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+            <h4 className="text-sm font-medium text-gray-900">{currentLanguage === 'ku' ? 'سڕینەوەی هەژمار' : currentLanguage === 'en' ? 'Delete Account' : 'Hesab jêbibe'}</h4>
+            <p className="text-xs text-gray-500 mt-1">
               {currentLanguage === 'ku' ? 'ئەم کردارە پاشگەزبوونەوەی نییە' : currentLanguage === 'en' ? 'This action cannot be undone' : 'Ev kiryar nayê vegerandin'}
             </p>
           </div>
-          <button className="px-4 py-2 text-sm font-medium text-red-600 dark:text-red-400 bg-white dark:bg-gray-800 border border-red-200 dark:border-red-800 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+          <button className="px-4 py-2 text-sm font-medium text-red-600 bg-white border border-red-200 rounded-lg hover:bg-red-50 transition-colors">
             {currentLanguage === 'ku' ? 'سڕینەوە' : currentLanguage === 'en' ? 'Delete' : 'Jêbirin'}
           </button>
         </div>
       </div>
 
       {/* Action Buttons */}
-      <div className="flex flex-col sm:flex-row gap-4 justify-end pt-6 border-t border-gray-200 dark:border-gray-700">
+      <div className="flex flex-col sm:flex-row gap-4 justify-end pt-6 border-t border-gray-200">
         <button
           onClick={resetToDefaults}
-          className="flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors"
+          className="flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium text-red-600 hover:bg-red-50 rounded-xl transition-colors"
         >
           <RefreshCw className="w-4 h-4" />
           {currentLanguage === 'ku' ? 'گەڕاندنەوەی بۆ ڕێکخستنی سەرەتایی' : currentLanguage === 'en' ? 'Reset to Defaults' : 'Vegerîne'}
@@ -317,7 +317,7 @@ export default function SettingsTab() {
         <button
           onClick={saveSettings}
           disabled={isUpdating}
-          className="flex items-center justify-center gap-2 px-8 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 dark:shadow-none disabled:opacity-70 disabled:cursor-not-allowed transform hover:-translate-y-0.5"
+          className="flex items-center justify-center gap-2 px-8 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 disabled:opacity-70 disabled:cursor-not-allowed transform hover:-translate-y-0.5"
         >
           <Save className="w-4 h-4" />
           {isUpdating 

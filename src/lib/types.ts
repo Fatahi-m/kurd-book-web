@@ -217,3 +217,20 @@ export interface ArtProduct {
   isHandmade: boolean;
   creationTime?: string; // e.g., "2 weeks"
 }
+
+// Author Post types
+export interface AuthorPost {
+  id: string;
+  authorId: string;
+  authorName: string;
+  authorAvatar: string;
+  content: string;
+  image?: string;
+  date: string;
+  likes: number;
+  comments: number;
+  bookLink?: {
+    id: string;
+    title: string;
+  };
+}

@@ -35,18 +35,34 @@
     "bestsellersSubtitle": "Most popular books among our customers",
     "newReleases": "New Releases", 
     "specialOffers": "Special Offers",
-    "viewAll": "View All"
+    "viewAll": "View All",
+    "testimonialsTitle": "Voices of Our Community",
+    "testimonialsSubtitle": "Join thousands of satisfied readers who have found their next favorite book with us."
+  },
+  "newsletter": {
+    "title": "Join Our Literary Circle",
+    "subtitle": "Get the latest updates, new releases, and special offers delivered directly to your inbox.",
+    "placeholder": "Your email address",
+        "button": "Subscribe Now"
+  },
+  "quote": {
+    "text": "A room without books is like a body without a soul.",
+    "author": "Marcus Tullius Cicero"
   },
   "hero": {
     "badge": "New Collection 2025",
     "explore": "Explore Books",
-    "learnMore": "Learn More"
+    "learnMore": "Learn More",
+    "searchPlaceholder": "Search for books, authors..."
   },
   "sections": {
-    "featuredBooks": "Editor's Choice"
+    "featuredBooks": "Editor's Choice",
+    "newReleases": "New Releases",
+    "specialOffers": "Special Offers"
   },
   "app": {
-    "name": "Kurd Book"
+    "name": "Kurd Book",
+    "tagline": "EST. 2024"
   },
   "book": {
     "price": "Price",
@@ -63,6 +79,8 @@
     "contactInfo": "Contact Information",
     "followUs": "Follow Us",
     "newsletter": "Newsletter",
+    "newsletterDescription": "Get the latest updates, new releases, and special offers delivered directly to your inbox.",
+    "emailPlaceholder": "Your email address",
     "subscribe": "Subscribe",
     "aboutPurchase": "About Purchase",
     "shipping": "Shipping",
@@ -70,9 +88,11 @@
     "returns": "Returns & Refunds",
     "faq": "FAQ",
     "aboutShop": "About Shop",
+    "contact": "Contact Us",
     "terms": "Terms & Conditions",
     "privacy": "Privacy Policy",
-    "copyright": "All rights reserved."
+    "copyright": "All rights reserved.",
+    "description": "Your premier destination for Kurdish literature, culture, and history. Connecting readers with the richness of our heritage through a carefully curated selection of books."
   },
   "ads": {
     "specialOffer": "Special Offer",
@@ -107,5 +127,50 @@
     "addToCart": "Add to Cart",
     "viewAll": "View All",
     "buy": "Buy"
+  },
+  "nav": {
+    "home": "Home",
+    "books": "Books",
+    "authors": "Authors",
+    "categories": "Categories",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "homepage": {
+    "welcome": "Welcome to Kurdish Library",
+    "subtitle": "Discover thousands of books",
+    "inspiration": "Read, Learn, Grow",
+    "newReleasesSubtitle": "Fresh from the press",
+    "newReleasesDesc": "Check out the latest additions to our collection."
+  },
+  "offers": {
+    "discount": "Special Discount",
+    "limitedTime": "Limited Time Offer",
+    "viewOffers": "View Offers"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register"
+  },
+  "stats": {
+    "books": "Books Available",
+    "authors": "Authors",
+    "categories": "Categories",
+    "downloads": "Downloads"
+  },
+  "features": {
+    "title": "Why Choose Us",
+    "aesthetics": "Aesthetics",
+    "aestheticsDesc": "Beautiful design",
+    "diversity": "Diversity",
+    "diversityDesc": "Wide range of topics",
+    "originality": "Originality",
+    "originalityDesc": "Authentic content",
+    "platforms": "Multi-Platform",
+    "platformsDesc": "Available everywhere",
+    "digital": "Digital Library",
+    "digitalDesc": "Read online",
+    "fast": "Fast & Precise",
+    "fastDesc": "Quick search"
   }
 }

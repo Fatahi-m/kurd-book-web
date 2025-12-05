@@ -11,26 +11,26 @@ export default function BestsellersPage() {
   const bestsellerBooks = books.filter((book: Book) => book.bestseller);
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-[#0f172a] transition-colors duration-300">
+    <main className="min-h-screen bg-white transition-colors duration-300">
       {/* Header Section */}
-      <div className="bg-slate-50 dark:bg-[#0f172a] border-b border-[#E5E0D5] dark:border-[#2A2A2A] pt-32 pb-12 px-4">
+      <div className="bg-white border-b border-gray-200 py-12 px-4">
         <div className="container mx-auto max-w-7xl">
           <div className="flex flex-col items-center text-center space-y-6">
-            <div className="flex items-center space-x-2 text-sm tracking-widest uppercase text-[#8C8C8C] dark:text-[#A0A0A0]">
-              <Link href="/" className="hover:text-[#D4AF37] transition-colors">
+            <div className="flex items-center space-x-2 text-sm tracking-widest uppercase text-gray-500">
+              <Link href="/" className="hover:text-black transition-colors">
                 {t('nav.home')}
               </Link>
               <span>/</span>
-              <span className="text-[#D4AF37]">{t('sections.bestSellers')}</span>
+              <span className="text-black">{t('sections.bestSellers')}</span>
             </div>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-[#2C2C2C] dark:text-[#E0E0E0]">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-black">
               {t('sections.bestSellers')}
             </h1>
             
-            <div className="w-24 h-1 bg-[#D4AF37] mx-auto"></div>
+            <div className="w-24 h-1 bg-black mx-auto"></div>
             
-            <p className="max-w-2xl text-lg text-[#5C5C5C] dark:text-[#B0B0B0] font-serif leading-relaxed">
+            <p className="max-w-2xl text-lg text-gray-600 font-serif leading-relaxed">
               {currentLanguage === 'ku' ? 'باشترین کتابە فرۆشراوەکان' : currentLanguage === 'en' ? 'Most popular and best-selling books' : 'Die beliebtesten und meistverkauften Bücher'}
             </p>
           </div>
@@ -40,8 +40,8 @@ export default function BestsellersPage() {
       {/* Content Section */}
       <div className="container mx-auto max-w-7xl px-4 py-16">
         {/* Results Count */}
-        <div className="flex justify-between items-center mb-8 pb-4 border-b border-[#E5E0D5] dark:border-[#2A2A2A]">
-          <span className="text-[#5C5C5C] dark:text-[#B0B0B0] font-serif">
+        <div className="flex justify-between items-center mb-8 pb-4 border-b border-gray-200">
+          <span className="text-gray-600 font-serif">
             {bestsellerBooks.length} {currentLanguage === 'ku' ? 'کتاب' : currentLanguage === 'en' ? 'Books' : 'Bücher'}
           </span>
         </div>
@@ -56,10 +56,10 @@ export default function BestsellersPage() {
         ) : (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <div className="text-6xl mb-6 opacity-20">📚</div>
-            <h2 className="text-2xl font-serif text-[#2C2C2C] dark:text-[#E0E0E0] mb-3">
+            <h2 className="text-2xl font-serif text-black mb-3">
               {currentLanguage === 'ku' ? 'هیچ کتابی باشترین فرۆشراو نییە' : currentLanguage === 'en' ? 'No bestsellers' : 'Keine Bestseller'}
             </h2>
-            <p className="text-[#5C5C5C] dark:text-[#B0B0B0]">
+            <p className="text-gray-600">
               {currentLanguage === 'ku' ? 'هێشتا کتابی باشترین فرۆشراو نییە' : currentLanguage === 'en' ? 'No bestselling books available yet' : 'Es sind noch keine Bestseller verfügbar'}
             </p>
           </div>

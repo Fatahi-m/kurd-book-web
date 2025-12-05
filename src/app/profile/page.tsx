@@ -122,10 +122,10 @@ function ProfileContent() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-[#0f172a] flex items-center justify-center transition-colors duration-300">
+      <div className="min-h-screen bg-white flex items-center justify-center transition-colors duration-300">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b border-black dark:border-white mx-auto"></div>
-          <p className="mt-4 text-gray-600 dark:text-gray-400 font-light uppercase tracking-widest">{t('common.loading')}</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b border-black mx-auto"></div>
+          <p className="mt-4 text-gray-600 font-light uppercase tracking-widest">{t('common.loading')}</p>
         </div>
       </div>
     );
@@ -143,7 +143,7 @@ function ProfileContent() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#0f172a] pt-12 pb-24 transition-colors duration-300 font-sans">
+    <div className="min-h-screen bg-white pt-12 pb-24 transition-colors duration-300 font-sans">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           {/* Sidebar */}
@@ -151,7 +151,7 @@ function ProfileContent() {
             <div className="sticky top-24">
               <div className="flex flex-col items-center text-center mb-12">
                 <div className="relative group cursor-pointer mb-6" onClick={triggerFileInput}>
-                  <div className="w-32 h-32 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-800">
+                  <div className="w-32 h-32 rounded-full overflow-hidden bg-gray-100 border border-gray-200">
                     {profileImage ? (
                       <img src={profileImage} alt="Profile" className="w-full h-full object-cover" />
                     ) : (
@@ -172,8 +172,8 @@ function ProfileContent() {
                   />
                 </div>
                 
-                <h2 className="text-2xl font-serif text-gray-900 dark:text-white mb-2">{user.firstName} {user.lastName}</h2>
-                <p className="text-gray-500 dark:text-gray-400 text-sm font-light">{user.email}</p>
+                <h2 className="text-2xl font-serif text-black mb-2">{user.firstName} {user.lastName}</h2>
+                <p className="text-gray-500 text-sm font-light">{user.email}</p>
               </div>
 
               <nav className="space-y-1">
@@ -183,8 +183,8 @@ function ProfileContent() {
                     onClick={() => setActiveTab(tab.id)}
                     className={`w-full flex items-center space-x-4 rtl:space-x-reverse px-4 py-3 transition-colors ${
                       activeTab === tab.id
-                        ? 'text-black dark:text-white border-l-2 border-black dark:border-white bg-white dark:bg-gray-800'
-                        : 'text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-white/50 dark:hover:bg-gray-800/50'
+                        ? 'text-black border-l-2 border-black bg-gray-50'
+                        : 'text-gray-500 hover:text-black hover:bg-gray-50'
                     }`}
                   >
                     <tab.icon className="w-4 h-4" />
@@ -192,10 +192,10 @@ function ProfileContent() {
                   </button>
                 ))}
 
-                <div className="pt-8 mt-8 border-t border-gray-200 dark:border-gray-800">
+                <div className="pt-8 mt-8 border-t border-gray-100">
                   <button
                     onClick={handleLogout}
-                    className="w-full flex items-center space-x-4 rtl:space-x-reverse px-4 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors"
+                    className="w-full flex items-center space-x-4 rtl:space-x-reverse px-4 py-3 text-red-600 hover:bg-red-50 transition-colors"
                   >
                     <LogOut className="w-4 h-4" />
                     <span className="text-sm uppercase tracking-widest">{t('profile.logout')}</span>
@@ -212,18 +212,18 @@ function ProfileContent() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
-              className="bg-white dark:bg-[#1a1a1a] p-8 md:p-12 min-h-[600px] border border-gray-100 dark:border-gray-800"
+              className="bg-white p-8 md:p-12 min-h-[600px] border border-gray-100 shadow-sm"
             >
               {activeTab === 'profile' && (
                 <div>
-                  <div className="flex justify-between items-center mb-12 pb-6 border-b border-gray-100 dark:border-gray-800">
-                    <h2 className="text-2xl font-serif text-gray-900 dark:text-white">
+                  <div className="flex justify-between items-center mb-12 pb-6 border-b border-gray-100">
+                    <h2 className="text-2xl font-serif text-black">
                       {t('profile.personalInfo')}
                     </h2>
                     {!isEditing ? (
                       <button
                         onClick={() => setIsEditing(true)}
-                        className="flex items-center gap-2 text-sm uppercase tracking-widest text-gray-500 hover:text-black dark:hover:text-white transition-colors"
+                        className="flex items-center gap-2 text-sm uppercase tracking-widest text-gray-500 hover:text-black transition-colors"
                       >
                         <Edit2 className="w-4 h-4" />
                         {t('profile.edit')}
@@ -232,13 +232,13 @@ function ProfileContent() {
                       <div className="flex gap-4">
                         <button
                           onClick={() => setIsEditing(false)}
-                          className="text-sm uppercase tracking-widest text-gray-500 hover:text-black dark:hover:text-white transition-colors"
+                          className="text-sm uppercase tracking-widest text-gray-500 hover:text-black transition-colors"
                         >
                           {t('profile.cancel')}
                         </button>
                         <button
                           onClick={handleSaveProfile}
-                          className="text-sm uppercase tracking-widest text-black dark:text-white border-b border-black dark:border-white pb-0.5 hover:opacity-70 transition-opacity"
+                          className="text-sm uppercase tracking-widest text-black border-b border-black pb-0.5 hover:opacity-70 transition-opacity"
                         >
                           {t('profile.save')}
                         </button>
@@ -258,7 +258,7 @@ function ProfileContent() {
                           value={formData.firstName}
                           onChange={handleInputChange}
                           disabled={!isEditing}
-                          className="w-full bg-transparent border-b border-gray-200 dark:border-gray-700 py-2 focus:border-black dark:focus:border-white outline-none transition-colors disabled:text-gray-500"
+                          className="w-full bg-transparent border-b border-gray-200 py-2 focus:border-black outline-none transition-colors disabled:text-gray-500"
                         />
                       </div>
                       <div className="space-y-2">
@@ -271,7 +271,7 @@ function ProfileContent() {
                           value={formData.lastName}
                           onChange={handleInputChange}
                           disabled={!isEditing}
-                          className="w-full bg-transparent border-b border-gray-200 dark:border-gray-700 py-2 focus:border-black dark:focus:border-white outline-none transition-colors disabled:text-gray-500"
+                          className="w-full bg-transparent border-b border-gray-200 py-2 focus:border-black outline-none transition-colors disabled:text-gray-500"
                         />
                       </div>
                       <div className="space-y-2">
@@ -282,7 +282,7 @@ function ProfileContent() {
                           type="email"
                           value={user.email}
                           disabled
-                          className="w-full bg-transparent border-b border-gray-200 dark:border-gray-700 py-2 text-gray-400 cursor-not-allowed"
+                          className="w-full bg-transparent border-b border-gray-200 py-2 text-gray-400 cursor-not-allowed"
                         />
                       </div>
                     </div>
@@ -298,7 +298,7 @@ function ProfileContent() {
                           value={formData.phone}
                           onChange={handleInputChange}
                           disabled={!isEditing}
-                          className="w-full bg-transparent border-b border-gray-200 dark:border-gray-700 py-2 focus:border-black dark:focus:border-white outline-none transition-colors disabled:text-gray-500"
+                          className="w-full bg-transparent border-b border-gray-200 py-2 focus:border-black outline-none transition-colors disabled:text-gray-500"
                         />
                       </div>
                       <div className="space-y-2">
@@ -311,7 +311,7 @@ function ProfileContent() {
                           value={formData.address.street}
                           onChange={handleInputChange}
                           disabled={!isEditing}
-                          className="w-full bg-transparent border-b border-gray-200 dark:border-gray-700 py-2 focus:border-black dark:focus:border-white outline-none transition-colors disabled:text-gray-500"
+                          className="w-full bg-transparent border-b border-gray-200 py-2 focus:border-black outline-none transition-colors disabled:text-gray-500"
                         />
                       </div>
                       <div className="grid grid-cols-2 gap-8">
@@ -325,7 +325,7 @@ function ProfileContent() {
                             value={formData.address.city}
                             onChange={handleInputChange}
                             disabled={!isEditing}
-                            className="w-full bg-transparent border-b border-gray-200 dark:border-gray-700 py-2 focus:border-black dark:focus:border-white outline-none transition-colors disabled:text-gray-500"
+                            className="w-full bg-transparent border-b border-gray-200 py-2 focus:border-black outline-none transition-colors disabled:text-gray-500"
                           />
                         </div>
                         <div className="space-y-2">
@@ -338,7 +338,7 @@ function ProfileContent() {
                             value={formData.address.zipCode}
                             onChange={handleInputChange}
                             disabled={!isEditing}
-                            className="w-full bg-transparent border-b border-gray-200 dark:border-gray-700 py-2 focus:border-black dark:focus:border-white outline-none transition-colors disabled:text-gray-500"
+                            className="w-full bg-transparent border-b border-gray-200 py-2 focus:border-black outline-none transition-colors disabled:text-gray-500"
                           />
                         </div>
                       </div>
@@ -362,10 +362,10 @@ export default function ProfilePage() {
   const { t } = useLanguage();
   
   return (
-    <Suspense fallback={<div className="min-h-screen bg-slate-50 dark:bg-[#0f172a] flex items-center justify-center transition-colors duration-300">
+    <Suspense fallback={<div className="min-h-screen bg-white flex items-center justify-center transition-colors duration-300">
       <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b border-black dark:border-white mx-auto mb-4"></div>
-        <p className="text-gray-600 dark:text-gray-400 font-light uppercase tracking-widest">{t('profile.loading')}</p>
+        <div className="animate-spin rounded-full h-12 w-12 border-b border-black mx-auto mb-4"></div>
+        <p className="text-gray-600 font-light uppercase tracking-widest">{t('profile.loading')}</p>
       </div>
     </div>}>
       <ProfileContent />

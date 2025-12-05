@@ -25,7 +25,7 @@ const slides: Slide[] = [
     descriptionKey: 'homepage.inspiration',
     ctaKey: 'nav.books',
     ctaLink: '/books',
-    gradient: 'from-blue-600 to-blue-800',
+    gradient: 'from-gray-900 to-black',
   },
   {
     id: 2,
@@ -34,7 +34,7 @@ const slides: Slide[] = [
     descriptionKey: 'homepage.newReleasesDesc', // We might need to add this key or use a fallback
     ctaKey: 'buttons.viewAll',
     ctaLink: '/new-releases',
-    gradient: 'from-purple-600 to-indigo-800',
+    gradient: 'from-black to-gray-800',
   },
   {
     id: 3,
@@ -43,7 +43,7 @@ const slides: Slide[] = [
     descriptionKey: 'offers.limitedTime', // We might need to add this key or use a fallback
     ctaKey: 'offers.viewOffers',
     ctaLink: '/books?filter=discount',
-    gradient: 'from-orange-500 to-red-600',
+    gradient: 'from-gray-800 to-black',
   }
 ];
 
@@ -121,7 +121,7 @@ export default function HeroSlider() {
   const content = getSlideContent(currentSlide);
 
   return (
-    <div className="relative h-[400px] md:h-[500px] w-full overflow-hidden rounded-2xl shadow-xl mb-8 group">
+    <div className="relative w-full h-[450px] md:h-[550px] overflow-hidden rounded-2xl shadow-2xl group bg-gray-900">
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
           key={currentIndex}
@@ -134,84 +134,54 @@ export default function HeroSlider() {
             x: { type: "spring", stiffness: 300, damping: 30 },
             opacity: { duration: 0.2 }
           }}
-          className={`absolute inset-0 bg-gradient-to-r ${currentSlide.gradient} text-white flex items-center justify-center`}
+          className="absolute inset-0 w-full h-full"
         >
-          {/* Background Pattern */}
-          <div className="absolute inset-0 opacity-10">
-            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="1"/>
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#grid)" />
-            </svg>
+          {/* Background with Gradient & Pattern */}
+          <div className={`absolute inset-0 bg-gradient-to-br ${currentSlide.gradient}`}>
+             <div className="absolute inset-0 opacity-20 bg-[url('/images/noise.png')] mix-blend-overlay"></div>
+             <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-white/5 rounded-full blur-[100px] -mr-20 -mt-20 animate-pulse"></div>
+             <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-black/20 rounded-full blur-[80px] -ml-10 -mb-10"></div>
           </div>
 
-          <div className="relative z-10 px-4 md:px-16 text-center max-w-4xl mx-auto">
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
+          <div className="relative z-10 container mx-auto px-8 md:px-16 h-full flex flex-col justify-center items-start text-white max-w-5xl">
+            <motion.span 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
+              className="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-[0.2em] uppercase bg-white/10 backdrop-blur-md rounded-full border border-white/10 shadow-lg"
             >
-              <span className="inline-block mb-4 p-3 bg-white/10 rounded-full backdrop-blur-sm">
-                {currentSlide.id === 1 && (
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                  </svg>
-                )}
-                {currentSlide.id === 2 && (
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                  </svg>
-                )}
-                {currentSlide.id === 3 && (
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-                    <line x1="7" y1="7" x2="7.01" y2="7"></line>
-                  </svg>
-                )}
-              </span>
-            </motion.div>
+              {content.subtitle || 'Featured Collection'}
+            </motion.span>
 
-            <motion.h1 
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-4 md:mb-6 leading-tight drop-shadow-lg"
+              className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-[0.9] font-serif tracking-tight drop-shadow-xl"
             >
               {content.title}
-            </motion.h1>
+            </motion.h2>
             
             <motion.p 
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="text-lg md:text-2xl mb-4 text-white/90 font-medium"
-            >
-              {content.subtitle}
-            </motion.p>
-            
-            <motion.p 
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="text-base md:text-lg mb-8 text-white/80 font-light max-w-2xl mx-auto hidden md:block"
+              className="text-lg md:text-xl text-gray-100 mb-10 max-w-xl leading-relaxed font-light drop-shadow-md"
             >
               {content.description}
             </motion.p>
             
             <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.6 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
             >
-              <Link
+              <Link 
                 href={currentSlide.ctaLink}
-                className="inline-block bg-white text-gray-900 px-8 py-3 rounded-xl font-bold text-lg shadow-lg hover:bg-gray-100 hover:scale-105 transition-all duration-200"
+                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-white text-black font-bold rounded-xl overflow-hidden transition-all hover:bg-gray-100 hover:scale-105 shadow-xl shadow-black/20"
               >
-                {t(currentSlide.ctaKey)}
+                <span className="relative z-10 uppercase tracking-wider text-sm">{t(currentSlide.ctaKey)}</span>
+                <ChevronRight className="w-4 h-4 relative z-10 transition-transform group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1" />
               </Link>
             </motion.div>
           </div>
@@ -219,21 +189,22 @@ export default function HeroSlider() {
       </AnimatePresence>
 
       {/* Navigation Buttons */}
-      <button
-        className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black/20 hover:bg-black/40 text-white p-2 rounded-full backdrop-blur-sm transition-colors opacity-0 group-hover:opacity-100 rtl:right-4 rtl:left-auto"
+      <button 
+        className="absolute left-6 top-1/2 -translate-y-1/2 z-20 w-14 h-14 flex items-center justify-center rounded-full bg-white/5 backdrop-blur-md border border-white/10 text-white hover:bg-white hover:text-black transition-all opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 duration-300 shadow-lg"
         onClick={prevSlide}
       >
-        <ChevronLeft size={24} className="rtl:rotate-180" />
+        <ChevronLeft className="w-6 h-6 rtl:rotate-180" />
       </button>
-      <button
-        className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black/20 hover:bg-black/40 text-white p-2 rounded-full backdrop-blur-sm transition-colors opacity-0 group-hover:opacity-100 rtl:left-4 rtl:right-auto"
+      
+      <button 
+        className="absolute right-6 top-1/2 -translate-y-1/2 z-20 w-14 h-14 flex items-center justify-center rounded-full bg-white/5 backdrop-blur-md border border-white/10 text-white hover:bg-white hover:text-black transition-all opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 duration-300 shadow-lg"
         onClick={nextSlide}
       >
-        <ChevronRight size={24} className="rtl:rotate-180" />
+        <ChevronRight className="w-6 h-6 rtl:rotate-180" />
       </button>
 
       {/* Dots */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 rtl:space-x-reverse z-20">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-3">
         {slides.map((_, index) => (
           <button
             key={index}
@@ -241,8 +212,10 @@ export default function HeroSlider() {
               setDirection(index > currentIndex ? 1 : -1);
               setCurrentIndex(index);
             }}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === currentIndex ? 'bg-white w-8' : 'bg-white/50 hover:bg-white/80'
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              index === currentIndex 
+                ? 'bg-white w-8' 
+                : 'bg-white/30 w-2 hover:bg-white/50'
             }`}
           />
         ))}

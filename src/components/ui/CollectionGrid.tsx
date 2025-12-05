@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { categories } from '@/data/books';
+import { ArrowRight } from 'lucide-react';
 
 // Map images to category slugs
 const categoryImages: Record<string, string> = {
@@ -21,49 +22,36 @@ export default function CollectionGrid() {
   const displayCategories = categories.filter(cat => categoryImages[cat.slug]);
 
   return (
-    <section className="py-16 border-b border-[#e5e5e5] dark:border-[#333] bg-white dark:bg-[#121212]">
-      <div className="container mx-auto px-6 md:px-12">
-        
-        {/* Section Header - Centered & Clean */}
-        <div className="text-center mb-12">
-          <h2 className="text-2xl md:text-3xl font-serif text-[#1a1a1a] dark:text-[#f5f5f5] mb-3">
-            {t('nav.categories') || 'Browse by Category'}
-          </h2>
-          <div className="w-12 h-[1px] bg-[#e11d48] mx-auto"></div>
-        </div>
-
-        {/* Uniform Grid Layout - Clean & Organized */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-          {displayCategories.map((category) => (
-            <Link 
-              key={category.id}
-              href={`/category/${category.slug}`} 
-              className="group flex flex-col items-center text-center"
-            >
-              <div className="relative w-full aspect-square overflow-hidden rounded-full mb-4 border border-gray-200 dark:border-gray-800 group-hover:border-[#e11d48] transition-colors duration-300 max-w-[160px]">
-                <Image 
-                  src={categoryImages[category.slug]} 
-                  alt={currentLanguage === 'ku' ? category.name.ku : (currentLanguage === 'kmr' ? category.name.kmr : category.name.en)}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-300"></div>
-              </div>
-              
-              <h3 className="text-sm font-bold uppercase tracking-widest text-[#1a1a1a] dark:text-[#f5f5f5] group-hover:text-[#e11d48] transition-colors">
-                {currentLanguage === 'ku' ? category.name.ku : (currentLanguage === 'kmr' ? category.name.kmr : category.name.en)}
-              </h3>
-            </Link>
-          ))}
-        </div>
-
-        <div className="mt-12 text-center">
-          <Link href="/categories" className="text-xs font-bold tracking-widest uppercase border-b border-[#1a1a1a] dark:border-[#f5f5f5] pb-1 hover:opacity-60 transition-opacity">
-            {t('buttons.viewAll') || 'View All Categories'}
-          </Link>
-        </div>
-
-      </div>
-    </section>
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+      {displayCategories.map((category) => (
+        <Link 
+          key={category.id}
+          href={`/category/${category.slug}`} 
+          className="group relative h-48 md:h-64 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500"
+        >
+          {/* Background Image */}
+          <Image 
+            src={categoryImages[category.slug]} 
+            alt={currentLanguage === 'ku' ? category.name.ku : (currentLanguage === 'kmr' ? category.name.kmr : category.name.en)}
+            fill
+            className="object-cover transition-transform duration-700 group-hover:scale-110"
+          />
+          
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500"></div>
+          
+          {/* Content */}
+          <div className="absolute inset-0 p-6 flex flex-col justify-end items-start">
+            <h3 className="text-xl font-bold text-white mb-2 leading-tight transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+              {currentLanguage === 'ku' ? category.name.ku : (currentLanguage === 'kmr' ? category.name.kmr : category.name.en)}
+            </h3>
+            <div className="flex items-center gap-2 text-white text-sm font-medium opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-75">
+              <span>{t('buttons.viewAll') || 'Explore'}</span>
+              <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+            </div>
+          </div>
+        </Link>
+      ))}
+    </div>
   );
 }

@@ -52,21 +52,21 @@ export default function WishlistPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-[#0f172a] pt-24 pb-12 flex justify-center items-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b border-black dark:border-white"></div>
+      <div className="min-h-screen bg-white pt-24 pb-12 flex justify-center items-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b border-black"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#0f172a] pt-12 pb-24 transition-colors duration-300 font-sans">
+    <div className="min-h-screen bg-white pt-12 pb-24 transition-colors duration-300 font-sans">
       <div className="container mx-auto px-4">
-        <div className="flex items-baseline justify-between mb-12 border-b border-gray-200 dark:border-gray-800 pb-6">
+        <div className="flex items-baseline justify-between mb-12 border-b border-gray-200 pb-6">
           <div>
-            <h1 className="text-3xl md:text-4xl font-serif text-gray-900 dark:text-white mb-2">
+            <h1 className="text-3xl md:text-4xl font-serif text-black mb-2">
               {t('wishlist.title')}
             </h1>
-            <p className="text-sm font-light text-gray-500 dark:text-gray-400 uppercase tracking-widest">
+            <p className="text-sm font-light text-gray-500 uppercase tracking-widest">
               {wishlistItems.length} {t('wishlist.items')}
             </p>
           </div>
@@ -74,7 +74,7 @@ export default function WishlistPage() {
           {wishlistItems.length > 0 && (
             <Link 
               href="/books" 
-              className="hidden md:flex items-center gap-2 text-sm uppercase tracking-widest text-gray-500 hover:text-black dark:hover:text-white transition-colors"
+              className="hidden md:flex items-center gap-2 text-sm uppercase tracking-widest text-gray-500 hover:text-black transition-colors"
             >
               {t('wishlist.continueShopping')}
               <ArrowRight className="w-4 h-4 rtl:rotate-180" />
@@ -89,15 +89,15 @@ export default function WishlistPage() {
             className="text-center max-w-md mx-auto py-24"
           >
             <div className="text-6xl mb-6 opacity-20">♡</div>
-            <h2 className="text-2xl font-serif text-gray-900 dark:text-white mb-4">
+            <h2 className="text-2xl font-serif text-black mb-4">
               {t('wishlist.empty')}
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-8 font-light leading-relaxed">
+            <p className="text-gray-600 mb-8 font-light leading-relaxed">
               {t('wishlist.emptyMessage')}
             </p>
             <Link 
               href="/books" 
-              className="inline-block bg-black dark:bg-white text-white dark:text-black px-8 py-3 text-sm uppercase tracking-widest hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
+              className="inline-block bg-black text-white px-8 py-3 text-sm uppercase tracking-widest hover:bg-gray-800 transition-colors"
             >
               {t('wishlist.browseBooks')}
             </Link>
@@ -112,7 +112,7 @@ export default function WishlistPage() {
                 transition={{ delay: index * 0.1 }}
                 className="group"
               >
-                <div className="relative aspect-[2/3] mb-4 bg-gray-200 dark:bg-gray-800 overflow-hidden">
+                <div className="relative aspect-[2/3] mb-4 bg-gray-200 overflow-hidden">
                   <img 
                     src={item.imageUrl || '/images/placeholder-book.jpg'} 
                     alt={item.title} 
@@ -138,11 +138,11 @@ export default function WishlistPage() {
                 
                 <div className="text-center">
                   <Link href={`/book/${item.id}`}>
-                    <h3 className="font-serif text-lg text-gray-900 dark:text-white mb-1 hover:underline decoration-1 underline-offset-4">
+                    <h3 className="font-serif text-lg text-black mb-1 hover:underline decoration-1 underline-offset-4">
                       {item.title}
                     </h3>
                   </Link>
-                  <p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">
+                  <p className="text-xs uppercase tracking-widest text-gray-500 mb-2">
                     {item.author}
                   </p>
                   
@@ -152,7 +152,7 @@ export default function WishlistPage() {
                         {formatPrice(item.originalPrice)}
                       </span>
                     )}
-                    <span className="text-base font-medium text-gray-900 dark:text-white">
+                    <span className="text-base font-medium text-black">
                       {formatPrice(item.price)}
                     </span>
                   </div>

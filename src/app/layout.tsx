@@ -12,6 +12,8 @@ import { LanguageProvider } from '@/contexts/LanguageContext'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { ThemeProvider } from '@/contexts/ThemeContext'
 import { ReviewProvider } from '@/contexts/ReviewContext'
+import { QuickViewProvider } from '@/contexts/QuickViewContext'
+import QuickViewModal from '@/components/ui/QuickViewModal'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -52,7 +54,7 @@ export const metadata: Metadata = {
     'mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-status-bar-style': 'default',
-    'msapplication-TileColor': '#e11d48',
+    'msapplication-TileColor': '#d97706',
     'msapplication-config': 'none'
   }
 }
@@ -62,7 +64,7 @@ export const viewport: Viewport = {
   initialScale: 1.0,
   maximumScale: 5.0,
   userScalable: true,
-  themeColor: '#e11d48',
+  themeColor: '#d97706',
 }
 
 export default function RootLayout({
@@ -72,22 +74,25 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ku" dir="rtl">
-      <body className={`${vazirmatn.variable} ${playfair.variable} ${lora.variable} ${inter.variable} font-sans font-light antialiased transition-all duration-300 bg-slate-50 dark:bg-[#0f172a] text-gray-900 dark:text-gray-100`}>
+      <body className={`${vazirmatn.variable} ${playfair.variable} ${lora.variable} ${inter.variable} font-sans font-light antialiased transition-all duration-300 bg-white text-slate-900`}>
         <LanguageProvider>
           <AuthProvider>
             <CartProvider>
               <WishlistProvider>
                 <ReviewProvider>
                   <ThemeProvider>
-                    <div className="min-h-screen flex flex-col">
-                      <Header />
-                      <main className="flex-1 pb-16 md:pb-0">
-                        {children}
-                      </main>
-                      <AboutSummary />
-                      <Footer />
-                      <BottomNav />
-                    </div>
+                    <QuickViewProvider>
+                      <div className="min-h-screen flex flex-col w-full bg-white">
+                        <Header />
+                        <main className="flex-1 pb-16 md:pb-0">
+                          {children}
+                        </main>
+                        <AboutSummary />
+                        <Footer />
+                        <BottomNav />
+                        <QuickViewModal />
+                      </div>
+                    </QuickViewProvider>
                   </ThemeProvider>
                 </ReviewProvider>
               </WishlistProvider>

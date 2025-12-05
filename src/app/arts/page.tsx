@@ -22,7 +22,7 @@ export default function ArtsPage() {
     : artProducts.filter(p => p.category === filter);
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-[#0f172a] transition-colors duration-500">
+    <main className="min-h-screen bg-slate-50 transition-colors duration-500">
       {/* Hero Section */}
       <div className="relative bg-[#e11d48] text-white py-24 overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
@@ -52,8 +52,8 @@ export default function ArtsPage() {
               onClick={() => setFilter(cat.id)}
               className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                 filter === cat.id
-                  ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-lg transform scale-105'
-                  : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  ? 'bg-gray-900 text-white shadow-lg transform scale-105'
+                  : 'bg-white text-gray-600 hover:bg-gray-100'
               }`}
             >
               {currentLanguage === 'ku' ? cat.label.ku : currentLanguage === 'kmr' ? cat.label.kmr : cat.label.en}
@@ -70,7 +70,7 @@ export default function ArtsPage() {
           </div>
         ) : (
           <div className="text-center py-20">
-            <p className="text-xl text-gray-500 dark:text-gray-400">
+            <p className="text-xl text-gray-500">
               No products found in this category.
             </p>
           </div>

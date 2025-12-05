@@ -2,7 +2,7 @@
 
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
-import { BookOpen, PenTool, Heart, GraduationCap } from 'lucide-react';
+import { BookOpen, PenTool, Heart, GraduationCap, Sparkles } from 'lucide-react';
 
 export default function AboutSummary() {
   const { currentLanguage } = useLanguage();
@@ -88,72 +88,62 @@ export default function AboutSummary() {
   const t = content[currentLanguage as keyof typeof content] || content.en;
 
   return (
-    <section id="about-mission" className="py-24 bg-white dark:bg-slate-900 relative overflow-hidden">
-      {/* Subtle Background Pattern */}
-      <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none" 
-           style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '32px 32px' }}>
-      </div>
+    <section id="about-mission" className="py-20 bg-white">
+      <div className="container mx-auto px-4">
+        
+        {/* Content Container */}
+        <div className="max-w-3xl mx-auto">
 
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-4xl mx-auto">
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="flex flex-col items-center text-center"
-          >
-            {/* Decorative Icon */}
-            <div className="mb-8 p-4 bg-rose-50 dark:bg-rose-900/20 rounded-full text-rose-600 dark:text-rose-500">
-               <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-               </svg>
-            </div>
+          {/* Header */}
+          <div className="text-center mb-12">
+            <h2 className={`text-4xl md:text-5xl font-bold text-slate-900 mb-6 ${currentLanguage === 'ku' ? 'font-bilal' : 'font-serif'}`}>
+              {currentLanguage === 'ku' ? 'چیرۆکی ئێمە' : 'Our Story'}
+            </h2>
+            <div className="w-20 h-1.5 bg-amber-500 mx-auto rounded-full"></div>
+          </div>
 
-            {/* Intro Text */}
-            <div className="prose prose-lg dark:prose-invert max-w-none mb-16">
-              <p className="text-xl md:text-2xl leading-relaxed font-serif text-gray-700 dark:text-gray-200">
-                {t.intro}
-              </p>
-            </div>
+          {/* Content Body */}
+          <div className={`text-xl leading-loose text-slate-700 text-justify ${currentLanguage === 'ku' ? 'font-bilal' : 'font-serif'}`}>
+            <p className="mb-10 first-letter:text-6xl first-letter:font-bold first-letter:text-amber-600 first-letter:mr-4 first-letter:float-left">
+              {t.intro}
+            </p>
 
-            {/* Goals Grid */}
-            <div className="grid md:grid-cols-3 gap-8 w-full mb-16">
-              {t.goals.map((goal, idx) => (
-                <div key={idx} className="flex flex-col items-center p-6 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-700 hover:shadow-lg transition-shadow duration-300">
-                  <div className="w-12 h-12 flex items-center justify-center bg-white dark:bg-slate-700 rounded-full text-rose-600 mb-4 shadow-sm">
-                    {goal.icon}
+            <div className="my-12 pl-8 border-l-4 border-amber-100 py-4">
+              <h3 className="font-bold text-slate-900 mb-8 text-xl uppercase tracking-wider">
+                {t.goalsTitle}
+              </h3>
+              <div className="space-y-6">
+                {t.goals.map((goal, idx) => (
+                  <div key={idx} className="flex items-start gap-4">
+                    <span className="text-amber-500 mt-2 text-sm">●</span>
+                    <p className="m-0 text-xl">
+                      <span className="font-bold text-slate-900">{goal.title}</span>
+                      <span className="mx-3 text-slate-300">|</span>
+                      <span className="text-slate-600">{goal.desc}</span>
+                    </p>
                   </div>
-                  <h3 className="text-lg font-bold mb-2 text-slate-900 dark:text-white">{goal.title}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">{goal.desc}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* Highlight Section */}
-            <div className="w-full bg-rose-600 text-white p-8 md:p-10 rounded-3xl shadow-xl mb-12 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
-              <div className="relative z-10 flex flex-col items-center">
-                <GraduationCap className="w-12 h-12 mb-4 text-rose-100" />
-                <p className="text-lg md:text-xl font-medium leading-relaxed max-w-2xl">
-                  {t.highlight}
-                </p>
+                ))}
               </div>
             </div>
 
-            {/* Conclusion & Signature */}
-            <div className="max-w-2xl mx-auto">
-              <p className="text-gray-600 dark:text-gray-400 italic text-lg mb-8">
-                "{t.conclusion}"
+            <div className="bg-slate-50 p-10 my-12 rounded-lg border border-slate-100 text-center">
+              <p className="italic text-slate-800 font-medium text-2xl">
+                "{t.highlight}"
               </p>
-              <div className="flex flex-col items-center gap-2">
-                 <span className="font-bold text-2xl text-gray-900 dark:text-white font-serif">{t.signature}</span>
-                 <span className="text-xs text-gray-400 font-medium uppercase tracking-[0.2em]">{t.date}</span>
-              </div>
             </div>
 
-          </motion.div>
+            <p className="mb-10 text-slate-700 text-xl">
+              {t.conclusion}
+            </p>
+          </div>
+
+          {/* Footer/Signature */}
+          <div className="mt-16 pt-10 border-t border-slate-100 flex flex-col items-end">
+            <div className="text-right">
+              <p className={`text-4xl font-bold text-slate-900 italic mb-3 ${currentLanguage === 'ku' ? 'font-bilal' : 'font-serif'}`}>{t.signature}</p>
+              <p className="text-base text-slate-400 uppercase tracking-widest font-sans">{t.date}</p>
+            </div>
+          </div>
 
         </div>
       </div>

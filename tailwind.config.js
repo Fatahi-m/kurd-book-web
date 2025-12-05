@@ -5,7 +5,6 @@ module.exports = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
-  darkMode: 'class',
   theme: {
     extend: {
       fontFamily: {
@@ -17,6 +16,7 @@ module.exports = {
         editorial: ['var(--font-playfair)', 'var(--font-vazirmatn)', 'serif'],
         body: ['var(--font-lora)', 'var(--font-vazirmatn)', 'serif'],
         sans: ['var(--font-inter)', 'var(--font-vazirmatn)', 'sans-serif'],
+        bilal: ['"UniQAIDAR_BiLaL003"', 'serif'],
       },
       colors: {
         brand: {

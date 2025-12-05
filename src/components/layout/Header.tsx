@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -12,7 +12,8 @@ import { Book } from '@/lib/types';
 import { 
   Search, ShoppingCart, User, Menu, ChevronDown, HelpCircle, Rocket, Home, Gift,
   BookOpen, Feather, Landmark, Baby, GraduationCap, Moon, Gavel, Microscope, 
-  Globe, Brain, Lightbulb, Palette, Briefcase, Utensils, Plane, HeartPulse, X
+  Globe, Brain, Lightbulb, Palette, Briefcase, Utensils, Plane, HeartPulse, X,
+  Heart, Star, ChevronRight
 } from 'lucide-react';
 import LanguageSwitcher from '@/components/ui/LanguageSwitcher';
 import MobileMenu from '@/components/ui/MobileMenu';
@@ -42,6 +43,7 @@ const getCategoryIcon = (slug: string) => {
 };
 
 export default function Header() {
+  const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -53,6 +55,14 @@ export default function Header() {
   const { getCartItemCount, getCartTotal } = useCart();
   const { t, currentLanguage } = useLanguage();
   const { user } = useAuth();
+
+  const navLinks = [
+    { href: '/', label: t('nav.home') || 'Home' },
+    { href: '/books', label: t('nav.books') || 'Books' },
+    { href: '/new-releases', label: t('home.newReleases') || 'New Releases' },
+    { href: '/bestsellers', label: t('home.bestsellers') || 'Bestsellers' },
+    { href: '/authors', label: t('nav.authors') || 'Authors' },
+  ];
 
   // Close search when clicking outside
   useEffect(() => {
@@ -86,224 +96,176 @@ export default function Header() {
   };
 
   return (
-    <header className="w-full flex flex-col z-50 relative font-sans md:relative sticky top-0">
+    <header className="w-full flex flex-col z-50 relative font-sans sticky top-0 bg-white shadow-sm border-b border-gray-200">
       
-      {/* 1. Top Main Header (Modern Dark Slate) */}
-      <div className="bg-[#0f172a] text-white py-4 border-b border-white/10 relative z-50">
-        <div className="container mx-auto px-4">
-          
-          {/* Top Utility Line (Status) */}
-          <div className="hidden md:flex justify-between items-center mb-4 text-xs text-gray-400">
-            <div className="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
-              <Rocket size={14} />
-              <span>{t('header.orderStatus') || "Order Status"}</span>
-            </div>
-            <div className="flex items-center gap-4">
-               <LanguageSwitcher variant="minimal" />
-            </div>
+      {/* 1. Top Bar (Language & Auth) */}
+      <div className="bg-black text-white py-2 text-xs">
+        <div className="container mx-auto px-4 flex justify-between items-center">
+          <div className="flex items-center gap-4">
+            <span className="hidden md:inline opacity-80">Welcome to Kurdish Library</span>
           </div>
+          <div className="flex items-center gap-4">
+            <LanguageSwitcher />
+            {!user && (
+              <div className="flex items-center gap-3 pl-4 border-l border-gray-800">
+                <Link href="/auth/login" className="hover:text-gray-300 transition-colors">{t('auth.login')}</Link>
+                <span>/</span>
+                <Link href="/auth/register" className="hover:text-gray-300 transition-colors">{t('auth.register')}</Link>
+              </div>
+            )}
+            {user && (
+              <Link href="/profile" className="flex items-center gap-2 hover:text-gray-300 transition-colors pl-4 border-l border-gray-800">
+                <User size={14} />
+                <span>{user.firstName}</span>
+              </Link>
+            )}
+          </div>
+        </div>
+      </div>
 
-          <div className="flex items-center gap-8 justify-between">
+      {/* 2. Main Header */}
+      <div className="bg-white py-4">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between gap-4">
             
-            {/* Mobile Menu Button */}
-            <button 
-              className="md:hidden text-white p-2 -ml-2"
-              onClick={() => setIsMobileMenuOpen(true)}
-            >
-              <Menu size={24} />
-            </button>
-
             {/* Logo */}
-            <Link href="/" className="flex-shrink-0 flex items-center gap-3 group">
-              <div className="w-10 h-10 bg-[#e11d48] rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-rose-900/20">
-                K
+            <Link href="/" className="flex items-center gap-3 shrink-0 group">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-black rounded-lg flex items-center justify-center text-white shadow-lg group-hover:rotate-3 transition-transform">
+                <BookOpen size={24} className="md:w-7 md:h-7" />
               </div>
               <div className="flex flex-col">
-                <span className="font-serif text-2xl font-bold text-white leading-none tracking-wide">
-                  KURD BOOK
-                </span>
-                <span className="text-[10px] text-gray-400 tracking-[0.2em] uppercase">Culture & Literature</span>
+                <h1 className="text-xl md:text-2xl font-bold text-black font-serif tracking-tight group-hover:text-gray-600 transition-colors">
+                  {t('app.name') || 'Kurdish Library'}
+                </h1>
               </div>
             </Link>
 
-            {/* Search Bar */}
-            <div className="flex-1 max-w-2xl mx-auto relative hidden md:block px-8">
-              <form onSubmit={handleSearchSubmit} className="relative flex w-full h-12">
-                <div className="absolute left-4 top-3.5 text-gray-400">
-                  <Search size={20} />
-                </div>
+            {/* Search Bar - Centered */}
+            <div className="hidden md:flex flex-1 max-w-2xl mx-8 relative" ref={searchRef as any}>
+              <form onSubmit={handleSearchSubmit} className="w-full relative">
                 <input
-                  ref={searchRef}
                   type="text"
                   value={searchQuery}
                   onChange={(e) => handleSearch(e.target.value)}
-                  placeholder={t('search.placeholder') || "Search for books..."}
-                  className="w-full h-full pl-12 pr-32 bg-[#1e293b] text-white rounded-full border border-gray-700 focus:border-[#e11d48] outline-none transition-all text-sm placeholder-gray-500"
+                  placeholder={t('hero.searchPlaceholder') || "Search for books, authors..."}
+                  className="w-full pl-4 pr-12 py-2.5 rounded-lg border border-gray-200 bg-white focus:bg-white focus:border-black focus:ring-2 focus:ring-gray-100 outline-none transition-all"
                 />
                 <button 
                   type="submit"
-                  className="absolute right-1.5 top-1.5 bottom-1.5 px-6 bg-[#e11d48] hover:bg-[#be123c] text-white font-medium text-sm rounded-full transition-colors shadow-md"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 bg-black text-white rounded-md hover:bg-gray-800 transition-colors"
                 >
-                  {t('common.search') || "Search"}
+                  <Search size={18} />
                 </button>
-                
-                {isSearching && searchResults.length > 0 && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-white text-gray-900 rounded-xl shadow-2xl overflow-hidden z-50 border border-gray-100">
-                    {searchResults.map(book => (
-                      <Link 
-                        key={book.id} 
-                        href={`/book/${book.id}`}
-                        onClick={() => setIsSearching(false)}
-                        className="flex items-center gap-4 p-3 hover:bg-gray-50 border-b border-gray-100 last:border-0 transition-colors"
-                      >
-                        <div className="w-10 h-14 bg-gray-200 rounded overflow-hidden flex-shrink-0 relative shadow-sm">
-                          {/* Image placeholder */}
-                        </div>
-                        <div>
-                          <p className="text-sm font-bold text-gray-800 line-clamp-1">{book.title}</p>
-                          <p className="text-xs text-gray-500">{book.author}</p>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                )}
               </form>
+
+              {/* Search Results Dropdown */}
+              {isSearching && searchResults.length > 0 && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50">
+                  {searchResults.map((book) => (
+                    <Link 
+                      key={book.id} 
+                      href={`/book/${book.id}`}
+                      className="flex items-center gap-4 p-3 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-none"
+                      onClick={() => setIsSearching(false)}
+                    >
+                      <img src={book.image || book.coverUrl || '/images/default-book-cover.jpg'} alt={book.title} className="w-10 h-14 object-cover rounded shadow-sm" />
+                      <div>
+                        <h4 className="font-bold text-black text-sm line-clamp-1">{book.title}</h4>
+                        <p className="text-xs text-gray-500">{book.author}</p>
+                      </div>
+                    </Link>
+                  ))}
+                  <Link 
+                    href={`/search?q=${encodeURIComponent(searchQuery)}`}
+                    className="block p-3 text-center text-sm text-black font-bold hover:bg-gray-50 transition-colors"
+                    onClick={() => setIsSearching(false)}
+                  >
+                    View all results
+                  </Link>
+                </div>
+              )}
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-6 flex-shrink-0">
-              
-              <Link href={user ? "/profile" : "/auth/login"} className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors">
-                <User size={20} strokeWidth={2} />
-                <span className="text-sm font-medium hidden lg:block">{t('header.account') || "Account"}</span>
-              </Link>
-
-              <div className="h-6 w-px bg-gray-700"></div>
-
-              <Link href="/cart" className="flex items-center gap-2 group">
-                <div className="relative">
-                  <ShoppingCart size={24} className="text-gray-300 group-hover:text-white transition-colors" strokeWidth={2} />
-                  <span className="absolute -top-2 -right-2 w-5 h-5 bg-[#e11d48] text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-[#0f172a]">
-                    0
+            <div className="flex items-center gap-3">
+              <Link href="/cart" className="relative p-2 text-black hover:bg-gray-50 rounded-full transition-colors">
+                <ShoppingCart size={24} />
+                {getCartItemCount() > 0 && (
+                  <span className="absolute top-0 right-0 w-5 h-5 bg-black text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-white">
+                    {getCartItemCount()}
                   </span>
-                </div>
-                <div className="flex flex-col items-start">
-                  <span className="text-[10px] text-gray-400">Total</span>
-                  <span className="text-sm font-bold text-white leading-none">$0.00</span>
-                </div>
+                )}
               </Link>
-
+              
+              <button 
+                className="lg:hidden p-2 text-black hover:bg-gray-50 rounded-full transition-colors"
+                onClick={() => setIsMobileMenuOpen(true)}
+              >
+                <Menu size={28} />
+              </button>
             </div>
+
           </div>
         </div>
       </div>
 
-      {/* 2. Navigation Bar (Clean White) */}
-      <div className="hidden md:block bg-white border-b border-gray-200 shadow-sm sticky top-0 z-40">
+      {/* 3. Navigation Bar */}
+      <div className="hidden lg:block border-t border-gray-200 bg-white">
         <div className="container mx-auto px-4">
-          <ul className="flex items-center gap-8 text-[15px] font-medium h-16 text-gray-700">
-            
-            {/* Categories Dropdown - The Main Trigger */}
-            <li className="relative group h-full flex items-center mr-4">
-              <Link href="/categories" className="flex items-center gap-2 px-5 py-2 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors text-gray-900 font-bold">
-                <Menu size={18} />
-                {t('nav.categories') || "Categories"} 
-              </Link>
-              
-              {/* Mega Menu */}
-              <div className="absolute top-full ltr:left-0 rtl:right-0 w-[900px] bg-white shadow-2xl rounded-b-2xl p-8 hidden group-hover:block z-50 border-t border-gray-100 animate-in fade-in slide-in-from-top-2 duration-200">
-                <div className="grid grid-cols-4 gap-6">
-                  {categories.map((cat) => (
+          <nav className="flex items-center gap-8">
+            <div className="relative group z-50">
+              <button className="flex items-center gap-2 py-2 px-4 bg-gray-100 text-black font-bold rounded-md cursor-pointer hover:bg-gray-200 transition-colors my-2">
+                 <Menu size={18} />
+                 <span>{t('nav.categories') || 'Categories'}</span>
+                 <ChevronDown size={16} className="transition-transform group-hover:rotate-180" />
+              </button>
+
+              {/* Dropdown Menu */}
+              <div className="absolute top-full left-0 rtl:right-0 rtl:left-auto w-[600px] bg-white rounded-xl shadow-2xl border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50 p-6">
+                <div className="grid grid-cols-2 gap-4">
+                  {categories.slice(0, 10).map((category) => (
                     <Link 
-                      key={cat.id} 
-                      href={`/category/${cat.slug}`} 
-                      className="flex items-center gap-3 p-2 hover:bg-gray-50 text-gray-600 hover:text-[#e11d48] transition-colors rounded-lg group/item"
+                      key={category.id} 
+                      href={`/category/${category.slug}`}
+                      className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group/item"
                     >
-                      <span className="text-gray-400 group-hover/item:text-[#e11d48] transition-colors">{getCategoryIcon(cat.slug)}</span>
-                      <span className="font-medium text-sm">
-                        {currentLanguage === 'ku' ? cat.name.ku : (currentLanguage === 'kmr' ? cat.name.kmr : cat.name.en)}
-                      </span>
+                      <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 group-hover/item:bg-black group-hover/item:text-white transition-colors">
+                        {getCategoryIcon(category.slug)}
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-black group-hover/item:text-black transition-colors">
+                          {category.name[currentLanguage === 'ku' ? 'ku' : currentLanguage === 'kmr' ? 'kmr' : 'en']}
+                        </h4>
+                        <p className="text-xs text-gray-500 line-clamp-1">
+                          {category.description?.[currentLanguage === 'ku' ? 'ku' : currentLanguage === 'kmr' ? 'kmr' : 'en']}
+                        </p>
+                      </div>
                     </Link>
                   ))}
                 </div>
-                
-                {/* Featured in Menu */}
-                <div className="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center bg-gray-50 -mx-8 -mb-8 p-8 rounded-b-2xl">
-                   <div>
-                      <h4 className="font-bold text-gray-900 mb-1">New Arrivals</h4>
-                      <p className="text-xs text-gray-500">Check out the latest books added to our store</p>
-                   </div>
-                   <Link href="/new-releases" className="text-sm font-bold text-[#e11d48] hover:underline">View All &rarr;</Link>
+                <div className="mt-6 pt-4 border-t border-gray-100 text-center">
+                  <Link href="/categories" className="text-black font-bold hover:text-gray-600 text-sm flex items-center justify-center gap-1">
+                    {t('buttons.viewAll') || 'View All Categories'} <ChevronRight size={16} />
+                  </Link>
                 </div>
               </div>
-            </li>
+            </div>
 
-            {/* Standard Links */}
-            <li>
-              <Link href="/" className="hover:text-[#e11d48] transition-colors py-4 block relative group">
-                {t('nav.home') || "Home"}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#e11d48] transition-all group-hover:w-full"></span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/books" className="hover:text-[#e11d48] transition-colors py-4 block relative group">
-                {t('nav.books') || "Books"}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#e11d48] transition-all group-hover:w-full"></span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/authors" className="hover:text-[#e11d48] transition-colors py-4 block relative group">
-                {t('nav.authors') || "Authors"}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#e11d48] transition-all group-hover:w-full"></span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/arts" className="hover:text-[#e11d48] transition-colors py-4 block relative group">
-                {t('nav.arts') || "Arts & Culture"}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#e11d48] transition-all group-hover:w-full"></span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/about" className="hover:text-[#e11d48] transition-colors py-4 block relative group">
-                {t('nav.about') || "About"}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#e11d48] transition-all group-hover:w-full"></span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/contact" className="hover:text-[#e11d48] transition-colors py-4 block relative group">
-                {t('nav.contact') || "Contact"}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#e11d48] transition-all group-hover:w-full"></span>
-              </Link>
-            </li>
-
-            <li className="ml-auto">
-               <Link href="/gift-cards" className="flex items-center gap-2 text-[#e11d48] font-bold text-sm bg-rose-50 px-4 py-2 rounded-full hover:bg-rose-100 transition-colors">
-                  <Gift size={16} />
-                  <span>Gift Cards</span>
-               </Link>
-            </li>
-
-          </ul>
+            {navLinks.map((link) => (
+                <Link 
+                  key={link.href} 
+                  href={link.href}
+                  className={`text-sm font-bold uppercase tracking-wide hover:text-black transition-colors py-4 border-b-2 border-transparent hover:border-black ${
+                    pathname === link.href ? 'text-black border-black' : 'text-gray-600'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+          </nav>
         </div>
       </div>
 
-      {/* Mobile Search (Visible only on mobile) */}
-      <div className="md:hidden bg-[#0f172a] px-4 pb-4">
-        <form onSubmit={handleSearchSubmit} className="relative w-full">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => handleSearch(e.target.value)}
-            placeholder={t('search.placeholder') || "Search..."}
-            className="w-full h-10 pl-4 pr-12 bg-[#1e293b] text-white rounded-lg text-sm outline-none border border-gray-700 focus:border-[#e11d48]"
-          />
-          <button type="submit" className="absolute right-0 top-0 h-10 w-10 text-gray-400 flex items-center justify-center">
-            <Search size={20} />
-          </button>
-        </form>
-      </div>
-
-      {/* Mobile Menu Drawer */}
       <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
     </header>
   );

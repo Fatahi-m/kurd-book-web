@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'UniQAIDAR_BiLaL003';
+  src: url('/fonts/UniQAIDAR_BiLaL003.woff') format('woff'),
+       url('/fonts/UniQAIDAR_BiLaL003.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Prevent horizontal scrolling only on main containers */
 html {
   overflow-x: hidden;
@@ -14,10 +23,56 @@ body {
   max-width: 100vw;
 }
 
-/* Dark mode transitions */
-html.dark body {
-  background-color: #0f172a; /* Slate 900 */
-  color: #f3f4f6; /* gray-100 */
+
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Selection Color */
+::selection {
+  background-color: #f59e0b; /* Amber 500 */
+  color: white;
+}
+::selection {
+  background-color: #f59e0b; /* Amber 500 */
+  color: white;
+}
+
+/* Smooth Image Loading */
+img {
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Typography Enhancements */
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.025em;
+}
+
+.font-serif {
+  font-family: var(--font-playfair), serif;
+}
+
+/* Container Padding Fix for Mobile */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
 
 * {
@@ -41,30 +96,45 @@ html.dark body {
 
 /* Global Texture & Variables */
 :root {
-  --color-primary: #e11d48; /* Rose 600 */
-  --color-primary-light: #f43f5e; /* Rose 500 */
-  --color-secondary: #0f172a; /* Slate 900 */
-  --color-bg: #f8fafc; /* Slate 50 */
-  --color-surface: #ffffff;
-  --color-text-main: #0f172a;
-  --radius-card: 1rem;
+  --color-primary: #0f172a; /* Slate 900 */
+  --color-accent: #ea580c; /* Orange 600 - Professional E-commerce Accent */
+  --color-bg: #f3f4f6; /* Gray 100 - Structure Background */
+  --color-surface: #ffffff; /* White - Card Background */
+  --radius-card: 0.375rem; /* 6px - Tighter radius */
+}
+
+body {
+  background-color: var(--color-bg);
+  color: #1e293b;
 }
 
 html.dark :root {
-  --color-primary: #e11d48;
-  --color-primary-light: #fb7185; /* Rose 400 */
-  --color-bg: #0f172a; /* Slate 900 */
-  --color-surface: #1e293b; /* Slate 800 */
+  --color-primary: #f8fafc;
+  --color-primary-light: #cbd5e1;
+  --color-accent: #fbbf24;
+  --color-bg: #0f172a;
+  --color-surface: #1e293b;
   --color-text-main: #f8fafc;
 }
 
-/* Remove Texture, Add Modern Gradient Mesh */
+/* Clean Minimalist Background */
 .bg-texture {
   background-color: var(--color-bg);
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.05) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(15, 23, 42, 0.05) 0px, transparent 50%);
-  background-attachment: fixed;
+}
+
+/* Smooth Font Rendering */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Subtle Card Hover Effect */
+.hover-card-effect {
+  transition: all 0.2s ease-out;
+}
+.hover-card-effect:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 /* Language-specific font configuration */

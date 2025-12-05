@@ -17,7 +17,7 @@ export default function ArtProductPage() {
   
   if (!product) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-[#0f172a]">
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <div className="text-center">
           <h1 className="text-4xl font-serif mb-4">Product Not Found</h1>
           <Link href="/arts" className="text-[#e11d48] hover:underline">Back to Arts</Link>
@@ -45,27 +45,27 @@ export default function ArtProductPage() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-[#0f172a] py-12 transition-colors duration-500">
+    <main className="min-h-screen bg-slate-50 py-12 transition-colors duration-500">
       <div className="container mx-auto px-6">
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-8">
+        <div className="flex items-center gap-2 text-sm text-gray-500 mb-8">
           <Link href="/" className="hover:text-[#e11d48]">Home</Link>
           <span>/</span>
           <Link href="/arts" className="hover:text-[#e11d48]">Arts & Culture</Link>
           <span>/</span>
-          <span className="text-gray-900 dark:text-white font-medium">{title}</span>
+          <span className="text-gray-900 font-medium">{title}</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
           {/* Image Gallery */}
           <div className="space-y-4">
-            <div className="aspect-square bg-gray-200 dark:bg-gray-800 rounded-2xl overflow-hidden relative">
+            <div className="aspect-square bg-gray-200 rounded-2xl overflow-hidden relative">
                {/* Replace with actual Image */}
                <div className="absolute inset-0 flex items-center justify-center text-6xl">🎨</div>
             </div>
             <div className="grid grid-cols-4 gap-4">
               {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="aspect-square bg-gray-100 dark:bg-gray-800 rounded-lg cursor-pointer hover:ring-2 ring-[#e11d48] transition-all"></div>
+                <div key={i} className="aspect-square bg-gray-100 rounded-lg cursor-pointer hover:ring-2 ring-[#e11d48] transition-all"></div>
               ))}
             </div>
           </div>
@@ -78,12 +78,12 @@ export default function ArtProductPage() {
               </span>
             </div>
             
-            <h1 className="text-4xl md:text-5xl font-serif text-gray-900 dark:text-white mb-4 leading-tight">
+            <h1 className="text-4xl md:text-5xl font-serif text-gray-900 mb-4 leading-tight">
               {title}
             </h1>
 
             <div className="flex items-center gap-4 mb-8">
-              <span className="text-3xl font-bold text-gray-900 dark:text-white">
+              <span className="text-3xl font-bold text-gray-900">
                 {formatPrice(product.price)}
               </span>
               {product.inStock ? (
@@ -97,27 +97,27 @@ export default function ArtProductPage() {
               )}
             </div>
 
-            <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
+            <p className="text-lg text-gray-600 leading-relaxed mb-8">
               {description}
             </p>
 
             {/* Specs */}
-            <div className="grid grid-cols-2 gap-6 mb-10 p-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700">
+            <div className="grid grid-cols-2 gap-6 mb-10 p-6 bg-white rounded-xl border border-gray-100">
               <div>
                 <span className="block text-xs text-gray-500 uppercase tracking-wider mb-1">Materials</span>
-                <span className="font-medium text-gray-900 dark:text-white">{product.materials.join(', ')}</span>
+                <span className="font-medium text-gray-900">{product.materials.join(', ')}</span>
               </div>
               <div>
                 <span className="block text-xs text-gray-500 uppercase tracking-wider mb-1">Dimensions</span>
-                <span className="font-medium text-gray-900 dark:text-white">{product.dimensions}</span>
+                <span className="font-medium text-gray-900">{product.dimensions}</span>
               </div>
               <div>
                 <span className="block text-xs text-gray-500 uppercase tracking-wider mb-1">Weight</span>
-                <span className="font-medium text-gray-900 dark:text-white">{product.weight}</span>
+                <span className="font-medium text-gray-900">{product.weight}</span>
               </div>
               <div>
                 <span className="block text-xs text-gray-500 uppercase tracking-wider mb-1">Creation Time</span>
-                <span className="font-medium text-gray-900 dark:text-white">{product.creationTime}</span>
+                <span className="font-medium text-gray-900">{product.creationTime}</span>
               </div>
             </div>
 
@@ -133,9 +133,9 @@ export default function ArtProductPage() {
 
             {/* Meet the Artisan Section */}
             {artisan && (
-              <div className="border-t border-gray-200 dark:border-gray-700 pt-10">
-                <h3 className="text-2xl font-serif mb-6 text-gray-900 dark:text-white">Meet the Artisan</h3>
-                <div className="flex flex-col md:flex-row gap-6 items-start bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
+              <div className="border-t border-gray-200 pt-10">
+                <h3 className="text-2xl font-serif mb-6 text-gray-900">Meet the Artisan</h3>
+                <div className="flex flex-col md:flex-row gap-6 items-start bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                   <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
                     {/* Replace with actual Image */}
                     <div className="w-full h-full flex items-center justify-center text-4xl bg-gray-300 text-gray-500">👤</div>
@@ -143,8 +143,8 @@ export default function ArtProductPage() {
                   <div className="flex-1">
                     <div className="flex justify-between items-start mb-2">
                       <div>
-                        <h4 className="text-xl font-bold text-gray-900 dark:text-white">{artisanName}</h4>
-                        <div className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400 mt-1">
+                        <h4 className="text-xl font-bold text-gray-900">{artisanName}</h4>
+                        <div className="flex items-center gap-1 text-sm text-gray-500 mt-1">
                           <MapPin className="w-3 h-3" />
                           <span>{artisan.location.city}, {artisan.location.country}</span>
                         </div>

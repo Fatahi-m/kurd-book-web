@@ -41,13 +41,13 @@ export default function MiniBookSlider({ books, title }: MiniBookSliderProps) {
 
   return (
     <div 
-      className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-colors duration-300"
+      className="bg-white rounded-lg shadow-md overflow-hidden transition-colors duration-300"
       onMouseEnter={() => setIsAutoPlaying(false)}
       onMouseLeave={() => setIsAutoPlaying(true)}
     >
       {title && (
-        <div className="p-3 border-b border-gray-100 dark:border-gray-700">
-          <h3 className="font-bold text-gray-800 dark:text-white text-sm">{title}</h3>
+        <div className="p-3 border-b border-gray-100">
+          <h3 className="font-bold text-gray-800 text-sm">{title}</h3>
         </div>
       )}
       
@@ -64,7 +64,7 @@ export default function MiniBookSlider({ books, title }: MiniBookSliderProps) {
                 sizes="96px"
               />
             ) : (
-              <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-2xl">
+              <div className="w-full h-full bg-gray-200 flex items-center justify-center text-2xl">
                 📚
               </div>
             )}
@@ -73,20 +73,20 @@ export default function MiniBookSlider({ books, title }: MiniBookSliderProps) {
           {/* Content */}
           <div className="flex-1 min-w-0 flex flex-col justify-between py-1">
             <div>
-              <h4 className="font-bold text-gray-900 dark:text-white text-sm line-clamp-2 mb-1">
+              <h4 className="font-bold text-gray-900 text-sm line-clamp-2 mb-1">
                 {currentBook.title}
               </h4>
-              <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-1 mb-2">
+              <p className="text-xs text-gray-500 line-clamp-1 mb-2">
                 {currentBook.author}
               </p>
               <div className="flex items-center gap-1 mb-2">
                 <span className="text-yellow-400 text-xs">★</span>
-                <span className="text-xs text-gray-600 dark:text-gray-300">{currentBook.rating}</span>
+                <span className="text-xs text-gray-600">{currentBook.rating}</span>
               </div>
             </div>
             
             <div className="flex items-center justify-between mt-auto">
-              <span className="font-bold text-[#e11d48] dark:text-rose-400 text-sm">
+              <span className="font-bold text-[#e11d48] text-sm">
                 {formatPrice(currentBook.price)}
               </span>
               <Link 
@@ -112,8 +112,8 @@ export default function MiniBookSlider({ books, title }: MiniBookSliderProps) {
               }}
               className={`w-1.5 h-1.5 rounded-full transition-colors ${
                 idx === currentIndex 
-                  ? 'bg-[#e11d48] dark:bg-rose-400' 
-                  : 'bg-gray-300 dark:bg-gray-600'
+                  ? 'bg-[#e11d48]' 
+                  : 'bg-gray-300'
               }`}
             />
           ))}

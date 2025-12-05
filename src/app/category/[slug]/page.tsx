@@ -7,6 +7,7 @@ import { adminDataService, AdminBook } from '@/lib/adminDataService';
 import BookCard from '@/components/ui/BookCard';
 import { notFound } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { Search } from 'lucide-react';
 
 interface CategoryPageProps {
   params: {
@@ -17,6 +18,7 @@ interface CategoryPageProps {
 export default function CategoryPage({ params }: CategoryPageProps) {
   const { t, currentLanguage } = useLanguage();
   const [allBooks, setAllBooks] = useState<Book[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
   const category = categories.find(cat => cat.slug === params.slug);
   
   useEffect(() => {
@@ -55,28 +57,46 @@ export default function CategoryPage({ params }: CategoryPageProps) {
     notFound();
   }
 
-  const categoryBooks = allBooks.filter(book => book.category === category.id);
+  const categoryBooks = allBooks.filter(book => {
+    const matchesCategory = book.category === category.id;
+    const matchesSearch = searchQuery === '' || 
+      book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      book.author.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-[#0f172a] py-20 transition-colors duration-500">
+    <main className="min-h-screen bg-white py-20 transition-colors duration-500">
       <div className="container mx-auto px-6">
         {/* Category Header */}
         <div className="mb-20 text-center">
           <div className="text-6xl mb-6 opacity-80">{category.icon}</div>
-          <span className="text-sm font-light tracking-[0.2em] text-gray-500 dark:text-gray-400 uppercase mb-6 block">
+          <span className="text-sm font-light tracking-[0.2em] text-gray-500 uppercase mb-6 block">
             {t('book.category')}
           </span>
-          <h1 className="text-5xl md:text-7xl font-serif text-gray-900 dark:text-white mb-8">
+          <h1 className="text-5xl md:text-7xl font-serif text-black mb-8">
             {category.name[currentLanguage]}
           </h1>
-          <p className="text-xl font-light text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl font-light text-gray-600 max-w-2xl mx-auto leading-relaxed">
             {category.description?.[currentLanguage]}
           </p>
           
-          <div className="mt-12 flex items-center justify-center gap-8 border-t border-gray-200 dark:border-gray-800 pt-8 max-w-xs mx-auto">
+          <div className="mt-12 flex flex-col items-center justify-center gap-8 border-t border-gray-200 pt-8 max-w-md mx-auto">
             <span className="text-sm font-light text-gray-500 uppercase tracking-widest">
               {categoryBooks.length} {t('stats.books')}
             </span>
+            
+            {/* Search Input */}
+            <div className="relative w-full">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder={t('books.searchPlaceholder') || "Search in this category..."}
+                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-full text-sm focus:border-black outline-none transition-colors text-center"
+              />
+              <Search className="absolute left-4 top-3 text-gray-400 w-4 h-4" />
+            </div>
           </div>
         </div>
 
@@ -90,10 +110,10 @@ export default function CategoryPage({ params }: CategoryPageProps) {
         ) : (
           <div className="text-center py-20">
             <div className="text-6xl mb-6 opacity-20">📚</div>
-            <h2 className="text-2xl font-serif text-gray-900 dark:text-white mb-4">
+            <h2 className="text-2xl font-serif text-black mb-4">
               {t('search.noResults')}
             </h2>
-            <p className="text-gray-500 dark:text-gray-400 font-light">
+            <p className="text-gray-500 font-light">
               {t('category.empty')}
             </p>
           </div>

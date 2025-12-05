@@ -15,7 +15,7 @@ import { useReviews } from '@/contexts/ReviewContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { formatPrice } from '@/lib/utils';
 import { useState, useEffect } from 'react';
-import { Heart, ShoppingCart, Check, Gift, Truck, Info, Globe, BookOpen, Calendar, FileText, Hash, Building, Scale, Ruler } from 'lucide-react';
+import { Heart, ShoppingCart, Check, Gift, Truck, Info, Globe, BookOpen, Calendar, FileText, Hash, Building, Scale, Ruler, Star, CheckCircle, XCircle, ShieldCheck } from 'lucide-react';
 
 interface BookDetailPageProps {
   params: {
@@ -124,15 +124,15 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 font-sans pb-16">
+    <main className="min-h-screen bg-white font-sans pb-16">
       
       {/* Breadcrumb */}
-      <div className="bg-slate-50">
+      <div className="bg-white">
         <div className="w-full max-w-5xl mx-auto px-6 md:px-12 py-3">
           <nav className="text-xs text-gray-400 flex items-center gap-2">
-            <Link href="/" className="hover:text-[#48B063] transition-colors">{t('nav.home')}</Link>
+            <Link href="/" className="hover:text-black transition-colors">{t('nav.home')}</Link>
             <span>»</span>
-            <Link href="/books" className="hover:text-[#48B063] transition-colors">{t('nav.books')}</Link>
+            <Link href="/books" className="hover:text-black transition-colors">{t('nav.books')}</Link>
             <span>»</span>
             <span className="text-gray-500 font-medium">{book.category}</span>
             <span>»</span>
@@ -141,13 +141,25 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
         </div>
       </div>
 
-      {/* Hero Section - 3 Column Layout */}
-      <div className="w-full max-w-5xl mx-auto px-6 md:px-12 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
+      {/* Hero Section - With Ads */}
+      <div className="w-full max-w-[1600px] mx-auto px-4 md:px-8 py-8">
+        <div className="flex gap-6 items-start justify-center">
+           
+           {/* Left Ad */}
+           <div className="hidden 2xl:flex w-40 shrink-0 flex-col gap-4 sticky top-24">
+              <div className="w-full h-[600px] bg-gray-50 border border-dashed border-gray-200 rounded-lg flex flex-col items-center justify-center text-gray-300 relative overflow-hidden group hover:border-black transition-colors">
+                <span className="text-xs font-medium uppercase tracking-widest mb-1">Ad Space</span>
+                <span className="text-[10px] opacity-50">160x600</span>
+              </div>
+           </div>
+
+           {/* Main Content */}
+           <div className="flex-1 max-w-5xl">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           
-          {/* Column 1: Image (Left) - Adjusted Size & Shadow */}
+          {/* Column 1: Image (Left) */}
           <div className="lg:col-span-4">
-            <div className="relative aspect-[1/1.4] w-full shadow-[0_40px_70px_-15px_rgba(0,0,0,0.5)] rounded-md overflow-hidden bg-white transform hover:scale-[1.01] transition-all duration-500">
+            <div className="relative aspect-[2/3] w-full shadow-2xl shadow-gray-200 rounded-2xl overflow-hidden bg-white transform hover:scale-[1.02] transition-all duration-500 border border-gray-100">
               {book.coverUrl || book.image ? (
                 <Image
                   src={book.coverUrl || book.image || '/images/default-book-cover.jpg'}
@@ -157,8 +169,16 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
                   priority
                 />
               ) : (
-                <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-                  <span className="text-6xl opacity-20">📚</span>
+                <div className="w-full h-full bg-gray-50 flex items-center justify-center">
+                  <BookOpen size={64} className="text-gray-200" />
+                </div>
+              )}
+              
+              {/* Bestseller Badge */}
+              {book.bestseller && (
+                <div className="absolute top-4 left-4 bg-yellow-400 text-black text-xs font-bold px-3 py-1.5 rounded-full shadow-lg shadow-yellow-400/20 flex items-center gap-1">
+                  <span className="text-sm">👑</span>
+                  <span>Bestseller</span>
                 </div>
               )}
             </div>
@@ -166,136 +186,181 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
 
           {/* Column 2: Info (Middle) */}
           <div className="lg:col-span-5 flex flex-col pt-2">
-            <div className="flex justify-between items-start mb-1">
-               <h1 className="text-3xl lg:text-[2.5rem] font-serif font-bold text-[#002F34] leading-[1.1] tracking-tight">
+            <div className="mb-4">
+               <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight mb-2">
                 {title}
               </h1>
-            </div>
-            
-            <div className="flex items-center gap-4 mb-4 mt-2">
-               {/* Floating Badges moved here to match flow */}
-               <div className="flex gap-2">
-                 <div className="flex items-center gap-1 bg-white border border-purple-200 rounded-full px-3 py-1 shadow-sm">
-                    <span className="text-purple-600 font-bold text-sm">56 b</span>
-                    <div className="w-4 h-4 bg-purple-600 rounded-full text-[10px] text-white flex items-center justify-center font-serif italic">?</div>
-                 </div>
-                 {book.bestseller && (
-                    <div className="flex items-center gap-1 bg-white border border-orange-200 rounded-full px-3 py-1 shadow-sm">
-                      <span className="text-orange-500 text-sm">👑</span>
-                      <span className="text-gray-600 font-bold text-sm">Top</span>
-                    </div>
-                 )}
-              </div>
-            </div>
-
-            <div className="mb-6">
-              <Link href={`/author/${book.author}`} className="text-lg font-medium text-[#48B063] hover:underline">
+              <Link href={`/author/${book.author}`} className="text-lg font-medium text-blue-600 hover:text-blue-700 hover:underline">
                 {author}
               </Link>
             </div>
+            
+            <div className="flex items-center gap-4 mb-6">
+               <div className="flex items-center gap-1">
+                 {[1, 2, 3, 4, 5].map((star) => (
+                   <Star key={star} size={18} className={`${star <= (book.rating || 4) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
+                 ))}
+                 <span className="text-sm text-gray-500 font-medium ml-2">({book.reviewCount || 12} reviews)</span>
+               </div>
+               <div className="w-px h-4 bg-gray-300"></div>
+               <div className="text-sm text-gray-500 font-medium">
+                 SKU: <span className="text-gray-900">{book.isbn || 'N/A'}</span>
+               </div>
+            </div>
 
-            {/* Format Box - Matching Screenshot Style */}
-            <div className="bg-[#F0F2F2] rounded-md p-3 mb-6 flex flex-wrap gap-6 text-sm text-gray-700 w-fit border border-gray-200">
-              <div className="flex items-center gap-2">
-                <span className="text-gray-500 font-medium">{t('book.language')}:</span>
-                <Globe size={16} className="text-gray-400" />
-                <span className="font-bold capitalize text-[#002F34]">{book.language}</span>
+            {/* Format Box */}
+            <div className="flex flex-wrap gap-3 mb-6">
+              <div className="border-2 border-blue-600 bg-blue-50 rounded-xl px-4 py-3 cursor-pointer relative">
+                <div className="absolute -top-3 left-3 bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">SELECTED</div>
+                <div className="flex items-center gap-2">
+                  <BookOpen size={18} className="text-blue-600" />
+                  <div>
+                    <span className="block text-xs text-blue-600 font-bold uppercase tracking-wider">Paperback</span>
+                    <span className="block text-sm font-bold text-gray-900">{formatPrice(book.price)}</span>
+                  </div>
+                </div>
               </div>
-              <div className="w-px h-5 bg-gray-300"></div>
-              <div className="flex items-center gap-2">
-                <span className="text-gray-500 font-medium">{t('book.binding')}:</span>
-                <BookOpen size={16} className="text-gray-400" />
-                <span className="font-bold text-[#002F34]">Paperback</span>
+              
+              <div className="border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:border-gray-300 transition-colors opacity-60">
+                <div className="flex items-center gap-2">
+                  <FileText size={18} className="text-gray-400" />
+                  <div>
+                    <span className="block text-xs text-gray-500 font-bold uppercase tracking-wider">Hardcover</span>
+                    <span className="block text-sm font-bold text-gray-900">{formatPrice(book.price * 1.4)}</span>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="mb-4 text-sm text-gray-600">
-               <span className="block mb-1 font-medium text-gray-400 text-xs uppercase tracking-wider">{t('book.publisher')}</span>
-               <span className="text-[#48B063] font-bold text-base">{book.publisher}</span>
-               <span className="text-gray-400 mx-2">•</span>
-               <span className="text-gray-600">{book.publishedDate || 'November 2009'}</span>
-            </div>
-
-            <div className="text-gray-600 italic text-sm leading-relaxed mb-4 relative">
-               <p className="line-clamp-3">
-                  {description}
-               </p>
-               <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-white to-transparent"></div>
+            <div className="prose prose-sm text-gray-600 mb-6 line-clamp-4">
+               {description}
             </div>
             
-            <button 
-              onClick={() => document.getElementById('details-section')?.scrollIntoView({ behavior: 'smooth' })}
-              className="text-[#48B063] font-bold hover:underline flex items-center gap-1 text-sm w-fit"
-            >
-              {t('book.fullDescription')} <ChevronDownIcon className="w-4 h-4" />
-            </button>
+            <div className="grid grid-cols-2 gap-4 text-sm mb-6">
+               <div className="flex items-center gap-2 text-gray-600">
+                 <Globe size={16} className="text-gray-400" />
+                 <span>Language: <span className="font-semibold text-gray-900 capitalize">{book.language}</span></span>
+               </div>
+               <div className="flex items-center gap-2 text-gray-600">
+                 <Calendar size={16} className="text-gray-400" />
+                 <span>Published: <span className="font-semibold text-gray-900">{book.publishedDate || '2023'}</span></span>
+               </div>
+               <div className="flex items-center gap-2 text-gray-600">
+                 <FileText size={16} className="text-gray-400" />
+                 <span>Pages: <span className="font-semibold text-gray-900">{book.pages || '320'}</span></span>
+               </div>
+               <div className="flex items-center gap-2 text-gray-600">
+                 <Building size={16} className="text-gray-400" />
+                 <span>Publisher: <span className="font-semibold text-gray-900">{book.publisher}</span></span>
+               </div>
+            </div>
           </div>
 
           {/* Column 3: Price & Action (Right) */}
           <div className="lg:col-span-3">
-             <div className="flex flex-col items-end lg:items-end pt-2">
-                <div className="flex items-baseline gap-3 mb-0">
+             <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-xl shadow-gray-100/50 sticky top-24">
+                <div className="flex items-baseline gap-2 mb-1">
+                  <span className="text-4xl font-bold text-gray-900 tracking-tight">
+                    {formatPrice(book.price)}
+                  </span>
                   {book.originalPrice && (
                     <span className="text-lg text-gray-400 line-through font-medium">
                       {formatPrice(book.originalPrice)}
                     </span>
                   )}
-                  <span className="text-5xl font-black text-[#002F34] tracking-tight">
-                    {formatPrice(book.price)}
+                </div>
+                <p className="text-xs text-gray-500 mb-6">{t('book.inclVAT')}</p>
+
+                {/* Stock Status */}
+                <div className={`flex items-center gap-2 mb-6 ${book.inStock ? 'text-green-600' : 'text-red-600'}`}>
+                  {book.inStock ? <CheckCircle size={18} /> : <XCircle size={18} />}
+                  <span className="font-medium text-sm">
+                    {book.inStock ? t('book.inStock') : t('book.outOfStock')}
                   </span>
                 </div>
-                <p className="text-[11px] text-gray-400 mb-8 font-medium">{t('book.inclVAT')}</p>
 
-                {/* Delivery Badge - Yellow */}
-                <div className="bg-[#FDF6B2] text-[#723B13] px-4 py-3 rounded-md font-bold text-xs flex items-center justify-center gap-2 relative shadow-sm mb-4 w-full">
-                  <div className="absolute top-full right-10 border-8 border-transparent border-t-[#FDF6B2] w-0 h-0"></div>
-                  <Truck size={16} strokeWidth={2.5} />
-                  {book.inStock ? t('book.deliveryPromise') : t('book.outOfStock')}
+                {/* Quantity Selector */}
+                <div className="mb-4">
+                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Quantity</label>
+                  <div className="flex items-center border border-gray-200 rounded-lg w-full">
+                    <button 
+                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      className="w-10 h-10 flex items-center justify-center text-gray-500 hover:bg-gray-50 hover:text-black transition-colors"
+                      disabled={quantity <= 1}
+                    >
+                      -
+                    </button>
+                    <div className="flex-1 h-10 flex items-center justify-center font-bold text-gray-900 border-x border-gray-200">
+                      {quantity}
+                    </div>
+                    <button 
+                      onClick={() => setQuantity(quantity + 1)}
+                      className="w-10 h-10 flex items-center justify-center text-gray-500 hover:bg-gray-50 hover:text-black transition-colors"
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
 
-                {/* Stock Badge - Green */}
-                <div className="bg-[#84C493] text-white px-4 py-2.5 rounded-md font-bold text-xs w-full text-center shadow-sm mb-2 uppercase tracking-wide">
-                   {t('book.externalStock')}
-                </div>
-                <p className="text-[11px] text-gray-500 text-center w-full mb-6 font-medium">{t('book.shippingTime')}</p>
-
-                <div className="flex items-center gap-3 w-full">
-                  <button 
-                    onClick={handleWishlistToggle}
-                    className="text-[#48B063] hover:text-[#3a9e53] transition-colors p-0"
-                  >
-                    <Heart size={28} strokeWidth={1.5} fill={isInWishlist(book.id) ? "currentColor" : "none"} />
-                  </button>
-
+                <div className="space-y-3">
                   <button
                     onClick={handleAddToCart}
                     disabled={!book.inStock}
-                    className={`h-14 rounded-md font-bold text-white text-lg flex items-center justify-center gap-3 shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 flex-1 ${
-                      book.inStock ? 'bg-[#6BCBA6] hover:bg-[#5ab895]' : 'bg-gray-300 cursor-not-allowed'
+                    className={`w-full py-3.5 rounded-xl font-bold text-white text-base flex items-center justify-center gap-2 shadow-lg shadow-blue-600/20 transition-all hover:-translate-y-0.5 ${
+                      book.inStock 
+                        ? 'bg-blue-600 hover:bg-blue-700' 
+                        : 'bg-gray-300 cursor-not-allowed'
                     }`}
                   >
-                    <ShoppingCart size={22} strokeWidth={2.5} />
+                    <ShoppingCart size={20} />
                     {book.inStock ? t('book.addToCart') : t('book.outOfStock')}
+                  </button>
+                  
+                  <button 
+                    onClick={handleWishlistToggle}
+                    className={`w-full py-3.5 rounded-xl font-bold text-base flex items-center justify-center gap-2 border transition-all ${
+                      isInWishlist(book.id)
+                        ? 'border-red-200 bg-red-50 text-red-600'
+                        : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50'
+                    }`}
+                  >
+                    <Heart size={20} fill={isInWishlist(book.id) ? "currentColor" : "none"} />
+                    {isInWishlist(book.id) ? 'Saved to Wishlist' : 'Add to Wishlist'}
                   </button>
                 </div>
                 
-                <p className="text-[10px] text-gray-400 mt-4 flex items-center gap-2 justify-center w-full">
-                   <span className="w-5 h-5 rounded-full border border-gray-300 flex items-center justify-center text-[9px] font-bold text-gray-500">30</span>
-                   {t('book.returnPolicy')}
-                </p>
+                <div className="mt-6 pt-6 border-t border-gray-100 space-y-3">
+                   <div className="flex items-center gap-3 text-xs text-gray-500">
+                     <Truck size={16} className="text-gray-400" />
+                     <span>Free shipping on orders over $50</span>
+                   </div>
+                   <div className="flex items-center gap-3 text-xs text-gray-500">
+                     <ShieldCheck size={16} className="text-gray-400" />
+                     <span>Secure payment & checkout</span>
+                   </div>
+                </div>
              </div>
           </div>
+
+              </div>
+           </div>
+
+           {/* Right Ad */}
+           <div className="hidden 2xl:flex w-40 shrink-0 flex-col gap-4 sticky top-24">
+              <div className="w-full h-[600px] bg-gray-50 border border-dashed border-gray-200 rounded-lg flex flex-col items-center justify-center text-gray-300 relative overflow-hidden group hover:border-gray-300 transition-colors">
+                <span className="text-xs font-medium uppercase tracking-widest mb-1">Ad Space</span>
+                <span className="text-[10px] opacity-50">160x600</span>
+              </div>
+           </div>
 
         </div>
       </div>
 
       {/* Section 1: Customers also bought */}
-      <div className="w-full max-w-5xl mx-auto px-6 md:px-12 mb-12 mt-12">
-        <div className="text-center mb-8">
-           <h2 className="text-3xl font-serif font-bold text-[#002F34] inline-flex items-center gap-4">
-              <span className="text-gray-300">»</span>
+      <div className="w-full max-w-5xl mx-auto px-6 md:px-12 mb-16 mt-16">
+        <div className="flex items-center justify-between mb-8">
+           <h2 className="text-2xl font-bold text-gray-900">
               {t('book.customersAlsoBought')}
-              <span className="text-gray-300">«</span>
            </h2>
         </div>
         <BookRow 
@@ -306,138 +371,96 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
       </div>
 
       {/* Section 2: Details & Sidebar */}
-      <div id="details-section" className="bg-slate-50 py-12">
+      <div id="details-section" className="bg-gray-50 py-16">
         <div className="w-full max-w-5xl mx-auto px-6 md:px-12">
           <div className="flex flex-col lg:flex-row gap-12">
             
             {/* Main Content (Left) */}
             <div className="flex-1">
-              <h2 className="text-3xl font-serif font-bold text-[#002F34] mb-8">
-                {t('book.information')}
-              </h2>
+              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+                <h2 className="text-2xl font-bold text-gray-900 mb-8 flex items-center gap-3">
+                  <Info className="text-blue-600" size={24} />
+                  {t('book.information')}
+                </h2>
 
-              {/* Specs Grid - 3 Columns */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-y-8 gap-x-8 mb-12">
-                  <div>
-                      <span className="block text-xs text-gray-400 mb-1">{t('book.fullName')}</span>
-                      <span className="font-bold text-[#002F34] text-sm leading-tight block">
-                        {currentLanguage === 'ku' && book.titleKu ? book.titleKu : book.title}
-                      </span>
-                  </div>
-                  <div>
-                      <span className="block text-xs text-gray-400 mb-1">{t('book.author')}</span>
-                      <Link href={`/author/${book.author}`} className="font-bold text-[#48B063] text-sm hover:underline">
-                        {currentLanguage === 'ku' && book.authorKu ? book.authorKu : book.author}
+                {/* Specs Grid - 2 Columns for better readability */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12 mb-10">
+                    <SpecRow icon={<FileText size={18} />} label={t('book.fullName')} value={currentLanguage === 'ku' && book.titleKu ? book.titleKu : book.title} />
+                    <SpecRow icon={<UserIcon size={18} />} label={t('book.author')} value={currentLanguage === 'ku' && book.authorKu ? book.authorKu : book.author} />
+                    <SpecRow icon={<Globe size={18} />} label={t('book.language')} value={book.language} />
+                    <SpecRow icon={<BookOpen size={18} />} label={t('book.binding')} value="Paperback" />
+                    <SpecRow icon={<Calendar size={18} />} label={t('book.releaseDate')} value={book.publishedDate || '2009'} />
+                    <SpecRow icon={<FileText size={18} />} label={t('book.pages')} value={book.pages?.toString() || '288'} />
+                    <SpecRow icon={<Hash size={18} />} label={t('book.ean')} value={book.isbn ? `978${book.isbn.replace(/-/g, '')}` : '9788434893511'} />
+                    <SpecRow icon={<Hash size={18} />} label={t('book.isbn')} value={book.isbn || '8434893517'} />
+                    <SpecRow icon={<Building size={18} />} label={t('book.publisher')} value={book.publisher} />
+                    <SpecRow icon={<Scale size={18} />} label={t('book.weight')} value="836g" />
+                    <SpecRow icon={<Ruler size={18} />} label={t('book.dimensions')} value="211 x 288 x 22 mm" />
+                </div>
+                
+                <div className="w-full h-px bg-gray-100 mb-8"></div>
+
+                {/* Categories */}
+                <div className="space-y-4">
+                  <div className="flex flex-wrap gap-3 text-sm items-center">
+                      <span className="text-gray-400 text-xs font-bold uppercase tracking-wider">{t('book.category')}</span>
+                      <Link href={`/category/${book.category}`} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full font-medium hover:bg-gray-200 transition-colors capitalize">
+                        {book.category}
                       </Link>
                   </div>
-                  <div>
-                      <span className="block text-xs text-gray-400 mb-1">{t('book.language')}</span>
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-[#002F34] text-sm capitalize">{book.language}</span>
-                      </div>
+                  <div className="flex flex-wrap gap-3 text-sm items-center">
+                      <span className="text-gray-400 text-xs font-bold uppercase tracking-wider">{t('book.tags')}</span>
+                      {book.tags.map((tag, i) => (
+                      <span key={i} className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full font-medium hover:bg-blue-100 transition-colors cursor-pointer">
+                          {tag}
+                      </span>
+                      ))}
                   </div>
-
-                  <div>
-                      <span className="block text-xs text-gray-400 mb-1">{t('book.binding')}</span>
-                      <div className="flex items-center gap-2">
-                         <BookOpen size={16} className="text-gray-400" />
-                         <span className="font-bold text-[#002F34] text-sm">Paperback</span>
-                      </div>
-                  </div>
-                  <div>
-                      <span className="block text-xs text-gray-400 mb-1">{t('book.releaseDate')}</span>
-                      <span className="font-bold text-[#002F34] text-sm">{book.publishedDate || '2009'}</span>
-                  </div>
-                  <div>
-                      <span className="block text-xs text-gray-400 mb-1">{t('book.pages')}</span>
-                      <span className="font-bold text-[#002F34] text-sm">{book.pages || '288'}</span>
-                  </div>
-
-                  <div>
-                      <span className="block text-xs text-gray-400 mb-1">{t('book.ean')}</span>
-                      <span className="font-bold text-[#002F34] text-sm">{book.isbn ? `978${book.isbn.replace(/-/g, '')}` : '9788434893511'}</span>
-                  </div>
-                  <div>
-                      <span className="block text-xs text-gray-400 mb-1">{t('book.isbn')}</span>
-                      <span className="font-bold text-[#002F34] text-sm">{book.isbn || '8434893517'}</span>
-                  </div>
-                  <div>
-                      <span className="block text-xs text-gray-400 mb-1">{t('book.libristoCode')}</span>
-                      <span className="font-bold text-[#002F34] text-sm">04456526</span>
-                  </div>
-
-                  <div>
-                      <span className="block text-xs text-gray-400 mb-1">{t('book.publisher')}</span>
-                      <span className="font-bold text-[#48B063] text-sm">{book.publisher}</span>
-                  </div>
-                  <div>
-                      <span className="block text-xs text-gray-400 mb-1">{t('book.weight')}</span>
-                      <span className="font-bold text-[#002F34] text-sm">836g</span>
-                  </div>
-                  <div>
-                      <span className="block text-xs text-gray-400 mb-1">{t('book.dimensions')}</span>
-                      <span className="font-bold text-[#002F34] text-sm">211 x 288 x 22 mm</span>
-                  </div>
-              </div>
-              
-              <div className="w-full h-px bg-gray-200 mb-8"></div>
-
-              {/* Categories */}
-              <div className="space-y-3">
-                <div className="flex flex-wrap gap-2 text-sm items-center">
-                    <span className="text-gray-400 text-xs uppercase tracking-wider">{t('book.category')}</span>
-                    <Link href={`/category/${book.category}`} className="text-[#48B063] font-bold hover:underline capitalize">
-                    {book.category}
-                    </Link>
-                    <span className="text-gray-300">&gt;</span>
-                    <span className="text-[#48B063] font-bold">Indo-European Languages</span>
-                    <span className="text-gray-300">&gt;</span>
-                    <span className="text-[#48B063] font-bold">Romance Languages</span>
-                </div>
-                <div className="flex flex-wrap gap-2 text-sm items-center">
-                    <span className="text-gray-400 text-xs uppercase tracking-wider">{t('book.tags')}</span>
-                    {book.tags.map((tag, i) => (
-                    <span key={i} className="text-[#48B063] font-bold hover:underline cursor-pointer">
-                        {tag}{i < book.tags.length - 1 ? ',' : ''}
-                    </span>
-                    ))}
                 </div>
               </div>
             </div>
 
             {/* Sidebar (Right) - Gift Box */}
             <div className="w-full lg:w-[380px] flex-shrink-0">
-              <div className="bg-[#D8B4CE] h-full text-center">
+              <div className="bg-gradient-to-br from-purple-600 to-indigo-700 text-white rounded-2xl shadow-xl overflow-hidden relative">
+                 {/* Decorative circles */}
+                 <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-10 -mt-10"></div>
+                 <div className="absolute bottom-0 left-0 w-24 h-24 bg-white opacity-10 rounded-full -ml-10 -mb-10"></div>
+
                  {/* Header part of the box */}
-                 <div className="p-8 pb-4">
-                    <div className="mx-auto mb-4 relative flex justify-center">
-                        <Gift size={64} className="text-white drop-shadow-sm" strokeWidth={1.5} />
+                 <div className="p-8 pb-4 text-center relative z-10">
+                    <div className="mx-auto mb-4 bg-white/20 w-20 h-20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <Gift size={40} className="text-white" />
                     </div>
-                    <h3 className="text-2xl font-serif font-bold text-white mb-2 leading-tight px-4">
+                    <h3 className="text-2xl font-bold mb-2 leading-tight">
                       {t('book.giftTitle')}
                     </h3>
                  </div>
 
                  {/* Body part */}
-                 <div className="p-8 pt-2">
-                    <h4 className="text-[#002F34] font-serif font-bold text-xl mb-6 text-center border-b border-[#cba6c1] pb-4 mx-4">
+                 <div className="p-8 pt-2 relative z-10">
+                    <h4 className="text-white/90 font-medium text-lg mb-8 text-center border-b border-white/20 pb-4">
                         {t('book.giftSubtitle')}
                     </h4>
                     
-                    <div className="space-y-6 text-left px-2">
+                    <div className="space-y-6">
                       <div className="flex gap-4 items-start">
-                        <div className="w-8 h-8 rounded-full bg-[#002F34] text-white flex items-center justify-center text-sm font-bold flex-shrink-0 shadow-sm mt-1">1</div>
-                        <p className="text-sm text-[#002F34] leading-snug font-medium">{t('book.giftStep1')}</p>
+                        <div className="w-8 h-8 rounded-full bg-white text-purple-600 flex items-center justify-center text-sm font-bold flex-shrink-0 shadow-lg">1</div>
+                        <p className="text-sm text-white/90 leading-snug font-medium pt-1">{t('book.giftStep1')}</p>
                       </div>
                       <div className="flex gap-4 items-start">
-                        <div className="w-8 h-8 rounded-full bg-[#002F34] text-white flex items-center justify-center text-sm font-bold flex-shrink-0 shadow-sm mt-1">2</div>
-                        <p className="text-sm text-[#002F34] leading-snug font-medium">{t('book.giftStep2')}</p>
+                        <div className="w-8 h-8 rounded-full bg-white text-purple-600 flex items-center justify-center text-sm font-bold flex-shrink-0 shadow-lg">2</div>
+                        <p className="text-sm text-white/90 leading-snug font-medium pt-1">{t('book.giftStep2')}</p>
                       </div>
                       <div className="flex gap-4 items-start">
-                        <div className="w-8 h-8 rounded-full bg-[#002F34] text-white flex items-center justify-center text-sm font-bold flex-shrink-0 shadow-sm mt-1">3</div>
-                        <p className="text-sm text-[#002F34] leading-snug font-medium">{t('book.giftStep3')}</p>
+                        <div className="w-8 h-8 rounded-full bg-white text-purple-600 flex items-center justify-center text-sm font-bold flex-shrink-0 shadow-lg">3</div>
+                        <p className="text-sm text-white/90 leading-snug font-medium pt-1">{t('book.giftStep3')}</p>
                       </div>
                     </div>
+                    
+                    <button className="w-full mt-8 py-3 bg-white text-purple-700 font-bold rounded-xl hover:bg-gray-50 transition-colors shadow-lg">
+                      Add Gift Wrap (+$5.00)
+                    </button>
                  </div>
               </div>
             </div>
@@ -447,12 +470,10 @@ export default function BookDetailPage({ params }: BookDetailPageProps) {
       </div>
 
       {/* Section 3: Interesting Topics */}
-      <div className="w-full max-w-5xl mx-auto px-6 md:px-12 mb-16 mt-12">
-        <div className="text-center mb-8">
-           <h2 className="text-3xl font-serif font-bold text-[#002F34] inline-flex items-center gap-4">
-              <span className="text-gray-300">»</span>
+      <div className="w-full max-w-5xl mx-auto px-6 md:px-12 mb-24 mt-16">
+        <div className="flex items-center justify-between mb-8">
+           <h2 className="text-2xl font-bold text-gray-900">
               {t('book.interestingTopics')}
-              <span className="text-gray-300">«</span>
            </h2>
         </div>
         <BookRow 

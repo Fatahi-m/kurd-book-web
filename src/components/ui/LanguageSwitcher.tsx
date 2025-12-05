@@ -25,8 +25,8 @@ export default function LanguageSwitcher({ variant = 'default' }: LanguageSwitch
   };
 
   const buttonClasses = variant === 'minimal'
-    ? "flex items-center gap-1 text-[11px] text-gray-600 dark:text-gray-400 hover:text-[#e11d48] transition-colors"
-    : "flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors";
+    ? "flex items-center gap-2 text-xs font-medium text-slate-400 hover:text-white transition-colors bg-slate-800/50 hover:bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700/50 hover:border-slate-600"
+    : "flex items-center gap-2 px-4 py-2 text-sm font-bold text-slate-700 dark:text-slate-200 hover:text-rose-600 dark:hover:text-rose-400 border border-slate-200 dark:border-slate-700 rounded-full hover:bg-slate-50 dark:hover:bg-slate-800 transition-all shadow-sm hover:shadow";
 
   return (
     <div className="relative dropdown-container">
